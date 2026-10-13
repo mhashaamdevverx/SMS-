@@ -1,0 +1,35 @@
+/* =========================================================
+   COURSES PAGE STYLES - FULL WIDTH WITH CENTERED TABLE CONTENT
+========================================================= */
+
+@import url("./tables.css");
+@import url("./forms.css");
+
+.courses-page-wrapper {
+    width: 100%;
+}
+
+.courses-container {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+}
+
+.courses-table-card {
+    width: 100% !important;
+    margin-top: 15px;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06), 0 2px 6px rgba(0, 0, 0, 0.03) !important;
+}
+
+.courses-table th,
+.courses-table td {
+    vertical-align: middle !important;
+    text-align: center !important;
+}
+
+.courses-table .table-actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}

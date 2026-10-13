@@ -1,0 +1,145 @@
+/* ==================== UNIFIED PREMIUM TABLE CARD DESIGN ==================== */
+.unified-table-card {
+    background: #ffffff !important;
+    border-radius: 16px !important;
+    box-shadow: 0 10px 30px rgba(30, 27, 75, 0.06), 0 2px 6px rgba(0, 0, 0, 0.03) !important;
+    border: 1px solid #E5E7EB !important;
+    overflow: hidden !important;
+    margin-bottom: 24px !important;
+    width: 100% !important;
+}
+
+.table-responsive-wrapper {
+    width: 100% !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+}
+
+.student-table,
+.results-table,
+.unified-table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    background: #ffffff !important;
+    margin: 0 !important;
+}
+
+.student-table thead,
+.student-table thead tr,
+.results-table thead,
+.results-table thead tr,
+.unified-table thead,
+.unified-table thead tr {
+    background-color: #1E1B4B !important;
+    color: #ffffff !important;
+}
+
+.student-table th,
+.results-table th,
+.unified-table th {
+    background-color: #1E1B4B !important;
+    color: #ffffff !important;
+    font-size: 12.5px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.6px !important;
+    text-transform: uppercase !important;
+    padding: 14px 18px !important;
+    border: none !important;
+    border-bottom: 2px solid #312E81 !important;
+    vertical-align: middle !important;
+    text-align: center !important;
+}
+
+.student-table td,
+.results-table td,
+.unified-table td {
+    padding: 14px 18px !important;
+    font-size: 14px !important;
+    color: #4B5563 !important;
+    border-bottom: 1px solid #E5E7EB !important;
+    vertical-align: middle !important;
+    background: #ffffff !important;
+}
+
+.student-table tbody tr,
+.results-table tbody tr,
+.unified-table tbody tr {
+    transition: background-color 0.15s ease !important;
+}
+
+.student-table tbody tr:nth-child(even) td,
+.results-table tbody tr:nth-child(even) td,
+.unified-table tbody tr:nth-child(even) td {
+    background-color: #FAFBFF !important;
+}
+
+.student-table tbody tr:hover td,
+.results-table tbody tr:hover td,
+.unified-table tbody tr:hover td {
+    background-color: #F5F3FF !important;
+}
+
+.student-table th:first-child,
+.student-table td:first-child,
+.results-table th:first-child,
+.results-table td:first-child,
+.unified-table th:first-child,
+.unified-table td:first-child {
+    padding-left: 24px !important;
+}
+
+.student-table th:last-child,
+.student-table td:last-child,
+.results-table th:last-child,
+.results-table td:last-child,
+.unified-table th:last-child,
+.unified-table td:last-child {
+    padding-right: 24px !important;
+}
+
+/* Responsive Table Adaptations */
+@media (max-width: 768px) {
+    .unified-table-card {
+        border-radius: 12px !important;
+        margin-bottom: 16px !important;
+    }
+
+    .table-responsive-wrapper {
+        border-radius: 12px !important;
+    }
+
+    .student-table th,
+    .results-table th,
+    .unified-table th {
+        font-size: 11px !important;
+        padding: 10px 12px !important;
+        white-space: nowrap !important;
+        letter-spacing: 0.3px !important;
+    }
+
+    .student-table td,
+    .results-table td,
+    .unified-table td {
+        font-size: 12.5px !important;
+        padding: 10px 12px !important;
+        white-space: nowrap !important;
+    }
+
+    .student-table th:first-child,
+    .student-table td:first-child,
+    .results-table th:first-child,
+    .results-table td:first-child,
+    .unified-table th:first-child,
+    .unified-table td:first-child {
+        padding-left: 14px !important;
+    }
+
+    .student-table th:last-child,
+    .student-table td:last-child,
+    .results-table th:last-child,
+    .results-table td:last-child,
+    .unified-table th:last-child,
+    .unified-table td:last-child {
+        padding-right: 14px !important;
+    }
+}

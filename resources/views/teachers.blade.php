@@ -1,0 +1,1 @@
+@include('management.teachers.index')

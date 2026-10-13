@@ -1,0 +1,7 @@
+/* Users Page Styles */
+@import url("./tables.css");
+@import url("./forms.css");
+
+.users-page {
+    width: 100%;
+}

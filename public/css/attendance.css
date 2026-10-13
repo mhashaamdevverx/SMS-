@@ -1,0 +1,1308 @@
+/* =========================================================
+   ATTENDANCE MODULE — Premium Attractive Styles
+   ========================================================= */
+
+/* ---------- PAGE HEADER ---------- */
+.att-page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+}
+
+.att-header-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.att-header-icon-wrap {
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #4F46E5 0%, #14B8A6 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 24px;
+    box-shadow: 0 6px 20px rgba(79, 70, 229, 0.25);
+    flex-shrink: 0;
+}
+
+.att-page-title {
+    font-size: 22px;
+    font-weight: 800;
+    color: #1F2937;
+    margin: 0;
+    letter-spacing: -0.3px;
+}
+
+.att-page-sub {
+    font-size: 13px;
+    color: #6B7280;
+    margin: 2px 0 0;
+    font-weight: 500;
+}
+
+.att-header-date-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #EEF2FF;
+    border: 1px solid #C7D2FE;
+    color: #4F46E5;
+    padding: 10px 18px;
+    border-radius: 12px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.2px;
+}
+
+.att-header-date-chip i {
+    font-size: 16px;
+    color: #4F46E5;
+}
+
+/* ---------- MODE TABS ---------- */
+.att-mode-tabs {
+    display: flex;
+    gap: 4px;
+    background: #ffffff;
+    border: 1px solid #E5E7EB;
+    border-radius: 14px;
+    padding: 5px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(30, 27, 75, 0.04);
+    width: fit-content;
+}
+
+.att-mode-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 22px;
+    border-radius: 10px;
+    font-size: 13.5px;
+    font-weight: 700;
+    text-decoration: none;
+    color: #4B5563;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+}
+
+.att-mode-tab:hover {
+    color: #4F46E5;
+    background: #EEF2FF;
+}
+
+.att-mode-tab.active {
+    background: #4F46E5;
+    color: #ffffff;
+    box-shadow: 0 4px 14px rgba(79, 70, 229, 0.35);
+}
+
+.att-mode-tab i {
+    font-size: 15px;
+}
+
+/* ---------- PAGE CONTAINER ---------- */
+.attendance-page {
+    min-height: 85vh;
+    padding-bottom: 220px;
+    position: relative;
+}
+
+.att-daily-container,
+.att-monthly-container,
+.att-yearly-container {
+    min-height: 450px;
+}
+
+/* ---------- FILTER BAR ---------- */
+.att-filter-bar {
+    position: relative;
+    z-index: 99;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    padding: 16px 20px;
+    margin-bottom: 24px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+}
+
+.att-filter-form {
+    display: flex;
+    align-items: flex-end;
+    gap: 14px;
+    flex-wrap: wrap;
+}
+
+.att-filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    flex: 0 1 200px;
+    min-width: 160px;
+    position: relative;
+}
+
+.att-filter-group label {
+    font-size: 12px;
+    font-weight: 700;
+    color: #475569;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.att-filter-group label i {
+    color: #0d9488;
+    font-size: 13px;
+}
+
+.att-filter-group select,
+.att-filter-group input[type="date"],
+.att-filter-group input[type="month"] {
+    height: 42px;
+    padding: 0 14px;
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+    background: #f8fafc;
+    color: #1e293b;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    outline: none;
+    cursor: pointer;
+    position: relative;
+    z-index: 100;
+}
+
+.att-filter-group select:focus,
+.att-filter-group input[type="date"]:focus,
+.att-filter-group input[type="month"]:focus {
+    border-color: #0d9488;
+    box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.15);
+    background: #fff;
+}
+
+.att-filter-btn {
+    height: 42px;
+    padding: 0 24px;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #0d9488 0%, #0891b2 100%);
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 14px rgba(13, 148, 136, 0.25);
+}
+
+.att-filter-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(13, 148, 136, 0.35);
+}
+
+/* ---------- SUCCESS ALERT ---------- */
+.att-success-alert {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 20px;
+    background: linear-gradient(135deg, #d1fae5 0%, #e0f7f5 100%);
+    border: 1px solid #a7f3d0;
+    border-radius: 12px;
+    color: #065f46;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    animation: att-slideIn 0.3s ease;
+}
+
+.att-success-alert i {
+    font-size: 20px;
+    color: #059669;
+}
+
+@keyframes att-slideIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ---------- STATS CARDS ---------- */
+.att-daily-summary-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 14px;
+    margin-bottom: 22px;
+}
+
+.att-stat-card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 18px 20px;
+    border-radius: 14px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+    transition: all 0.25s ease;
+}
+
+.att-stat-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.att-stat-icon {
+    width: 46px;
+    height: 46px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+}
+
+.att-stat-total .att-stat-icon {
+    background: linear-gradient(135deg, #e0e7ff 0%, #dbeafe 100%);
+    color: #4f46e5;
+}
+
+.att-stat-present .att-stat-icon {
+    background: linear-gradient(135deg, #d1fae5 0%, #ccfbf1 100%);
+    color: #059669;
+}
+
+.att-stat-absent .att-stat-icon {
+    background: linear-gradient(135deg, #fee2e2 0%, #fce7f3 100%);
+    color: #dc2626;
+}
+
+.att-stat-leave .att-stat-icon {
+    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+    color: #d97706;
+}
+
+.att-stat-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.att-stat-num {
+    font-size: 24px;
+    font-weight: 800;
+    color: #0f172a;
+    line-height: 1.1;
+    letter-spacing: -0.5px;
+}
+
+.att-stat-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 2px;
+}
+
+/* ---------- WEEKEND BANNER ---------- */
+.att-weekend-banner {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 24px 28px;
+    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 60%, #fbbf24 100%);
+    border-radius: 16px;
+    margin-bottom: 22px;
+    border: 1px solid #fcd34d;
+    box-shadow: 0 6px 20px rgba(251, 191, 36, 0.2);
+}
+
+.att-weekend-banner > i {
+    font-size: 36px;
+    color: #92400e;
+    flex-shrink: 0;
+}
+
+.att-weekend-banner strong {
+    font-size: 16px;
+    color: #78350f;
+    display: block;
+    margin-bottom: 4px;
+}
+
+.att-weekend-banner p {
+    font-size: 13px;
+    color: #92400e;
+    margin: 0;
+    font-weight: 500;
+}
+
+/* ---------- TABLE HEADER BAR ---------- */
+.att-table-header-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+}
+
+.att-table-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #1e293b;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+}
+
+.att-table-title i {
+    color: #0d9488;
+    font-size: 18px;
+}
+
+.att-badge-class {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    background: #f0fdfa;
+    border: 1px solid #99f6e4;
+    border-radius: 8px;
+    color: #0f766e;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+}
+
+.att-quick-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.att-quick-btn {
+    padding: 7px 16px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    border: 1px solid;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    transition: all 0.2s ease;
+}
+
+.att-quick-all-present {
+    background: #d1fae5;
+    border-color: #a7f3d0;
+    color: #065f46;
+}
+.att-quick-all-present:hover {
+    background: #a7f3d0;
+}
+
+.att-quick-all-absent {
+    background: #fee2e2;
+    border-color: #fecaca;
+    color: #991b1b;
+}
+.att-quick-all-absent:hover {
+    background: #fecaca;
+}
+
+/* ---------- DAILY TABLE ---------- */
+.att-table-wrap {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+}
+
+.att-daily-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.att-daily-table thead {
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+}
+
+.att-daily-table th {
+    padding: 14px 16px;
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: #475569;
+    text-align: left;
+    border-bottom: 2px solid #e2e8f0;
+    white-space: nowrap;
+}
+
+.att-daily-table td {
+    padding: 12px 16px;
+    font-size: 14px;
+    border-bottom: 1px solid #f1f5f9;
+    vertical-align: middle;
+}
+
+.att-daily-table tbody tr {
+    transition: background 0.15s ease;
+}
+
+.att-daily-table tbody tr:hover {
+    background: #f8fffe;
+}
+
+.att-td-num {
+    color: #94a3b8;
+    font-weight: 700;
+    font-size: 12px;
+    width: 40px;
+}
+
+.att-roll-chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 3px 10px;
+    background: #f0fdfa;
+    border: 1px solid #99f6e4;
+    border-radius: 6px;
+    color: #0d9488;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+/* Student name cell with avatar */
+.att-student-name-wrap {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.att-student-thumb {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #e2e8f0;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    flex-shrink: 0;
+}
+
+.att-student-name-wrap strong {
+    font-size: 14px;
+    color: #0f172a;
+    display: block;
+    line-height: 1.2;
+}
+
+.att-student-name-wrap small {
+    font-size: 11px;
+    color: #94a3b8;
+    font-weight: 600;
+}
+
+/* ---------- STATUS TOGGLE (P / A / L) ---------- */
+.att-status-toggle {
+    display: inline-flex;
+    gap: 4px;
+    background: #f1f5f9;
+    border-radius: 10px;
+    padding: 3px;
+}
+
+.att-status-option {
+    cursor: pointer;
+    user-select: none;
+}
+
+.att-status-option input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.att-status-option span {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 7px 14px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    transition: all 0.2s ease;
+    color: #64748b;
+}
+
+.att-opt-present.selected span {
+    background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+    color: #fff;
+    box-shadow: 0 3px 10px rgba(5, 150, 105, 0.35);
+}
+
+.att-opt-absent.selected span {
+    background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
+    color: #fff;
+    box-shadow: 0 3px 10px rgba(220, 38, 38, 0.35);
+}
+
+.att-opt-leave.selected span {
+    background: linear-gradient(135deg, #d97706 0%, #f59e0b 100%);
+    color: #fff;
+    box-shadow: 0 3px 10px rgba(217, 119, 6, 0.35);
+}
+
+.att-status-option:not(.selected) span:hover {
+    background: #e2e8f0;
+    color: #334155;
+}
+
+/* ---------- REMARKS INPUT ---------- */
+.att-remarks-input {
+    width: 100%;
+    max-width: 200px;
+    height: 36px;
+    padding: 0 12px;
+    border: 1px solid #E5E7EB;
+    border-radius: 8px;
+    background: #f8fafc;
+    font-size: 12px;
+    color: #1F2937;
+    transition: all 0.2s ease;
+    outline: none;
+}
+
+.att-remarks-input:focus {
+    border-color: #4F46E5;
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.25);
+    background: #fff;
+}
+
+/* ---------- SAVE BUTTON ---------- */
+.att-form-footer {
+    display: flex;
+    justify-content: flex-end;
+    padding: 20px 0 6px;
+}
+
+.att-save-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 32px;
+    border: none;
+    border-radius: 12px;
+    background: #4F46E5;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    box-shadow: 0 6px 20px rgba(79, 70, 229, 0.25);
+}
+
+.att-save-btn:hover {
+    background: #4338CA;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 28px rgba(79, 70, 229, 0.35);
+}
+
+.att-save-btn:active {
+    background: #3730A3;
+    transform: translateY(0);
+}
+
+/* ---------- EMPTY STATE ---------- */
+.att-empty-box {
+    text-align: center;
+    padding: 48px 24px;
+    background: #ffffff;
+    border: 2px dashed #e2e8f0;
+    border-radius: 16px;
+    margin-top: 10px;
+}
+
+.att-empty-box i {
+    font-size: 42px;
+    color: #cbd5e1;
+    display: block;
+    margin-bottom: 12px;
+}
+
+.att-empty-box p {
+    font-size: 14px;
+    color: #64748b;
+    margin: 0;
+    font-weight: 500;
+}
+
+/* =========================================================
+   MONTHLY ATTENDANCE REGISTER TABLE
+   ========================================================= */
+.att-monthly-table-wrap {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    overflow-x: auto;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+    margin-bottom: 16px;
+}
+
+/* Custom scrollbar for monthly table */
+.att-monthly-table-wrap::-webkit-scrollbar {
+    height: 8px;
+}
+.att-monthly-table-wrap::-webkit-scrollbar-track {
+    background: #f1f5f9;
+    border-radius: 4px;
+}
+.att-monthly-table-wrap::-webkit-scrollbar-thumb {
+    background: linear-gradient(90deg, #0d9488, #0891b2);
+    border-radius: 4px;
+}
+.att-monthly-table-wrap::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(90deg, #0f766e, #0e7490);
+}
+
+.att-monthly-table,
+.att-yearly-table {
+    width: max-content;
+    min-width: 100%;
+    border-collapse: collapse;
+    white-space: nowrap;
+}
+
+.att-monthly-table thead,
+.att-yearly-table thead {
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+}
+
+.att-monthly-table th,
+.att-yearly-table th {
+    padding: 10px 6px;
+    font-size: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    color: #475569;
+    text-align: center;
+    border-bottom: 2px solid #e2e8f0;
+    vertical-align: middle;
+}
+
+.att-monthly-table td,
+.att-yearly-table td {
+    padding: 8px 6px;
+    text-align: center;
+    border-bottom: 1px solid #f1f5f9;
+    font-size: 12px;
+    vertical-align: middle;
+}
+
+/* Sticky columns for # and Name */
+.att-mth-sticky {
+    position: sticky;
+    background: #ffffff;
+    z-index: 10;
+}
+
+thead .att-mth-sticky {
+    background: #f1f5f9;
+    z-index: 11;
+}
+
+.att-mth-num {
+    left: 0;
+    width: 36px;
+    min-width: 36px;
+    color: #94a3b8;
+    font-weight: 700;
+    font-size: 11px;
+    text-align: center !important;
+}
+
+.att-mth-name {
+    left: 36px;
+    min-width: 140px;
+    max-width: 160px;
+    text-align: left !important;
+    padding-left: 10px !important;
+    border-right: 2px solid #e2e8f0;
+}
+
+.att-mth-student-name {
+    display: block;
+    font-weight: 700;
+    font-size: 12px;
+    color: #0f172a;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 130px;
+}
+
+.att-mth-roll {
+    font-size: 10px;
+    color: #94a3b8;
+    font-weight: 600;
+}
+
+/* Day header */
+.att-mth-day {
+    min-width: 32px;
+    padding: 6px 2px !important;
+}
+
+.att-mth-day-num {
+    display: block;
+    font-size: 12px;
+    font-weight: 800;
+    color: #334155;
+    line-height: 1;
+}
+
+.att-mth-day-name {
+    display: block;
+    font-size: 8px;
+    font-weight: 600;
+    color: #94a3b8;
+    margin-top: 2px;
+}
+
+/* Weekend columns */
+.att-mth-weekend {
+    background: repeating-linear-gradient(
+        45deg,
+        #fef3c705,
+        #fef3c705 4px,
+        #fef9c310 4px,
+        #fef9c310 8px
+    ) !important;
+}
+
+th.att-mth-weekend {
+    background: #fef9c3 !important;
+}
+
+th.att-mth-weekend .att-mth-day-num {
+    color: #92400e;
+}
+
+/* Cell status marks */
+.att-mth-cell {
+    min-width: 32px;
+    padding: 4px 2px !important;
+}
+
+.att-mth-mark {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+    font-size: 10px;
+    font-weight: 800;
+    line-height: 1;
+}
+
+.att-mark-p {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.att-mark-a {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.att-mark-l {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.att-mark-none {
+    color: #e2e8f0;
+    font-size: 18px;
+}
+
+.att-mth-wk-icon {
+    color: #d4d4d8;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+/* Summary columns */
+.att-mth-summary-th {
+    min-width: 36px;
+    border-left: 2px solid #e2e8f0;
+}
+
+.att-mth-summary {
+    font-weight: 800;
+    font-size: 12px;
+    border-left: 1px solid #f1f5f9;
+}
+
+.att-mth-p-count {
+    color: #059669;
+    border-left: 2px solid #e2e8f0 !important;
+}
+.att-mth-a-count { color: #dc2626; }
+.att-mth-l-count { color: #d97706; }
+
+.att-mth-pct-th {
+    min-width: 48px;
+}
+
+.att-mth-pct {
+    font-weight: 800;
+    font-size: 12px;
+    padding: 4px 8px;
+    border-radius: 6px;
+}
+
+.att-pct-good {
+    background: #d1fae5;
+    color: #065f46;
+}
+.att-pct-warning {
+    background: #fef3c7;
+    color: #92400e;
+}
+.att-pct-danger {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+/* ---------- MONTHLY LEGEND ---------- */
+.att-monthly-legend {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    flex-wrap: wrap;
+    padding: 12px 0 4px;
+}
+
+.att-legend-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #64748b;
+}
+
+.att-legend-dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 4px;
+    flex-shrink: 0;
+}
+
+.att-legend-present { background: #d1fae5; border: 1px solid #a7f3d0; }
+.att-legend-absent  { background: #fee2e2; border: 1px solid #fecaca; }
+.att-legend-leave   { background: #fef3c7; border: 1px solid #fde68a; }
+.att-legend-weekend { background: #fef9c3; border: 1px solid #fde68a; }
+.att-legend-unmarked { background: #f1f5f9; border: 1px solid #e2e8f0; }
+
+/* =========================================================
+   YEARLY TABLE CELLS
+   ========================================================= */
+.att-yr-month-th {
+    min-width: 70px;
+}
+
+.att-yr-cell {
+    min-width: 70px;
+    padding: 6px 4px !important;
+}
+
+.att-yr-cell-data {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1px;
+    padding: 4px 6px;
+    border-radius: 8px;
+}
+
+.att-yr-good {
+    background: #d1fae5;
+}
+.att-yr-warning {
+    background: #fef3c7;
+}
+.att-yr-danger {
+    background: #fee2e2;
+}
+
+.att-yr-pct {
+    font-size: 13px;
+    font-weight: 800;
+    color: #0f172a;
+}
+
+.att-yr-breakdown {
+    font-size: 9px;
+    color: #64748b;
+    font-weight: 600;
+}
+
+.att-yr-no-data {
+    color: #d4d4d8;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+@media (max-width: 768px) {
+    .att-page-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .att-mode-tabs {
+        width: 100%;
+        overflow-x: auto;
+    }
+
+    .att-mode-tab span {
+        display: none;
+    }
+
+    .att-filter-form {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .att-filter-group {
+        flex: 1 1 100%;
+    }
+
+    .att-daily-summary-cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .att-quick-actions {
+        width: 100%;
+        justify-content: stretch;
+    }
+
+    .att-quick-btn {
+        flex: 1;
+        justify-content: center;
+    }
+
+    .att-table-header-bar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .att-mth-name {
+        min-width: 110px;
+        max-width: 120px;
+    }
+
+    .att-mth-student-name {
+        max-width: 100px;
+    }
+}
+
+@media (max-width: 480px) {
+    .att-daily-summary-cards {
+        grid-template-columns: 1fr;
+    }
+
+    .att-status-toggle {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .att-status-option span {
+        justify-content: center;
+    }
+}
+
+/* =========================================================
+   STUDENT PROFILE — ATTENDANCE SUMMARY CARD
+   ========================================================= */
+.student-att-summary-card {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.student-att-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 14px 10px;
+    border-radius: 12px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    transition: all 0.2s ease;
+}
+
+.student-att-stat:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+.student-att-stat-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+}
+
+.student-att-stat-icon.att-icon-days {
+    background: linear-gradient(135deg, #e0e7ff 0%, #dbeafe 100%);
+    color: #4f46e5;
+}
+.student-att-stat-icon.att-icon-present {
+    background: linear-gradient(135deg, #d1fae5 0%, #ccfbf1 100%);
+    color: #059669;
+}
+.student-att-stat-icon.att-icon-absent {
+    background: linear-gradient(135deg, #fee2e2 0%, #fce7f3 100%);
+    color: #dc2626;
+}
+.student-att-stat-icon.att-icon-leave {
+    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+    color: #d97706;
+}
+.student-att-stat-icon.att-icon-pct {
+    background: linear-gradient(135deg, #ccfbf1 0%, #a7f3d0 100%);
+    color: #0d9488;
+}
+
+.student-att-stat-num {
+    font-size: 20px;
+    font-weight: 800;
+    color: #0f172a;
+    line-height: 1;
+}
+
+.student-att-stat-label {
+    font-size: 10px;
+    font-weight: 700;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    text-align: center;
+}
+
+/* Attendance progress ring in student profile */
+.student-att-progress-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 12px;
+    padding: 14px;
+    background: linear-gradient(135deg, #f0fdfa 0%, #ecfdf5 100%);
+    border-radius: 12px;
+    border: 1px solid #a7f3d0;
+}
+
+.student-att-bar-outer {
+    flex: 1;
+    max-width: 240px;
+    height: 10px;
+    border-radius: 5px;
+    background: #e2e8f0;
+    overflow: hidden;
+}
+
+.student-att-bar-inner {
+    height: 100%;
+    border-radius: 5px;
+    background: linear-gradient(90deg, #0d9488, #10b981);
+    transition: width 0.6s ease;
+}
+
+.student-att-bar-inner.att-bar-warning {
+    background: linear-gradient(90deg, #d97706, #f59e0b);
+}
+
+.student-att-bar-inner.att-bar-danger {
+    background: linear-gradient(90deg, #dc2626, #ef4444);
+}
+
+.student-att-pct-text {
+    font-size: 22px;
+    font-weight: 800;
+    color: #0d9488;
+    min-width: 60px;
+    text-align: right;
+}
+
+/* Recent attendance timeline */
+.student-att-recent {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 12px;
+}
+
+.student-att-dot {
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 9px;
+    font-weight: 800;
+    transition: transform 0.15s ease;
+    cursor: default;
+}
+
+.student-att-dot:hover {
+    transform: scale(1.15);
+}
+
+.student-att-dot-present {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.student-att-dot-absent {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.student-att-dot-leave {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+/* ---------- CUSTOM DOWNWARD DROPDOWN ---------- */
+.att-custom-dropdown {
+    position: relative;
+    width: 100%;
+}
+
+.att-custom-dropdown-btn {
+    width: 100%;
+    height: 42px;
+    padding: 0 14px;
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+    background: #f8fafc;
+    color: #1e293b;
+    font-size: 14px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: left;
+    outline: none;
+}
+
+.att-custom-dropdown-btn:hover,
+.att-custom-dropdown-btn.active {
+    border-color: #0d9488;
+    background: #ffffff;
+    box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.15);
+}
+
+.att-custom-dropdown-btn i {
+    color: #64748b;
+    font-size: 13px;
+    transition: transform 0.2s ease;
+}
+
+.att-custom-dropdown.open .att-custom-dropdown-btn i {
+    transform: rotate(180deg);
+    color: #0d9488;
+}
+
+.att-custom-dropdown-menu {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    right: 0;
+    min-width: 180px;
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 12px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+    z-index: 99999 !important;
+    max-height: 260px;
+    overflow-y: auto;
+    padding: 6px;
+    display: none;
+    animation: attDropdownDown 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.att-custom-dropdown.open .att-custom-dropdown-menu {
+    display: block;
+}
+
+@keyframes attDropdownDown {
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.att-custom-dropdown-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 9px 12px;
+    border-radius: 8px;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: #334155;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.att-custom-dropdown-item:hover {
+    background: #f0fdfa;
+    color: #0d9488;
+}
+
+.att-custom-dropdown-item.selected {
+    background: #ccfbf1;
+    color: #0f766e;
+    font-weight: 700;
+}
+
+.att-custom-dropdown-item i {
+    font-size: 14px;
+    color: #0d9488;
+}

@@ -1,0 +1,39 @@
+/* Sidebar scroll rail: compact, tactile, and intentionally unobtrusive. */
+.sidebar {
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(224, 255, 252, 0.78) transparent;
+}
+
+.sidebar::-webkit-scrollbar {
+    width: 12px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+    margin: 13px 3px 13px 0;
+    border: 4px solid transparent;
+    border-radius: 999px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.13), rgba(0, 65, 65, 0.14)) padding-box;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+    min-height: 58px;
+    border: 4px solid transparent;
+    border-radius: 999px;
+    background: linear-gradient(180deg, #eafffc 0%, #8fe1da 100%) padding-box;
+    box-shadow: 0 2px 7px rgba(0, 43, 43, 0.25);
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, #ffffff 0%, #b5f2eb 100%) padding-box;
+}
+
+.sidebar::-webkit-scrollbar-thumb:active {
+    background: #ffffff padding-box;
+}
+
+@media (max-width: 700px) {
+    .sidebar {
+        scrollbar-width: auto;
+    }
+}

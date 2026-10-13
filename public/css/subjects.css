@@ -1,0 +1,1521 @@
+/* =========================================================
+   SUBJECTS PAGE - FULL WIDTH WITH CENTERED TABLE CONTENT
+========================================================= */
+
+.subjects-page-wrapper {
+    width: 100%;
+}
+
+.subjects-container {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+}
+
+
+/* =========================================================
+   SUBJECT PAGE HEADER
+========================================================= */
+
+.subjects-header {
+    align-items: flex-end;
+}
+
+.subjects-header h1 {
+    margin: 0;
+}
+
+.subjects-subtitle {
+    margin-top: 7px;
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+
+/* =========================================================
+   SUBJECT SUCCESS / ERROR
+========================================================= */
+
+.subject-success {
+    margin-bottom: 18px;
+}
+
+.subject-errors {
+    margin-bottom: 18px;
+}
+
+
+/* =========================================================
+   SUBJECT TABLE WRAPPER
+========================================================= */
+
+.subjects-table-wrapper {
+    width: 100%;
+
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    border-radius: 12px;
+
+    -webkit-overflow-scrolling: touch;
+
+    scrollbar-width: thin;
+
+    animation: subjectTableAppear 0.45s ease;
+}
+
+@keyframes subjectTableAppear {
+
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* =========================================================
+   SUBJECT TABLE
+========================================================= */
+
+.subjects-table {
+    width: 100%;
+    min-width: 600px;
+
+    margin-top: 0;
+}
+
+
+/* =========================================================
+   SUBJECT TABLE HEADER
+========================================================= */
+
+.subjects-table th {
+    height: 52px;
+
+    padding: 13px 16px;
+
+    text-align: left;
+}
+
+.subjects-table th:first-child {
+    width: 70px;
+    text-align: center;
+}
+
+.subjects-table th:nth-child(2) {
+    width: auto;
+}
+
+.subjects-table th:last-child {
+    width: 190px;
+    text-align: center;
+}
+
+
+/* =========================================================
+   SUBJECT TABLE CELLS
+========================================================= */
+
+.subjects-table td {
+    height: 62px;
+
+    padding: 12px 16px;
+
+    vertical-align: middle;
+}
+
+
+/* =========================================================
+   SUBJECT NUMBER
+========================================================= */
+
+.subject-number {
+    width: 70px;
+
+    text-align: center;
+
+    color: var(--muted);
+
+    font-size: 13px;
+
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   SUBJECT NAME
+========================================================= */
+
+.subject-name {
+    color: var(--text);
+
+    font-size: 15px;
+
+    font-weight: 600;
+
+    text-align: left;
+
+    overflow-wrap: anywhere;
+}
+
+
+/* =========================================================
+   SUBJECT ACTIONS
+========================================================= */
+
+.subject-actions {
+    text-align: center;
+
+    white-space: nowrap;
+}
+
+
+/* =========================================================
+   SUBJECT ACTION BUTTON
+========================================================= */
+
+.subject-action-btn {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    min-width: 72px;
+
+    min-height: 34px;
+
+    padding: 7px 12px;
+
+    margin: 2px;
+
+    border-radius: 7px;
+
+    text-decoration: none;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    border: 1px solid transparent;
+
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+/* =========================================================
+   EDIT BUTTON
+========================================================= */
+
+.subject-edit-btn {
+    background: #CCFBF1;
+
+    color: #0F766E;
+
+    border-color: #99F6E4;
+}
+
+.subject-edit-btn:hover {
+    background: #14B8A6;
+
+    color: #ffffff;
+
+    border-color: #14B8A6;
+
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 5px 12px rgba(20, 184, 166, 0.25);
+}
+
+
+/* =========================================================
+   DELETE BUTTON
+========================================================= */
+
+.subject-delete-btn {
+    background: var(--danger-bg);
+
+    color: #c5303f;
+
+    border-color: var(--danger-border);
+}
+
+.subject-delete-btn:hover {
+    background: #dc3545;
+
+    color: var(--white);
+
+    border-color: #dc3545;
+
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 5px 12px rgba(220, 53, 69, 0.18);
+}
+
+
+/* =========================================================
+   EMPTY SUBJECT TABLE
+========================================================= */
+
+.subjects-empty {
+    padding: 35px 20px !important;
+
+    text-align: center !important;
+
+    color: var(--muted);
+
+    font-size: 14px;
+}
+
+.subjects-empty a {
+    color: var(--teal);
+
+    font-weight: 700;
+
+    text-decoration: none;
+
+    margin-left: 4px;
+}
+
+.subjects-empty a:hover {
+    color: var(--teal-dark);
+
+    text-decoration: underline;
+}
+
+
+/* =========================================================
+   ADD SUBJECT FORM
+========================================================= */
+
+.subject-form-container {
+    min-height: calc(100vh - 78px);
+
+    display: flex;
+
+    align-items: flex-start;
+    justify-content: center;
+
+    padding-top: clamp(35px, 7vh, 80px);
+}
+
+
+/* =========================================================
+   ADD SUBJECT FORM BOX
+========================================================= */
+
+.subject-form-box {
+    width: 600px;
+
+    max-width: 100%;
+
+    background-color: var(--white);
+
+    padding: 30px;
+
+    border-radius: 16px;
+
+    border: 1px solid var(--border);
+
+    box-shadow: var(--soft-shadow);
+
+    margin: 0 auto;
+
+    animation: formBoxAppear 0.45s ease;
+
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+.subject-form-box:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 22px 55px rgba(15, 23, 42, 0.10);
+}
+
+
+/* =========================================================
+   FIX SUBJECT FORM CENTER ALIGNMENT
+========================================================= */
+
+.subject-form-box form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.subject-form-box .subject-field-group {
+    width: 100% !important;
+    max-width: 460px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+.subject-form-box .subject-field-group label {
+    display: block;
+    width: 100%;
+    text-align: left;
+    margin-bottom: 8px;
+}
+
+.subject-form-box .subject-input {
+    display: block !important;
+    width: 100% !important;
+    max-width: none !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+}
+
+.subject-form-box .subject-form-actions {
+    width: 100%;
+    max-width: 460px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+/* =========================================================
+   SUBJECT FORM HEADER
+========================================================= */
+
+.subject-form-header {
+    text-align: center;
+
+    margin-bottom: 26px;
+}
+
+.subject-form-icon {
+    width: 48px;
+    height: 48px;
+
+    margin: 0 auto 12px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 12px;
+
+    background: var(--teal-light);
+
+    color: var(--teal-dark);
+
+    font-size: 27px;
+
+    font-weight: 500;
+
+    box-shadow:
+        0 6px 16px rgba(0, 128, 128, 0.10);
+}
+
+.subject-form-header h2 {
+    margin-bottom: 7px;
+}
+
+.subject-form-header p {
+    color: var(--muted);
+
+    font-size: 13px;
+
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   SUBJECT FORM ERROR BOX
+========================================================= */
+
+.subject-form-errors {
+    margin-bottom: 20px;
+}
+
+.subject-form-errors strong {
+    display: block;
+
+    margin-bottom: 6px;
+
+    font-size: 13px;
+}
+
+.subject-form-errors p {
+    margin-bottom: 4px;
+}
+
+.subject-form-errors p:last-child {
+    margin-bottom: 0;
+}
+
+
+/* =========================================================
+   SUBJECT FIELD
+========================================================= */
+
+.subject-field-group {
+    width: 100%;
+    max-width: 460px;
+    margin: 0 auto;
+}
+
+.subject-field-group label {
+    display: block;
+    text-align: left;
+    margin-bottom: 8px;
+}
+
+.subject-input {
+    display: block;
+    width: 100% !important;
+    min-height: 48px !important;
+    box-sizing: border-box;
+}
+
+/* =========================================================
+   SUBJECT INPUT
+========================================================= */
+
+.subject-input {
+    min-height: 48px !important;
+
+    padding: 12px 13px !important;
+
+    border-radius: 9px !important;
+
+    font-size: 14px !important;
+
+    background: #FFFFFF !important;
+}
+
+.subject-input::placeholder {
+    color: #9CA3AF;
+}
+
+.subject-input:hover {
+    border-color: #CBD5E1;
+}
+
+.subject-input:focus {
+    border-color: #4F46E5 !important;
+
+    background: var(--white) !important;
+
+    box-shadow:
+        0 0 0 4px rgba(79, 70, 229, 0.25) !important;
+
+    transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   SUBJECT INPUT INFORMATION
+========================================================= */
+
+.subject-input-info {
+    display: flex;
+
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 10px;
+
+    margin-top: 6px;
+
+    color: var(--muted);
+
+    font-size: 11px;
+}
+
+#subjectCounter {
+    white-space: nowrap;
+
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   SUBJECT FORM ACTIONS
+========================================================= */
+
+.subject-form-actions {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: flex-end;
+
+    gap: 10px;
+
+    margin-top: 22px;
+}
+
+
+/* =========================================================
+   SUBJECT CANCEL BUTTON
+========================================================= */
+
+.subject-cancel-btn {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    min-height: 44px;
+
+    padding: 10px 18px;
+
+    border: 1px solid #E5E7EB;
+
+    border-radius: 8px;
+
+    background: #F3F4F6;
+
+    color: #4B5563;
+
+    text-decoration: none;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.subject-cancel-btn:hover {
+    background: #E5E7EB;
+
+    border-color: #D1D5DB;
+
+    color: #1F2937;
+
+    transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   SUBJECT SUBMIT BUTTON
+========================================================= */
+
+.subject-submit-btn {
+    width: auto;
+
+    min-width: 140px;
+
+    min-height: 44px;
+
+    margin-top: 0;
+
+    padding: 10px 20px;
+}
+
+
+/* =========================================================
+   SUBJECT CLIENT ERROR
+========================================================= */
+
+.subject-client-error {
+    min-height: 0;
+
+    margin-top: 5px;
+}
+
+.subject-client-error:not(:empty) {
+    min-height: 17px;
+}
+
+
+/* =========================================================
+   SUBJECT INPUT ERROR
+========================================================= */
+
+.subject-input.input-error {
+    border-color: #dc3545 !important;
+
+    background-color: #fff5f5 !important;
+
+    box-shadow:
+        0 0 0 3px rgba(220, 53, 69, 0.10) !important;
+}
+
+
+/* =========================================================
+   SUBJECT RESPONSIVE - 700px
+========================================================= */
+
+@media (max-width: 700px) {
+
+    .subjects-header {
+        align-items: stretch;
+
+        text-align: center;
+    }
+
+    .subjects-header h1 {
+        font-size: 24px;
+    }
+
+    .subjects-subtitle {
+        font-size: 13px;
+    }
+
+    .subjects-header .student-add-btn {
+        width: 100%;
+    }
+
+    .subjects-table-wrapper {
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    .subjects-table {
+        min-width: 560px;
+    }
+
+    .subjects-table th,
+    .subjects-table td {
+        padding: 11px 12px;
+    }
+
+    .subject-form-container {
+        min-height: auto;
+
+        padding-top: 25px;
+        padding-bottom: 35px;
+    }
+
+    .subject-form-box {
+        width: 100%;
+
+        padding: 26px 20px;
+    }
+
+}
+
+
+/* =========================================================
+   SUBJECT RESPONSIVE - 480px
+========================================================= */
+
+@media (max-width: 480px) {
+
+    .subjects-header h1 {
+        font-size: 21px;
+    }
+
+    .subjects-subtitle {
+        font-size: 12px;
+    }
+
+    .subjects-table {
+        min-width: 520px;
+    }
+
+    .subjects-table th,
+    .subjects-table td {
+        padding: 10px;
+    }
+
+    .subject-name {
+        font-size: 13px;
+    }
+
+    .subject-action-btn {
+        min-width: 66px;
+
+        min-height: 32px;
+
+        padding: 6px 9px;
+
+        font-size: 12px;
+    }
+
+    .subject-form-box {
+        padding: 22px 16px;
+
+        border-radius: 12px;
+    }
+
+    .subject-form-icon {
+        width: 44px;
+        height: 44px;
+
+        font-size: 24px;
+    }
+
+    .subject-form-header h2 {
+        font-size: 20px;
+    }
+
+    .subject-form-header p {
+        font-size: 12px;
+    }
+
+    .subject-form-actions {
+        flex-direction: column-reverse;
+
+        align-items: stretch;
+    }
+
+    .subject-cancel-btn,
+    .subject-submit-btn {
+        width: 100%;
+    }
+
+    .subject-input-info {
+        font-size: 10px;
+    }
+
+}
+
+
+/* =========================================================
+   SUBJECT RESPONSIVE - 360px
+========================================================= */
+
+@media (max-width: 360px) {
+
+    .subjects-table {
+        min-width: 500px;
+    }
+
+    .subjects-table th,
+    .subjects-table td {
+        padding: 9px 8px;
+
+        font-size: 11px;
+    }
+
+    .subject-action-btn {
+        min-width: 60px;
+
+        padding: 5px 7px;
+
+        font-size: 11px;
+    }
+
+    .subject-form-box {
+        padding: 20px 13px;
+    }
+
+    .subject-input {
+        min-height: 44px !important;
+
+        font-size: 13px !important;
+    }
+
+}
+
+
+/* =========================================================
+   SUBJECT ACCESSIBILITY
+========================================================= */
+
+.subject-action-btn:focus-visible,
+.subject-cancel-btn:focus-visible,
+.subject-submit-btn:focus-visible {
+    outline: 3px solid rgba(79, 70, 229, 0.25);
+
+    outline-offset: 2px;
+}
+
+
+/* =========================================================
+   SUBJECT REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .subjects-table-wrapper,
+    .subject-form-box {
+        animation: none;
+    }
+}
+
+/* Student-linked multi-subject result form */
+.result-student-field {
+    position: relative;
+}
+
+.result-combobox {
+    position: relative;
+}
+
+.result-combobox input {
+    width: 100%;
+    padding-right: 44px !important;
+}
+
+.result-combobox-toggle {
+    position: absolute;
+    top: 50%;
+    right: 6px;
+    width: 32px;
+    height: 32px;
+    transform: translateY(-50%);
+    border: 0;
+    border-radius: 7px;
+    background: transparent;
+    color: #4B5563;
+    cursor: pointer;
+}
+
+.result-combobox-toggle:hover {
+    background: #EEF2FF;
+    color: #4F46E5;
+}
+
+.result-combobox-menu {
+    position: absolute;
+    top: calc(100% + 5px);
+    left: 0;
+    z-index: 40;
+    width: 100%;
+    max-height: 220px;
+    overflow-y: auto;
+    padding: 6px;
+    border: 1px solid #E5E7EB;
+    border-radius: 9px;
+    background: #fff;
+    box-shadow: 0 12px 24px rgba(15, 23, 42, .12);
+}
+
+.result-combobox-option {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    border: 0;
+    border-radius: 6px;
+    background: transparent;
+    color: #1F2937;
+    text-align: left;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.result-combobox-option:hover {
+    background: #F5F3FF;
+    color: #4F46E5;
+}
+
+.result-combobox-empty {
+    margin: 4px;
+    padding: 8px;
+    color: #9CA3AF;
+    font-size: 12px;
+}
+
+.result-student-info {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    margin: 2px 0 8px;
+}
+
+.result-student-info>div {
+    padding: 12px 14px;
+    border: 1px solid #E5E7EB;
+    border-radius: 10px;
+    background: #F8FAFC;
+}
+
+.result-student-info span {
+    display: block;
+    margin-bottom: 3px;
+    color: #6B7280;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.result-student-info strong {
+    color: #1F2937;
+}
+
+.result-subjects-panel {
+    margin: 4px 0 8px;
+    padding: 18px;
+    border: 1px solid #E5E7EB;
+    border-radius: 12px;
+    background: #FFFFFF;
+}
+
+.result-subjects-heading h3 {
+    margin: 0;
+    color: #1F2937;
+    font-size: 16px;
+}
+
+.result-subjects-heading p {
+    margin: 4px 0 14px;
+    color: #6B7280;
+    font-size: 12px;
+}
+
+.result-subjects-table-wrap {
+    overflow-x: auto;
+}
+
+.result-subjects-table {
+    width: 100%;
+    min-width: 610px;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.result-subjects-table th,
+.result-subjects-table td {
+    padding: 10px 11px;
+    border-bottom: 1px solid #E5E7EB;
+    text-align: left;
+    font-size: 13px;
+}
+
+.result-subjects-table th {
+    color: #4F46E5;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: .03em;
+}
+
+.result-subjects-table tbody td:nth-child(4),
+.result-subjects-table tbody td:nth-child(5),
+.result-subjects-table tfoot th:not(:first-child) {
+    font-weight: 700;
+    color: #1F2937;
+}
+
+.result-subjects-table input {
+    width: 94px;
+    min-width: 0;
+    padding: 8px !important;
+    border: 1px solid #E5E7EB;
+    border-radius: 7px;
+}
+
+.result-subjects-table tfoot th {
+    border-bottom: 0;
+    background: #EEF2FF;
+    color: #4F46E5;
+}
+
+.result-form-box .add-btn:disabled {
+    cursor: not-allowed;
+    opacity: .55;
+    transform: none;
+}
+
+@media (max-width: 560px) {
+    .result-student-info {
+        grid-template-columns: 1fr;
+    }
+
+    .result-subjects-panel {
+        padding: 12px;
+    }
+}
+
+/* Grouped results list and detailed result dialogs */
+.result-subject-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.result-subject-list span {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 999px;
+    background: #EEF2FF;
+    color: #4F46E5;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.result-group-modal {
+    width: min(100%, 820px);
+}
+
+.result-summary-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 9px;
+    margin: 0 0 16px;
+}
+
+.result-summary-grid>div {
+    padding: 11px 12px;
+    border: 1px solid #E5E7EB;
+    border-radius: 9px;
+    background: #FFFFFF;
+}
+
+.result-summary-grid span {
+    display: block;
+    margin-bottom: 4px;
+    color: #6B7280;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+}
+
+.result-summary-grid strong {
+    color: #1F2937;
+    font-size: 14px;
+}
+
+.group-result-edit-form .modal-primary-btn {
+    display: block;
+    width: 100%;
+    margin-top: 16px;
+}
+
+@media (max-width: 600px) {
+    .result-summary-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+/* Read-only student data and assigned subjects in Add Result */
+.result-selected-layout {
+    display: grid;
+    grid-template-columns: minmax(230px, .9fr) minmax(0, 1.4fr);
+    align-items: start;
+    gap: 18px;
+    margin: 4px 0 8px;
+}
+
+.result-autofill-fields {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px 18px;
+}
+
+.result-autofill-fields .field-full {
+    grid-column: 1 / -1;
+}
+
+.result-autofill-fields input[readonly] {
+    cursor: default;
+    background: #F3F4F6;
+    color: #4B5563;
+}
+
+.result-selected-layout .result-subjects-panel {
+    margin: 0;
+    min-width: 0;
+}
+
+@media (max-width: 700px) {
+    .result-selected-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 600px) {
+    .result-autofill-fields {
+        grid-template-columns: 1fr;
+    }
+
+    .result-autofill-fields .field-full {
+        grid-column: auto;
+    }
+}
+
+/* Add Result: focused dropdown and invalid-mark feedback */
+.result-combobox:focus-within .result-combobox-toggle {
+    background: #EEF2FF;
+    color: #4F46E5;
+}
+
+.result-combobox-option:focus-visible,
+.result-combobox-toggle:focus-visible,
+.result-obtained-input:focus-visible {
+    outline: 3px solid rgba(79, 70, 229, .25);
+    outline-offset: 1px;
+}
+
+.result-subjects-table input:invalid {
+    border-color: #d9534f;
+    background: #fff8f8;
+}
+
+/* Add Result layout fix: student detail fields must not share a column with the results table. */
+.result-selected-layout {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    margin: 4px 0 8px;
+}
+
+.result-autofill-fields {
+    width: 100%;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px 18px;
+    margin-bottom: 18px;
+}
+
+.result-autofill-fields .field-group {
+    min-width: 0;
+    margin-bottom: 0;
+}
+
+.result-autofill-fields .field-full {
+    grid-column: 1 / -1;
+    width: 100%;
+    min-width: 0;
+}
+
+.result-autofill-fields .input-wrapper,
+#selected-student-subjects {
+    width: 100%;
+    min-width: 0;
+}
+
+#selected-student-subjects {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.result-selected-layout .result-subjects-panel {
+    width: 100%;
+    min-width: 0;
+    margin: 0;
+}
+
+@media (max-width: 600px) {
+    .result-autofill-fields {
+        grid-template-columns: 1fr;
+    }
+
+    .result-autofill-fields .field-full {
+        grid-column: auto;
+    }
+}
+
+/* Add Result: full-width three-column subject table. */
+.result-form-box {
+    max-width: 760px;
+}
+
+.result-selected-layout {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    margin: 4px 0 8px;
+}
+
+.result-autofill-fields {
+    display: grid;
+    width: 100%;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px 18px;
+    margin-bottom: 18px;
+}
+
+.result-autofill-fields .field-group {
+    min-width: 0;
+    margin-bottom: 0;
+}
+
+.result-selected-layout .result-subjects-panel {
+    width: 100%;
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+}
+
+.result-subjects-heading {
+    margin-bottom: 10px;
+}
+
+.result-subjects-heading p {
+    margin-bottom: 0;
+}
+
+.result-subjects-table {
+    width: 100%;
+    min-width: 0;
+    table-layout: fixed;
+    border-collapse: separate;
+    border-spacing: 0;
+    overflow: hidden;
+    border: 1px solid #E5E7EB;
+    border-radius: 12px;
+}
+
+.result-subjects-table-wrap {
+    overflow: visible;
+}
+
+.result-subjects-table th,
+.result-subjects-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid #E5E7EB;
+    vertical-align: middle;
+}
+
+.result-subjects-table thead th {
+    background: #F8FAFC;
+    color: #1F2937;
+}
+
+.result-subjects-table th:nth-child(1),
+.result-subjects-table td:nth-child(1) {
+    width: 48%;
+}
+
+.result-subjects-table th:nth-child(2),
+.result-subjects-table td:nth-child(2) {
+    width: 20%;
+}
+
+.result-subjects-table th:nth-child(3),
+.result-subjects-table td:nth-child(3) {
+    width: 32%;
+}
+
+.result-subjects-table td:nth-child(2),
+.result-subjects-table tfoot th:not(:first-child) {
+    font-weight: 700;
+    color: #1F2937;
+}
+
+.result-subjects-table tfoot th {
+    border-bottom: 0;
+}
+
+.result-subjects-table input.result-obtained-input {
+    width: min(100%, 150px);
+    min-width: 0;
+    margin: 0;
+}
+
+@media (max-width: 600px) {
+    .result-autofill-fields {
+        grid-template-columns: 1fr;
+    }
+
+    .result-subjects-table th,
+    .result-subjects-table td {
+        padding: 9px 8px;
+        font-size: 12px;
+    }
+
+    .result-subjects-table input.result-obtained-input {
+        width: 100%;
+        padding: 8px 6px !important;
+    }
+}
+
+/* Add Result critical grid fix: this is a direct child of the two-column form grid,
+   but it is not a .field-group, so the global .field-group.field-full rule cannot span it. */
+.result-form-box #resultForm>.result-selected-layout {
+    grid-column: 1 / -1;
+    width: 100%;
+}
+
+.result-form-box #resultForm>#saveResultsButton {
+    grid-column: 1 / -1;
+    width: 100%;
+}
+
+/* Class-first student selection for the Add Result form. */
+.result-form-box #resultForm>.result-selection-fields {
+    grid-column: 1 / -1;
+    width: 100%;
+}
+
+.result-selection-fields {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px 18px;
+}
+
+.result-selection-fields .field-group {
+    min-width: 0;
+    margin-bottom: 0;
+}
+
+.result-selection-fields .result-combobox {
+    width: 100%;
+}
+
+.result-combobox input:disabled {
+    cursor: not-allowed;
+    background: #F3F4F6;
+}
+
+@media (max-width: 600px) {
+    .result-selection-fields {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Student list search and class filter */
+.student-filter-form {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0 0 18px;
+}
+
+.student-search-field {
+    position: relative;
+    flex: 1 1 280px;
+    max-width: 430px;
+}
+
+.student-search-field i {
+    position: absolute;
+    top: 50%;
+    left: 13px;
+    color: #6B7280;
+    transform: translateY(-50%);
+}
+
+.student-search-field input,
+.student-class-filter {
+    width: 100%;
+    min-height: 42px;
+    border: 1px solid #E5E7EB;
+    border-radius: 8px;
+    background: var(--white);
+    color: #1F2937;
+    font: inherit;
+}
+
+.student-search-field input {
+    padding: 9px 12px 9px 38px;
+}
+
+.student-class-filter {
+    width: 160px;
+    padding: 9px 12px;
+    cursor: pointer;
+}
+
+.student-search-field input:focus,
+.student-class-filter:focus {
+    border-color: #4F46E5;
+    outline: 3px solid rgba(79, 70, 229, 0.25);
+}
+
+.student-filter-btn,
+.student-filter-clear {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    min-height: 42px;
+    padding: 9px 14px;
+    border: 0;
+    border-radius: 8px;
+    background: #4F46E5;
+    color: #FFFFFF;
+    font: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.student-filter-btn:hover {
+    background: #4338CA;
+}
+
+.student-filter-clear {
+    background: #EEF2FF;
+    color: #4F46E5;
+}
+
+.student-filter-clear:hover {
+    background: #E0E7FF;
+}
+
+.student-filter-empty {
+    padding: 26px !important;
+    color: #6B7280;
+}
+
+@media (max-width: 700px) {
+    .student-filter-form {
+        flex-wrap: wrap;
+    }
+
+    .student-search-field {
+        max-width: none;
+        flex-basis: 100%;
+    }
+
+    .student-class-filter {
+        flex: 1 1 160px;
+    }
+}
+
+@media (max-width: 480px) {
+    .student-filter-form>* {
+        width: 100%;
+    }
+
+    .student-class-filter {
+        flex-basis: 100%;
+    }
+}
+
+/* Blade view styles consolidated here. */
+
+/* STUDENTS LIST TABLE – prevent cell text from wrapping at 100% zoom */
+.student-table {
+    width: 100%;
+    table-layout: auto;
+    border-collapse: collapse;
+    white-space: nowrap;
+}
+
+.student-table th,
+.student-table td {
+    white-space: nowrap;
+    padding: 10px 12px;
+    vertical-align: middle;
+    font-size: 14px;
+}
+
+.student-table th {
+    font-size: 13px;
+}
+
+/* Give Email column a bit of breathing room but still no-wrap */
+.student-table td:nth-child(4) {
+    max-width: 220px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.student-table tbody tr:hover td {
+    background-color: #F5F3FF !important;
+}
+

@@ -1,0 +1,7 @@
+/* Arrangements Page Styles */
+@import url("./tables.css");
+@import url("./forms.css");
+
+.arrangements-page {
+    width: 100%;
+}

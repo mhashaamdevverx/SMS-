@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - AKM School System</title>
+
+    <link rel="icon" type="image/png" href="{{ asset('upload/Logo.png') }}">
+    <link rel="apple-touch-icon" href="{{ asset('upload/Logo.png') }}">
+    
+    <!-- Bootstrap Icons & Google Fonts -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+
+    
+    <link rel="stylesheet" href="{{ asset('css/global.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/login.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}?v={{ time() }}">
+</head>
+<body>
+
+    <!-- TOP NAVBAR -->
+    <header class="top-navbar">
+        <div class="top-nav-actions">
+            <a href="#" class="btn-header-support" onclick="alert('Support help desk is available 24/7 at support@akmschool.edu')" title="Support">
+                <span class="support-icon-circle">?</span>
+            </a>
+        </div>
+    </header>
+
+    <!-- MAIN LOGIN SHELL -->
+    <main class="login-wrapper">
+        <div class="login-card-container">
+
+            <!-- LEFT COLUMN: SIGN IN FORM -->
+            <div class="form-side">
+                
+                <!-- BRAND LOGO BADGE (CENTERED) -->
+                <div class="badge-logo-outer">
+                    <div class="badge-logo-inner">
+                        <img src="{{ asset('upload/Logo.png') }}" alt="AKM Logo">
+                    </div>
+                </div>
+
+                <!-- TITLE & SUBTITLE (CENTERED) -->
+                <h1 class="form-heading">AKM School System</h1>
+                <p class="form-subheading">Enter your email and password to access the portal</p>
+
+                <!-- SUCCESS ALERT -->
+                @if(session('success'))
+                    <div class="alert-box alert-success">
+                        <i class="bi bi-check-circle-fill"></i>
+                        <span>{{ session('success') }}</span>
+                    </div>
+                @endif
+
+                <!-- ERROR ALERT -->
+                @if(session('error'))
+                    <div class="alert-box alert-error">
+                        <i class="bi bi-exclamation-triangle-fill"></i>
+                        <span>{{ session('error') }}</span>
+                    </div>
+                @endif
+
+                <!-- LOGIN FORM -->
+                <form action="/login" method="POST" id="loginForm" novalidate>
+                    @csrf
+
+                    <fieldset class="login-role-switch">
+                        <legend>Sign in as</legend>
+                        <label><input type="radio" name="account_type" value="student" @checked(old('account_type', 'student') === 'student')><span><i class="bi bi-mortarboard-fill" aria-hidden="true"></i> Student</span></label>
+                        <label><input type="radio" name="account_type" value="teacher" @checked(old('account_type') === 'teacher')><span><i class="bi bi-person-badge-fill" aria-hidden="true"></i> Teacher</span></label>
+                        <label><input type="radio" name="account_type" value="admin" @checked(old('account_type') === 'admin')><span><i class="bi bi-shield-lock-fill" aria-hidden="true"></i> Admin</span></label>
+                    </fieldset>
+
+                    <!-- EMAIL INPUT -->
+                    <div class="form-group">
+                        <label for="login-email" class="form-label">Email Address</label>
+                        <div class="input-pill-wrapper">
+                            <i class="bi bi-envelope field-icon"></i>
+                            <input 
+                                id="login-email" 
+                                type="email" 
+                                name="email" 
+                                class="input-pill" 
+                                placeholder="Enter Your Email" 
+                                value="{{ old('email') }}" 
+                                required
+                                autocomplete="email"
+                            >
+                        </div>
+                        @error('email')
+                            <span class="input-error-msg"><i class="bi bi-x-circle-fill"></i> {{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <!-- PASSWORD INPUT -->
+                    <div class="form-group">
+                        <label for="login-password" class="form-label">Password</label>
+                        <div class="input-pill-wrapper">
+                            <i class="bi bi-lock field-icon"></i>
+                            <input 
+                                id="login-password" 
+                                type="password" 
+                                name="password" 
+                                class="input-pill" 
+                                placeholder="Enter Your Password" 
+                                required
+                            >
+                            <button type="button" class="btn-toggle-eye" id="togglePasswordBtn" title="Toggle password visibility">
+                                <i class="bi bi-eye" id="eyeIcon"></i>
+                            </button>
+                        </div>
+                        @error('password')
+                            <span class="input-error-msg"><i class="bi bi-x-circle-fill"></i> {{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <!-- OPTIONS ROW -->
+                    <div class="form-options-row">
+                        <label class="custom-checkbox-label">
+                            <input type="checkbox" name="remember" value="1" checked>
+                            <span>Remember me</span>
+                        </label>
+                        <a href="{{ route('password.request') }}" class="forgot-link">Forgot Password?</a>
+                    </div>
+
+                    <!-- SUBMIT BUTTON -->
+                    <button type="submit" class="btn-primary-submit">
+                        <span>Sign In to Dashboard</span>
+                        <i class="bi bi-arrow-right fs-17"></i>
+                    </button>
+                </form>
+
+                <!-- FOOTER -->
+                <div class="form-footer-note">
+                    <span>Don't have an account?</span>
+                    <a href="/signup">Create an Account</a>
+                </div>
+
+            </div>
+
+            <!-- RIGHT COLUMN: HERO PHOTO & GLASS CARDS -->
+            <div class="hero-side">
+                <div class="hero-inner">
+                    <div class="hero-overlay"></div>
+
+                    <!-- FLOATING TOP CARD -->
+                    <div class="floating-card-top">
+                        <div class="rating-badges-row">
+                            <div class="badge-academic-rating">
+                                <i class="bi bi-star-fill fs-10"></i>
+                                <span>Top Academic Rating</span>
+                            </div>
+                            <span class="badge-tier">Tier 1</span>
+                        </div>
+                        <div class="floating-card-title">Dean's Honor Roll System</div>
+                        <div class="floating-card-metric">
+                            <span>Graduation Success</span>
+                            <span class="metric-val">98.4%</span>
+                        </div>
+                    </div>
+
+                    <!-- FLOATING BOTTOM QUOTE CARD -->
+                    <div class="floating-card-bottom">
+                        <div class="quote-icon-circle">
+                            <i class="bi bi-quote"></i>
+                        </div>
+                        <p class="quote-body-text">
+                            "Outstanding academic support & faculty collaboration across all faculties."
+                        </p>
+                        <div class="quote-card-footer">
+                            <div class="avatar-group-container">
+                                <div class="avatar-overlap">
+                                    <div class="avatar-circle av-1">SC</div>
+                                    <div class="avatar-circle av-2">ED</div>
+                                    <div class="avatar-circle av-3"><i class="bi bi-star-fill"></i></div>
+                                </div>
+                                <span class="avatar-group-label">Student Council 2025</span>
+                            </div>
+                            <div class="badge-award">Excellence Award</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- SCRIPT FOR INTERACTION -->
+    
+    <script src="{{ asset('js/app.js') }}" defer></script>
+</body>
+</html>
