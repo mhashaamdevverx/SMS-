@@ -357,6 +357,65 @@ const initSubjectsPage=()=>{
                 countDisplay.innerHTML = '<strong>' + visibleCount + '</strong> subject' + (visibleCount === 1 ? '' : 's');
             }
         });
+const initEmailAutoSuggestions=()=>{
+    const generateGmail=(name1,name2='')=>{
+        const clean=s=>(s||'').toLowerCase().replace(/^(sir|madam|ma'am|mr\.?|mrs\.?|ms\.?|dr\.?|prof\.?)\s+/i,'').replace(/[^a-z0-9]/g,'');
+        if(!name2&&name1){
+            const parts=(name1||'').replace(/^(sir|madam|ma'am|mr\.?|mrs\.?|ms\.?|dr\.?|prof\.?)\s+/i,'').trim().toLowerCase().split(/\s+/).map(p=>p.replace(/[^a-z0-9]/g,'')).filter(Boolean);
+            if(parts.length===0)return '';
+            if(parts.length===1)return `${parts[0]}@gmail.com`;
+            return `${parts[0]}.${parts.slice(1).join('.')}@gmail.com`;
+        }
+        const first=clean(name1),second=clean(name2);
+        if(first&&second)return `${first}.${second}@gmail.com`;
+        if(first)return `${first}@gmail.com`;
+        if(second)return `${second}@gmail.com`;
+        return '';
+    };
+
+    // 1. Student Create Form
+    const fn=document.getElementById('first-name'),ln=document.getElementById('last-name'),se=document.getElementById('student-email');
+    if(se&&(fn||ln)){
+        let edited=se.value.trim().length>0;
+        se.addEventListener('input',()=>{edited=se.value.trim().length>0;});
+        const sync=()=>{if(!edited){se.value=generateGmail(fn?.value,ln?.value);}};
+        fn?.addEventListener('input',sync);
+        ln?.addEventListener('input',sync);
+    }
+
+    // 2. Teacher Add Form (standalone or modal)
+    document.querySelectorAll('form[action*="add-teacher"], #addTeacherForm').forEach(form=>{
+        const tn=form.querySelector('input[name="teacher_name"]'),te=form.querySelector('input[name="teacher_email"]');
+        if(tn&&te){
+            let edited=te.value.trim().length>0;
+            te.addEventListener('input',()=>{edited=te.value.trim().length>0;});
+            tn.addEventListener('input',()=>{if(!edited){te.value=generateGmail(tn.value);}});
+        }
+    });
+
+    // 3. Signup Form
+    const sn=document.getElementById('signup-name'),sem=document.getElementById('signup-email');
+    if(sn&&sem){
+        let edited=sem.value.trim().length>0;
+        sem.addEventListener('input',()=>{edited=sem.value.trim().length>0;});
+        sn.addEventListener('input',()=>{if(!edited){sem.value=generateGmail(sn.value);}});
+    }
+};
+
+const initMobileNavDrawer=()=>{
+    const toggleBtn=document.getElementById('mobileNavToggle');
+    const overlay=document.getElementById('mobileNavOverlay');
+    const sidebar=document.querySelector('.admin-side')||document.querySelector('.student-side')||document.querySelector('.sidebar');
+    if(toggleBtn&&sidebar){
+        toggleBtn.addEventListener('click',e=>{
+            e.stopPropagation();
+            sidebar.classList.toggle('mobile-open');
+            overlay?.classList.toggle('active');
+        });
+        overlay?.addEventListener('click',()=>{
+            sidebar.classList.remove('mobile-open');
+            overlay.classList.remove('active');
+        });
     }
 };
 
@@ -376,6 +435,8 @@ document.addEventListener('DOMContentLoaded', () => {
     initAddStudentPage();
     initRollSlipsPage();
     initSubjectsPage();
+    initEmailAutoSuggestions();
+    initMobileNavDrawer();
     document.querySelector('[data-print-roll-slip]')?.addEventListener('click',()=>window.print());
 });
 })();

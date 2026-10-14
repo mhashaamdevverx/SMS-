@@ -45,7 +45,7 @@ class PortalRoleAccessTest extends TestCase
     public function test_login_requires_the_selected_account_type_to_match(): void
     {
         $studentRole = $this->makeRole('student');
-        $studentUser = $this->makeUser($studentRole, 'learner@akm.std');
+        $studentUser = $this->makeUser($studentRole, 'learner.one@gmail.com');
 
         DB::table('Students')->insert([
             'login_user_id' => $studentUser->id,
@@ -53,7 +53,7 @@ class PortalRoleAccessTest extends TestCase
             'class' => 'ONE',
             'section' => 'A',
             'std_id' => 1,
-            'email' => 'learner@akm.std',
+            'email' => 'learner.one@gmail.com',
         ]);
 
         $wrongRoleResponse = app(AuthController::class)->login(Request::create('/login', 'POST', [
@@ -74,7 +74,7 @@ class PortalRoleAccessTest extends TestCase
     public function test_non_admin_cannot_open_role_management(): void
     {
         $teacherRole = $this->makeRole('teacher');
-        $teacher = $this->makeUser($teacherRole, 'teacher@akm.edu', false);
+        $teacher = $this->makeUser($teacherRole, 'teacher.lead@gmail.com', false);
 
         $request = Request::create('/roles', 'GET');
         $request->setLaravelSession(app('session')->driver());
@@ -91,7 +91,7 @@ class PortalRoleAccessTest extends TestCase
     public function test_dismissing_password_reminder_allows_portal_access_without_claiming_password_was_changed(): void
     {
         $studentRole = $this->makeRole('student');
-        $studentUser = $this->makeUser($studentRole, 'dismiss@akm.std');
+        $studentUser = $this->makeUser($studentRole, 'dismiss.user@gmail.com');
         $request = Request::create('/account/password/dismiss', 'POST');
         $request->setLaravelSession(app('session')->driver());
         $request->session()->put('user_id', $studentUser->id);
@@ -107,7 +107,7 @@ class PortalRoleAccessTest extends TestCase
     public function test_password_reset_saves_the_new_hashed_password(): void
     {
         $studentRole = $this->makeRole('student');
-        $studentUser = $this->makeUser($studentRole, 'reset@akm.std');
+        $studentUser = $this->makeUser($studentRole, 'reset.user@gmail.com');
         Notification::fake();
         $this->assertSame(Password::RESET_LINK_SENT, Password::sendResetLink(['email' => $studentUser->email]));
         $token = null;
@@ -136,7 +136,7 @@ class PortalRoleAccessTest extends TestCase
     {
         config(['mail.default' => 'array']);
         $studentRole = $this->makeRole('student');
-        $studentUser = $this->makeUser($studentRole, 'forgot@akm.std', false);
+        $studentUser = $this->makeUser($studentRole, 'forgot.user@gmail.com', false);
 
         $status = Password::sendResetLink(['email' => $studentUser->email]);
 
@@ -147,7 +147,7 @@ class PortalRoleAccessTest extends TestCase
     public function test_student_queries_are_limited_to_the_linked_student_record(): void
     {
         $studentRole = $this->makeRole('student');
-        $studentUser = $this->makeUser($studentRole, 'student@akm.std');
+        $studentUser = $this->makeUser($studentRole, 'student.one@gmail.com');
         $ownStudentId = DB::table('Students')->insertGetId([
             'login_user_id' => $studentUser->id,
             'name' => 'Own Student',
@@ -171,7 +171,7 @@ class PortalRoleAccessTest extends TestCase
     public function test_incharge_queries_are_limited_to_the_assigned_class_and_section(): void
     {
         $inchargeRole = $this->makeRole('class-incharge');
-        $inchargeUser = $this->makeUser($inchargeRole, 'teacher@akm.edu');
+        $inchargeUser = $this->makeUser($inchargeRole, 'incharge.one@gmail.com');
         $classId = DB::table('classes')->insertGetId(['class_name' => 'ONE', 'section_name' => 'A']);
         $teacherId = DB::table('teachers')->insertGetId([
             'login_user_id' => $inchargeUser->id,

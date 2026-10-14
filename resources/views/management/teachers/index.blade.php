@@ -171,7 +171,7 @@
 
                     <div class="crud-field">
                         <label for="teacher-email-{{ $teacher->id }}">Teacher Email</label>
-                        <input id="teacher-email-{{ $teacher->id }}" type="email" name="teacher_email" value="{{ old('teacher_email', $teacher->teacher_email) }}" placeholder="teacher@gmail.com" class="@error('teacher_email') input-error @enderror" required>
+                        <input id="teacher-email-{{ $teacher->id }}" type="email" name="teacher_email" value="{{ old('teacher_email', $teacher->teacher_email) }}" placeholder="ali.khan@gmail.com" pattern="^[a-zA-Z0-9._%+-]+@gmail\.com$" title="Must be a valid @gmail.com address (e.g. ali.khan@gmail.com)" class="@error('teacher_email') input-error @enderror" required>
                         @error('teacher_email')<span class="crud-field-error">{{ $message }}</span>@enderror
                     </div>
 

@@ -735,3 +735,43 @@ body {
     }
 }
 
+@media (max-width: 540px) {
+    .login-wrapper {
+        padding: 8px 0;
+    }
+
+    .login-card-container {
+        border-radius: 18px;
+        border: none;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    .form-side {
+        padding: 24px 16px;
+    }
+
+    .form-heading {
+        font-size: 21px;
+    }
+
+    .form-subheading {
+        font-size: 12.5px;
+        margin-bottom: 16px;
+    }
+
+    .top-navbar {
+        position: static;
+        margin-bottom: 12px;
+        justify-content: flex-end;
+    }
+
+    .login-role-switch {
+        gap: 4px;
+    }
+
+    .btn-login-submit {
+        height: 48px;
+        font-size: 15px;
+    }
+}
+

@@ -1,5 +1,5 @@
 /* ==========================================================================
-   AKM SCHOOL SYSTEM - STUDENT PORTAL STYLESHEET
+   EXCELLENCE SCHOOL SYSTEM - STUDENT PORTAL STYLESHEET
    Design Language: Linear meets Duolingo (Soft, Modern, Playful & Professional)
    Supports Light & Dark Modes via CSS Custom Properties
    ========================================================================== */
@@ -1661,8 +1661,53 @@ a:hover {
    ========================================================================== */
 @media (max-width: 992px) {
     .teacher-dashboard-grid { grid-template-columns: 1fr !important; }
+
+    .teacher-side {
+        position: fixed !important;
+        top: 0 !important;
+        bottom: 0 !important;
+        left: -280px !important;
+        width: 260px !important;
+        z-index: 1050 !important;
+        box-shadow: 10px 0 30px rgba(0, 0, 0, 0.4) !important;
+        transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .teacher-side.mobile-open {
+        left: 0 !important;
+    }
+
+    .teacher-main, .teacher-main.sidebar-collapsed {
+        margin-left: 0 !important;
+        width: 100% !important;
+    }
+
+    .teacher-hero {
+        padding: 22px 20px !important;
+    }
+
+    .teacher-hero h1 {
+        font-size: 22px !important;
+    }
 }
 
-@media (min-width: 768px) and (max-width: 1024px) {
-    .teacher-dashboard-grid { grid-template-columns: 1fr !important; }
+@media (max-width: 640px) {
+    .teacher-hero {
+        padding: 18px 14px !important;
+    }
+
+    .teacher-hero h1 {
+        font-size: 19px !important;
+    }
+
+    .teacher-hero p {
+        font-size: 12.5px !important;
+        margin-bottom: 14px !important;
+    }
+
+    .teacher-panel {
+        padding: 16px 12px !important;
+    }
 }
+

@@ -13,22 +13,45 @@ use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
-    function list()
+    public function list(Request $request)
     {
         if (!session()->has('user_id')) {
             return redirect('login');
         }
 
-        $users = User::all();
+        $search = trim((string) $request->input('search', ''));
+        $usersQuery = User::with('role')->orderBy('id', 'asc');
 
-        return view('users', ['users' => $users]);
+        if ($search !== '') {
+            $usersQuery->where(function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhere('username', 'like', "%{$search}%")
+                  ->orWhere('email', 'like', "%{$search}%")
+                  ->orWhere('phone', 'like', "%{$search}%");
+            });
+        }
+
+        $users = $usersQuery->paginate(10)->withQueryString();
+
+        return view('users', [
+            'users' => $users,
+            'search' => $search,
+        ]);
     }
 
     public function updateUser(Request $request, User $user)
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:50',
-            'email' => ['required', 'email', 'regex:/^[a-zA-Z0-9._%+-]+@gmail\.com$/i', 'max:50', Rule::unique('users', 'email')->ignore($user->id)],
+            'email' => [
+                'required',
+                'email',
+                'regex:/^[a-zA-Z0-9._%+-]+@gmail\.com$/i',
+                'max:60',
+                Rule::unique('users', 'email')->ignore($user->id),
+                Rule::unique('Students', 'email')->ignore($user->studentRecord?->id),
+                Rule::unique('teachers', 'teacher_email')->ignore($user->teacherRecord?->id),
+            ],
             'phone' => 'nullable|string|max:30',
             'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ], [

@@ -1,5 +1,5 @@
 /**
- * AKM Student Portal UI Engine
+ * Excellence Student Portal UI Engine
  * Handles Light/Dark Theme Switch, Sidebar Collapsing, Command Search (Ctrl+K),
  * Notification Bell, Language Toggle, and Dropdown Controls.
  */

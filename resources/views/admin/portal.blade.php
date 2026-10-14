@@ -4,7 +4,7 @@
     {{-- EXECUTIVE HERO BANNER WITH EMBEDDED TAB PILLS (Matching Student Portal Hero) --}}
     <section class="student-hero admin-hero">
         <div>
-            <span class="hero-pill"><i></i> AKM Admin Portal &bull; System Active</span>
+            <span class="hero-pill"><i></i> Excellence Admin Portal &bull; System Active</span>
             <h1>Admin & Head Management Authority Portal</h1>
             <p>Welcome back, <strong>{{ session('user_name', 'Abdul Moeez') }}</strong>! Full authority and control over leaves, teacher salaries, student fees, attendance, academic records, and system accounts.</p>
         </div>

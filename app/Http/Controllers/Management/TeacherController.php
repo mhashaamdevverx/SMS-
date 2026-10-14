@@ -41,7 +41,7 @@ class TeacherController extends Controller
             return redirect()->route('teacher.dashboard');
         }
 
-        $teachers = Teacher::with(['assignments', 'loginAccount'])->orderBy('id', 'desc')->paginate(10);
+        $teachers = Teacher::with(['assignments', 'loginAccount'])->orderBy('id', 'desc')->paginate(10)->withQueryString();
         $subjectCourseOptions = $this->getSubjectCourseOptions();
         $classesList = $this->getClassesList();
 

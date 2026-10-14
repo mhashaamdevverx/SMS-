@@ -10,7 +10,7 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>Student Management System</title>
+    <title>Excellence School System</title>
 
     <link rel="icon" type="image/png" href="{{ asset('upload/Logo.png') }}">
     <link rel="apple-touch-icon" href="{{ asset('upload/Logo.png') }}">
@@ -113,7 +113,7 @@
                             </div>
                         </div>
                         <div style="padding: 8px 14px; background: var(--bg); border-top: 1px solid var(--border); text-align: center;">
-                            <span style="font-size: 11px; color: var(--muted); font-weight: 600;">AKM Real-Time Notifications</span>
+                            <span style="font-size: 11px; color: var(--muted); font-weight: 600;">Excellence Real-Time Notifications</span>
                         </div>
                     </div>
                 </div>
@@ -170,9 +170,9 @@
         <aside class="admin-side" id="adminSidebar">
             {{-- Brand --}}
             <a class="admin-brand" href="/">
-                <div class="brand-badge">AKM</div>
+                <div class="brand-badge">ESS</div>
                 <div class="brand-text">
-                    <b>AKM School</b>
+                    <b>Excellence School System</b>
                     <small class="brand-subtitle">Admin Portal</small>
                 </div>
             </a>
@@ -378,7 +378,8 @@
                     <input id="settings-name" type="text" name="name" value="{{ $currentUser->name ?: $currentUser->username }}" required>
 
                     <label for="settings-email">Email</label>
-                    <input id="settings-email" type="email" name="email" value="{{ $currentUser->email }}" required>
+                    <input id="settings-email" type="email" name="email" value="{{ $currentUser->email }}" pattern="^[a-zA-Z0-9._%+-]+@gmail\.com$" placeholder="name@gmail.com" title="Please enter a valid Gmail address (e.g. name@gmail.com)" required>
+                    <small style="display:block;margin-top:3px;color:var(--muted);font-size:11.5px;">Must be a valid @gmail.com address.</small>
 
                     <label for="settings-phone">Phone</label>
                     <input id="settings-phone" type="text" name="phone" value="{{ $currentUser->phone }}">
@@ -461,7 +462,7 @@
                     <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
                         <img src="{{ asset('upload/Logo.png') }}" alt="Logo" style="height: 44px; width: auto; filter: brightness(0) invert(1);">
                         <div>
-                            <h4 style="color: #ffffff; font-family: 'Outfit', sans-serif; font-size: 19px; font-weight: 700; margin: 0; line-height: 1.2;">AKM College Portal</h4>
+                            <h4 style="color: #ffffff; font-family: 'Outfit', sans-serif; font-size: 19px; font-weight: 700; margin: 0; line-height: 1.2;">Excellence School System</h4>
                             <span style="font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--primary-light, #14b8a6); font-weight: 600;">Excellence & Innovation</span>
                         </div>
                     </div>
@@ -514,11 +515,11 @@
                     <div style="display: flex; flex-direction: column; gap: 12px; font-size: 13px; color: #94a3b8;">
                         <div style="display: flex; align-items: flex-start; gap: 10px;">
                             <i class="bi bi-geo-alt-fill" style="color: var(--primary-color); font-size: 16px; margin-top: 2px;"></i>
-                            <span>AKM College Main Campus, Educational District, Pakistan</span>
+                            <span>Excellence School System Main Campus, Educational District, Pakistan</span>
                         </div>
                         <div style="display: flex; align-items: center; gap: 10px;">
                             <i class="bi bi-envelope-fill" style="color: var(--primary-color); font-size: 15px;"></i>
-                            <a href="mailto:support@akm.edu.pk" style="color: #cbd5e1; text-decoration: none;">support@akm.edu.pk</a>
+                            <a href="mailto:support@excellence.edu.pk" style="color: #cbd5e1; text-decoration: none;">support@excellence.edu.pk</a>
                         </div>
                         <div style="display: flex; align-items: center; gap: 10px;">
                             <i class="bi bi-telephone-fill" style="color: var(--primary-color); font-size: 15px;"></i>
@@ -531,7 +532,7 @@
             <!-- Bottom Sub-Footer -->
             <div style="border-top: 1px solid rgba(255,255,255,0.08); padding-top: 20px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px; font-size: 12.5px; color: #64748b;">
                 <div>
-                    © {{ date('Y') }} <strong>AKM Student Management System</strong>. All rights reserved. Designed for optimal academic workflow.
+                    © {{ date('Y') }} <strong>Excellence School System</strong>. All rights reserved. Designed for optimal academic workflow.
                 </div>
                 <div style="display: flex; gap: 18px;">
                     <a href="#" style="color: #64748b; text-decoration: none; transition: color 0.2s;">Privacy Policy</a>

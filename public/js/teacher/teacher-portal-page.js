@@ -1,5 +1,5 @@
 /**
- * AKM Teacher Portal Page Functions
+ * Excellence Teacher Portal Page Functions
  * Handles Leave Approval/Rejection Modals, Student Result Filtering, Live Clock,
  * and Test Session Marks Entry & Schedule View Modals.
  */

@@ -13,7 +13,7 @@
                 </div>
             </div>
             <div class="field-group">
-                <label for="class-name">Class</label>
+                <label for="class-name">Class <span class="required-star text-danger">*</span></label>
                 <div class="input-wrapper">
                     <input id="class-name" type="text" name="class_name" list="class-options" placeholder="Select or enter a class" value="{{ old('class_name') }}" maxlength="50" class="@error('class_name') input-error @enderror" required>
                     <datalist id="class-options">
@@ -25,14 +25,14 @@
                 </div>
             </div>
             <div class="field-group">
-                <label for="chairs">Chairs</label>
+                <label for="chairs">Chairs <span class="required-star text-danger">*</span></label>
                 <div class="input-wrapper">
                     <input id="chairs" type="number" name="chairs" min="1" max="10000" placeholder="Enter number of chairs" value="{{ old('chairs') }}" class="@error('chairs') input-error @enderror" required>
                     <span class="field-error @error('chairs') has-error @enderror">@error('chairs'){{ $message }}@enderror</span>
                 </div>
             </div>
             <div class="field-group">
-                <label for="section-name">Section Name</label>
+                <label for="section-name">Section Name <span class="required-star text-danger">*</span></label>
                 <div class="input-wrapper">
                     <select id="section-name" name="section_name" class="class-section-select @error('section_name') input-error @enderror" required>
                         <option value="" disabled {{ old('section_name') ? '' : 'selected' }}>Select section</option>
@@ -46,7 +46,10 @@
                     @endif
                 </div>
             </div>
-            <button type="submit" class="add-btn add-student-btn">Add</button>
+            <div class="field-group field-full" style="display: flex; gap: 12px; align-items: center; margin-top: 15px;">
+                <button type="submit" class="add-btn add-student-btn" style="margin-top: 0; flex: 1; min-height: 46px; display: inline-flex; align-items: center; justify-content: center;">Add Class</button>
+                <a href="{{ route('classes.index') }}" class="student-filter-clear flex-1-h46">Cancel</a>
+            </div>
         </form>
     </div>
 </div>

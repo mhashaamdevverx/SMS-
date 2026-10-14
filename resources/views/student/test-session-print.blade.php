@@ -53,9 +53,9 @@
 <div class="slip-container">
     <div class="header">
         <div class="brand">
-            <img src="{{ asset('upload/Logo.png') }}" alt="AKM Logo">
+            <img src="{{ asset('upload/Logo.png') }}" alt="Excellence School System Logo">
             <div class="brand-text">
-                <h2>AKM SCHOOL SYSTEM</h2>
+                <h2>EXCELLENCE SCHOOL SYSTEM</h2>
                 <p>Official Monthly Test Session Result Card & Assessment Slip</p>
             </div>
         </div>

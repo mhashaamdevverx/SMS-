@@ -185,14 +185,13 @@ class AdminPortalController extends Controller
                 }
 
                 $data['teachers'] = $teachers;
-                $data['salaries'] = $salariesQuery->get();
+                // Summary calculations for salaries on entire filtered set
+                $data['totalDeclaredSalaries'] = (float) (clone $salariesQuery)->sum('net_salary');
+                $data['totalPaidSalaries'] = (float) (clone $salariesQuery)->where('status', 'Paid')->sum('net_salary');
+                $data['totalPendingSalaries'] = (float) (clone $salariesQuery)->where('status', 'Pending')->sum('net_salary');
+                $data['salaries'] = $salariesQuery->paginate(10, ['*'], 'salary_page')->withQueryString();
                 $data['selectedMonth'] = $selectedMonth;
                 $data['searchTeacher'] = $searchTeacher;
-
-                // Summary calculations for salaries
-                $data['totalDeclaredSalaries'] = (float) $data['salaries']->sum('net_salary');
-                $data['totalPaidSalaries'] = (float) $data['salaries']->where('status', 'Paid')->sum('net_salary');
-                $data['totalPendingSalaries'] = (float) $data['salaries']->where('status', 'Pending')->sum('net_salary');
                 break;
 
             case 'students':
@@ -218,7 +217,7 @@ class AdminPortalController extends Controller
                     });
                 }
 
-                $data['students'] = $studentsQuery->get();
+                $data['students'] = $studentsQuery->paginate(10, ['*'], 'student_page')->withQueryString();
                 $data['classes'] = Classes::orderBy('class_name')->get();
                 $data['sections'] = Section::orderBy('section_name')->get();
                 $data['selectedClass'] = $selectedClass;
@@ -266,7 +265,7 @@ class AdminPortalController extends Controller
                     });
                 }
 
-                $data['teachers'] = $teachersQuery->get();
+                $data['teachers'] = $teachersQuery->paginate(10, ['*'], 'teacher_page')->withQueryString();
                 $data['allClasses'] = Classes::orderBy('class_name')->get();
                 $data['allSections'] = Section::orderBy('section_name')->get();
                 $data['allSubjects'] = Subject::orderBy('subject_name')->get();
@@ -306,7 +305,7 @@ class AdminPortalController extends Controller
                     });
                 }
 
-                $data['feeCollections'] = $feeCollectionsQuery->get();
+                $data['feeCollections'] = $feeCollectionsQuery->paginate(10, ['*'], 'fee_page')->withQueryString();
                 $data['classes'] = Classes::orderBy('class_name')->get();
                 $data['sections'] = Section::orderBy('section_name')->get();
                 $data['studentsList'] = Student::orderBy('name')->get();
@@ -351,7 +350,7 @@ class AdminPortalController extends Controller
                 // Roles, Incharges, Access requests, and User Role Assignment
                 $data['roles'] = Role::with(['permissions', 'users'])->withCount('users')->orderByDesc('is_system')->orderBy('name')->get();
                 $data['classIncharges'] = ClassIncharge::with(['user', 'teacher', 'classRecord'])->paginate(10, ['*'], 'incharges_page')->withQueryString();
-                $data['accessRequests'] = TeacherAccessRequest::with(['user', 'teacher'])->latest()->get();
+                $data['accessRequests'] = TeacherAccessRequest::with(['user', 'teacher'])->latest()->paginate(10, ['*'], 'request_page')->withQueryString();
                 $data['teachers'] = Teacher::orderBy('teacher_name')->get();
                 $data['classes'] = Classes::orderBy('class_no')->orderBy('class_name')->get();
                 $data['allUsers'] = User::with(['role', 'classIncharge.classRecord'])->orderBy('name')->paginate(10, ['*'], 'users_page')->withQueryString();

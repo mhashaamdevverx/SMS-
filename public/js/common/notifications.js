@@ -1,5 +1,5 @@
 /**
- * AKM Universal Real-Time Notification & User Menu Engine
+ * Excellence Universal Real-Time Notification & User Menu Engine
  * Extracted modular script to eliminate internal inline scripts in layouts.
  */
 

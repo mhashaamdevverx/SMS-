@@ -36,7 +36,7 @@
 <div class="slip-card">
     <div class="header">
         <div>
-            <h1>AKM School System &bull; Salary Slip</h1>
+            <h1>Excellence School System &bull; Salary Slip</h1>
             <p>Official Monthly Salary Disbursement Voucher</p>
         </div>
         <span class="badge">STATUS: {{ strtoupper($salary->status) }}</span>
@@ -98,7 +98,7 @@
     </div>
 
     <div class="footer">
-        Computer Generated Salary Slip &bull; AKM School Management System &bull; Issued on {{ date('d M Y') }}
+        Computer Generated Salary Slip &bull; Excellence School System &bull; Issued on {{ date('d M Y') }}
     </div>
 </div>
 

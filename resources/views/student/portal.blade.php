@@ -15,7 +15,7 @@
 @if($page === 'dashboard')
 <section class="student-hero">
     <div>
-        <span class="hero-pill">AKM Student Portal <i></i> Session Active</span>
+        <span class="hero-pill">Excellence Student Portal <i></i> Session Active</span>
         <h1>Welcome back, {{ $student->name }}!</h1>
         <p>{{ $student->class }} / {{ $student->section }} <i></i> Roll No: #{{ $student->std_id }} <i></i> Reg No: <strong>{{ $stdRegNo }}</strong> <i></i> Keep learning and growing.</p>
     </div>
@@ -699,7 +699,7 @@ function selectAndShowAttMonth(mKey) {
             <div style="background:#faf5ff;border:1px solid #f3e8ff;border-radius:14px;padding:16px;position:relative;">
                 <span style="position:absolute;right:14px;top:14px;width:34px;height:34px;border-radius:10px;background:#f3e8ff;color:#9333ea;display:grid;place-items:center;font-size:16px;"><i class="bi bi-building-check"></i></span>
                 <small style="display:block;font-size:10.5px;font-weight:800;color:#7e22ce;letter-spacing:0.05em;text-transform:uppercase;">EXAM CENTER</small>
-                <strong style="display:block;font-size:16px;font-weight:800;color:#581c87;margin-top:10px;">AKM Main Hall</strong>
+                <strong style="display:block;font-size:16px;font-weight:800;color:#581c87;margin-top:10px;">Excellence Main Hall</strong>
                 <span style="font-size:11px;color:#9333ea;font-weight:600;">School Center</span>
             </div>
         </div>
@@ -1654,7 +1654,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 @elseif($page === 'profile')
 <div class="page-heading">
-    <p>AKM STUDENT PORTAL &bull; PROFILE</p>
+    <p>EXCELLENCE STUDENT PORTAL &bull; PROFILE</p>
     <h1>Student Profile & Account Settings</h1>
 </div>
 
@@ -1765,7 +1765,7 @@ document.addEventListener('DOMContentLoaded', () => {
 @elseif($page === 'outlines')
 <div class="page-heading" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;">
     <div>
-        <p>AKM STUDENT PORTAL &bull; COURSE SYLLABI & ROADMAPS</p>
+        <p>EXCELLENCE STUDENT PORTAL &bull; COURSE SYLLABI & ROADMAPS</p>
         <h1>Class Course Outlines & Syllabi</h1>
     </div>
     <div>

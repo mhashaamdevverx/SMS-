@@ -33,8 +33,8 @@
             <div class="field-group">
                 <label for="student-email">Student Login Email <span class="required-star">*</span></label>
                 <div class="input-wrapper">
-                    <input id="student-email" type="email" name="email" value="{{ old('email') }}" placeholder="student@gmail.com" pattern="^[a-zA-Z0-9._%+-]+@gmail\.com$" class="@error('email') input-error @enderror" required>
-                    <small class="class-help-text">Must end with @gmail.com. This exact email will be used for student sign-in.</small>
+                    <input id="student-email" type="email" name="email" value="{{ old('email') }}" placeholder="hashaam.ahmad@gmail.com" pattern="^[a-zA-Z0-9._%+-]+@gmail\.com$" title="Must be a valid @gmail.com address" class="@error('email') input-error @enderror" required>
+                    <small class="class-help-text">Must end with @gmail.com (e.g. hashaam.ahmad@gmail.com). Auto-suggested from student's name.</small>
                     <span class="field-error @error('email') has-error @enderror">@error('email'){{ $message }}@enderror</span>
                 </div>
             </div>

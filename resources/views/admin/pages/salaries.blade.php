@@ -156,8 +156,18 @@
                         </div>
                     @endforeach
                 </tbody>
-            </table>
         </div>
+
+        @if($salaries instanceof \Illuminate\Pagination\LengthAwarePaginator && $salaries->hasPages())
+            <div class="admin-pagination-bar">
+                <div class="admin-pagination-info">
+                    Showing <strong>{{ $salaries->firstItem() }}</strong> to <strong>{{ $salaries->lastItem() }}</strong> of <strong>{{ $salaries->total() }}</strong> records
+                </div>
+                <div class="admin-pagination-links">
+                    {{ $salaries->links('pagination::bootstrap-4') }}
+                </div>
+            </div>
+        @endif
     @endif
 </div>
 

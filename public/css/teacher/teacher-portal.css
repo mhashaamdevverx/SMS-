@@ -1,5 +1,5 @@
 /* ==========================================================================
-   AKM SCHOOL SYSTEM - STUDENT PORTAL STYLESHEET
+   EXCELLENCE SCHOOL SYSTEM - STUDENT PORTAL STYLESHEET
    Design Language: Linear meets Duolingo (Soft, Modern, Playful & Professional)
    Supports Light & Dark Modes via CSS Custom Properties
    ========================================================================== */
@@ -1666,3 +1666,4 @@ a:hover {
 @media (min-width: 768px) and (max-width: 1024px) {
     .teacher-dashboard-grid { grid-template-columns: 1fr !important; }
 }
+

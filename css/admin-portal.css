@@ -1,5 +1,5 @@
 /* ==========================================================================
-   AKM SCHOOL SYSTEM - ADMIN & HEAD MANAGEMENT PORTAL STYLESHEET
+   EXCELLENCE SCHOOL SYSTEM - ADMIN & HEAD MANAGEMENT PORTAL STYLESHEET
    Design Language: Deep Emerald & Dark Teal (Identical to Student Portal UI)
    Supports Light & Dark Modes via CSS Custom Properties
    ========================================================================== */
@@ -1041,3 +1041,4 @@ body.admin-shell {
         padding: 16px;
     }
 }
+

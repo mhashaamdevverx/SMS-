@@ -1,5 +1,5 @@
 /**
- * AKM School System - Dynamic Theme & Color Customizer
+ * Excellence School System - Dynamic Theme & Color Customizer
  * Palette: Deep Indigo (#1E1B4B) + Teal (#14B8A6) + Warm Amber (#F59E0B)
  */
 

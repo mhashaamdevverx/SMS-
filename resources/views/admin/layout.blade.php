@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Admin & Head Management Portal | AKM School System</title>
+    <title>Admin & Head Management Portal | Excellence School System</title>
     
     <link rel="icon" type="image/png" href="{{ asset('upload/Logo.png') }}">
     
@@ -31,9 +31,9 @@
     <aside class="student-side admin-side">
         <!-- Top Brand Badge -->
         <a class="student-brand admin-brand" href="{{ route('admin.dashboard') }}">
-            <div class="brand-badge">AKM</div>
+            <div class="brand-badge">ESS</div>
             <div class="brand-text">
-                <b>AKM School</b>
+                <b>Excellence School System</b>
                 <small class="brand-subtitle">Admin Portal</small>
             </div>
         </a>
@@ -179,7 +179,7 @@
                         </div>
 
                         <div style="padding: 10px 16px; background: var(--bg); border-top: 1px solid var(--border); text-align: center;">
-                            <span style="font-size: 11.5px; color: var(--muted); font-weight: 600;">AKM Admin Real-Time System</span>
+                            <span style="font-size: 11.5px; color: var(--muted); font-weight: 600;">Excellence Admin Real-Time System</span>
                         </div>
                     </div>
                 </div>
@@ -245,8 +245,8 @@
             <div class="footer-grid-container">
                 <div>
                     <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
-                        <div class="brand-badge" style="width:34px; height:34px; font-size:13px; border-radius:10px;">AKM</div>
-                        <span class="footer-brand-title">AKM Head Administration</span>
+                        <div class="brand-badge" style="width:34px; height:34px; font-size:13px; border-radius:10px;">ESS</div>
+                        <span class="footer-brand-title">Excellence Head Administration</span>
                     </div>
                     <p style="font-size: 13px; color: var(--muted); margin: 0 0 16px; line-height: 1.5; max-width: 320px;">
                         Central Control & Governance Authority Portal for Leaves, Salaries, Student Fees & School System Management.
@@ -288,7 +288,7 @@
             </div>
 
             <div class="footer-bottom-bar">
-                <span>&copy; {{ date('Y') }} AKM Educational Institutions. All rights reserved.</span>
+                <span>&copy; {{ date('Y') }} Excellence School System. All rights reserved.</span>
                 <span class="ssl-badge">
                     <i class="bi bi-lock-fill"></i> 256-Bit SSL Encrypted Admin Session
                 </span>

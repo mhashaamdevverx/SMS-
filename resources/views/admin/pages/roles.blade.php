@@ -57,6 +57,11 @@
                     </tbody>
                 </table>
             </div>
+            @if($accessRequests instanceof \Illuminate\Pagination\LengthAwarePaginator && $accessRequests->hasPages())
+                <div class="mt-2 text-center">
+                    {{ $accessRequests->links('pagination::bootstrap-4') }}
+                </div>
+            @endif
         </div>
     @endif
 

@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Teacher Portal | AKM School System</title>
+    <title>Teacher Portal | Excellence School System</title>
     
     <!-- Google Fonts: Plus Jakarta Sans for Headings, Inter for Body -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -29,9 +29,9 @@
     <aside class="student-side teacher-side">
         <!-- Top Brand Badge -->
         <a class="student-brand" href="{{ route('teacher.dashboard') }}">
-            <div class="brand-badge" style="background: linear-gradient(135deg, #4F46E5, #14B8A6);">AKM</div>
+            <div class="brand-badge" style="background: linear-gradient(135deg, #4F46E5, #14B8A6);">ESS</div>
             <div class="brand-text">
-                <b>AKM School</b>
+                <b>Excellence School System</b>
                 <small class="brand-subtitle" style="color: #14B8A6;">Teacher Portal</small>
             </div>
         </a>
@@ -171,7 +171,7 @@
                         </div>
 
                         <div style="padding: 10px 16px; background: var(--bg); border-top: 1px solid var(--border); text-align: center;">
-                            <span style="font-size: 11.5px; color: var(--muted); font-weight: 600;">AKM Notification System</span>
+                            <span style="font-size: 11.5px; color: var(--muted); font-weight: 600;">Excellence Notification System</span>
                         </div>
                     </div>
                 </div>
@@ -227,8 +227,8 @@
                 <!-- Col 1: Brand & Status -->
                 <div>
                     <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
-                        <div class="brand-badge" style="width:34px; height:34px; font-size:13px; border-radius:10px; background: linear-gradient(135deg, #0D9488, #059669);">AKM</div>
-                        <span class="footer-brand-title">AKM Faculty Portal</span>
+                        <div class="brand-badge" style="width:34px; height:34px; font-size:13px; border-radius:10px; background: linear-gradient(135deg, #0D9488, #059669);">ESS</div>
+                        <span class="footer-brand-title">Excellence Faculty Portal</span>
                     </div>
                     <p style="font-size: 13px; color: var(--muted); margin: 0 0 16px; line-height: 1.5; max-width: 320px;">
                         Integrated Cloud Platform for Class Incharges & Teachers: Attendance, Leave Processing, Marks Entry & Outline Management.
@@ -274,7 +274,7 @@
 
             <!-- Bottom Copyright & SSL Bar -->
             <div class="footer-bottom-bar">
-                <span>&copy; {{ date('Y') }} AKM Educational Institutions. All rights reserved.</span>
+                <span>&copy; {{ date('Y') }} Excellence School System. All rights reserved.</span>
                 <span class="ssl-badge">
                     <i class="bi bi-lock-fill"></i> 256-Bit SSL Encrypted Connection
                 </span>

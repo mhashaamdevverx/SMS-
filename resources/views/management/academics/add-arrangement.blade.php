@@ -54,7 +54,10 @@
                 <strong id="arrangement-preview-title">No class-section selected</strong>
                 <span id="arrangement-preview-detail">Choose class-section cards to calculate rooms and chairs.</span>
             </div>
-            <button type="submit" class="add-btn add-student-btn" @disabled($classOptions->isEmpty())>Generate Arrangement</button>
+            <div class="field-group field-full" style="display: flex; gap: 12px; align-items: center; margin-top: 15px;">
+                <button type="submit" class="add-btn add-student-btn" style="margin-top: 0; flex: 1; min-height: 46px; display: inline-flex; align-items: center; justify-content: center;" @disabled($classOptions->isEmpty())>Generate Arrangement</button>
+                <a href="{{ route('arrangements.index') }}" class="student-filter-clear flex-1-h46">Cancel</a>
+            </div>
             @if($classOptions->isEmpty())
                 <span class="field-error has-error">No configured class-sections found. Add classes with sections and chairs first.</span>
             @endif

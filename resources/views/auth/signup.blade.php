@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign Up - AKM School System</title>
+    <title>Sign Up - Excellence School System</title>
 
     <link rel="icon" type="image/png" href="{{ asset('upload/Logo.png') }}">
     <link rel="apple-touch-icon" href="{{ asset('upload/Logo.png') }}">
@@ -29,9 +29,9 @@
 
                 <div class="signup-header-area">
                     <div class="akm-logo-container">
-                        <img src="{{ asset('upload/Logo.png') }}" alt="AKM Logo" class="akm-logo-img">
+                        <img src="{{ asset('upload/Logo.png') }}" alt="Excellence School System Logo" class="akm-logo-img">
                     </div>
-                    <h1>AKM School System</h1>
+                    <h1>Excellence School System</h1>
                     <p>Request teacher portal access. The administrator must approve your account and send your temporary sign-in details.</p>
                 </div>
 
@@ -47,31 +47,31 @@
 
                     <!-- Full Name -->
                     <div class="form-field-item">
-                        <label for="signup-name">Full Name</label>
+                        <label for="signup-name">Full Name <span class="text-danger">*</span></label>
                         <div class="input-icon-box">
                             <span class="input-icon-left">
                                 <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
                             </span>
-                            <input id="signup-name" type="text" name="name" placeholder="Enter your full name" value="{{ old('name') }}" class="input-styled @error('name') input-error @enderror">
+                            <input id="signup-name" type="text" name="name" placeholder="Enter your full name" value="{{ old('name') }}" class="input-styled @error('name') input-error @enderror" required>
                         </div>
                         @error('name')<span class="field-error-text">{{ $message }}</span>@enderror
                     </div>
 
                     <!-- Email Address -->
                     <div class="form-field-item">
-                        <label for="signup-email">Email Address</label>
+                        <label for="signup-email">Email Address <span class="text-danger">*</span></label>
                         <div class="input-icon-box">
                             <span class="input-icon-left">
                                 <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
                             </span>
-                            <input id="signup-email" type="email" name="email" placeholder="teacher@gmail.com" pattern="^[a-zA-Z0-9._%+-]+@gmail\.com$" value="{{ old('email') }}" class="input-styled @error('email') input-error @enderror">
+                            <input id="signup-email" type="email" name="email" placeholder="ali.khan@gmail.com" pattern="^[a-zA-Z0-9._%+-]+@gmail\.com$" title="Please enter a valid Gmail address (e.g. ali.khan@gmail.com)" value="{{ old('email') }}" class="input-styled @error('email') input-error @enderror" required>
                         </div>
                         @error('email')<span class="field-error-text">{{ $message }}</span>@enderror
                     </div>
 
                     <!-- Phone Number -->
                     <div class="form-field-item">
-                        <label for="signup-phone">Phone Number</label>
+                        <label for="signup-phone">Phone Number <span class="text-danger">*</span></label>
                         <div class="input-icon-box">
                             <span class="input-icon-left">
                                 <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>

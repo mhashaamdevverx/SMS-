@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - AKM School System</title>
+    <title>Login - Excellence School System</title>
 
     <link rel="icon" type="image/png" href="{{ asset('upload/Logo.png') }}">
     <link rel="apple-touch-icon" href="{{ asset('upload/Logo.png') }}">
@@ -24,7 +24,7 @@
     <!-- TOP NAVBAR -->
     <header class="top-navbar">
         <div class="top-nav-actions">
-            <a href="#" class="btn-header-support" onclick="alert('Support help desk is available 24/7 at support@akmschool.edu')" title="Support">
+            <a href="#" class="btn-header-support" onclick="alert('Support help desk is available 24/7 at support@excellence.edu.pk')" title="Support">
                 <span class="support-icon-circle">?</span>
             </a>
         </div>
@@ -40,12 +40,12 @@
                 <!-- BRAND LOGO BADGE (CENTERED) -->
                 <div class="badge-logo-outer">
                     <div class="badge-logo-inner">
-                        <img src="{{ asset('upload/Logo.png') }}" alt="AKM Logo">
+                        <img src="{{ asset('upload/Logo.png') }}" alt="Excellence School System Logo">
                     </div>
                 </div>
 
                 <!-- TITLE & SUBTITLE (CENTERED) -->
-                <h1 class="form-heading">AKM School System</h1>
+                <h1 class="form-heading">Excellence School System</h1>
                 <p class="form-subheading">Enter your email and password to access the portal</p>
 
                 <!-- SUCCESS ALERT -->
@@ -85,7 +85,9 @@
                                 type="email" 
                                 name="email" 
                                 class="input-pill" 
-                                placeholder="Enter Your Email" 
+                                placeholder="name@gmail.com" 
+                                pattern="^[a-zA-Z0-9._%+-]+@gmail\.com$"
+                                title="Please enter a valid Gmail address ending in @gmail.com (e.g. name@gmail.com)"
                                 value="{{ old('email') }}" 
                                 required
                                 autocomplete="email"

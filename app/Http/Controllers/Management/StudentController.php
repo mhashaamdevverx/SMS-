@@ -673,7 +673,14 @@ class StudentController extends Controller
         $validation = Validator::make($request->all(), [
             'name' => 'required|min:2|max:60',
             'std_id' => 'required|integer|min:1',
-            'email' => ['nullable', 'email', 'regex:/^[a-zA-Z0-9._%+-]+@gmail\.com$/i', 'max:60'],
+            'email' => [
+                'required',
+                'email',
+                'regex:/^[a-zA-Z0-9._%+-]+@gmail\.com$/i',
+                'max:60',
+                Rule::unique('Students', 'email')->ignore($student->id),
+                Rule::unique('users', 'email')->ignore($student->login_user_id),
+            ],
             'phone_no' => 'required|string|max:20',
             'emergency_phone' => 'nullable|string|max:20',
             'class' => 'required|string|max:50',
@@ -744,6 +751,7 @@ class StudentController extends Controller
             $account->update([
                 'name' => $student->name,
                 'username' => $student->name,
+                'email' => $student->email,
                 'phone' => $student->phone_no,
                 'image' => $student->image ?: $account->image,
             ]);

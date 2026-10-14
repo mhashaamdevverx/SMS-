@@ -1,5 +1,5 @@
 /**
- * AKM Student Portal Page Functions
+ * Excellence Student Portal Page Functions
  * Handles Attendance Tabs, Leave Application Modals, Test Session Month Filtering,
  * and Fee Voucher Filtering & Modals.
  */

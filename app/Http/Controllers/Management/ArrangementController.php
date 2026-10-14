@@ -61,7 +61,8 @@ class ArrangementController extends Controller
             ->orderByRaw("CASE WHEN room REGEXP '^[0-9]+$' THEN CAST(room AS UNSIGNED) ELSE 999999 END")
             ->orderBy('room')
             ->orderBy('chairs')
-            ->get();
+            ->paginate(10)
+            ->withQueryString();
         $classOptions = $this->classOptions();
 
         return view('arrangements', compact('arrangements', 'classOptions', 'currentUser'));

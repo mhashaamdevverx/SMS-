@@ -17,7 +17,7 @@
 
         <div class="field-group">
 
-            <label>Course Code</label>
+            <label>Course Code <span class="required-star text-danger">*</span></label>
 
             <div class="input-wrapper">
 
@@ -27,6 +27,7 @@
                     placeholder="e.g. LAR-101"
                     value="{{ old('course_code') }}"
                     class="@error('course_code') input-error @enderror"
+                    required
                 >
 
                 <span class="field-error @error('course_code') has-error @enderror">@error('course_code'){{ $message }}@enderror</span>
@@ -40,7 +41,7 @@
 
         <div class="field-group">
 
-            <label>Course Name</label>
+            <label>Course Name <span class="required-star text-danger">*</span></label>
 
             <div class="input-wrapper">
 
@@ -50,6 +51,7 @@
                     placeholder="Enter course name"
                     value="{{ old('course_name') }}"
                     class="@error('course_name') input-error @enderror"
+                    required
                 >
 
                 <span class="field-error @error('course_name') has-error @enderror">@error('course_name'){{ $message }}@enderror</span>
@@ -81,11 +83,14 @@
         </div>
 
 
-        {{-- ADD BUTTON --}}
+        {{-- FORM ACTIONS --}}
 
-        <button type="submit" class="add-btn">
-            Add Course
-        </button>
+        <div class="field-group field-full" style="display: flex; gap: 12px; align-items: center; margin-top: 15px;">
+            <button type="submit" class="add-btn" style="margin-top: 0; flex: 1; min-height: 46px; display: inline-flex; align-items: center; justify-content: center;">
+                Add Course
+            </button>
+            <a href="{{ url('/courses') }}" class="student-filter-clear flex-1-h46">Cancel</a>
+        </div>
 
     </form>
 

@@ -8,7 +8,7 @@
             <div class="flex-center-gap12-wrap">
                 <h1 class="m-0">Section Data</h1>
                 <span class="total-count-pill">
-                    <i class="bi bi-grid-3x3-gap-fill fs-14" aria-hidden="true"></i> Total: {{ $sections->count() }}
+                    <i class="bi bi-grid-3x3-gap-fill fs-14" aria-hidden="true"></i> Total: {{ $sections->total() }}
                 </span>
             </div>
             @if($currentUser->hasPermission('sections.create'))<a href="/add-section" class="student-add-btn">+ Add Section</a>@endif
@@ -51,6 +51,21 @@
                 </table>
             </div>
         </div>
+
+        {{-- PAGINATION --}}
+        @if($sections->total() > 0)
+            <div class="flex-between-center-mt18-wrap" style="display: flex; align-items: center; justify-content: space-between; margin-top: 18px; flex-wrap: wrap; gap: 12px;">
+                <p class="student-pagination-info m-0" style="color: #64748b; font-size: 13px; font-weight: 600;">
+                    Showing {{ $sections->firstItem() }} to {{ $sections->lastItem() }} of {{ $sections->total() }} sections
+                </p>
+
+                @if($sections->hasPages())
+                    <div class="student-pagination">
+                        {{ $sections->links('pagination::bootstrap-4') }}
+                    </div>
+                @endif
+            </div>
+        @endif
     </div>
 
     @if($currentUser->hasPermission('sections.update'))

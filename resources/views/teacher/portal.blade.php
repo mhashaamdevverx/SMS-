@@ -29,7 +29,7 @@
 @if($page === 'dashboard')
 <section class="student-hero">
     <div>
-        <span class="hero-pill">AKM Teacher Portal <i></i> Session Active</span>
+        <span class="hero-pill">Excellence Teacher Portal <i></i> Session Active</span>
         <h1>Welcome back, {{ $teacher->teacher_name }}!</h1>
         <p>Active Class: <strong>{{ $primaryClass }} ({{ $primarySection }})</strong> <i></i> Subjects: <strong>{{ $mySubjects->implode(', ') }}</strong> <i></i> Reg Email: <strong>{{ $user->email }}</strong> <i></i> Keep guiding and inspiring.</p>
     </div>
@@ -179,7 +179,7 @@
 
 @if($page === 'profile')
 <div class="page-heading">
-    <p>AKM TEACHER PORTAL &bull; PROFILE</p>
+    <p>EXCELLENCE TEACHER PORTAL &bull; PROFILE</p>
     <h1>Teacher Profile & Account Settings</h1>
 </div>
 
@@ -260,7 +260,7 @@
 
 @if($page === 'coteachers')
 <div class="page-heading">
-    <p>AKM TEACHER PORTAL &bull; CLASS & SUBJECTS</p>
+    <p>EXCELLENCE TEACHER PORTAL &bull; CLASS & SUBJECTS</p>
     <h1>{{ $primaryClass }} {{ $primarySection }} &bull; Class Co-Teachers</h1>
 </div>
 
@@ -309,7 +309,7 @@
 
 @if($page === 'students')
 <div class="page-heading">
-    <p>AKM TEACHER PORTAL &bull; STUDENTS ROSTER</p>
+    <p>EXCELLENCE TEACHER PORTAL &bull; STUDENTS ROSTER</p>
     <h1>{{ $primaryClass }} {{ $primarySection }} &bull; Enrolled Students</h1>
 </div>
 
@@ -361,7 +361,7 @@
 @if($page === 'stdleaves')
 <div class="page-heading" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:14px;">
     <div>
-        <p>AKM TEACHER PORTAL &bull; STUDENT LEAVE APPLICATIONS</p>
+        <p>EXCELLENCE TEACHER PORTAL &bull; STUDENT LEAVE APPLICATIONS</p>
         <h1>{{ $primaryClass }} ({{ $primarySection }}) &bull; Student Leave Requests</h1>
     </div>
 </div>
@@ -817,7 +817,7 @@ document.addEventListener('DOMContentLoaded', () => {
 @if($page === 'results')
 <div class="page-heading" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
     <div>
-        <p>AKM TEACHER PORTAL &bull; ACADEMIC RESULTS</p>
+        <p>EXCELLENCE TEACHER PORTAL &bull; ACADEMIC RESULTS</p>
         <h1>{{ $primaryClass }} {{ $primarySection }} &bull; Student Academic Results</h1>
     </div>
     <div>
@@ -1481,7 +1481,7 @@ function onAddStudentSelect(stdId) {
 @if($page === 'outlines')
 <div class="page-heading" style="display:flex;justify-content:space-between;align-items:center;">
     <div>
-        <p>AKM TEACHER PORTAL &bull; SYLLABUS</p>
+        <p>EXCELLENCE TEACHER PORTAL &bull; SYLLABUS</p>
         <h1>Course Outlines & Syllabi</h1>
     </div>
     <button type="button" onclick="document.getElementById('uploadOutlineModal').style.display='grid'" style="background:#4F46E5;color:#fff;border:none;padding:12px 20px;border-radius:12px;font-weight:700;font-size:13.5px;cursor:pointer;display:inline-flex;align-items:center;gap:8px;box-shadow:0 4px 12px rgba(79,70,229,0.2);">
@@ -1574,7 +1574,7 @@ function onAddStudentSelect(stdId) {
 @if($page === 'salary')
 <div class="page-heading" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
     <div>
-        <p>AKM TEACHER PORTAL &bull; SALARY & DUES</p>
+        <p>EXCELLENCE TEACHER PORTAL &bull; SALARY & DUES</p>
         <h1>My Salary & Dues Record</h1>
     </div>
 
@@ -1679,7 +1679,7 @@ function onAddStudentSelect(stdId) {
 @if($page === 'attendance')
 <div class="page-heading" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;">
     <div>
-        <p>AKM TEACHER PORTAL &bull; EXCEL ATTENDANCE MATRIX & TIMESTAMPS</p>
+        <p>EXCELLENCE TEACHER PORTAL &bull; EXCEL ATTENDANCE MATRIX & TIMESTAMPS</p>
         <h1>Teacher Daily Attendance & Yearly Excel Matrix</h1>
     </div>
     <div style="display:flex;align-items:center;gap:12px;">
@@ -2152,7 +2152,7 @@ updateLiveClock();
 @if($page === 'tests')
 <div class="page-heading" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
     <div>
-        <p>AKM TEACHER PORTAL &bull; MONTHLY TEST EVALUATION</p>
+        <p>EXCELLENCE TEACHER PORTAL &bull; MONTHLY TEST EVALUATION</p>
         <h1>{{ $primaryClass }} {{ $primarySection }} &bull; Monthly Test Sessions</h1>
     </div>
     
@@ -2591,7 +2591,7 @@ function onAddTestStudentChange() {
 @if($page === 'slips')
 <div class="page-heading" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
     <div>
-        <p>AKM TEACHER PORTAL &bull; SEATING & ROLL SLIPS</p>
+        <p>EXCELLENCE TEACHER PORTAL &bull; SEATING & ROLL SLIPS</p>
         <h1>{{ $primaryClass }} {{ $primarySection }} &bull; Roll Number Slips & Seating Plan</h1>
     </div>
     <div>
@@ -2653,7 +2653,7 @@ function onAddTestStudentChange() {
                 <td>{{ $std->class }} ({{ $std->section }})</td>
                 <td><span class="status" style="background:#e0f2fe;color:#0284c7;"><i class="bi bi-door-open-fill"></i> Room-{{ $std->std_id <= 5 ? 'A' : 'B' }}</span></td>
                 <td><strong>Seat #{{ $std->std_id }}</strong></td>
-                <td><span style="color:#475569;font-weight:600;">AKM Main Hall</span></td>
+                <td><span style="color:#475569;font-weight:600;">Excellence Main Hall</span></td>
                 <td style="text-align:center;">
                     <div style="display:flex;align-items:center;justify-content:center;gap:8px;">
                         @if($isClassIncharge)

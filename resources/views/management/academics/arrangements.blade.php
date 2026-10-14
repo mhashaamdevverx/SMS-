@@ -5,8 +5,13 @@
 <div class="container">
 
     {{-- HEADER --}}
-    <div class="student-header">
-        <h1>Arrangements</h1>
+    <div class="student-header flex-between-center-mb24" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 14px;">
+        <div class="flex-center-gap12-wrap" style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+            <h1 class="m-0">Arrangements</h1>
+            <span class="total-count-pill">
+                <i class="bi bi-grid-fill fs-14" aria-hidden="true"></i> Total: {{ $arrangements->total() }}
+            </span>
+        </div>
         @if($currentUser->hasPermission('arrangements.create'))<a href="{{ route('arrangements.create') }}" class="student-add-btn">+ Add New Arrangement</a>@endif
     </div>
 
@@ -18,50 +23,69 @@
     @endif
 
     {{-- ARRANGEMENTS TABLE --}}
-    <table class="student-table">
-        <thead>
-            <tr>
-                <th>Chair No</th>
-                <th>Class No / Room</th>
-                <th>Std. ID</th>
-                <th>Student Class / Section</th>
-                <th>Action</th>
-            </tr>
-        </thead>
+    <div class="unified-table-card">
+        <div class="table-responsive-wrapper">
+            <table class="student-table unified-table">
+                <thead>
+                    <tr>
+                        <th>Chair No</th>
+                        <th>Class No / Room</th>
+                        <th>Std. ID</th>
+                        <th>Student Class / Section</th>
+                        <th class="text-center">Action</th>
+                    </tr>
+                </thead>
 
-        <tbody>
-        @forelse($arrangements as $arrangement)
-            <tr>
-                <td>{{ $arrangement->chairs }}</td>
-                <td>{{ $arrangement->room }}</td>
-                <td>{{ $arrangement->roll_no }}</td>
-                <td>
-                    @if($arrangement->classRecord)
-                        {{ $arrangement->classRecord->class_name }} - {{ $arrangement->classRecord->section_name }}
-                    @else
-                        —
-                    @endif
-                </td>
-                <td class="table-actions">
-                    @if($currentUser->hasPermission('arrangements.update'))<button type="button" class="icon-action edit-action" data-crud-modal-open="arrangement-modal-{{ $arrangement->id }}" title="Edit arrangement" aria-label="Edit arrangement"><i class="bi bi-pencil-square" aria-hidden="true"></i></button>@endif
-                    @if($currentUser->hasPermission('arrangements.delete'))
-                    <form action="{{ route('arrangements.destroy', $arrangement) }}" method="POST" data-crud-action="delete">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="icon-action delete-action" title="Delete arrangement" aria-label="Delete arrangement">
-                            <i class="bi bi-trash3" aria-hidden="true"></i>
-                        </button>
-                    </form>
-                    @endif
-                </td>
-            </tr>
-        @empty
-            <tr>
-                <td colspan="5" class="student-filter-empty">No arrangements added yet.</td>
-            </tr>
-        @endforelse
-        </tbody>
-    </table>
+                <tbody>
+                @forelse($arrangements as $arrangement)
+                    <tr>
+                        <td><strong>{{ $arrangement->chairs }}</strong></td>
+                        <td>{{ $arrangement->room }}</td>
+                        <td>{{ $arrangement->roll_no }}</td>
+                        <td>
+                            @if($arrangement->classRecord)
+                                <span class="badge bg-light text-dark border">{{ $arrangement->classRecord->class_name }} - {{ $arrangement->classRecord->section_name }}</span>
+                            @else
+                                —
+                            @endif
+                        </td>
+                        <td class="table-actions text-center">
+                            @if($currentUser->hasPermission('arrangements.update'))<button type="button" class="icon-action edit-action" data-crud-modal-open="arrangement-modal-{{ $arrangement->id }}" title="Edit arrangement" aria-label="Edit arrangement"><i class="bi bi-pencil-square" aria-hidden="true"></i></button>@endif
+                            @if($currentUser->hasPermission('arrangements.delete'))
+                            <form action="{{ route('arrangements.destroy', $arrangement) }}" method="POST" data-crud-action="delete" class="d-inline">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="icon-action delete-action" title="Delete arrangement" aria-label="Delete arrangement">
+                                    <i class="bi bi-trash3" aria-hidden="true"></i>
+                                </button>
+                            </form>
+                            @endif
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="5" class="student-filter-empty text-center py-4 text-muted">No arrangements added yet.</td>
+                    </tr>
+                @endforelse
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    {{-- PAGINATION --}}
+    @if($arrangements->total() > 0)
+        <div class="flex-between-center-mt18-wrap" style="display: flex; align-items: center; justify-content: space-between; margin-top: 18px; flex-wrap: wrap; gap: 12px;">
+            <p class="student-pagination-info m-0" style="color: #64748b; font-size: 13px; font-weight: 600;">
+                Showing {{ $arrangements->firstItem() }} to {{ $arrangements->lastItem() }} of {{ $arrangements->total() }} arrangements
+            </p>
+
+            @if($arrangements->hasPages())
+                <div class="student-pagination">
+                    {{ $arrangements->links('pagination::bootstrap-4') }}
+                </div>
+            @endif
+        </div>
+    @endif
 
     {{-- EDIT MODALS --}}
     @if($currentUser->hasPermission('arrangements.update'))

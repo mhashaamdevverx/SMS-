@@ -196,7 +196,7 @@
 
                 <div class="school-header">
                     <img src="{{ asset('upload/Logo.png') }}" alt="Logo" class="school-logo">
-                    <div class="school-title">AKM SCHOOL SYSTEM</div>
+                    <div class="school-title">EXCELLENCE SCHOOL SYSTEM</div>
                     <div class="school-sub">Official Student Fee Voucher / Receipt</div>
                 </div>
 

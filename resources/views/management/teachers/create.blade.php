@@ -13,7 +13,7 @@
 
             {{-- TEACHER NAME --}}
             <div class="field-group">
-                <label>Teacher Name</label>
+                <label>Teacher Name <span class="required-star text-danger">*</span></label>
                 <div class="input-wrapper">
                     <input
                         type="text"
@@ -29,24 +29,27 @@
 
             {{-- TEACHER EMAIL --}}
             <div class="field-group">
-                <label>Teacher Email</label>
+                <label>Teacher Email <span class="required-star text-danger">*</span></label>
                 <div class="input-wrapper">
                     <input
                         type="email"
+                        id="teacher-email"
                         name="teacher_email"
-                        placeholder="teacher@gmail.com"
+                        placeholder="ali.khan@gmail.com"
                         pattern="^[a-zA-Z0-9._%+-]+@gmail\.com$"
+                        title="Must be a valid @gmail.com address (e.g. ali.khan@gmail.com)"
                         value="{{ old('teacher_email') }}"
                         class="@error('teacher_email') input-error @enderror"
                         required
                     >
+                    <small class="class-help-text" style="display:block;margin-top:3px;color:var(--muted);font-size:11.5px;">Must end with @gmail.com. Auto-suggested from teacher's name.</small>
                     <span class="field-error @error('teacher_email') has-error @enderror">@error('teacher_email'){{ $message }}@enderror</span>
                 </div>
             </div>
 
             {{-- TEACHER PHONE --}}
             <div class="field-group">
-                <label>Teacher Phone</label>
+                <label>Teacher Phone <span class="required-star text-danger">*</span></label>
                 <div class="input-wrapper">
                     <input
                         type="text"
@@ -126,10 +129,13 @@
                 </div>
             </div>
 
-            {{-- ADD BUTTON --}}
-            <button type="submit" class="add-btn">
-                Add Teacher
-            </button>
+            {{-- FORM ACTIONS --}}
+            <div class="field-group field-full" style="display: flex; gap: 12px; align-items: center; margin-top: 15px;">
+                <button type="submit" class="add-btn" style="margin-top: 0; flex: 1; min-height: 46px; display: inline-flex; align-items: center; justify-content: center;">
+                    Add Teacher
+                </button>
+                <a href="{{ url('/teachers') }}" class="student-filter-clear flex-1-h46">Cancel</a>
+            </div>
 
         </form>
 

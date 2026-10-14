@@ -647,13 +647,13 @@ class StudentPortalController extends Controller
         // Clean fallback html syllabus sheet download
         $html = "<!DOCTYPE html><html><head><meta charset='utf-8'><title>{$outline->title}</title>";
         $html .= "<style>body{font-family:sans-serif;padding:30px;color:#0f172a;line-height:1.6;}.header{border-bottom:3px solid #0d8f83;padding-bottom:15px;margin-bottom:20px;}.badge{background:#e0f2fe;color:#0284c7;padding:4px 10px;border-radius:6px;font-size:12px;font-weight:bold;}</style></head><body>";
-        $html .= "<div class='header'><h2>AKM School System - Official Course Outline</h2>";
+        $html .= "<div class='header'><h2>Excellence School System - Official Course Outline</h2>";
         $html .= "<h3>{$outline->title}</h3>";
         $html .= "<p><strong>Subject:</strong> {$outline->subject_name} | <span class='badge'>{$outline->term}</span></p>";
         $html .= "<p><strong>Class:</strong> {$outline->class_name} ({$outline->section_name})</p>";
         $html .= "<p><strong>Teacher Assigned:</strong> " . ($outline->teacher?->teacher_name ?: 'Faculty Member') . "</p></div>";
         $html .= "<h4>Course Syllabus & Topic Breakdown:</h4><p>{$outline->description}</p>";
-        $html .= "<hr style='margin-top:40px;border:none;border-top:1px solid #e2e8f0;'><p style='font-size:12px;color:#64748b;'>Official Document &bull; Generated on " . date('d M Y') . " via AKM Student Portal</p>";
+        $html .= "<hr style='margin-top:40px;border:none;border-top:1px solid #e2e8f0;'><p style='font-size:12px;color:#64748b;'>Official Document &bull; Generated on " . date('d M Y') . " via Excellence Student Portal</p>";
         $html .= "</body></html>";
 
         return response($html, 200, [

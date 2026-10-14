@@ -94,7 +94,11 @@ class AuthController extends Controller
 
     public function sendPasswordResetLink(Request $request)
     {
-        $validated = $request->validate(['email' => ['required', 'email']]);
+        $validated = $request->validate([
+            'email' => ['required', 'email', 'regex:/^[a-zA-Z0-9._%+-]+@gmail\.com$/i'],
+        ], [
+            'email.regex' => 'The email address must be a valid @gmail.com address (e.g. name@gmail.com).',
+        ]);
         $email = strtolower(trim($validated['email']));
 
         if (User::where('email', $email)->exists()) {
@@ -119,8 +123,10 @@ class AuthController extends Controller
     {
         $validated = $request->validate([
             'token' => ['required', 'string'],
-            'email' => ['required', 'email'],
+            'email' => ['required', 'email', 'regex:/^[a-zA-Z0-9._%+-]+@gmail\.com$/i'],
             'password' => ['required', 'string', 'min:10', 'confirmed'],
+        ], [
+            'email.regex' => 'The email address must be a valid @gmail.com address (e.g. name@gmail.com).',
         ]);
 
         $status = Password::reset(
@@ -144,12 +150,15 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $rules = [
-            'email'    => 'required|email',
+            'email'    => ['required', 'email', 'regex:/^[a-zA-Z0-9._%+-]+@gmail\.com$/i'],
             'password' => 'required|min:6',
             'account_type' => 'required|in:student,teacher,admin',
         ];
 
-        $validation = Validator::make($request->all(), $rules);
+        $validation = Validator::make($request->all(), $rules, [
+            'email.regex' => 'The email address must be a valid @gmail.com address (e.g. name@gmail.com).',
+        ]);
+
 
         if ($validation->fails()) {
             return redirect('login')->withErrors($validation)->withInput();
@@ -245,12 +254,10 @@ class AuthController extends Controller
         $emailRules = [
             'required',
             'email',
-            'max:50',
+            'regex:/^[a-zA-Z0-9._%+-]+@gmail\.com$/i',
+            'max:60',
             Rule::unique('users', 'email')->ignore($user->id),
         ];
-        if ($user->role?->slug === 'student' || in_array($user->role?->slug, ['teacher', 'class-incharge'], true)) {
-            $emailRules[] = 'regex:/^[a-zA-Z0-9._%+-]+@gmail\.com$/i';
-        }
         if ($student = $user->studentRecord) {
             $emailRules[] = Rule::unique('Students', 'email')->ignore($student->id);
         }
@@ -265,7 +272,10 @@ class AuthController extends Controller
             'current_password' => 'nullable|required_with:password,password_confirmation',
             'password' => 'nullable|required_with:current_password,password_confirmation|min:6|same:password_confirmation',
             'password_confirmation' => 'nullable|required_with:current_password,password|same:password',
+        ], [
+            'email.regex' => 'The email address must be a valid @gmail.com address (e.g. name@gmail.com).',
         ]);
+
 
         if ($request->filled('current_password') && !Hash::check($request->current_password, $user->password)) {
             return redirect()->back()
