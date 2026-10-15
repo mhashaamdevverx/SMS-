@@ -33,13 +33,16 @@ Route::post('forgot-password', [AuthController::class, 'sendPasswordResetLink'])
 Route::get('reset-password/{token}', [AuthController::class, 'resetPasswordForm'])->name('password.reset');
 Route::post('reset-password', [AuthController::class, 'resetPassword'])->name('password.update');
 
+Route::get('support', [AuthController::class, 'supportPage'])->name('support');
+Route::post('support', [AuthController::class, 'submitSupportRequest'])->name('support.submit');
+
 Route::middleware(RequireAuthentication::class)->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('student/dashboard', [StudentPortalController::class, 'dashboard'])->name('student.dashboard');
     Route::get('student/test-sessions', [TestSessionController::class, 'index'])->name('student.tests');
     Route::get('student/test-sessions/{month}/download', [TestSessionController::class, 'downloadResult'])->name('student.tests.download');
     Route::get('student/outlines/{id}/download', [StudentPortalController::class, 'downloadOutline'])->name('student.outlines.download');
-    Route::get('student/{page}', [StudentPortalController::class, 'page'])->where('page', 'profile|fees|academics|attendance|results|slips|leaves|tests|outlines')->name('student.page');
+    Route::get('student/{page}', [StudentPortalController::class, 'page'])->where('page', 'profile|fees|academics|attendance|results|slips|leaves|tests|outlines|teachers')->name('student.page');
     Route::put('student/profile', [StudentPortalController::class, 'updateProfile'])->name('student.profile.update');
     Route::post('student/password', [StudentPortalController::class, 'updatePassword'])->name('student.password.update');
     Route::post('student/pay-fee/{feeCollection}', [StudentPortalController::class, 'payFee'])->name('student.fee.pay');
@@ -58,7 +61,7 @@ Route::middleware(RequireAuthentication::class)->group(function () {
     Route::post('teacher/test-marks/update', [TeacherPortalController::class, 'updateTestMarks'])->name('teacher.test-marks.update');
     Route::post('teacher/student-leaves/{studentLeave}/approve', [TeacherPortalController::class, 'approveStudentLeave'])->name('teacher.student-leave.approve');
     Route::post('teacher/student-leaves/{studentLeave}/reject', [TeacherPortalController::class, 'rejectStudentLeave'])->name('teacher.student-leave.reject');
-    Route::get('teacher/{page}', [TeacherPortalController::class, 'page'])->where('page', 'profile|coteachers|students|results|outlines|salary|attendance|tests|slips|stdleaves')->name('teacher.page');
+    Route::get('teacher/{page}', [TeacherPortalController::class, 'page'])->where('page', 'profile|classes|incharge|coteachers|students|results|outlines|salary|attendance|tests|slips|stdleaves|leaves')->name('teacher.page');
     Route::put('teacher/profile', [TeacherPortalController::class, 'updateProfile'])->name('teacher.profile.update');
     Route::post('teacher/password', [TeacherPortalController::class, 'updatePassword'])->name('teacher.password.update');
 
@@ -78,6 +81,7 @@ Route::middleware(RequireAuthentication::class)->group(function () {
     Route::get('api/notifications', [NotificationController::class, 'getNotifications'])->name('notifications.get');
     Route::post('api/notifications/mark-read', [NotificationController::class, 'markAsRead'])->name('notifications.mark-read');
     Route::post('api/notifications/clear', [NotificationController::class, 'clearAll'])->name('notifications.clear');
+    Route::post('api/announcements/publish', [NotificationController::class, 'publishAnnouncement'])->name('announcements.publish');
 
     Route::get('list', [StudentController::class, 'list']);
     Route::get('add-student', [StudentController::class, 'addStudentForm']);

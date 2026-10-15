@@ -93,19 +93,12 @@
 
             <td class="table-image-cell">
 
-                @if($student->image)
-                    <img
-                        src="{{ asset('storage/'.$student->image) }}"
-                        alt="Student Image"
-                        class="table-avatar"
-                    >
-                @else
-                    <img
-                        src="{{ asset('upload/DPF.jpeg') }}"
-                        alt="Dummy Image"
-                        class="table-avatar"
-                    >
-                @endif
+                <img
+                    src="{{ $student->image && $student->image !== 'dummy.jpeg' ? asset('storage/'.$student->image) : asset('upload/dummy.jpeg') }}"
+                    onerror="this.onerror=null; this.src='{{ asset('upload/dummy.jpeg') }}';"
+                    alt="Student Image"
+                    class="table-avatar"
+                >
 
             </td>
 
@@ -190,7 +183,7 @@
                     <div class="crud-field"><label for="student-admission-fee-{{ $student->id }}">One-Time Admission Fee (Rs.) <small class="text-muted">(One-Time)</small></label><input id="student-admission-fee-{{ $student->id }}" type="number" name="admission_fee" value="{{ old('admission_fee', $student->admission_fee ?: 5000) }}" min="0" data-fee-admission></div>
                     <div class="crud-field"><label for="student-total-fee-{{ $student->id }}">Total Monthly Fee (Rs.) <small class="text-muted">(Calculated)</small></label><input id="student-total-fee-{{ $student->id }}" type="number" readonly class="is-readonly-field fw-bold text-success" value="{{ ($student->monthly_fee ?: 3500) + ($student->test_session_fee ?: 500) }}" data-fee-total></div>
                     @endif
-                    <div class="crud-field crud-field-full"><label for="student-image-{{ $student->id }}">Replace Image</label><div class="current-image-row"><img src="{{ $student->image ? asset('storage/'.$student->image) : asset('upload/DPF.jpeg') }}" alt="Current student image"><input id="student-image-{{ $student->id }}" type="file" name="image" accept="image/jpeg,image/png"> </div>@error('image')<span class="crud-field-error">{{ $message }}</span>@enderror</div>
+                    <div class="crud-field crud-field-full"><label for="student-image-{{ $student->id }}">Replace Image</label><div class="current-image-row"><img src="{{ $student->image && $student->image !== 'dummy.jpeg' ? asset('storage/'.$student->image) : asset('upload/dummy.jpeg') }}" onerror="this.onerror=null; this.src='{{ asset('upload/dummy.jpeg') }}';" alt="Current student image"><input id="student-image-{{ $student->id }}" type="file" name="image" accept="image/jpeg,image/png"> </div>@error('image')<span class="crud-field-error">{{ $message }}</span>@enderror</div>
                     <div class="crud-field crud-field-full student-subject-picker" data-subject-picker>
                         <div class="student-subject-picker-heading">
                             <div>

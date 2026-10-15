@@ -444,33 +444,9 @@ class ResultController extends Controller
             }
         });
 
-        // Requirement 5: Send notification to affected student
-        $sUserIds = [];
-        if ($student->login_user_id) $sUserIds[] = $student->login_user_id;
-        if ($student->user_id && !in_array($student->user_id, [1, 2])) $sUserIds[] = $student->user_id;
-        if ($student->email) {
-            $u = User::where('email', $student->email)->first();
-            if ($u) $sUserIds[] = $u->id;
-        }
-        if ($student->registration_no) {
-            $u = User::where('username', $student->registration_no)->first();
-            if ($u) $sUserIds[] = $u->id;
-        }
-        if ($student->name) {
-            $uNames = User::where('name', $student->name)->pluck('id')->toArray();
-            $sUserIds = array_merge($sUserIds, $uNames);
-        }
-        if (empty($sUserIds)) $sUserIds[] = $student->user_id ?: 1;
-
-        foreach (array_unique(array_filter($sUserIds)) as $sUserId) {
-            AppNotification::sendToUser(
-                $sUserId,
-                'Result Updated 🏆',
-                "Your result for {$termVal} has been updated.",
-                'result',
-                route('student.page', 'results'),
-                'bi-award-fill'
-            );
+        // Send notification to affected student
+        if (isset($result)) {
+            AppNotification::notifyResultUpdated($result, $this->currentUser());
         }
 
         return redirect()
@@ -592,40 +568,16 @@ class ResultController extends Controller
             }
         });
 
-        // Requirement 5: Notify affected students for class results bulk save
+        // Notify affected students, In-Charge Teacher, and Admin for class results publish
         $studentIds = array_unique(array_column($validated['results'], 'student_id'));
-        foreach ($studentIds as $stId) {
-            $st = Student::find($stId);
-            if ($st) {
-                $sUserIds = [];
-                if ($st->login_user_id) $sUserIds[] = $st->login_user_id;
-                if ($st->user_id && !in_array($st->user_id, [1, 2])) $sUserIds[] = $st->user_id;
-                if ($st->email) {
-                    $u = User::where('email', $st->email)->first();
-                    if ($u) $sUserIds[] = $u->id;
-                }
-                if ($st->registration_no) {
-                    $u = User::where('username', $st->registration_no)->first();
-                    if ($u) $sUserIds[] = $u->id;
-                }
-                if ($st->name) {
-                    $uNames = User::where('name', $st->name)->pluck('id')->toArray();
-                    $sUserIds = array_merge($sUserIds, $uNames);
-                }
-                if (empty($sUserIds)) $sUserIds[] = $st->user_id ?: 1;
-
-                foreach (array_unique(array_filter($sUserIds)) as $sUserId) {
-                    AppNotification::sendToUser(
-                        $sUserId,
-                        'Result Updated 🏆',
-                        "Your result for {$termVal} has been updated.",
-                        'result',
-                        route('student.page', 'results'),
-                        'bi-award-fill'
-                    );
-                }
-            }
-        }
+        AppNotification::notifyResultsPublished(
+            $validated['student_class'],
+            null,
+            $termVal,
+            null,
+            $studentIds,
+            $this->currentUser()
+        );
 
         return redirect()
             ->route('results.class', ['class' => $validated['student_class'], 'term' => $termVal])

@@ -402,16 +402,8 @@ class AdminPortalController extends Controller
             ]
         );
 
-        // Send Notification to student
-        AppNotification::sendToStudentLeaveApplicant(
-            $studentLeave,
-            'Leave Request Approved! ✅',
-            "Your leave request for {$leaveDate} has been Approved by Admin ({$admin->name}).",
-            'leave',
-            route('student.page', 'leaves'),
-            'bi-check-circle-fill',
-            $admin->id
-        );
+        // Send Notification to student and responsible In-Charge Teacher
+        AppNotification::notifyStudentLeaveDecision($studentLeave, 'Approved', null, $admin);
 
         return back()->with('success', "Student leave application for {$studentLeave->student_name} approved successfully!");
     }
@@ -425,16 +417,8 @@ class AdminPortalController extends Controller
             'approved_by' => 'Admin / Head Panel (' . $admin->name . ')',
         ]);
 
-        $leaveDateStr = $studentLeave->leave_date ? (is_string($studentLeave->leave_date) ? $studentLeave->leave_date : $studentLeave->leave_date->format('Y-m-d')) : now()->toDateString();
-        AppNotification::sendToStudentLeaveApplicant(
-            $studentLeave,
-            'Leave Request Rejected ❌',
-            "Your leave request for {$leaveDateStr} was rejected by Admin ({$admin->name}).",
-            'leave',
-            route('student.page', 'leaves'),
-            'bi-x-circle-fill',
-            $admin->id
-        );
+        // Send Notification to student and responsible In-Charge Teacher
+        AppNotification::notifyStudentLeaveDecision($studentLeave, 'Rejected', $request->input('remarks'), $admin);
 
         return back()->with('success', "Student leave application for {$studentLeave->student_name} rejected.");
     }
@@ -462,15 +446,7 @@ class AdminPortalController extends Controller
         );
 
         // Send notification to teacher
-        AppNotification::sendToTeacherLeaveApplicant(
-            $teacherLeave,
-            'Teacher Leave Approved! ✅',
-            "Your leave request for {$leaveDate} has been Approved by Admin ({$admin->name}).",
-            'leave',
-            route('teacher.page', 'attendance'),
-            'bi-check-circle-fill',
-            $admin->id
-        );
+        AppNotification::notifyTeacherLeaveDecision($teacherLeave, 'Approved', null, $admin);
 
         return back()->with('success', "Teacher leave application for {$teacherLeave->teacher_name} approved successfully!");
     }
@@ -484,16 +460,8 @@ class AdminPortalController extends Controller
             'approved_by' => 'Admin / Head Panel (' . $admin->name . ')',
         ]);
 
-        $tLeaveDate = $teacherLeave->leave_date ? (is_string($teacherLeave->leave_date) ? $teacherLeave->leave_date : Carbon::parse($teacherLeave->leave_date)->format('Y-m-d')) : now()->toDateString();
-        AppNotification::sendToTeacherLeaveApplicant(
-            $teacherLeave,
-            'Teacher Leave Rejected ❌',
-            "Your leave request for {$tLeaveDate} was rejected by Admin ({$admin->name}).",
-            'leave',
-            route('teacher.page', 'attendance'),
-            'bi-x-circle-fill',
-            $admin->id
-        );
+        // Send notification to teacher
+        AppNotification::notifyTeacherLeaveDecision($teacherLeave, 'Rejected', $request->input('remarks'), $admin);
 
         return back()->with('success', "Teacher leave application for {$teacherLeave->teacher_name} rejected.");
     }

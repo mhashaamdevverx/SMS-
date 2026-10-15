@@ -198,20 +198,24 @@ class RollSlipController extends Controller
             }
         });
 
-        // Requirement 6: Notify each affected student about their Roll Number Slip & Date Sheet
+        // Requirement 8: Notify each affected student, In-Charge Teacher, and Admin about Examination & Roll Slip
+        $notifiedClasses = [];
         foreach ($slipRows as $row) {
             $student = $row['student'];
             if ($student) {
+                $cKey = strtolower(trim($student->class)) . '|' . strtolower(trim($student->section ?? ''));
+                $notifiedClasses[$cKey] = ['class' => $student->class, 'section' => $student->section];
+
                 $sUserIds = [];
                 if ($student->login_user_id) $sUserIds[] = $student->login_user_id;
                 if ($student->user_id && !in_array($student->user_id, [1, 2])) $sUserIds[] = $student->user_id;
                 if ($student->email) {
-                    $u = User::where('email', $student->email)->first();
-                    if ($u) $sUserIds[] = $u->id;
+                    $u = User::where('email', $student->email)->pluck('id')->toArray();
+                    $sUserIds = array_merge($sUserIds, $u);
                 }
                 if ($student->registration_no) {
-                    $u = User::where('username', $student->registration_no)->first();
-                    if ($u) $sUserIds[] = $u->id;
+                    $u = User::where('username', $student->registration_no)->pluck('id')->toArray();
+                    $sUserIds = array_merge($sUserIds, $u);
                 }
                 if ($student->name) {
                     $uNames = User::where('name', $student->name)->pluck('id')->toArray();
@@ -225,11 +229,33 @@ class RollSlipController extends Controller
                         'Roll Number Slip Available 🎫',
                         "Your examination roll number slip and date sheet for '{$validated['exam_name']}' is now available.",
                         'roll_slip',
-                        route('student.page', 'rollslip'),
+                        route('student.page', 'slips'),
                         'bi-card-heading'
                     );
                 }
             }
+        }
+
+        // Notify In-Charge Teachers and Admins for each affected class/section
+        foreach ($notifiedClasses as $cData) {
+            AppNotification::sendToClassIncharge(
+                $cData['class'],
+                "Examination Roll Slips Issued: {$validated['exam_name']}",
+                "Roll slips and date sheet for '{$validated['exam_name']}' issued for Class {$cData['class']}" . ($cData['section'] ? " ({$cData['section']})" : '') . ".",
+                'exam',
+                route('roll-slips.index'),
+                'bi-calendar-event',
+                session('user_id'),
+                $cData['section']
+            );
+            AppNotification::sendToAdmins(
+                "Examination Roll Slips Issued: {$validated['exam_name']}",
+                "Roll slips and date sheet for '{$validated['exam_name']}' issued for Class {$cData['class']}" . ($cData['section'] ? " ({$cData['section']})" : '') . ".",
+                'exam',
+                route('roll-slips.index'),
+                'bi-calendar-event',
+                session('user_id')
+            );
         }
 
         return redirect('roll-slips')->with('success', count($slipRows).' roll-number slips issued and stored.');
@@ -257,6 +283,39 @@ class RollSlipController extends Controller
 
         $rollSlip->update($validation->validated());
 
+        // Notify Student and Incharge about updated slip details
+        $student = $rollSlip->student ?: Student::where('std_id', $rollSlip->roll_no)->first();
+        if ($student) {
+            $sUserIds = [];
+            if ($student->login_user_id) $sUserIds[] = $student->login_user_id;
+            if ($student->email) {
+                $u = User::where('email', $student->email)->pluck('id')->toArray();
+                $sUserIds = array_merge($sUserIds, $u);
+            }
+            foreach (array_unique(array_filter($sUserIds)) as $sUserId) {
+                AppNotification::sendToUser(
+                    $sUserId,
+                    'Roll Slip Details Updated 🎫',
+                    "Your roll slip room/seat assignment for Room {$rollSlip->room_no}, Chair #{$rollSlip->chair_no} has been updated.",
+                    'roll_slip',
+                    route('student.page', 'slips'),
+                    'bi-card-heading',
+                    session('user_id')
+                );
+            }
+        }
+
+        AppNotification::sendToClassIncharge(
+            $rollSlip->class_name,
+            'Roll Slip Details Updated 🎫',
+            "Roll slip for {$rollSlip->student_name} (Class {$rollSlip->class_name} {$rollSlip->section_name}) was updated.",
+            'roll_slip',
+            route('roll-slips.index'),
+            'bi-card-heading',
+            session('user_id'),
+            $rollSlip->section_name
+        );
+
         return redirect()->route('roll-slips.index')->with('success', 'Roll-number slip updated successfully.');
     }
 
@@ -264,7 +323,45 @@ class RollSlipController extends Controller
     {
         $this->ensureAuthenticated();
 
+        $cName = $rollSlip->class_name;
+        $sName = $rollSlip->section_name;
+        $stName = $rollSlip->student_name;
+        $rollNo = $rollSlip->roll_no;
+
+        $student = $rollSlip->student ?: Student::where('std_id', $rollNo)->first();
+
         $rollSlip->delete();
+
+        if ($student) {
+            $sUserIds = [];
+            if ($student->login_user_id) $sUserIds[] = $student->login_user_id;
+            if ($student->email) {
+                $u = User::where('email', $student->email)->pluck('id')->toArray();
+                $sUserIds = array_merge($sUserIds, $u);
+            }
+            foreach (array_unique(array_filter($sUserIds)) as $sUserId) {
+                AppNotification::sendToUser(
+                    $sUserId,
+                    'Roll Slip Cancelled / Removed ⚠️',
+                    "Your examination roll slip #{$rollNo} has been cancelled or removed by administration.",
+                    'roll_slip',
+                    route('student.page', 'slips'),
+                    'bi-x-octagon-fill',
+                    session('user_id')
+                );
+            }
+        }
+
+        AppNotification::sendToClassIncharge(
+            $cName,
+            'Roll Slip Removed ⚠️',
+            "Roll slip for {$stName} (Class {$cName} {$sName}) was removed.",
+            'roll_slip',
+            route('roll-slips.index'),
+            'bi-trash-fill',
+            session('user_id'),
+            $sName
+        );
 
         return redirect()->route('roll-slips.index')->with('success', 'Roll-number slip deleted successfully.');
     }

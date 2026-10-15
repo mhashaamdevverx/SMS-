@@ -11,6 +11,12 @@
 @if(session('success'))
     <div class="student-toast"><i class="bi bi-check-circle-fill"></i> {{ session('success') }}</div>
 @endif
+@if(session('error'))
+    <div class="student-toast" style="background:#fee2e2;color:#991b1b;border:1px solid #f87171;"><i class="bi bi-exclamation-circle-fill"></i> {{ session('error') }}</div>
+@endif
+@if($errors->any())
+    <div class="student-toast" style="background:#fee2e2;color:#991b1b;border:1px solid #f87171;"><i class="bi bi-exclamation-circle-fill"></i> {{ $errors->first() }}</div>
+@endif
 
 @if($page === 'dashboard')
 <section class="student-hero">
@@ -900,32 +906,32 @@ function selectAndShowAttMonth(mKey) {
             </div>
         </div>
 
-        <form id="applyLeaveForm" method="POST" action="{{ route('student.leave.apply') }}" style="display:flex;flex-direction:column;gap:16px;">
+        <form id="applyLeaveForm" method="POST" action="{{ route('student.leave.apply') }}" onsubmit="return handleLeaveSubmit(event);" style="display:flex;flex-direction:column;gap:16px;">
             @csrf
             <input type="hidden" name="admit_fine" id="admitFineInput" value="0">
 
             <div>
                 <label for="leave_date" style="display:block;font-size:12.5px;font-weight:700;color:#475569;margin-bottom:6px;">Leave Date *</label>
-                <input id="leave_date" type="date" name="leave_date" value="{{ date('Y-m-d') }}" required style="width:100%;padding:10px 12px;border:1px solid #cbd5e1;border-radius:10px;font-size:13.5px;color:#0f172a;">
+                <input id="leave_date" type="date" name="leave_date" value="{{ old('leave_date', date('Y-m-d')) }}" required style="width:100%;padding:10px 12px;border:1px solid #cbd5e1;border-radius:10px;font-size:13.5px;color:#0f172a;">
             </div>
 
             <div>
                 <label for="leave_type" style="display:block;font-size:12.5px;font-weight:700;color:#475569;margin-bottom:6px;">Types of Leave *</label>
                 <select id="leave_type" name="leave_type" required style="width:100%;padding:10px 12px;border:1px solid #cbd5e1;border-radius:10px;font-size:13.5px;color:#0f172a;background:#ffffff;">
                     <option value="">--select--</option>
-                    <option value="Casual Leave (CL)">Casual Leave (CL)</option>
-                    <option value="Sick Leave (SL)">Sick Leave (SL)</option>
+                    <option value="Casual Leave (CL)" {{ old('leave_type') === 'Casual Leave (CL)' ? 'selected' : '' }}>Casual Leave (CL)</option>
+                    <option value="Sick Leave (SL)" {{ old('leave_type') === 'Sick Leave (SL)' ? 'selected' : '' }}>Sick Leave (SL)</option>
                 </select>
             </div>
 
             <div>
                 <label for="reason" style="display:block;font-size:12.5px;font-weight:700;color:#475569;margin-bottom:6px;">Reason of Leave *</label>
-                <textarea id="reason" name="reason" rows="4" placeholder="Type your reason here" required style="width:100%;padding:12px;border:1px solid #cbd5e1;border-radius:10px;font-size:13.5px;color:#0f172a;resize:vertical;"></textarea>
+                <textarea id="reason" name="reason" rows="4" placeholder="Type your reason here" required style="width:100%;padding:12px;border:1px solid #cbd5e1;border-radius:10px;font-size:13.5px;color:#0f172a;resize:vertical;">{{ old('reason') }}</textarea>
             </div>
 
             <div style="display:flex;gap:10px;margin-top:4px;">
                 <button type="button" onclick="closeApplyLeaveModal()" style="flex:1;border:1px solid #cbd5e1;background:#f8fafc;color:#334155;padding:12px;border-radius:10px;font-weight:700;font-size:13px;cursor:pointer;">Cancel / Back</button>
-                <button type="button" onclick="handleLeaveSubmit()" style="flex:1.5;border:none;background:#1e3a8a;color:#ffffff;padding:12px;border-radius:10px;font-weight:700;font-size:13px;cursor:pointer;box-shadow:0 4px 12px rgba(30,58,138,0.3);">Submit Application</button>
+                <button type="button" id="btnSubmitLeave" onclick="handleLeaveSubmit(event)" style="flex:1.5;border:none;background:#1e3a8a;color:#ffffff;padding:12px;border-radius:10px;font-weight:700;font-size:13px;cursor:pointer;box-shadow:0 4px 12px rgba(30,58,138,0.3);">Submit Application</button>
             </div>
         </form>
     </div>
@@ -951,7 +957,8 @@ function selectAndShowAttMonth(mKey) {
 </div>
 
 <script>
-const userLeavesBalance = {{ $leavesBalance ?? 3 }};
+window.userLeavesBalance = {{ $leavesBalance ?? 3 }};
+var userLeavesBalance = window.userLeavesBalance;
 
 function openApplyLeaveModal() {
     const m = document.getElementById('applyLeaveModal');
@@ -973,30 +980,68 @@ function closeFineConfirmModal() {
     if (m) m.style.display = 'none';
 }
 
-function handleLeaveSubmit() {
+function handleLeaveSubmit(e) {
+    if (e && e.preventDefault) {
+        e.preventDefault();
+    }
+    const form = document.getElementById('applyLeaveForm');
+    const dateInput = document.getElementById('leave_date');
     const typeSelect = document.getElementById('leave_type');
     const reasonText = document.getElementById('reason');
-    if (!typeSelect.value) {
-        alert('Please select a leave type.');
-        return;
+
+    if (!dateInput || !dateInput.value) {
+        alert('Please select a leave date.');
+        if (dateInput) dateInput.focus();
+        return false;
     }
-    if (!reasonText.value.trim()) {
+    if (!typeSelect || !typeSelect.value) {
+        alert('Please select a leave type.');
+        if (typeSelect) typeSelect.focus();
+        return false;
+    }
+    if (!reasonText || !reasonText.value.trim()) {
         alert('Please type the reason for leave.');
-        return;
+        if (reasonText) reasonText.focus();
+        return false;
+    }
+    if (reasonText.value.trim().length < 5) {
+        alert('Reason must be at least 5 characters long.');
+        if (reasonText) reasonText.focus();
+        return false;
     }
 
-    if (userLeavesBalance <= 0) {
+    const leavesBal = (typeof window.userLeavesBalance !== 'undefined') ? Number(window.userLeavesBalance) : ((typeof userLeavesBalance !== 'undefined') ? Number(userLeavesBalance) : 3);
+    const admitFineInput = document.getElementById('admitFineInput');
+
+    if (leavesBal <= 0) {
         openConfirmFineModal();
-    } else {
-        document.getElementById('admitFineInput').value = '0';
-        document.getElementById('applyLeaveForm').submit();
+        return false;
     }
+
+    if (admitFineInput) {
+        admitFineInput.value = '0';
+    }
+
+    if (form) {
+        form.submit();
+    }
+    return true;
 }
 
 function confirmAdmitFineAndSubmit() {
-    document.getElementById('admitFineInput').value = '1';
+    const form = document.getElementById('applyLeaveForm');
+    const admitFineInput = document.getElementById('admitFineInput');
+    if (admitFineInput) {
+        admitFineInput.value = '1';
+    }
     closeFineConfirmModal();
-    document.getElementById('applyLeaveForm').submit();
+    if (form) {
+        form.submit();
+    }
+}
+
+function submitFineLeaveForm() {
+    confirmAdmitFineAndSubmit();
 }
 </script>
 
@@ -1661,11 +1706,12 @@ document.addEventListener('DOMContentLoaded', () => {
 <div style="display:grid;grid-template-columns:340px 1fr;gap:24px;">
     <article class="student-panel" style="text-align:center;padding:32px 24px;">
         <div style="width:90px;height:90px;border-radius:50%;background:linear-gradient(135deg, #1E1B4B 0%, #312E81 50%, #4F46E5 100%);color:#fff;display:grid;place-items:center;font-size:36px;font-weight:800;margin:0 auto 16px;border:4px solid #C7D2FE;box-shadow:0 8px 20px rgba(79,70,229,0.25);">
-            @if($student->image)
-                <img src="{{ asset('storage/'.$student->image) }}" alt="" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">
-            @else
-                {{ strtoupper(substr($student->name, 0, 1)) }}
-            @endif
+            @php
+                $stdProfImg = !empty($student->image) && $student->image !== 'dummy.jpeg'
+                    ? asset('storage/'.$student->image)
+                    : asset('upload/dummy.jpeg');
+            @endphp
+            <img src="{{ $stdProfImg }}" onerror="this.onerror=null; this.src='{{ asset('upload/dummy.jpeg') }}';" alt="{{ $student->name }}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">
         </div>
         <h2 style="margin:0;font-size:20px;font-weight:800;color:#0f172a;">{{ $student->name }}</h2>
         <p style="margin:4px 0 16px;color:#4F46E5;font-weight:700;font-size:13.5px;">Enrolled Student &bull; {{ $student->class }} ({{ $student->section }})</p>
@@ -1838,6 +1884,161 @@ document.addEventListener('DOMContentLoaded', () => {
             </tbody>
         </table>
     </div>
+</div>
+
+@elseif($page === 'teachers')
+<div class="page-heading" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;flex-wrap:wrap;gap:14px;">
+    <div>
+        <p>EXCELLENCE STUDENT PORTAL &bull; FACULTY DIRECTORY</p>
+        <h1 style="margin:0;">Class Teachers & Faculty Directory</h1>
+    </div>
+    <div>
+        <span style="background:linear-gradient(135deg, #EEF2FF 0%, #E0E7FF 100%);color:#4338CA;border:1px solid #C7D2FE;padding:8px 18px;border-radius:99px;font-size:13px;font-weight:800;display:inline-flex;align-items:center;gap:6px;box-shadow:0 2px 6px rgba(79,70,229,0.1);">
+            <i class="bi bi-mortarboard-fill"></i> Class {{ $student->class }} &bull; Section {{ $student->section }}
+        </span>
+    </div>
+</div>
+
+{{-- SECTION 1: YOUR IN-CHARGE TEACHER --}}
+<div style="margin-bottom: 28px;">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;">
+        <i class="bi bi-award-fill" style="color:#D97706;font-size:18px;"></i>
+        <h2 style="margin:0;font-size:17px;font-weight:800;color:#0f172a;">Your In-Charge Teacher</h2>
+        <span style="font-size:12px;color:#64748b;font-weight:600;">(Official class mentor & administrative supervisor)</span>
+    </div>
+
+    @if(!empty($teachersDirectory['inchargeList']) && $teachersDirectory['inchargeList']->isNotEmpty())
+        <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(340px, 1fr));gap:16px;">
+            @foreach($teachersDirectory['inchargeList'] as $ic)
+                @php
+                    $icImg = !empty($ic->image) && $ic->image !== 'dummy.jpeg'
+                        ? asset('storage/'.$ic->image)
+                        : asset('upload/dummy.jpeg');
+                @endphp
+                <div class="student-panel" style="padding:22px;background:linear-gradient(135deg, #ffffff 0%, #FFFBEB 100%);border:1.5px solid #FCD34D;border-radius:16px;box-shadow:0 4px 16px rgba(245, 158, 11, 0.08);position:relative;overflow:hidden;">
+                    <div style="position:absolute;top:14px;right:14px;">
+                        <span style="background:linear-gradient(135deg, #F59E0B, #D97706);color:#ffffff;padding:4px 12px;border-radius:99px;font-weight:800;font-size:11px;display:inline-flex;align-items:center;gap:5px;box-shadow:0 2px 6px rgba(245, 158, 11, 0.35);">
+                            <i class="bi bi-award-fill"></i> Assigned Class In-Charge
+                        </span>
+                    </div>
+
+                    <div style="display:flex;align-items:flex-start;gap:18px;">
+                        <div style="width:68px;height:68px;border-radius:50%;overflow:hidden;border:3px solid #FDE68A;background:#fef3c7;display:grid;place-items:center;flex-shrink:0;box-shadow:0 4px 10px rgba(0,0,0,0.06);">
+                            <img src="{{ $icImg }}" onerror="this.onerror=null; this.src='{{ asset('upload/dummy.jpeg') }}';" alt="{{ $ic->name }}" style="width:100%;height:100%;object-fit:cover;">
+                        </div>
+                        <div style="flex:1;min-width:0;padding-top:2px;">
+                            <h3 style="margin:0 0 4px;font-size:17px;font-weight:800;color:#0f172a;">{{ $ic->name }}</h3>
+                            <span style="display:inline-block;font-size:12px;color:#B45309;font-weight:700;margin-bottom:8px;">{{ $ic->designation }}</span>
+                            <p style="margin:0 0 12px;font-size:12px;color:#475569;line-height:1.4;">
+                                Directly authorized to review student leave applications, attendance records, and academic progress for <strong>{{ $ic->class_label }}</strong>.
+                            </p>
+
+                            <div style="display:flex;flex-wrap:wrap;gap:12px;font-size:12px;">
+                                <a href="mailto:{{ $ic->email }}" style="display:inline-flex;align-items:center;gap:5px;color:#4F46E5;font-weight:700;text-decoration:none;background:#EEF2FF;padding:4px 10px;border-radius:6px;border:1px solid #C7D2FE;">
+                                    <i class="bi bi-envelope-fill"></i> {{ $ic->email }}
+                                </a>
+                                @if(!empty($ic->phone))
+                                <a href="tel:{{ $ic->phone }}" style="display:inline-flex;align-items:center;gap:5px;color:#047857;font-weight:700;text-decoration:none;background:#ECFDF5;padding:4px 10px;border-radius:6px;border:1px solid #A7F3D0;">
+                                    <i class="bi bi-telephone-fill"></i> {{ $ic->phone }}
+                                </a>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+    @else
+        <div class="student-panel" style="padding:22px;background:#F8FAFC;border:1px dashed #CBD5E1;border-radius:14px;text-align:center;color:#64748B;">
+            <i class="bi bi-info-circle-fill" style="font-size:24px;color:#94A3B8;display:block;margin-bottom:6px;"></i>
+            <span style="font-size:13.5px;font-weight:700;color:#334155;">No Designated In-Charge Assigned Yet</span>
+            <p style="margin:4px 0 0;font-size:12px;">Class In-Charge for {{ $student->class }} ({{ $student->section }}) will be updated shortly by administration.</p>
+        </div>
+    @endif
+</div>
+
+{{-- SECTION 2: YOUR CLASS TEACHERS --}}
+<div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:8px;">
+        <div style="display:flex;align-items:center;gap:8px;">
+            <i class="bi bi-people-fill" style="color:#4F46E5;font-size:18px;"></i>
+            <h2 style="margin:0;font-size:17px;font-weight:800;color:#0f172a;">Your Class Teachers</h2>
+            <span style="font-size:12px;color:#64748b;font-weight:600;">(Faculty teaching your subjects)</span>
+        </div>
+        <div>
+            <span style="font-size:12.5px;font-weight:700;color:#4F46E5;background:#EEF2FF;padding:4px 12px;border-radius:99px;border:1px solid #C7D2FE;">
+                {{ $teachersDirectory['totalSubjectTeachers'] ?? 0 }} Assigned Teachers
+            </span>
+        </div>
+    </div>
+
+    @if(!empty($teachersDirectory['subjectTeachers']) && $teachersDirectory['subjectTeachers']->isNotEmpty())
+        <div style="display:grid;grid-template-columns:repeat(auto-fill, minmax(320px, 1fr));gap:16px;">
+            @foreach($teachersDirectory['subjectTeachers'] as $st)
+                @php
+                    $stImg = !empty($st->image) && $st->image !== 'dummy.jpeg'
+                        ? asset('storage/'.$st->image)
+                        : asset('upload/dummy.jpeg');
+                @endphp
+                <div class="student-panel" style="padding:20px;border-radius:14px;background:#ffffff;border:1px solid #E2E8F0;box-shadow:0 2px 8px rgba(15,23,42,0.04);transition:all 0.2s ease;" onmouseover="this.style.boxShadow='0 8px 24px rgba(79,70,229,0.12)';this.style.borderColor='#C7D2FE';" onmouseout="this.style.boxShadow='0 2px 8px rgba(15,23,42,0.04)';this.style.borderColor='#E2E8F0';">
+                    <div style="display:flex;align-items:center;gap:14px;margin-bottom:14px;">
+                        <div style="width:52px;height:52px;border-radius:50%;overflow:hidden;border:2px solid #E2E8F0;background:#F8FAFC;display:grid;place-items:center;flex-shrink:0;">
+                            <img src="{{ $stImg }}" onerror="this.onerror=null; this.src='{{ asset('upload/dummy.jpeg') }}';" alt="{{ $st->name }}" style="width:100%;height:100%;object-fit:cover;">
+                        </div>
+                        <div style="flex:1;min-width:0;">
+                            <h3 style="margin:0 0 2px;font-size:15px;font-weight:800;color:#0f172a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ $st->name }}</h3>
+                            <span style="display:inline-block;font-size:11.5px;color:#64748B;font-weight:600;">
+                                {{ $st->designation }}
+                                @if($st->is_incharge)
+                                    <span style="color:#D97706;font-weight:800;margin-left:4px;">&bull; 👑 In-Charge</span>
+                                @endif
+                            </span>
+                        </div>
+                    </div>
+
+                    <div style="background:#F8FAFC;border:1px solid #F1F5F9;border-radius:10px;padding:10px 12px;margin-bottom:12px;">
+                        <small style="display:block;font-size:11px;font-weight:700;color:#64748B;text-transform:uppercase;margin-bottom:6px;letter-spacing:0.4px;">Subjects Taught in Your Class:</small>
+                        <div style="display:flex;flex-wrap:wrap;gap:6px;">
+                            @foreach($st->subjects as $sub)
+                                <span style="background:#EEF2FF;color:#4338CA;border:1px solid #C7D2FE;font-size:11.5px;font-weight:700;padding:2px 8px;border-radius:6px;display:inline-flex;align-items:center;gap:4px;">
+                                    <i class="bi bi-book-half" style="font-size:10px;"></i> {{ $sub }}
+                                </span>
+                            @endforeach
+                        </div>
+                    </div>
+
+                    <div style="display:flex;align-items:center;justify-content:space-between;font-size:11.5px;color:#64748B;border-top:1px solid #F1F5F9;padding-top:10px;">
+                        <span style="display:inline-flex;align-items:center;gap:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:180px;" title="{{ $st->email }}">
+                            <i class="bi bi-envelope" style="color:#4F46E5;"></i> {{ $st->email }}
+                        </span>
+                        @if(!empty($st->phone))
+                        <span style="display:inline-flex;align-items:center;gap:4px;">
+                            <i class="bi bi-telephone" style="color:#047857;"></i> {{ $st->phone }}
+                        </span>
+                        @endif
+                    </div>
+                </div>
+            @endforeach
+        </div>
+
+        {{-- PAGINATION CONTROLS (10 per page default) --}}
+        @if($teachersDirectory['subjectTeachers']->hasPages())
+            <div style="margin-top:24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;padding:12px 16px;background:#ffffff;border:1px solid #E2E8F0;border-radius:12px;">
+                <span style="font-size:13px;color:#64748B;font-weight:600;">
+                    Showing <strong>{{ $teachersDirectory['subjectTeachers']->firstItem() }}</strong> to <strong>{{ $teachersDirectory['subjectTeachers']->lastItem() }}</strong> of <strong>{{ $teachersDirectory['subjectTeachers']->total() }}</strong> class teachers
+                </span>
+                <div>
+                    {{ $teachersDirectory['subjectTeachers']->links('pagination::bootstrap-4') }}
+                </div>
+            </div>
+        @endif
+    @else
+        <div class="student-panel" style="padding:32px 20px;text-align:center;color:#64748B;">
+            <i class="bi bi-person-slash" style="font-size:32px;color:#CBD5E1;display:block;margin-bottom:8px;"></i>
+            <span style="font-size:14px;font-weight:700;color:#334155;">No Teachers Assigned to {{ $student->class }} ({{ $student->section }}) Yet</span>
+            <p style="margin:6px 0 0;font-size:12px;">Faculty assignments are configured dynamically by the administration.</p>
+        </div>
+    @endif
 </div>
 
 @else

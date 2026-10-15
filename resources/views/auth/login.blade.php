@@ -22,9 +22,9 @@
 <body>
 
     <!-- TOP NAVBAR -->
-    <header class="top-navbar">
+    <header class="top-navbar" style="position: fixed; top: 16px; right: 24px; z-index: 99999; pointer-events: auto;">
         <div class="top-nav-actions">
-            <a href="#" class="btn-header-support" onclick="alert('Support help desk is available 24/7 at support@excellence.edu.pk')" title="Support">
+            <a href="{{ route('support') }}" class="btn-header-support" title="Help Desk & Support Center" style="cursor: pointer; text-decoration: none;" onclick="window.location.href='{{ route('support') }}';">
                 <span class="support-icon-circle">?</span>
             </a>
         </div>

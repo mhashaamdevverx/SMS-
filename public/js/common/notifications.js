@@ -3,13 +3,56 @@
  * Extracted modular script to eliminate internal inline scripts in layouts.
  */
 
+function getNotifStyle(type, icon) {
+    switch (type) {
+        case 'leave':
+            return {
+                bg: '#eef2ff',
+                color: '#4338ca',
+                icon: icon || 'bi-envelope-paper-fill'
+            };
+        case 'announcement':
+            return {
+                bg: '#fef3c7',
+                color: '#b45309',
+                icon: icon || 'bi-megaphone-fill'
+            };
+        case 'exam':
+            return {
+                bg: '#e0f2fe',
+                color: '#0284c7',
+                icon: icon || 'bi-calendar-check-fill'
+            };
+        case 'result':
+            return {
+                bg: '#fdf2f8',
+                color: '#be185d',
+                icon: icon || 'bi-award-fill'
+            };
+        case 'attendance':
+            return {
+                bg: '#ecfdf5',
+                color: '#047857',
+                icon: icon || 'bi-person-check-fill'
+            };
+        default:
+            return {
+                bg: '#f1f5f9',
+                color: '#475569',
+                icon: icon || 'bi-bell-fill'
+            };
+    }
+}
+
 function fetchAppNotifications() {
     fetch('/api/notifications')
-        .then(res => res.json())
+        .then(res => {
+            if (!res.ok) throw new Error('Network error');
+            return res.json();
+        })
         .then(data => {
             const badges = document.querySelectorAll('#notifBadge, #adminNotifBadge, #teacherNotifBadge, .notif-count-badge');
             const pulseDot = document.getElementById('notifPulseDot');
-            const list = document.getElementById('notifListContainer') || document.getElementById('adminNotifListContainer');
 
             const unreadCount = data.unread ?? data.unread_count ?? 0;
 
@@ -47,10 +90,10 @@ function fetchAppNotifications() {
             if (lists.length > 0) {
                 if (!data.notifications || data.notifications.length === 0) {
                     const emptyHtml = `
-                        <div style="text-align: center; padding: 30px 20px; color: var(--muted, #64748b);">
-                            <i class="bi bi-bell-slash-fill" style="font-size: 28px; color: var(--border, #cbd5e1); display: block; margin-bottom: 8px;"></i>
+                        <div style="text-align: center; padding: 32px 20px; color: var(--muted, #64748b);">
+                            <i class="bi bi-bell-slash-fill" style="font-size: 26px; color: var(--border, #cbd5e1); display: block; margin-bottom: 8px;"></i>
                             <span style="font-size: 13px; font-weight: 700; color: var(--text, #0f172a);">No notifications yet</span>
-                            <p style="font-size: 11.5px; margin: 4px 0 0;">You're all caught up with your updates!</p>
+                            <p style="font-size: 11.5px; margin: 4px 0 0; color: #94a3b8;">You're all caught up with your updates!</p>
                         </div>
                     `;
                     lists.forEach(l => l.innerHTML = emptyHtml);
@@ -59,21 +102,22 @@ function fetchAppNotifications() {
 
                 let html = '';
                 data.notifications.forEach(item => {
-                    const bg = item.is_read ? 'var(--surface, #ffffff)' : 'var(--primary-light, #f0fdf4)';
-                    const border = item.is_read ? 'var(--border-light, #f1f5f9)' : 'rgba(45, 212, 191, 0.3)';
-                    const dot = item.is_read ? '' : `<span style="width:8px;height:8px;border-radius:50%;background:var(--accent, #f59e0b);display:inline-block;margin-left:6px;"></span>`;
+                    const styleMeta = getNotifStyle(item.type, item.icon);
+                    const bg = item.is_read ? 'var(--surface, #ffffff)' : '#EEF2FF';
+                    const border = item.is_read ? 'var(--border-light, #f1f5f9)' : '#C7D2FE';
+                    const dot = item.is_read ? '' : `<span style="width:7px;height:7px;border-radius:50%;background:#4F46E5;display:inline-block;margin-left:6px;vertical-align:middle;"></span>`;
 
                     html += `
-                        <a href="${item.action_url || '#'}" onclick="markNotifRead(${item.id}, event, '${item.action_url || '#'}')" style="display:flex;align-items:flex-start;gap:12px;padding:12px 16px;background:${bg};border-bottom:1px solid ${border};text-decoration:none;transition:background 0.15s ease;">
-                            <div style="width:36px;height:36px;border-radius:10px;background:var(--bg, #f8fafc);color:var(--primary, #0d9488);display:grid;place-items:center;font-size:16px;flex-shrink:0;">
-                                <i class="bi ${item.icon || 'bi-bell-fill'}"></i>
+                        <a href="${item.action_url || '#'}" onclick="markNotifRead(${item.id}, event, '${item.action_url || '#'}')" style="display:flex;align-items:flex-start;gap:11px;padding:11px 15px;background:${bg};border-bottom:1px solid ${border};text-decoration:none;transition:background 0.15s ease;" onmouseover="this.style.background='${item.is_read ? '#f8fafc' : '#E0E7FF'}'" onmouseout="this.style.background='${bg}'">
+                            <div style="width:34px;height:34px;border-radius:8px;background:${styleMeta.bg};color:${styleMeta.color};display:grid;place-items:center;font-size:15px;flex-shrink:0;">
+                                <i class="bi ${styleMeta.icon}"></i>
                             </div>
                             <div style="flex:1;min-width:0;">
                                 <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:2px;">
-                                    <strong style="font-size:13px;color:var(--text, #0f172a);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${item.title} ${dot}</strong>
-                                    <small style="font-size:10.5px;color:var(--muted, #64748b);white-space:nowrap;margin-left:8px;">${item.time_ago}</small>
+                                    <strong style="font-size:12.5px;color:var(--text, #0f172a);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${item.title} ${dot}</strong>
+                                    <small style="font-size:10px;color:#94a3b8;white-space:nowrap;margin-left:6px;">${item.time_ago}</small>
                                 </div>
-                                <p style="font-size:12px;color:var(--muted, #64748b);margin:0;line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">${item.message}</p>
+                                <p style="font-size:11.5px;color:#475569;margin:0;line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">${item.message}</p>
                             </div>
                         </a>
                     `;
@@ -85,6 +129,20 @@ function fetchAppNotifications() {
 }
 
 function markNotifRead(id, event, targetUrl) {
+    if (event && (event.ctrlKey || event.metaKey || event.button === 1)) {
+        const tokenEl = document.querySelector('meta[name="csrf-token"]');
+        const token = tokenEl ? tokenEl.getAttribute('content') : '';
+        fetch('/api/notifications/mark-read', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': token
+            },
+            body: JSON.stringify({ id: id })
+        });
+        return;
+    }
+
     if (event) event.preventDefault();
     const tokenEl = document.querySelector('meta[name="csrf-token"]');
     const token = tokenEl ? tokenEl.getAttribute('content') : '';
@@ -97,7 +155,7 @@ function markNotifRead(id, event, targetUrl) {
         },
         body: JSON.stringify({ id: id })
     }).finally(() => {
-        if (targetUrl && targetUrl !== '#') {
+        if (targetUrl && targetUrl !== '#' && !targetUrl.endsWith('#')) {
             window.location.href = targetUrl;
         } else {
             fetchAppNotifications();
@@ -108,6 +166,10 @@ function markNotifRead(id, event, targetUrl) {
 function markAllNotificationsAsRead() {
     const tokenEl = document.querySelector('meta[name="csrf-token"]');
     const token = tokenEl ? tokenEl.getAttribute('content') : '';
+
+    // Immediately clear badges optimistically
+    const badges = document.querySelectorAll('#notifBadge, #adminNotifBadge, #teacherNotifBadge, .notif-count-badge');
+    badges.forEach(b => b.style.display = 'none');
 
     fetch('/api/notifications/mark-read', {
         method: 'POST',
@@ -121,6 +183,14 @@ function markAllNotificationsAsRead() {
 
 function markAllNotificationsAsReadAdmin() {
     markAllNotificationsAsRead();
+}
+
+function markNotifReadAdmin(id, event, targetUrl) {
+    markNotifRead(id, event, targetUrl);
+}
+
+function fetchAdminAppNotifications() {
+    fetchAppNotifications();
 }
 
 document.addEventListener('DOMContentLoaded', () => {

@@ -4,6 +4,7 @@
 <head>
 
     <meta charset="UTF-8">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <meta
         name="viewport"
@@ -55,6 +56,7 @@
     <link rel="stylesheet" href="{{ asset('css/users.css') }}?v={{ time() }}">
 
     <script src="{{ asset('js/theme-customizer.js') }}?v={{ time() }}"></script>
+    <script src="{{ asset('js/common/notifications.js') }}?v={{ time() }}" defer></script>
 
     @stack('page-css')
 
@@ -119,13 +121,14 @@
                 </div>
 
                 {{-- Admin User Pill --}}
-                <div class="admin-user-pill" id="adminTopProfileUser">
+                <div class="admin-user-pill" id="adminTopProfileUser" style="position: relative !important;">
                     <div class="admin-avatar-ring">
-                        @if(!session('user_image') || session('user_image') === 'dummy.jpeg')
-                            <span>{{ strtoupper(substr(session('user_name', 'A'), 0, 1)) }}</span>
-                        @else
-                            <img src="{{ asset('storage/'.session('user_image')) }}" alt="">
-                        @endif
+                        @php
+                            $admTopImg = session('user_image') && session('user_image') !== 'dummy.jpeg'
+                                ? asset('storage/'.session('user_image'))
+                                : asset('upload/dummy.jpeg');
+                        @endphp
+                        <img src="{{ $admTopImg }}" onerror="this.onerror=null; this.src='{{ asset('upload/dummy.jpeg') }}';" alt="{{ session('user_name', 'Admin') }}">
                     </div>
                     <div class="admin-user-details">
                         <b>{{ session('user_name') }}</b>
@@ -134,10 +137,10 @@
                     <i class="bi bi-chevron-down" style="font-size: 11px; color: var(--muted); margin-left: 2px;"></i>
 
                     {{-- Profile Dropdown --}}
-                    <div id="adminUserDropdown" style="display: none; position: absolute; top: calc(100% + 8px); left: 0; right: 0; min-width: 180px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); box-shadow: var(--shadow-lg); z-index: 9999; padding: 6px 0; overflow: hidden;">
-                        <div style="padding: 10px 14px; border-bottom: 1px solid var(--border-light);">
-                            <strong style="display:block; font-size: 13px; color: var(--text);">{{ session('user_name') }}</strong>
-                            <small style="font-size: 11px; color: var(--primary); font-weight: 700;">{{ auth()->user()?->email }}</small>
+                    <div id="adminUserDropdown" style="display: none; position: absolute; top: calc(100% + 8px); left: 0; right: 0; width: 100%; min-width: 180px; box-sizing: border-box; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); box-shadow: var(--shadow-lg); z-index: 9999; padding: 6px 0; overflow: hidden;">
+                        <div style="padding: 10px 14px; border-bottom: 1px solid var(--border-light); overflow: hidden;">
+                            <strong style="display:block; font-size: 13px; color: var(--text); white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">{{ session('user_name') }}</strong>
+                            <small style="font-size: 11px; color: var(--primary); font-weight: 700; white-space: nowrap; text-overflow: ellipsis; overflow: hidden; display: block;">{{ auth()->user()?->email }}</small>
                         </div>
                         <button type="button" class="profile-menu-action" data-modal-target="profile-modal" style="width:100%; display: flex; align-items: center; gap: 10px; padding: 10px 14px; color: var(--text); background: transparent; border: none; font-size: 13px; font-weight: 600; cursor: pointer; text-align: left;">
                             <i class="bi bi-person-circle" style="color: var(--primary);"></i> Profile
@@ -242,12 +245,13 @@
             {{-- Sidebar Bottom --}}
             <div class="sidebar-bottom">
                 <div class="admin-mini-card">
-                    <div class="admin-mini-avatar">
-                        @if(!session('user_image') || session('user_image') === 'dummy.jpeg')
-                            {{ strtoupper(substr(session('user_name', 'A'), 0, 1)) }}
-                        @else
-                            <img src="{{ asset('storage/'.session('user_image')) }}" alt="" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">
-                        @endif
+                    <div class="admin-mini-avatar" style="overflow: hidden; background: transparent;">
+                        @php
+                            $admSideApp = session('user_image') && session('user_image') !== 'dummy.jpeg'
+                                ? asset('storage/'.session('user_image'))
+                                : asset('upload/dummy.jpeg');
+                        @endphp
+                        <img src="{{ $admSideApp }}" onerror="this.onerror=null; this.src='{{ asset('upload/dummy.jpeg') }}';" alt="{{ session('user_name', 'Admin') }}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">
                     </div>
                     <div class="admin-user-info">
                         <b>{{ session('user_name') }}</b>
@@ -301,8 +305,14 @@
             <button type="button" class="modal-close" data-modal-close aria-label="Close profile dialog">&times;</button>
 
             <div class="modal-profile-header">
+                @php
+                    $admModalImg = session('user_image') && session('user_image') !== 'dummy.jpeg'
+                        ? asset('storage/'.session('user_image'))
+                        : asset('upload/dummy.jpeg');
+                @endphp
                 <img
-                    src="{{ !session('user_image') || session('user_image') === 'dummy.jpeg' ? asset('upload/dummy.jpeg') : asset('storage/'.session('user_image')) }}"
+                    src="{{ $admModalImg }}"
+                    onerror="this.onerror=null; this.src='{{ asset('upload/dummy.jpeg') }}';"
                     alt="Profile image"
                     class="modal-avatar"
                 >
@@ -557,113 +567,8 @@
 
     <script src="{{ asset('js/app.js') }}" defer></script>
     <script>
-    function fetchAdminAppNotifications() {
-        fetch('/api/notifications')
-            .then(res => res.json())
-            .then(data => {
-                const badge = document.getElementById('adminNotifBadge');
-                const list = document.getElementById('adminNotifListContainer');
-
-                if (badge) {
-                    if (data.unread > 0) {
-                        badge.textContent = data.unread > 99 ? '99+' : data.unread;
-                        badge.style.display = 'inline-block';
-                    } else {
-                        badge.style.display = 'none';
-                    }
-                }
-
-                if (list) {
-                    if (!data.notifications || data.notifications.length === 0) {
-                        list.innerHTML = `
-                            <div style="text-align: center; padding: 24px 16px; color: #94a3b8;">
-                                <i class="bi bi-bell-slash-fill" style="font-size: 24px; color: #cbd5e1; display: block; margin-bottom: 6px;"></i>
-                                <span style="font-size: 13px; font-weight: 700; color: #64748b;">No notifications yet</span>
-                                <p style="font-size: 11px; margin: 4px 0 0;">You're all caught up with your updates!</p>
-                            </div>
-                        `;
-                        return;
-                    }
-
-                    let html = '';
-                    data.notifications.forEach(item => {
-                        const bg = item.is_read ? '#ffffff' : '#EEF2FF';
-                        const border = item.is_read ? '#f1f5f9' : '#C7D2FE';
-                        const dot = item.is_read ? '' : `<span style="width:8px;height:8px;border-radius:50%;background:var(--primary-color,#4F46E5);display:inline-block;margin-left:6px;"></span>`;
-
-                        html += `
-                            <a href="${item.action_url || '#'}" onclick="markNotifReadAdmin(${item.id}, event, '${item.action_url || '#'}')" style="display:flex;align-items:flex-start;gap:10px;padding:10px 14px;background:${bg};border-bottom:1px solid ${border};text-decoration:none;transition:background 0.15s ease;">
-                                <div style="width:34px;height:34px;border-radius:8px;background:#e0f2fe;color:#0369a1;display:grid;place-items:center;font-size:15px;flex-shrink:0;">
-                                    <i class="bi ${item.icon || 'bi-bell-fill'}"></i>
-                                </div>
-                                <div style="flex:1;min-width:0;">
-                                    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:2px;">
-                                        <strong style="font-size:12.5px;color:#0f172a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${item.title} ${dot}</strong>
-                                        <small style="font-size:10px;color:#94a3b8;white-space:nowrap;margin-left:6px;">${item.time_ago}</small>
-                                    </div>
-                                    <p style="font-size:11.5px;color:#475569;margin:0;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">${item.message}</p>
-                                </div>
-                            </a>
-                        `;
-                    });
-                    list.innerHTML = html;
-                }
-            })
-            .catch(err => console.error('Notification error:', err));
-    }
-
-    function markNotifReadAdmin(id, event, targetUrl) {
-        if (event) event.preventDefault();
-        fetch('/api/notifications/mark-read', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': '{{ csrf_token() }}'
-            },
-            body: JSON.stringify({ id: id })
-        }).finally(() => {
-            if (targetUrl && targetUrl !== '#') {
-                window.location.href = targetUrl;
-            } else {
-                fetchAdminAppNotifications();
-            }
-        });
-    }
-
-    function markAllNotificationsAsReadAdmin() {
-        fetch('/api/notifications/mark-read', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': '{{ csrf_token() }}'
-            },
-            body: JSON.stringify({})
-        }).then(() => fetchAdminAppNotifications());
-    }
-
-    document.addEventListener('DOMContentLoaded', () => {
-        const bellBtn = document.getElementById('adminNotifBellBtn');
-        const notifDropdown = document.getElementById('adminNotifDropdown');
-
-        if (bellBtn && notifDropdown) {
-            bellBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                const isOpen = notifDropdown.style.display === 'block';
-                notifDropdown.style.display = isOpen ? 'none' : 'block';
-                if (!isOpen) fetchAdminAppNotifications();
-            });
-
-            document.addEventListener('click', (e) => {
-                if (!notifDropdown.contains(e.target) && !bellBtn.contains(e.target)) {
-                    notifDropdown.style.display = 'none';
-                }
-            });
-
-            fetchAdminAppNotifications();
-            setInterval(fetchAdminAppNotifications, 8000);
-        }
-
-        // Mobile drawer toggle - Admin Portal
+        document.addEventListener('DOMContentLoaded', () => {
+            // Mobile drawer toggle - Admin Portal
         const drawerToggle = document.getElementById('mobileNavToggle');
         const sidebar = document.getElementById('adminSidebar') || document.querySelector('.admin-side') || document.querySelector('.sidebar');
         const overlay = document.getElementById('mobileNavOverlay');

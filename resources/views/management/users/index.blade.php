@@ -50,6 +50,7 @@
                         <td class="table-image-cell">
                             <img
                                 src="{{ !$user->image || $user->image === 'dummy.jpeg' ? asset('upload/dummy.jpeg') : asset('storage/'.$user->image) }}"
+                                onerror="this.onerror=null; this.src='{{ asset('upload/dummy.jpeg') }}';"
                                 alt="User Image"
                                 class="table-avatar"
                             >
@@ -108,7 +109,7 @@
                     <div class="crud-field"><label for="user-name-{{ $user->id }}">Name / Username</label><input id="user-name-{{ $user->id }}" type="text" name="name" value="{{ old('name', $user->name ?: $user->username) }}" class="@error('name') input-error @enderror" required>@error('name')<span class="crud-field-error">{{ $message }}</span>@enderror</div>
                     <div class="crud-field"><label for="user-email-{{ $user->id }}">Email</label><input id="user-email-{{ $user->id }}" type="email" name="email" value="{{ old('email', $user->email) }}" placeholder="name@gmail.com" pattern="^[a-zA-Z0-9._%+-]+@gmail\.com$" title="Must be a valid @gmail.com address (e.g. name@gmail.com)" class="@error('email') input-error @enderror" required>@error('email')<span class="crud-field-error">{{ $message }}</span>@enderror</div>
                     <div class="crud-field"><label for="user-phone-{{ $user->id }}">Phone</label><input id="user-phone-{{ $user->id }}" type="text" name="phone" value="{{ old('phone', $user->phone) }}" class="@error('phone') input-error @enderror">@error('phone')<span class="crud-field-error">{{ $message }}</span>@enderror</div>
-                    <div class="crud-field crud-field-full"><label for="user-image-{{ $user->id }}">Replace Image</label><div class="current-image-row"><img src="{{ !$user->image || $user->image === 'dummy.jpeg' ? asset('upload/dummy.jpeg') : asset('storage/'.$user->image) }}" alt="Current user image"><input id="user-image-{{ $user->id }}" type="file" name="image" accept="image/jpeg,image/png"></div>@error('image')<span class="crud-field-error">{{ $message }}</span>@enderror</div>
+                    <div class="crud-field crud-field-full"><label for="user-image-{{ $user->id }}">Replace Image</label><div class="current-image-row"><img src="{{ !$user->image || $user->image === 'dummy.jpeg' ? asset('upload/dummy.jpeg') : asset('storage/'.$user->image) }}" onerror="this.onerror=null; this.src='{{ asset('upload/dummy.jpeg') }}';" alt="Current user image"><input id="user-image-{{ $user->id }}" type="file" name="image" accept="image/jpeg,image/png"></div>@error('image')<span class="crud-field-error">{{ $message }}</span>@enderror</div>
                     <button type="submit" class="modal-primary-btn crud-submit">Update User</button>
                 </form>
             </section>

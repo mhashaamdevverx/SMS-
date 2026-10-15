@@ -3,7 +3,7 @@ namespace App\Http\Controllers\Student;
 
 use App\Http\Controllers\Controller;
 
-use App\Models\{User, Student, Subject, Attendance, FeeCollection, FeeStructure, Result, TeacherAssignment, RollSlip, StudentLeave, CourseOutline, AppNotification};
+use App\Models\{User, Student, Subject, Attendance, FeeCollection, FeeStructure, Result, TeacherAssignment, RollSlip, StudentLeave, CourseOutline, AppNotification, Teacher, ClassIncharge};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -64,7 +64,7 @@ class StudentPortalController extends Controller
         return view('student.portal', $data+compact('user','student')+['page'=>'dashboard']);
     }
     public function page(string $page) {
-        abort_unless(in_array($page,['profile','fees','academics','attendance','results','slips','leaves','tests','outlines'],true),404);
+        abort_unless(in_array($page,['profile','fees','academics','attendance','results','slips','leaves','tests','outlines','teachers'],true),404);
         [$user,$student]=$this->student(); $data=$this->base($student);
         $data['fees']=$this->getFeesFor($student);
         $data['feeStructure']=FeeStructure::whereRaw('LOWER(TRIM(class_name)) = ?', [strtolower(trim($student->class))])->first();
@@ -103,6 +103,13 @@ class StudentPortalController extends Controller
             })
             ->sortByDesc('created_at')
             ->values();
+
+        // Paginated outlines (10 per page)
+        $data['outlinesPaginated'] = CourseOutline::with('teacher')
+            ->whereRaw('LOWER(TRIM(class_name)) = ?', [strtolower(trim($student->class))])
+            ->latest('id')
+            ->paginate(10, ['*'], 'outline_page')
+            ->withQueryString();
         
         // Seed rich full-year 2026 daily attendance if not present
         $attCount = Attendance::where('student_id', $student->id)->count();
@@ -143,9 +150,18 @@ class StudentPortalController extends Controller
             }
         }
 
-        $data['attendance']=Attendance::where('student_id',$student->id)->latest('date')->get();
-        $data['results']=$this->resultsFor($student)->orderBy('subject')->get();
-        $data['slips']=$this->getSlipsFor($student);
+        $data['attendance'] = Attendance::where('student_id', $student->id)->latest('date')->get();
+        $data['attendancePaginated'] = Attendance::where('student_id', $student->id)->latest('date')->paginate(10, ['*'], 'att_page')->withQueryString();
+        $data['results'] = $this->resultsFor($student)->orderBy('subject')->get();
+        $data['slips'] = $this->getSlipsFor($student);
+        $data['slipsPaginated'] = RollSlip::with('exam')
+            ->where(function($q) use ($student) {
+                $q->where('student_id', $student->id)
+                  ->orWhere('roll_no', (string) $student->std_id);
+            })
+            ->latest('id')
+            ->paginate(10, ['*'], 'slip_page')
+            ->withQueryString();
 
         // Seed single September leave if no leaves exist
         $leavesCount = StudentLeave::where('student_id', $student->id)->count();
@@ -181,8 +197,126 @@ class StudentPortalController extends Controller
         $data['leavesBalance'] = max(0, 3 - $usedLeavesCount);
         $data['leavesHistory'] = StudentLeave::where('student_id', $student->id)->latest('leave_date')->paginate(10)->withQueryString();
 
+        // Feature One: Student Teachers Directory
+        $data['teachersDirectory'] = $this->getTeachersDirectory($student);
+
         return view('student.portal', $data+compact('user','student','page'));
     }
+
+    private function getTeachersDirectory(Student $student): array
+    {
+        [$canonical, $sec, $variants] = AppNotification::normalizeClass($student->class, $student->section);
+
+        // 1. In-Charge Teacher(s) for student's class and section
+        $inchargeQuery = ClassIncharge::with(['teacher.loginAccount', 'user', 'classRecord'])
+            ->whereHas('classRecord', function($q) use ($variants, $sec) {
+                $q->where(function($sub) use ($variants) {
+                    foreach ($variants as $v) {
+                        $sub->orWhereRaw('LOWER(TRIM(class_name)) = ?', [strtolower(trim($v))]);
+                    }
+                });
+                if ($sec && strtolower($sec) !== 'all' && strtolower($sec) !== 'all sections') {
+                    $q->whereRaw('LOWER(TRIM(section_name)) = ?', [strtolower(trim($sec))]);
+                }
+            });
+
+        $incharges = $inchargeQuery->get();
+        if ($incharges->isEmpty() && $sec) {
+            $incharges = ClassIncharge::with(['teacher.loginAccount', 'user', 'classRecord'])
+                ->whereHas('classRecord', function($q) use ($variants) {
+                    $q->where(function($sub) use ($variants) {
+                        foreach ($variants as $v) {
+                            $sub->orWhereRaw('LOWER(TRIM(class_name)) = ?', [strtolower(trim($v))]);
+                        }
+                    });
+                })->get();
+        }
+
+        $inchargeList = collect();
+        $inchargeTeacherIds = [];
+        foreach ($incharges as $ic) {
+            $t = $ic->teacher;
+            $u = $ic->user;
+            $tId = $t?->id ?: ($u?->id ?: 0);
+            if ($tId && !in_array($tId, $inchargeTeacherIds)) {
+                $inchargeTeacherIds[] = $tId;
+                $inchargeList->push((object)[
+                    'id' => $tId,
+                    'name' => $t?->teacher_name ?: ($u?->name ?: 'Class In-Charge'),
+                    'image' => $t?->teacher_image ?: 'dummy.jpeg',
+                    'email' => $t?->teacher_email ?: ($u?->email ?: 'incharge@school.edu'),
+                    'phone' => $t?->teacher_phone ?: '0300-1234567',
+                    'designation' => 'Senior In-Charge Faculty',
+                    'class_label' => "Class {$student->class} ({$student->section})",
+                    'is_incharge' => true,
+                ]);
+            }
+        }
+
+        // 2. Subject Teachers assigned to student's class and section
+        $assignmentsQuery = TeacherAssignment::with(['teacher.loginAccount'])
+            ->where(function($q) use ($variants) {
+                foreach ($variants as $v) {
+                    $q->orWhereRaw('LOWER(TRIM(class_name)) = ?', [strtolower(trim($v))]);
+                }
+            });
+
+        if ($sec && strtolower($sec) !== 'all' && strtolower($sec) !== 'all sections') {
+            $assignmentsQuery->where(function($q) use ($sec) {
+                $q->whereRaw('LOWER(TRIM(section_name)) = ?', [strtolower(trim($sec))])
+                  ->orWhereNull('section_name')
+                  ->orWhere('section_name', '');
+            });
+        }
+
+        $assignments = $assignmentsQuery->get();
+        $grouped = $assignments->groupBy('teacher_id');
+
+        $subjectTeachers = collect();
+        foreach ($grouped as $teacherId => $items) {
+            $first = $items->first();
+            $t = $first->teacher;
+            if (!$t) continue;
+
+            $subjects = $items->pluck('subject_or_course')->unique()->values()->all();
+            $isIc = in_array($t->id, $inchargeTeacherIds);
+
+            $subjectTeachers->push((object)[
+                'id' => $t->id,
+                'name' => $t->teacher_name,
+                'image' => $t->teacher_image ?: 'dummy.jpeg',
+                'email' => $t->teacher_email ?: ($t->loginAccount?->email ?: 'faculty@school.edu'),
+                'phone' => $t->teacher_phone ?: '0300-1234567',
+                'designation' => $isIc ? 'Class In-Charge & Faculty' : 'Subject Specialist',
+                'subjects' => $subjects,
+                'class_label' => "Class {$student->class} ({$student->section})",
+                'is_incharge' => $isIc,
+            ]);
+        }
+
+        // Paginate Subject Teachers at 10 records per page
+        $currentPage = \Illuminate\Pagination\LengthAwarePaginator::resolveCurrentPage('teacher_page');
+        $perPage = 10;
+        $currentPageItems = $subjectTeachers->slice(($currentPage - 1) * $perPage, $perPage)->values();
+        $subjectTeachersPaginated = new \Illuminate\Pagination\LengthAwarePaginator(
+            $currentPageItems,
+            $subjectTeachers->count(),
+            $perPage,
+            $currentPage,
+            [
+                'pageName' => 'teacher_page',
+                'path' => \Illuminate\Pagination\LengthAwarePaginator::resolveCurrentPath(),
+                'query' => request()->query(),
+            ]
+        );
+
+        return [
+            'inchargeList' => $inchargeList,
+            'subjectTeachers' => $subjectTeachersPaginated,
+            'totalSubjectTeachers' => $subjectTeachers->count(),
+        ];
+    }
+
     private function getFeesFor(Student $student) {
         $structure = FeeStructure::whereRaw('LOWER(TRIM(class_name)) = ?', [strtolower(trim($student->class))])->first();
         $tuition = $structure?->tuition_fee ?: 3500;
@@ -443,25 +577,8 @@ class StudentPortalController extends Controller
             }
         }
 
-        // Send Notification to Class In-Charge teacher
-        AppNotification::sendToClassIncharge(
-            $student->class,
-            'New Student Leave Request ✉️',
-            "Student {$student->name} (Roll #{$student->std_id}) applied for {$request->leave_type} on " . $leaveDate->format('d M Y') . ".",
-            'leave',
-            route('teacher.page', ['page' => 'stdleaves', 'class' => $student->class]),
-            'bi-envelope-paper-fill'
-        );
-
-        // Send Notification to School Administration / Principal / Head
-        AppNotification::sendToAdmins(
-            'New Student Leave Request ✉️',
-            "Student {$student->name} (Roll #{$student->std_id}, Class {$student->class}) applied for {$request->leave_type} on " . $leaveDate->format('d M Y') . ".",
-            'leave',
-            route('admin.page', 'leaves'),
-            'bi-envelope-paper-fill',
-            $user->id
-        );
+        // Send Notification to Class In-Charge teacher & School Administration
+        AppNotification::notifyStudentLeaveSubmitted($leave);
 
         $msg = 'Leave application submitted successfully for ' . $leaveDate->format('d M Y') . '.';
         if ($isFineApplied) {

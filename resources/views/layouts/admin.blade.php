@@ -97,12 +97,13 @@
         <!-- Bottom Admin Mini-Card & Controls -->
         <div class="sidebar-bottom">
             <div class="student-mini-card admin-mini-card">
-                <div class="student-mini-avatar admin-mini-avatar">
-                    @if(session('user_image') && session('user_image') !== 'dummy.jpeg')
-                        <img src="{{ asset('storage/'.session('user_image')) }}" alt="" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">
-                    @else
-                        A
-                    @endif
+                <div class="student-mini-avatar admin-mini-avatar" style="overflow: hidden; background: transparent;">
+                    @php
+                        $admSideImg = session('user_image') && session('user_image') !== 'dummy.jpeg'
+                            ? asset('storage/'.session('user_image'))
+                            : asset('upload/dummy.jpeg');
+                    @endphp
+                    <img src="{{ $admSideImg }}" onerror="this.onerror=null; this.src='{{ asset('upload/dummy.jpeg') }}';" alt="{{ session('user_name', 'Admin') }}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">
                 </div>
                 <div class="student-user-info admin-user-info">
                     <b>{{ session('user_name', 'Abdul Moeez') }}</b>
@@ -148,6 +149,11 @@
 
             <!-- Right Actions: Theme Toggle, Notifications, Profile Menu -->
             <div class="nav-right-actions">
+                <!-- Broadcast Announcement Button -->
+                <button type="button" class="nav-icon-btn" onclick="openAnnouncementModal()" title="Broadcast Announcement">
+                    <i class="bi bi-megaphone-fill" style="color: var(--primary);"></i>
+                </button>
+
                 <!-- Light / Dark Theme Switcher Button -->
                 <button type="button" class="nav-icon-btn" id="themeToggleBtn" title="Switch Theme">
                     <i class="bi bi-moon-stars-fill"></i>
@@ -185,13 +191,14 @@
                 </div>
 
                 <!-- Admin Profile Pill & Dropdown -->
-                <div class="student-user-pill admin-user-pill" id="topProfileUser">
+                <div class="student-user-pill admin-user-pill" id="topProfileUser" style="position: relative !important;">
                     <div class="student-avatar-ring admin-avatar-ring">
-                        @if(session('user_image') && session('user_image') !== 'dummy.jpeg')
-                            <img src="{{ asset('storage/'.session('user_image')) }}" alt="">
-                        @else
-                            <span>A</span>
-                        @endif
+                        @php
+                            $admTopImg = session('user_image') && session('user_image') !== 'dummy.jpeg'
+                                ? asset('storage/'.session('user_image'))
+                                : asset('upload/dummy.jpeg');
+                        @endphp
+                        <img src="{{ $admTopImg }}" onerror="this.onerror=null; this.src='{{ asset('upload/dummy.jpeg') }}';" alt="{{ session('user_name', 'Admin') }}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">
                     </div>
                     <div class="student-user-details admin-user-details">
                         <b>{{ session('user_name', 'Abdul Moeez') }}</b>
@@ -199,11 +206,11 @@
                     </div>
                     <i class="bi bi-chevron-down" style="font-size: 11px; color: var(--muted); margin-left: 2px;"></i>
 
-                    <!-- Profile Dropdown Menu -->
-                    <div id="userDropdownMenu" style="display: none; position: absolute; top: calc(100% + 8px); right: 0; min-width: 200px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); box-shadow: var(--shadow-lg); z-index: 9999; padding: 6px 0; overflow: hidden;">
-                        <div style="padding: 10px 14px; border-bottom: 1px solid var(--border-light);">
-                            <strong style="display:block; font-size: 13px; color: var(--text);">{{ session('user_name', 'Abdul Moeez') }}</strong>
-                            <small style="font-size: 11px; color: var(--primary); font-weight: 700;">Head Administrator</small>
+                    <!-- Profile Dropdown Menu (Aligned perfectly between pill lines) -->
+                    <div id="userDropdownMenu" style="display: none; position: absolute; top: calc(100% + 8px); left: 0; right: 0; width: 100%; min-width: 180px; box-sizing: border-box; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); box-shadow: var(--shadow-lg); z-index: 9999; padding: 6px 0; overflow: hidden;">
+                        <div style="padding: 10px 14px; border-bottom: 1px solid var(--border-light); overflow: hidden;">
+                            <strong style="display:block; font-size: 13px; color: var(--text); white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">{{ session('user_name', 'Abdul Moeez') }}</strong>
+                            <small style="font-size: 11px; color: var(--primary); font-weight: 700; white-space: nowrap; text-overflow: ellipsis; overflow: hidden; display: block;">Head Administrator</small>
                         </div>
                         <a href="{{ route('admin.page', 'users') }}" style="display: flex; align-items: center; gap: 10px; padding: 10px 14px; color: var(--text); text-decoration: none; font-size: 13px; font-weight: 600;">
                             <i class="bi bi-person-circle" style="color: var(--primary);"></i> Account Details
@@ -295,6 +302,8 @@
             </div>
         </footer>
     </main>
+
+    @include('partials.announcement-modal')
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>

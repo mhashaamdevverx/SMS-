@@ -51,6 +51,7 @@
                 'dashboard' => ['Dashboard', 'bi-grid-1x2-fill'],
                 'profile' => ['My Profile', 'bi-person-badge-fill'],
                 'attendance' => ['My Attendance', 'bi-calendar-check-fill'],
+                'leaves' => ['My Leaves / Apply Leave', 'bi-calendar-plus-fill'],
                 'coteachers' => ['Class Co-Teachers', 'bi-people-fill'],
                 'students' => ['My Class Students', 'bi-backpack-fill'],
             ];
@@ -89,12 +90,13 @@
         <!-- Bottom Teacher Mini-Card & Desktop Collapse Trigger -->
         <div class="sidebar-bottom">
             <div class="student-mini-card">
-                <div class="student-mini-avatar" style="background: linear-gradient(135deg, #059669, #0D9488);">
-                    @if($teacher->teacher_image)
-                        <img src="{{ asset('storage/'.$teacher->teacher_image) }}" alt="" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">
-                    @else
-                        {{ strtoupper(substr($teacher->teacher_name, 0, 1)) }}
-                    @endif
+                <div class="student-mini-avatar" style="overflow: hidden; background: transparent;">
+                    @php
+                        $tSideImg = !empty($teacher->teacher_image) && $teacher->teacher_image !== 'dummy.jpeg'
+                            ? asset('storage/'.$teacher->teacher_image)
+                            : asset('upload/dummy.jpeg');
+                    @endphp
+                    <img src="{{ $tSideImg }}" onerror="this.onerror=null; this.src='{{ asset('upload/dummy.jpeg') }}';" alt="{{ $teacher->teacher_name }}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">
                 </div>
                 <div class="student-user-info">
                     <b>{{ $teacher->teacher_name }}</b>
@@ -177,13 +179,14 @@
                 </div>
 
                 <!-- User Profile Pill & Dropdown -->
-                <div class="student-user-pill" id="topProfileUser">
+                <div class="student-user-pill" id="topProfileUser" style="position: relative !important;">
                     <div class="student-avatar-ring">
-                        @if($teacher->teacher_image)
-                            <img src="{{ asset('storage/'.$teacher->teacher_image) }}" alt="">
-                        @else
-                            <span>{{ strtoupper(substr($teacher->teacher_name, 0, 1)) }}</span>
-                        @endif
+                        @php
+                            $tTopImg = !empty($teacher->teacher_image) && $teacher->teacher_image !== 'dummy.jpeg'
+                                ? asset('storage/'.$teacher->teacher_image)
+                                : asset('upload/dummy.jpeg');
+                        @endphp
+                        <img src="{{ $tTopImg }}" onerror="this.onerror=null; this.src='{{ asset('upload/dummy.jpeg') }}';" alt="{{ $teacher->teacher_name }}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">
                     </div>
                     <div class="student-user-details">
                         <b>{{ $teacher->teacher_name }}</b>
@@ -191,17 +194,20 @@
                     </div>
                     <i class="bi bi-chevron-down" id="topProfileArrow" style="font-size: 11px; color: var(--muted); margin-left: 2px;"></i>
 
-                    <!-- Profile Dropdown Menu (Aligned perfectly with profile pill) -->
-                    <div id="userDropdownMenu" style="display: none; position: absolute; top: calc(100% + 8px); left: 0; right: 0; width: 100%; min-width: 170px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); box-shadow: var(--shadow-lg); z-index: 9999; padding: 6px 0; overflow: hidden;">
-                        <div style="padding: 10px 14px; border-bottom: 1px solid var(--border-light);">
-                            <strong style="display:block; font-size: 13px; color: var(--text);">{{ $teacher->teacher_name }}</strong>
-                            <small style="font-size: 11px; color: var(--primary); font-weight: 700;">{{ $user->email }}</small>
+                    <!-- Profile Dropdown Menu (Aligned perfectly between pill lines) -->
+                    <div id="userDropdownMenu" style="display: none; position: absolute; top: calc(100% + 8px); left: 0; right: 0; width: 100%; min-width: 170px; box-sizing: border-box; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); box-shadow: var(--shadow-lg); z-index: 9999; padding: 6px 0; overflow: hidden;">
+                        <div style="padding: 10px 14px; border-bottom: 1px solid var(--border-light); overflow: hidden;">
+                            <strong style="display:block; font-size: 13px; color: var(--text); white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">{{ $teacher->teacher_name }}</strong>
+                            <small style="font-size: 11px; color: var(--primary); font-weight: 700; white-space: nowrap; text-overflow: ellipsis; overflow: hidden; display: block;">{{ $user->email }}</small>
                         </div>
                         <a href="{{ route('teacher.page', 'profile') }}" style="display: flex; align-items: center; gap: 10px; padding: 10px 14px; color: var(--text); text-decoration: none; font-size: 13px; font-weight: 600;">
                             <i class="bi bi-person-circle" style="color: var(--primary);"></i> Profile Settings
                         </a>
                         <a href="{{ route('teacher.page', 'salary') }}" style="display: flex; align-items: center; gap: 10px; padding: 10px 14px; color: var(--text); text-decoration: none; font-size: 13px; font-weight: 600;">
                             <i class="bi bi-cash-stack" style="color: var(--primary);"></i> My Pay Slips
+                        </a>
+                        <a href="{{ route('teacher.page', 'leaves') }}" style="display: flex; align-items: center; gap: 10px; padding: 10px 14px; color: var(--text); text-decoration: none; font-size: 13px; font-weight: 600;">
+                            <i class="bi bi-calendar-plus" style="color: var(--primary);"></i> My Leaves
                         </a>
                         <div style="border-top: 1px solid var(--border-light); margin-top: 4px; padding-top: 4px;">
                             <form action="/logout" method="POST" style="margin:0;">

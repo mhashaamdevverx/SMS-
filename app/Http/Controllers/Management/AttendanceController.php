@@ -393,42 +393,8 @@ class AttendanceController extends Controller
             }
         });
 
-        // Requirement 4: Send notification to affected students
-        foreach ($attendanceData as $sId => $attItem) {
-            $student = Student::find($sId);
-            if ($student) {
-                $statusFormatted = ucfirst($attItem['status']);
-                $dateFormatted = Carbon::parse($date)->format('7 October 2026') == Carbon::parse($date)->format('d M Y') ? Carbon::parse($date)->format('d F Y') : Carbon::parse($date)->format('d M Y');
-
-                $sUserIds = [];
-                if ($student->login_user_id) $sUserIds[] = $student->login_user_id;
-                if ($student->user_id && !in_array($student->user_id, [1, 2])) $sUserIds[] = $student->user_id;
-                if ($student->email) {
-                    $u = User::where('email', $student->email)->first();
-                    if ($u) $sUserIds[] = $u->id;
-                }
-                if ($student->registration_no) {
-                    $u = User::where('username', $student->registration_no)->first();
-                    if ($u) $sUserIds[] = $u->id;
-                }
-                if ($student->name) {
-                    $uNames = User::where('name', $student->name)->pluck('id')->toArray();
-                    $sUserIds = array_merge($sUserIds, $uNames);
-                }
-                if (empty($sUserIds)) $sUserIds[] = $student->user_id ?: 1;
-
-                foreach (array_unique(array_filter($sUserIds)) as $sUserId) {
-                    AppNotification::sendToUser(
-                        $sUserId,
-                        'Attendance Updated 📋',
-                        "Your attendance has been marked as {$statusFormatted} for " . Carbon::parse($date)->format('d M Y') . ".",
-                        'attendance',
-                        route('student.page', 'attendance'),
-                        'bi-calendar-check-fill'
-                    );
-                }
-            }
-        }
+        // Requirement 10: Send notification to affected students, In-Charge Teacher, and Admin
+        AppNotification::notifyAttendanceSubmitted($className, $sectionName, $date, $attendanceData, User::find($userId));
 
         return redirect()->route('attendance.index', [
             'mode' => 'daily',

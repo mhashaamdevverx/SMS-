@@ -77,6 +77,20 @@ class RequireRolePermission
             return $next($request);
         }
 
+        if (str_starts_with($path, 'admin/') || $path === 'admin') {
+            if (!$user->isAdmin()) {
+                if ($user->role?->slug === 'student') {
+                    return redirect()->route('student.dashboard')->with('error', 'Administrator portal access required.');
+                }
+                if (in_array($user->role?->slug, ['teacher', 'class-incharge'], true) || $user->teacherRecord !== null) {
+                    return redirect()->route('teacher.dashboard')->with('error', 'Admin portal access required. You are currently logged in as a Teacher.');
+                }
+                return redirect()->route('login')->with('error', 'Administrator portal access required. Please sign in with an Admin account.');
+            }
+
+            return $next($request);
+        }
+
         if ($path === 'logout' || $user->isAdmin()) {
             return $next($request);
         }

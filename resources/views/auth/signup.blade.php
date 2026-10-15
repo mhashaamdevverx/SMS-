@@ -20,7 +20,7 @@
     <div class="signup-split-wrapper">
 
         <!-- Page Top-Right Help Icon -->
-        <button type="button" class="help-corner-btn" title="Help / Support">?</button>
+        <a href="{{ route('support') }}" class="help-corner-btn" title="Help Desk & Support Center" style="text-decoration: none; display: flex; align-items: center; justify-content: center;">?</a>
 
         <div class="signup-card-container">
 

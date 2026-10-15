@@ -345,4 +345,45 @@ class AuthController extends Controller
 
         return strlen($digits) >= 8 && strlen($digits) <= 15;
     }
+
+    public function supportPage()
+    {
+        return view('auth.support');
+    }
+
+    public function submitSupportRequest(Request $request)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:100',
+            'email' => 'required|email|max:100',
+            'role' => 'required|string|max:50',
+            'category' => 'required|string|max:100',
+            'subject' => 'required|string|max:150',
+            'message' => 'required|string|max:3000',
+        ]);
+
+        $ticketCode = 'EXC-' . strtoupper(substr(md5(uniqid(mt_rand(), true)), 0, 6));
+
+        try {
+            if (class_exists(\App\Models\AppNotification::class)) {
+                \App\Models\AppNotification::sendToAdmins(
+                    "New Support Ticket [{$ticketCode}]",
+                    "From {$validated['name']} ({$validated['role']}): {$validated['subject']}",
+                    'general',
+                    url('/support'),
+                    'bi-headset'
+                );
+            }
+        } catch (\Throwable $e) {
+            // Non-blocking if notifications table is unavailable
+        }
+
+        return redirect()->route('support')->with('ticket_success', [
+            'ticket_id' => $ticketCode,
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'category' => $validated['category'],
+            'subject' => $validated['subject'],
+        ]);
+    }
 }

@@ -2251,9 +2251,19 @@ a:hover {
 }
 
 /* Profile pill for top nav */
-.admin-user-pill {
+.admin-user-pill, .student-user-pill {
     cursor: pointer;
-    position: relative;
+    position: relative !important;
+}
+
+#userDropdownMenu, #adminUserDropdown {
+    position: absolute !important;
+    top: calc(100% + 8px) !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    min-width: 180px !important;
+    box-sizing: border-box !important;
 }
 
 /* Responsive admin grids */

@@ -457,7 +457,7 @@ class TeacherPortalController extends Controller
     public function page(string $page, Request $request = null)
     {
         $request = $request ?? request();
-        abort_unless(in_array($page, ['profile', 'coteachers', 'students', 'results', 'outlines', 'salary', 'attendance', 'tests', 'slips', 'stdleaves'], true), 404);
+        abort_unless(in_array($page, ['profile', 'coteachers', 'students', 'results', 'outlines', 'salary', 'attendance', 'tests', 'slips', 'stdleaves', 'leaves'], true), 404);
         
         [$user, $teacher] = $this->getTeacher();
         $base = $this->getTeacherBaseData($teacher, $request);
@@ -657,14 +657,24 @@ class TeacherPortalController extends Controller
             'status' => 'Evaluated',
         ]);
 
-        // Notify class students
+        // Notify class students & Admin
         AppNotification::sendToClassStudents(
             $base['primaryClass'],
             'Monthly Test Results Published 📊',
             "Class In-Charge {$teacher->teacher_name} updated monthly test session results for {$monthKey}.",
             'test',
-            route('student.page', 'tests'),
-            'bi-clipboard-data-fill'
+            route('student.tests'),
+            'bi-clipboard-data-fill',
+            $user->id,
+            $base['primarySection'] ?? null
+        );
+        AppNotification::sendToAdmins(
+            'Monthly Test Results Published 📊',
+            "Class In-Charge {$teacher->teacher_name} updated monthly test session results for Class {$base['primaryClass']} ({$monthKey}).",
+            'test',
+            route('admin.page', 'academics'),
+            'bi-clipboard-data-fill',
+            $user->id
         );
 
         return redirect()->route('teacher.page', ['page' => 'tests', 'month' => $monthKey])
@@ -716,16 +726,8 @@ class TeacherPortalController extends Controller
             ]
         );
 
-        // Notify Student about leave approval
-        $formattedLeaveDate = \Carbon\Carbon::parse($studentLeave->leave_date)->format('d M Y');
-        AppNotification::sendToStudentLeaveApplicant(
-            $studentLeave,
-            'Leave Request Approved! ✅',
-            "Your leave request for {$formattedLeaveDate} has been Approved by Class Teacher ({$teacher->teacher_name}).",
-            'leave',
-            route('student.page', 'leaves'),
-            'bi-check-circle-fill'
-        );
+        // Notify Student and Admin about leave approval
+        AppNotification::notifyStudentLeaveDecision($studentLeave, 'Approved', null, $user);
 
         return back()->with('success', "Leave request for {$studentLeave->student_name} approved successfully and attendance updated to Leave.");
     }
@@ -784,16 +786,8 @@ class TeacherPortalController extends Controller
             $studentLeave->update(['is_fine_applied' => false, 'fine_amount' => 0.00]);
         }
 
-        // Notify Student about leave rejection
-        $formattedLeaveDate = \Carbon\Carbon::parse($studentLeave->leave_date)->format('d M Y');
-        AppNotification::sendToStudentLeaveApplicant(
-            $studentLeave,
-            'Leave Request Rejected ❌',
-            "Your leave request for {$formattedLeaveDate} has been Rejected by Class In-Charge ({$teacher->teacher_name}).",
-            'leave',
-            route('student.page', 'leaves'),
-            'bi-x-circle-fill'
-        );
+        // Notify Student and Admin about leave rejection
+        AppNotification::notifyStudentLeaveDecision($studentLeave, 'Rejected', $request->input('remarks'), $user);
 
         return back()->with('success', "Leave request for {$studentLeave->student_name} marked as Rejected.");
     }
@@ -828,22 +822,15 @@ class TeacherPortalController extends Controller
             'user_id' => $user->id,
         ]);
 
-        // Send real-time notification to School Administration / Principal / Head
-        AppNotification::sendToAdmins(
-            'New Teacher Leave Request ✉️',
-            "Teacher {$teacher->teacher_name} applied for {$request->leave_type} on " . $leaveDate->format('d M Y') . ".",
-            'leave',
-            route('admin.page', 'leaves'),
-            'bi-envelope-paper-fill',
-            $user->id
-        );
+        // Send real-time notification to School Administration
+        AppNotification::notifyTeacherLeaveSubmitted($teacherLeave);
 
         $msg = 'Leave application submitted successfully for ' . $leaveDate->format('d M Y') . '. Status is currently Pending Admin approval.';
         if ($isExtraLeave) {
             $msg .= ' (Note: You have already used your 2 free monthly allowed leaves. Extra leave will be reviewed by Principal/Head).';
         }
 
-        return redirect()->route('teacher.page', 'attendance')->with('success', $msg);
+        return redirect()->route('teacher.page', 'leaves')->with('success', $msg);
     }
 
     public function approveLeave(TeacherLeave $teacherLeave)
@@ -1022,12 +1009,21 @@ class TeacherPortalController extends Controller
         $request->validate([
             'teacher_name' => 'required|string|max:255',
             'teacher_phone' => 'required|string|max:50',
+            'teacher_image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
         ]);
 
-        $teacher->update([
+        $updateData = [
             'teacher_name' => $request->teacher_name,
             'teacher_phone' => $request->teacher_phone,
-        ]);
+        ];
+
+        if ($request->hasFile('teacher_image')) {
+            $imagePath = $request->file('teacher_image')->store('upload/teachers', 'public');
+            $updateData['teacher_image'] = $imagePath;
+            $user->update(['image' => $imagePath]);
+        }
+
+        $teacher->update($updateData);
 
         $user->update([
             'name' => $request->teacher_name,

@@ -44,7 +44,8 @@
                 <td><strong>{{ $teacher->teacher_name }}</strong></td>
                 <td class="table-image-cell">
                     <img
-                        src="{{ $teacher->teacher_image ? asset('storage/'.$teacher->teacher_image) : asset('upload/DPF.jpeg') }}"
+                        src="{{ $teacher->teacher_image && $teacher->teacher_image !== 'dummy.jpeg' ? asset('storage/'.$teacher->teacher_image) : asset('upload/dummy.jpeg') }}"
+                        onerror="this.onerror=null; this.src='{{ asset('upload/dummy.jpeg') }}';"
                         alt="Teacher Image"
                         class="table-avatar"
                     >
@@ -105,7 +106,7 @@
                 <h2><i class="bi bi-person-badge color-sky"></i> Teacher Details</h2>
                 
                 <div class="teacher-detail-card">
-                    <img src="{{ $teacher->teacher_image ? asset('storage/'.$teacher->teacher_image) : asset('upload/DPF.jpeg') }}" class="teacher-detail-img">
+                    <img src="{{ $teacher->teacher_image && $teacher->teacher_image !== 'dummy.jpeg' ? asset('storage/'.$teacher->teacher_image) : asset('upload/dummy.jpeg') }}" onerror="this.onerror=null; this.src='{{ asset('upload/dummy.jpeg') }}';" class="teacher-detail-img">
                     <div>
                         <h3 class="teacher-detail-name">{{ $teacher->teacher_name }}</h3>
                         <p class="teacher-detail-email"><i class="bi bi-envelope"></i> {{ $teacher->teacher_email }}</p>
@@ -222,7 +223,7 @@
                     <div class="crud-field crud-field-full">
                         <label for="teacher-image-{{ $teacher->id }}">Replace Image</label>
                         <div class="current-image-row">
-                            <img src="{{ $teacher->teacher_image ? asset('storage/'.$teacher->teacher_image) : asset('upload/DPF.jpeg') }}" alt="Current teacher image">
+                            <img src="{{ $teacher->teacher_image && $teacher->teacher_image !== 'dummy.jpeg' ? asset('storage/'.$teacher->teacher_image) : asset('upload/dummy.jpeg') }}" onerror="this.onerror=null; this.src='{{ asset('upload/dummy.jpeg') }}';" alt="Current teacher image">
                             <input id="teacher-image-{{ $teacher->id }}" type="file" name="teacher_image" accept="image/jpeg,image/png,image/webp">
                         </div>
                         @error('teacher_image')<span class="crud-field-error">{{ $message }}</span>@enderror

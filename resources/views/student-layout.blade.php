@@ -49,6 +49,7 @@
             $academicMenu = [
                 'dashboard' => ['Dashboard', 'bi-grid-1x2-fill'],
                 'profile' => ['My Profile', 'bi-person-vcard'],
+                'teachers' => ['Teachers Directory', 'bi-person-badge-fill'],
                 'academics' => ['Class & Enrolled Subjects', 'bi-book-half'],
                 'outlines' => ['Course Outlines', 'bi-journal-bookmark-fill'],
                 'results' => ['Academic Results', 'bi-bar-chart-line-fill'],
@@ -87,12 +88,13 @@
         <!-- Bottom Student Mini-Card & Desktop Collapse Trigger -->
         <div class="sidebar-bottom">
             <div class="student-mini-card">
-                <div class="student-mini-avatar">
-                    @if($student->image)
-                        <img src="{{ asset('storage/'.$student->image) }}" alt="" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">
-                    @else
-                        {{ strtoupper(substr($student->name,0,1)) }}
-                    @endif
+                <div class="student-mini-avatar" style="overflow: hidden; background: transparent;">
+                    @php
+                        $stdSideImg = !empty($student->image) && $student->image !== 'dummy.jpeg'
+                            ? asset('storage/'.$student->image)
+                            : asset('upload/dummy.jpeg');
+                    @endphp
+                    <img src="{{ $stdSideImg }}" onerror="this.onerror=null; this.src='{{ asset('upload/dummy.jpeg') }}';" alt="{{ $student->name }}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">
                 </div>
                 <div class="student-user-info">
                     <b>{{ $student->name }}</b>
@@ -175,13 +177,14 @@
                 </div>
 
                 <!-- User Profile Pill & Dropdown -->
-                <div class="student-user-pill" id="topProfileUser">
+                <div class="student-user-pill" id="topProfileUser" style="position: relative !important;">
                     <div class="student-avatar-ring">
-                        @if($student->image)
-                            <img src="{{ asset('storage/'.$student->image) }}" alt="">
-                        @else
-                            <span>{{ strtoupper(substr($student->name,0,1)) }}</span>
-                        @endif
+                        @php
+                            $stdTopImg = !empty($student->image) && $student->image !== 'dummy.jpeg'
+                                ? asset('storage/'.$student->image)
+                                : asset('upload/dummy.jpeg');
+                        @endphp
+                        <img src="{{ $stdTopImg }}" onerror="this.onerror=null; this.src='{{ asset('upload/dummy.jpeg') }}';" alt="{{ $student->name }}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">
                     </div>
                     <div class="student-user-details">
                         <b>{{ $student->name }}</b>
@@ -189,11 +192,11 @@
                     </div>
                     <i class="bi bi-chevron-down" id="topProfileArrow" style="font-size: 11px; color: var(--muted); margin-left: 2px;"></i>
 
-                    <!-- Profile Dropdown Menu (Aligned perfectly with profile pill) -->
-                    <div id="userDropdownMenu" style="display: none; position: absolute; top: calc(100% + 8px); left: 0; right: 0; width: 100%; min-width: 170px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); box-shadow: var(--shadow-lg); z-index: 9999; padding: 6px 0; overflow: hidden;">
-                        <div style="padding: 10px 14px; border-bottom: 1px solid var(--border-light);">
-                            <strong style="display:block; font-size: 13px; color: var(--text);">{{ $student->name }}</strong>
-                            <small style="font-size: 11px; color: var(--primary); font-weight: 700;">Roll #{{ $student->std_id }}</small>
+                    <!-- Profile Dropdown Menu (Aligned perfectly between pill lines) -->
+                    <div id="userDropdownMenu" style="display: none; position: absolute; top: calc(100% + 8px); left: 0; right: 0; width: 100%; min-width: 170px; box-sizing: border-box; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); box-shadow: var(--shadow-lg); z-index: 9999; padding: 6px 0; overflow: hidden;">
+                        <div style="padding: 10px 14px; border-bottom: 1px solid var(--border-light); overflow: hidden;">
+                            <strong style="display:block; font-size: 13px; color: var(--text); white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">{{ $student->name }}</strong>
+                            <small style="font-size: 11px; color: var(--primary); font-weight: 700; white-space: nowrap; text-overflow: ellipsis; overflow: hidden; display: block;">Roll #{{ $student->std_id }}</small>
                         </div>
                         <a href="javascript:void(0)" id="dropdownProfileBtn" style="display: flex; align-items: center; gap: 10px; padding: 10px 14px; color: var(--text); text-decoration: none; font-size: 13px; font-weight: 600;">
                             <i class="bi bi-person-circle" style="color: var(--primary);"></i> Profile Details
@@ -292,7 +295,12 @@
             <button type="button" id="closeStudentModal" style="position: absolute; top: 16px; right: 16px; border: none; background: var(--bg); width: 36px; height: 36px; border-radius: 50%; font-size: 20px; cursor: pointer; color: var(--muted); display: grid; place-items: center;" title="Close Profile">&times;</button>
             
             <div style="display: flex; flex-direction: column; align-items: center; margin-bottom: 22px;">
-                <img src="{{ $student->image ? asset('storage/'.$student->image) : asset('upload/dummy.jpeg') }}" alt="" style="width: 84px; height: 84px; border-radius: 50%; object-fit: cover; border: 3px solid var(--primary); margin-bottom: 12px; box-shadow: var(--shadow-md);">
+                @php
+                    $stdModalImg = !empty($student->image) && $student->image !== 'dummy.jpeg'
+                        ? asset('storage/'.$student->image)
+                        : asset('upload/dummy.jpeg');
+                @endphp
+                <img src="{{ $stdModalImg }}" onerror="this.onerror=null; this.src='{{ asset('upload/dummy.jpeg') }}';" alt="{{ $student->name }}" style="width: 84px; height: 84px; border-radius: 50%; object-fit: cover; border: 3px solid var(--primary); margin-bottom: 12px; box-shadow: var(--shadow-md);">
                 <h2 style="margin: 0; font-size: 22px; color: var(--text); font-weight: 800;">Student Profile</h2>
                 <p style="margin: 4px 0 0; color: var(--muted); font-size: 14px; font-weight: 500;">{{ $student->name }}</p>
             </div>

@@ -29,7 +29,13 @@
 @if($page === 'dashboard')
 <section class="student-hero">
     <div>
-        <span class="hero-pill">Excellence Teacher Portal <i></i> Session Active</span>
+        <span class="hero-pill">
+            @if($isClassIncharge || ($user->role?->slug ?? '') === 'class-incharge')
+                👑 Class In-Charge &bull; {{ $primaryClass }} ({{ $primarySection }}) <i></i> Active Session
+            @else
+                Excellence Teacher Portal <i></i> Session Active
+            @endif
+        </span>
         <h1>Welcome back, {{ $teacher->teacher_name }}!</h1>
         <p>Active Class: <strong>{{ $primaryClass }} ({{ $primarySection }})</strong> <i></i> Subjects: <strong>{{ $mySubjects->implode(', ') }}</strong> <i></i> Reg Email: <strong>{{ $user->email }}</strong> <i></i> Keep guiding and inspiring.</p>
     </div>
@@ -185,13 +191,49 @@
 
 <div style="display:grid;grid-template-columns:340px 1fr;gap:24px;">
     <article class="student-panel" style="text-align:center;padding:32px 24px;">
-        <div style="width:90px;height:90px;border-radius:50%;background:#4F46E5;color:#fff;display:grid;place-items:center;font-size:36px;font-weight:800;margin:0 auto 16px;border:4px solid #C7D2FE;box-shadow:0 8px 20px rgba(79,70,229,0.2);">
-            {{ strtoupper(substr($teacher->teacher_name, 0, 1)) }}
+        <div style="width:90px;height:90px;border-radius:50%;overflow:hidden;background:#f1f5f9;display:grid;place-items:center;margin:0 auto 16px;border:4px solid #C7D2FE;box-shadow:0 8px 20px rgba(79,70,229,0.2);">
+            @php
+                $tProfImg = !empty($teacher->teacher_image) && $teacher->teacher_image !== 'dummy.jpeg'
+                    ? asset('storage/'.$teacher->teacher_image)
+                    : asset('upload/dummy.jpeg');
+            @endphp
+            <img src="{{ $tProfImg }}" onerror="this.onerror=null; this.src='{{ asset('upload/dummy.jpeg') }}';" alt="{{ $teacher->teacher_name }}" style="width:100%;height:100%;object-fit:cover;">
         </div>
         <h2 style="margin:0;font-size:20px;font-weight:800;color:#0f172a;">{{ $teacher->teacher_name }}</h2>
-        <p style="margin:4px 0 16px;color:#4F46E5;font-weight:700;font-size:13.5px;">Subject Specialist &bull; Teacher</p>
+        @if($isClassIncharge || ($user->role?->slug ?? '') === 'class-incharge')
+            <div style="margin:6px 0 16px;display:flex;justify-content:center;gap:6px;flex-wrap:wrap;">
+                <span style="background:linear-gradient(135deg, #4338ca, #6366f1);color:#fff;font-size:12px;font-weight:800;padding:4px 14px;border-radius:99px;box-shadow:0 2px 8px rgba(99,102,241,0.3);">
+                    👑 Class In-Charge Teacher &bull; {{ $primaryClass }} ({{ $primarySection }})
+                </span>
+                <span style="background:#eef2ff;color:#4338ca;font-size:12px;font-weight:700;padding:4px 12px;border-radius:99px;border:1px solid #c7d2fe;">
+                    {{ $teacher->course ?: 'Subject Specialist' }}
+                </span>
+            </div>
+        @else
+            <p style="margin:4px 0 16px;color:#4F46E5;font-weight:700;font-size:13.5px;">Subject Specialist &bull; Teacher</p>
+        @endif
         
         <dl style="display:flex;flex-direction:column;gap:10px;margin:0;text-align:left;">
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:#f8fafc;border-radius:10px;border:1px solid #f1f5f9;">
+                <dt style="color:#64748b;font-size:13px;font-weight:600;">System Role</dt>
+                <dd style="margin:0;font-weight:800;color:#0f172a;font-size:13.5px;">
+                    @if($isClassIncharge || ($user->role?->slug ?? '') === 'class-incharge')
+                        <span style="background:#dcfce7;color:#15803d;padding:3px 10px;border-radius:6px;font-size:12px;font-weight:800;display:inline-flex;align-items:center;gap:4px;">
+                            <i class="bi bi-shield-check"></i> Class Incharge Teacher
+                        </span>
+                    @else
+                        <span style="background:#f1f5f9;color:#334155;padding:3px 10px;border-radius:6px;font-size:12px;font-weight:700;">Teacher</span>
+                    @endif
+                </dd>
+            </div>
+            @if($isClassIncharge || ($user->role?->slug ?? '') === 'class-incharge')
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:#eef2ff;border-radius:10px;border:1px solid #c7d2fe;">
+                <dt style="color:#3730a3;font-size:13px;font-weight:700;">Incharge Class</dt>
+                <dd style="margin:0;font-weight:800;color:#1e1b4b;font-size:13.5px;">
+                    👑 Class {{ $primaryClass }} &bull; Section {{ $primarySection }}
+                </dd>
+            </div>
+            @endif
             <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:#f8fafc;border-radius:10px;border:1px solid #f1f5f9;">
                 <dt style="color:#64748b;font-size:13px;font-weight:600;">Full Name</dt>
                 <dd style="margin:0;font-weight:700;color:#0f172a;font-size:13.5px;">{{ $teacher->teacher_name }}</dd>
@@ -218,7 +260,7 @@
     <article class="student-panel" style="padding:28px;">
         <h3 style="margin:0 0 20px;font-size:18px;font-weight:800;color:#0f172a;border-bottom:1px solid #f1f5f9;padding-bottom:12px;"><i class="bi bi-shield-lock" style="color:#4F46E5;"></i> Account Security & Settings</h3>
         
-        <form action="{{ route('teacher.profile.update') }}" method="POST" style="margin-bottom:28px;">
+        <form action="{{ route('teacher.profile.update') }}" method="POST" enctype="multipart/form-data" style="margin-bottom:28px;">
             @csrf
             @method('PUT')
             <h4 style="font-size:14px;font-weight:700;color:#0f172a;margin-bottom:14px;">Edit Profile Information</h4>
@@ -231,6 +273,10 @@
                     <label style="display:block;font-size:12px;font-weight:700;color:#475569;margin-bottom:6px;">Phone Number</label>
                     <input type="text" name="teacher_phone" value="{{ $teacher->teacher_phone ?: '0300-1234567' }}" required style="width:100%;padding:10px 14px;border:1px solid #cbd5e1;border-radius:10px;font-size:13.5px;">
                 </div>
+            </div>
+            <div style="margin-bottom:16px;">
+                <label style="display:block;font-size:12px;font-weight:700;color:#475569;margin-bottom:6px;">Update Profile Photo</label>
+                <input type="file" name="teacher_image" accept="image/*" style="width:100%;padding:8px 12px;border:1px solid #cbd5e1;border-radius:10px;font-size:12.5px;">
             </div>
             <button type="submit" style="background:#4F46E5;color:#fff;border:none;padding:10px 20px;border-radius:10px;font-weight:700;font-size:13px;cursor:pointer;">Update Profile</button>
         </form>
@@ -282,8 +328,13 @@
             <tr>
                 <td>
                     <div style="display:flex;align-items:center;gap:12px;">
-                        <div style="width:40px;height:40px;border-radius:50%;background:#4F46E5;color:#fff;display:grid;place-items:center;font-weight:800;font-size:15px;">
-                            {{ strtoupper(substr($ca->teacher?->teacher_name ?? 'T', 0, 1)) }}
+                        <div style="width:40px;height:40px;border-radius:50%;overflow:hidden;background:#f1f5f9;display:grid;place-items:center;border:1px solid #cbd5e1;flex-shrink:0;">
+                            @php
+                                $coTeacherImg = !empty($ca->teacher?->teacher_image) && $ca->teacher->teacher_image !== 'dummy.jpeg'
+                                    ? asset('storage/'.$ca->teacher->teacher_image)
+                                    : asset('upload/dummy.jpeg');
+                            @endphp
+                            <img src="{{ $coTeacherImg }}" onerror="this.onerror=null; this.src='{{ asset('upload/dummy.jpeg') }}';" alt="{{ $ca->teacher?->teacher_name }}" style="width:100%;height:100%;object-fit:cover;">
                         </div>
                         <div>
                             <strong style="color:#0f172a;font-size:14px;display:block;">{{ $ca->teacher?->teacher_name ?? "Ma'am Fatima Zahra" }}</strong>
@@ -336,8 +387,13 @@
                 <td><strong style="color:#4F46E5;font-size:14px;">#{{ $std->std_id }}</strong></td>
                 <td>
                     <div style="display:flex;align-items:center;gap:12px;">
-                        <div style="width:36px;height:36px;border-radius:50%;background:#0f172a;color:#fff;display:grid;place-items:center;font-weight:800;font-size:14px;">
-                            {{ strtoupper(substr($std->name, 0, 1)) }}
+                        <div style="width:36px;height:36px;border-radius:50%;overflow:hidden;background:#f1f5f9;display:grid;place-items:center;border:1px solid #cbd5e1;flex-shrink:0;">
+                            @php
+                                $stdListImg = !empty($std->image) && $std->image !== 'dummy.jpeg'
+                                    ? asset('storage/'.$std->image)
+                                    : asset('upload/dummy.jpeg');
+                            @endphp
+                            <img src="{{ $stdListImg }}" onerror="this.onerror=null; this.src='{{ asset('upload/dummy.jpeg') }}';" alt="{{ $std->name }}" style="width:100%;height:100%;object-fit:cover;">
                         </div>
                         <div>
                             <strong style="color:#0f172a;font-size:14px;display:block;">{{ $std->name }}</strong>
@@ -1840,7 +1896,15 @@ function onAddStudentSelect(stdId) {
         <span class="metric-icon amber" style="background:#dcfce7;color:#15803d;"><i class="bi bi-balloon-heart-fill"></i></span>
         <small style="color:#166534;">ALLOWED MONTHLY LEAVES</small>
         <strong style="color:#15803d;">{{ $leavesRemainingCount }} / {{ $leavesAllowedCount }} Free Left</strong>
-        <p style="color:#166534;">{{ $monthLeave }} Approved Leaves in {{ $activeMonthName }}</p>
+        <p style="color:#166534;margin-bottom:8px;">{{ $monthLeave }} Approved Leaves in {{ $activeMonthName }}</p>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;">
+            <button type="button" onclick="document.getElementById('teacherLeaveModal').style.display='grid'" style="border:none;background:#15803d;color:#ffffff;padding:5px 12px;border-radius:6px;font-size:11.5px;font-weight:700;cursor:pointer;">
+                <i class="bi bi-calendar-plus-fill"></i> Apply Leave
+            </button>
+            <a href="{{ route('teacher.page', 'leaves') }}" style="text-decoration:none;background:#dcfce7;color:#166534;padding:5px 12px;border-radius:6px;font-size:11.5px;font-weight:700;display:inline-flex;align-items:center;border:1px solid #bbf7d0;">
+                View Leaves <i class="bi bi-arrow-right-short"></i>
+            </a>
+        </div>
     </article>
     <article>
         <span class="metric-icon purple"><i class="bi bi-person-workspace"></i></span>
@@ -2084,58 +2148,6 @@ function onAddStudentSelect(stdId) {
 </div>
 @endif
 
-<!-- Modal Popup for Applying Teacher Leave -->
-<div id="teacherLeaveModal" style="display:none;position:fixed;inset:0;background:rgba(7,39,36,0.65);backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);z-index:9999;place-items:center;padding:20px;">
-    <div style="background:#fff;border-radius:22px;width:min(100%,540px);padding:32px 28px;box-shadow:0 28px 70px rgba(0,30,25,0.35);position:relative;animation:securityRise 0.25s ease both;">
-        <button type="button" onclick="document.getElementById('teacherLeaveModal').style.display='none'" style="position:absolute;top:16px;right:16px;background:#f0f6f5;border:none;width:36px;height:36px;border-radius:50%;font-size:20px;cursor:pointer;color:#475569;display:grid;place-items:center;" title="Close">&times;</button>
-        
-        <div style="display:flex;align-items:center;gap:12px;margin-bottom:18px;">
-            <div style="width:42px;height:42px;border-radius:12px;background:#e0f2fe;color:#0284c7;display:grid;place-items:center;font-size:20px;">
-                <i class="bi bi-calendar-plus-fill"></i>
-            </div>
-            <div>
-                <h3 style="margin:0;font-size:20px;font-weight:800;color:#1E1B4B;">Apply For Leave</h3>
-                <p style="margin:2px 0 0;font-size:12.5px;color:#64748b;">Quota: <strong>2 Allowed Paid Leaves / Month</strong> &bull; Remaining: <strong style="color:#059669;">{{ $leavesRemainingCount }} Free</strong></p>
-            </div>
-        </div>
-
-        <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:12px;padding:12px 16px;margin-bottom:18px;font-size:12.5px;color:#166534;display:flex;align-items:center;gap:8px;">
-            <i class="bi bi-info-circle-fill" style="font-size:16px;color:#15803d;flex-shrink:0;"></i>
-            <span>Approved leaves automatically sync into your daily attendance as <strong>Approved Leave</strong> so it is never marked as an absence!</span>
-        </div>
-
-        <form action="{{ route('teacher.leave.apply') }}" method="POST">
-            @csrf
-            <div style="margin-bottom:14px;">
-                <label style="display:block;font-size:12px;font-weight:700;color:#475569;margin-bottom:6px;">Select Leave Type</label>
-                <select name="leave_type" required style="width:100%;padding:10px 14px;border:1px solid #cbd5e1;border-radius:10px;font-size:13.5px;font-weight:600;">
-                    <option value="Casual Leave (CL)">Casual Leave (CL)</option>
-                    <option value="Sick Leave (SL)">Sick Leave (SL)</option>
-                    <option value="Personal Emergency">Personal Emergency</option>
-                    <option value="Special Duty Leave">Special Duty Leave</option>
-                </select>
-            </div>
-
-            <div style="margin-bottom:14px;">
-                <label style="display:block;font-size:12px;font-weight:700;color:#475569;margin-bottom:6px;">Leave Date</label>
-                <input type="date" name="leave_date" value="{{ \Carbon\Carbon::tomorrow()->format('Y-m-d') }}" required style="width:100%;padding:10px 14px;border:1px solid #cbd5e1;border-radius:10px;font-size:13.5px;">
-            </div>
-
-            <div style="margin-bottom:20px;">
-                <label style="display:block;font-size:12px;font-weight:700;color:#475569;margin-bottom:6px;">Reason for Leave</label>
-                <textarea name="reason" rows="3" required placeholder="Please enter reason for requesting leave..." style="width:100%;padding:10px 14px;border:1px solid #cbd5e1;border-radius:10px;font-size:13.5px;resize:vertical;"></textarea>
-            </div>
-
-            <div style="display:flex;justify-content:flex-end;gap:10px;">
-                <button type="button" onclick="document.getElementById('teacherLeaveModal').style.display='none'" style="padding:10px 20px;border-radius:10px;border:1px solid #cbd5e1;background:#fff;color:#475569;font-size:13px;font-weight:700;cursor:pointer;">Cancel</button>
-                <button type="submit" style="padding:10px 24px;border-radius:10px;background:linear-gradient(135deg, #1E1B4B 0%, #312E81 50%, #4F46E5 100%);color:#fff;border:none;font-size:13px;font-weight:800;cursor:pointer;box-shadow:0 4px 14px rgba(79,70,229,0.3);">
-                    Submit Leave Application
-                </button>
-            </div>
-        </form>
-    </div>
-</div>
-
 <script>
 function updateLiveClock() {
     const clockEl = document.getElementById('liveDigitalClock');
@@ -2147,6 +2159,138 @@ function updateLiveClock() {
 setInterval(updateLiveClock, 1000);
 updateLiveClock();
 </script>
+@endif
+
+@if($page === 'leaves')
+<div class="page-heading" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;margin-bottom:24px;">
+    <div>
+        <p>EXCELLENCE TEACHER PORTAL &bull; LEAVE MANAGEMENT</p>
+        <h1>My Leaves & Quota</h1>
+    </div>
+    <button type="button" onclick="document.getElementById('teacherLeaveModal').style.display='grid'" style="border:none;background:linear-gradient(135deg, #1E1B4B 0%, #312E81 50%, #4F46E5 100%);color:#ffffff;padding:12px 24px;border-radius:12px;font-size:14px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:8px;box-shadow:0 6px 18px rgba(79,70,229,0.35);transition:all 0.2s;">
+        <i class="bi bi-plus-circle-fill"></i> Apply For Leave
+    </button>
+</div>
+
+{{-- LEAVE QUOTA & STATUS CARDS --}}
+<div class="student-stats-grid" style="display:grid;grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));gap:16px;margin-bottom:24px;">
+    <article class="stat-card" style="background:#ffffff;border:1px solid #e2e8f0;border-radius:16px;padding:20px;box-shadow:0 3px 10px rgba(0,0,0,0.03);">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+            <span style="font-size:13px;font-weight:700;color:#64748b;">Monthly Quota</span>
+            <div style="width:36px;height:36px;border-radius:10px;background:#eef2ff;color:#4f46e5;display:grid;place-items:center;font-size:17px;"><i class="bi bi-calendar-check-fill"></i></div>
+        </div>
+        <div style="font-size:26px;font-weight:900;color:#0f172a;">{{ $leavesAllowedCount }} Days</div>
+        <small style="color:#64748b;font-size:12px;">Free paid leave quota per month</small>
+    </article>
+
+    <article class="stat-card" style="background:#ffffff;border:1px solid #e2e8f0;border-radius:16px;padding:20px;box-shadow:0 3px 10px rgba(0,0,0,0.03);">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+            <span style="font-size:13px;font-weight:700;color:#64748b;">Leaves Approved</span>
+            <div style="width:36px;height:36px;border-radius:10px;background:#ecfdf5;color:#059669;display:grid;place-items:center;font-size:17px;"><i class="bi bi-check-circle-fill"></i></div>
+        </div>
+        <div style="font-size:26px;font-weight:900;color:#059669;">{{ $monthlyApprovedLeaves }}</div>
+        <small style="color:#64748b;font-size:12px;">Approved in current month</small>
+    </article>
+
+    <article class="stat-card" style="background:#ffffff;border:1px solid #e2e8f0;border-radius:16px;padding:20px;box-shadow:0 3px 10px rgba(0,0,0,0.03);">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+            <span style="font-size:13px;font-weight:700;color:#64748b;">Remaining Free Leaves</span>
+            <div style="width:36px;height:36px;border-radius:10px;background:#fef3c7;color:#d97706;display:grid;place-items:center;font-size:17px;"><i class="bi bi-hourglass-split"></i></div>
+        </div>
+        <div style="font-size:26px;font-weight:900;color:#d97706;">{{ $leavesRemainingCount }} Days</div>
+        <small style="color:#64748b;font-size:12px;">Available before admin review required</small>
+    </article>
+
+    <article class="stat-card" style="background:#ffffff;border:1px solid #e2e8f0;border-radius:16px;padding:20px;box-shadow:0 3px 10px rgba(0,0,0,0.03);">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+            <span style="font-size:13px;font-weight:700;color:#64748b;">Total Leave History</span>
+            <div style="width:36px;height:36px;border-radius:10px;background:#f1f5f9;color:#334155;display:grid;place-items:center;font-size:17px;"><i class="bi bi-clock-history"></i></div>
+        </div>
+        <div style="font-size:26px;font-weight:900;color:#0f172a;">{{ $leaves->count() }}</div>
+        <small style="color:#64748b;font-size:12px;">All-time requests submitted</small>
+    </article>
+</div>
+
+{{-- APPLIED LEAVES HISTORY TABLE --}}
+<div class="table-panel" style="background:#fff;border-radius:16px;border:1px solid #e2e8f0;overflow:hidden;box-shadow:0 3px 10px rgba(0,0,0,0.03);margin-bottom:28px;">
+    <div style="padding:18px 24px;border-bottom:1px solid #f1f5f9;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+        <div>
+            <h3 style="margin:0;font-size:16px;font-weight:800;color:#0f172a;">My Leave Applications</h3>
+            <p style="margin:2px 0 0;font-size:12.5px;color:#64748b;">Track status of casual, sick, and personal leave requests</p>
+        </div>
+        <button type="button" onclick="document.getElementById('teacherLeaveModal').style.display='grid'" style="border:none;background:#f1f5f9;color:#0f172a;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;">
+            <i class="bi bi-send-plus-fill"></i> New Request
+        </button>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Leave Date</th>
+                <th>Leave Type</th>
+                <th>Reason</th>
+                <th>Status</th>
+                <th>Approval / Remarks</th>
+                <th>Applied On</th>
+            </tr>
+        </thead>
+        <tbody>
+            @forelse($leaves as $idx => $leave)
+            @php
+                $st = strtolower(trim($leave->status));
+            @endphp
+            <tr>
+                <td><span style="font-size:12px;font-weight:700;color:#64748b;">{{ $idx + 1 }}</span></td>
+                <td>
+                    <strong style="color:#0f172a;font-size:13.5px;">
+                        {{ \Carbon\Carbon::parse($leave->leave_date)->format('D, d M Y') }}
+                    </strong>
+                </td>
+                <td>
+                    <span style="background:#e0e7ff;color:#3730a3;font-size:12px;font-weight:700;padding:4px 10px;border-radius:6px;display:inline-block;">
+                        {{ $leave->leave_type }}
+                    </span>
+                </td>
+                <td style="max-width:280px;font-size:13px;color:#334155;">
+                    {{ $leave->reason }}
+                </td>
+                <td>
+                    @if($st === 'approved')
+                        <span style="background:#ecfdf5;color:#047857;border:1px solid #a7f3d0;padding:4px 12px;border-radius:99px;font-size:12px;font-weight:700;display:inline-flex;align-items:center;gap:5px;">
+                            <i class="bi bi-check-circle-fill"></i> Approved
+                        </span>
+                    @elseif($st === 'rejected')
+                        <span style="background:#fef2f2;color:#b91c1c;border:1px solid #fecaca;padding:4px 12px;border-radius:99px;font-size:12px;font-weight:700;display:inline-flex;align-items:center;gap:5px;">
+                            <i class="bi bi-x-circle-fill"></i> Rejected
+                        </span>
+                    @else
+                        <span style="background:#fffbeb;color:#b45309;border:1px solid #fde68a;padding:4px 12px;border-radius:99px;font-size:12px;font-weight:700;display:inline-flex;align-items:center;gap:5px;">
+                            <i class="bi bi-hourglass-split"></i> Pending Approval
+                        </span>
+                    @endif
+                </td>
+                <td style="font-size:12.5px;color:#64748b;">
+                    {{ $leave->approved_by ?? 'Pending School Admin review' }}
+                </td>
+                <td style="font-size:12.5px;color:#64748b;">
+                    {{ $leave->created_at ? $leave->created_at->format('d M Y') : 'N/A' }}
+                </td>
+            </tr>
+            @empty
+            <tr>
+                <td colspan="7" style="text-align:center;padding:40px;color:#64748b;">
+                    <i class="bi bi-calendar-x" style="font-size:36px;display:block;margin-bottom:8px;color:#94a3b8;"></i>
+                    <p style="margin:0;font-size:14px;font-weight:600;">No leave applications found.</p>
+                    <button type="button" onclick="document.getElementById('teacherLeaveModal').style.display='grid'" style="margin-top:12px;border:none;background:#4F46E5;color:#fff;padding:8px 18px;border-radius:8px;font-size:12.5px;font-weight:700;cursor:pointer;">
+                        Apply Now
+                    </button>
+                </td>
+            </tr>
+            @endforelse
+        </tbody>
+    </table>
+</div>
 @endif
 
 @if($page === 'tests')
@@ -2674,6 +2818,58 @@ function onAddTestStudentChange() {
     </table>
 </div>
 @endif
+
+<!-- Modal Popup for Applying Teacher Leave (Globally Accessible) -->
+<div id="teacherLeaveModal" style="display:none;position:fixed;inset:0;background:rgba(7,39,36,0.65);backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);z-index:99999;place-items:center;padding:20px;">
+    <div style="background:#fff;border-radius:22px;width:min(100%,540px);padding:32px 28px;box-shadow:0 28px 70px rgba(0,30,25,0.35);position:relative;animation:securityRise 0.25s ease both;">
+        <button type="button" onclick="document.getElementById('teacherLeaveModal').style.display='none'" style="position:absolute;top:16px;right:16px;background:#f0f6f5;border:none;width:36px;height:36px;border-radius:50%;font-size:20px;cursor:pointer;color:#475569;display:grid;place-items:center;" title="Close">&times;</button>
+        
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:18px;">
+            <div style="width:42px;height:42px;border-radius:12px;background:#e0f2fe;color:#0284c7;display:grid;place-items:center;font-size:20px;">
+                <i class="bi bi-calendar-plus-fill"></i>
+            </div>
+            <div>
+                <h3 style="margin:0;font-size:20px;font-weight:800;color:#1E1B4B;">Apply For Leave</h3>
+                <p style="margin:2px 0 0;font-size:12.5px;color:#64748b;">Quota: <strong>2 Allowed Paid Leaves / Month</strong> &bull; Remaining: <strong style="color:#059669;">{{ $leavesRemainingCount }} Free</strong></p>
+            </div>
+        </div>
+
+        <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:12px;padding:12px 16px;margin-bottom:18px;font-size:12.5px;color:#166534;display:flex;align-items:center;gap:8px;">
+            <i class="bi bi-info-circle-fill" style="font-size:16px;color:#15803d;flex-shrink:0;"></i>
+            <span>Approved leaves automatically sync into your daily attendance as <strong>Approved Leave</strong> so it is never marked as an absence!</span>
+        </div>
+
+        <form action="{{ route('teacher.leave.apply') }}" method="POST">
+            @csrf
+            <div style="margin-bottom:14px;">
+                <label style="display:block;font-size:12px;font-weight:700;color:#475569;margin-bottom:6px;">Select Leave Type</label>
+                <select name="leave_type" required style="width:100%;padding:10px 14px;border:1px solid #cbd5e1;border-radius:10px;font-size:13.5px;font-weight:600;">
+                    <option value="Casual Leave (CL)">Casual Leave (CL)</option>
+                    <option value="Sick Leave (SL)">Sick Leave (SL)</option>
+                    <option value="Personal Emergency">Personal Emergency</option>
+                    <option value="Special Duty Leave">Special Duty Leave</option>
+                </select>
+            </div>
+
+            <div style="margin-bottom:14px;">
+                <label style="display:block;font-size:12px;font-weight:700;color:#475569;margin-bottom:6px;">Leave Date</label>
+                <input type="date" name="leave_date" value="{{ \Carbon\Carbon::tomorrow()->format('Y-m-d') }}" required style="width:100%;padding:10px 14px;border:1px solid #cbd5e1;border-radius:10px;font-size:13.5px;">
+            </div>
+
+            <div style="margin-bottom:20px;">
+                <label style="display:block;font-size:12px;font-weight:700;color:#475569;margin-bottom:6px;">Reason for Leave</label>
+                <textarea name="reason" rows="3" required placeholder="Please enter reason for requesting leave..." style="width:100%;padding:10px 14px;border:1px solid #cbd5e1;border-radius:10px;font-size:13.5px;resize:vertical;"></textarea>
+            </div>
+
+            <div style="display:flex;justify-content:flex-end;gap:10px;">
+                <button type="button" onclick="document.getElementById('teacherLeaveModal').style.display='none'" style="padding:10px 20px;border-radius:10px;border:1px solid #cbd5e1;background:#fff;color:#475569;font-size:13px;font-weight:700;cursor:pointer;">Cancel</button>
+                <button type="submit" style="padding:10px 24px;border-radius:10px;background:linear-gradient(135deg, #1E1B4B 0%, #312E81 50%, #4F46E5 100%);color:#fff;border:none;font-size:13px;font-weight:800;cursor:pointer;box-shadow:0 4px 14px rgba(79,70,229,0.3);">
+                    Submit Leave Application
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
 
 @endsection
 

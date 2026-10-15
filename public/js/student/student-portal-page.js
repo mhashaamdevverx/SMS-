@@ -84,30 +84,68 @@ function closeFineConfirmModal() {
     if (m) m.style.display = 'none';
 }
 
-function handleLeaveSubmit() {
+function handleLeaveSubmit(e) {
+    if (e && e.preventDefault) {
+        e.preventDefault();
+    }
+    const form = document.getElementById('applyLeaveForm');
+    const dateInput = document.getElementById('leave_date');
     const typeSelect = document.getElementById('leave_type');
     const reasonText = document.getElementById('reason');
+
+    if (!dateInput || !dateInput.value) {
+        alert('Please select a leave date.');
+        if (dateInput) dateInput.focus();
+        return false;
+    }
     if (!typeSelect || !typeSelect.value) {
         alert('Please select a leave type.');
-        return;
+        if (typeSelect) typeSelect.focus();
+        return false;
     }
     if (!reasonText || !reasonText.value.trim()) {
         alert('Please type the reason for leave.');
-        return;
+        if (reasonText) reasonText.focus();
+        return false;
+    }
+    if (reasonText.value.trim().length < 5) {
+        alert('Reason must be at least 5 characters long.');
+        if (reasonText) reasonText.focus();
+        return false;
     }
 
-    const leavesBal = typeof userLeavesBalance !== 'undefined' ? userLeavesBalance : 3;
+    const leavesBal = (typeof window.userLeavesBalance !== 'undefined') ? Number(window.userLeavesBalance) : ((typeof userLeavesBalance !== 'undefined') ? Number(userLeavesBalance) : 3);
+    const admitFineInput = document.getElementById('admitFineInput');
+
     if (leavesBal <= 0) {
-        closeApplyLeaveModal();
         openConfirmFineModal();
-    } else {
-        document.getElementById('realLeaveForm').submit();
+        return false;
+    }
+
+    if (admitFineInput) {
+        admitFineInput.value = '0';
+    }
+
+    if (form) {
+        form.submit();
+    }
+    return true;
+}
+
+function confirmAdmitFineAndSubmit() {
+    const form = document.getElementById('applyLeaveForm');
+    const admitFineInput = document.getElementById('admitFineInput');
+    if (admitFineInput) {
+        admitFineInput.value = '1';
+    }
+    closeFineConfirmModal();
+    if (form) {
+        form.submit();
     }
 }
 
 function submitFineLeaveForm() {
-    closeFineConfirmModal();
-    document.getElementById('realLeaveForm').submit();
+    confirmAdmitFineAndSubmit();
 }
 
 // 3. Test Session Month Switcher

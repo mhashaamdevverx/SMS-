@@ -39,7 +39,8 @@
         <div class="student-profile-hero-left">
             <div class="student-profile-avatar-wrap">
                 <img
-                    src="{{ $student->image ? asset('storage/'.$student->image) : asset('upload/DPF.jpeg') }}"
+                    src="{{ $student->image && $student->image !== 'dummy.jpeg' ? asset('storage/'.$student->image) : asset('upload/dummy.jpeg') }}"
+                    onerror="this.onerror=null; this.src='{{ asset('upload/dummy.jpeg') }}';"
                     alt="{{ $student->name }}"
                     class="student-profile-avatar"
                 >

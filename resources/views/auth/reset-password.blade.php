@@ -12,6 +12,15 @@
     <link rel="stylesheet" href="{{ asset('css/style.css') }}?v={{ time() }}">
 </head>
 <body>
+    <!-- TOP RIGHT HELP & SUPPORT BUTTON -->
+    <header class="top-navbar" style="position: fixed; top: 16px; right: 24px; z-index: 99999; pointer-events: auto;">
+        <div class="top-nav-actions">
+            <a href="{{ route('support') }}" class="btn-header-support" title="Help Desk & Support Center" style="cursor: pointer; text-decoration: none;">
+                <span class="support-icon-circle">?</span>
+            </a>
+        </div>
+    </header>
+
 <main class="login-wrapper">
     <div class="login-card-container">
         <section class="form-side">

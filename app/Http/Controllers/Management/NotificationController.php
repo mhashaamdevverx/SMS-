@@ -107,9 +107,11 @@ class NotificationController extends Controller
             return response()->json(['unread' => 0, 'notifications' => []]);
         }
 
+        $limit = max(5, min(50, (int)$request->input('limit', 25)));
+
         $notifications = AppNotification::whereIn('user_id', $userIds)
             ->latest('id')
-            ->take(15)
+            ->take($limit)
             ->get()
             ->map(function ($n) {
                 return [
@@ -121,6 +123,7 @@ class NotificationController extends Controller
                     'action_url' => $n->action_url ?: '#',
                     'is_read' => (bool)$n->is_read,
                     'time_ago' => $n->created_at ? $n->created_at->diffForHumans() : 'Just now',
+                    'created_at' => $n->created_at ? $n->created_at->toIso8601String() : null,
                 ];
             });
 
@@ -130,6 +133,7 @@ class NotificationController extends Controller
 
         return response()->json([
             'unread' => $unreadCount,
+            'unread_count' => $unreadCount,
             'notifications' => $notifications,
         ]);
     }
@@ -161,5 +165,51 @@ class NotificationController extends Controller
         }
 
         return response()->json(['success' => true]);
+    }
+
+    public function publishAnnouncement(Request $request)
+    {
+        $sessionUserId = session('user_id') ?: (auth()->check() ? auth()->id() : null);
+        if (!$sessionUserId) {
+            return response()->json(['success' => false, 'message' => 'Unauthorized'], 401);
+        }
+
+        $currentUser = User::find($sessionUserId);
+        $roleSlug = $currentUser?->role?->slug;
+
+        $isAuthorized = in_array($roleSlug, ['admin', 'head', 'principal', 'super-admin', 'class-incharge', 'teacher']) || (int)$currentUser?->role_id === 1;
+        if (!$isAuthorized) {
+            return response()->json(['success' => false, 'message' => 'Forbidden: Only faculty or administration can publish announcements.'], 403);
+        }
+
+        $validated = $request->validate([
+            'title' => 'required|string|max:200',
+            'message' => 'required|string|min:5',
+            'audience' => 'required|string|in:all,students,teachers,incharges,class',
+            'class' => 'nullable|string|max:50',
+            'section' => 'nullable|string|max:50',
+        ]);
+
+        // If user is In-Charge / Subject teacher, audience cannot be 'all' unless admin
+        if ($roleSlug === 'class-incharge' || $roleSlug === 'teacher') {
+            if ($validated['audience'] === 'all') {
+                $validated['audience'] = 'class';
+            }
+        }
+
+        AppNotification::notifyAnnouncement(
+            $validated['title'],
+            $validated['message'],
+            $validated['audience'],
+            $validated['class'] ?? null,
+            $validated['section'] ?? null,
+            $currentUser
+        );
+
+        if ($request->expectsJson()) {
+            return response()->json(['success' => true, 'message' => 'Announcement published successfully!']);
+        }
+
+        return back()->with('success', 'Announcement published successfully to target audience!');
     }
 }
