@@ -10,17 +10,76 @@
 @endif
 
 @php
-    $classFilterHtml = function() use ($myClasses, $primaryClass, $page) {
-        if ($myClasses->count() <= 1) return '';
-        $html = '<div style="background:#ffffff;border:1px solid #e2e8f0;border-radius:14px;padding:12px 18px;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 8px rgba(15,23,42,0.03);">';
-        $html .= '<div style="display:flex;align-items:center;gap:10px;"><i class="bi bi-funnel-fill" style="color:#4F46E5;font-size:16px;"></i><strong style="font-size:13px;color:#0f172a;">Active Class Filter:</strong><span style="font-size:12px;color:#64748b;">(You are assigned to multiple classes)</span></div>';
-        $html .= '<form method="GET" action="' . ($page === 'dashboard' ? route('teacher.dashboard') : route('teacher.page', $page)) . '" style="margin:0;display:flex;align-items:center;gap:8px;">';
-        $html .= '<select name="class" onchange="this.form.submit()" style="padding:8px 14px;border:1px solid #4F46E5;border-radius:10px;font-size:13px;font-weight:700;color:#1E1B4B;background:#EEF2FF;cursor:pointer;">';
+    $classFilterHtml = function() use ($myClasses, $primaryClass, $primarySection, $availableSections, $availableFilterSubjects, $reqClass, $reqSection, $reqSubject, $searchQuery, $isAllClasses, $page) {
+        $actionUrl = ($page === 'dashboard') ? route('teacher.dashboard') : route('teacher.page', $page);
+        $hasActiveFilter = (!empty($reqClass) && $reqClass !== 'all') || !empty($reqSection) || !empty($reqSubject) || !empty($searchQuery);
+        $resetUrl = ($page === 'dashboard') ? route('teacher.dashboard') : route('teacher.page', $page);
+
+        $html = '<div style="background:#ffffff;border:1.5px solid #e2e8f0;border-radius:18px;padding:16px 22px;margin-bottom:24px;box-shadow:0 4px 16px rgba(15,23,42,0.03);">';
+        $html .= '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px;">';
+        $html .= '<div style="display:flex;align-items:center;gap:8px;"><i class="bi bi-funnel-fill" style="color:#4F46E5;font-size:16px;"></i><strong style="font-size:13.5px;color:#0f172a;">Assigned Class & Student Filters</strong><span style="font-size:11.5px;color:#4F46E5;background:#EEF2FF;padding:2px 8px;border-radius:6px;font-weight:700;">Authorized Scope</span></div>';
+        if ($hasActiveFilter) {
+            $html .= '<a href="' . $resetUrl . '" style="font-size:12px;font-weight:700;color:#ef4444;text-decoration:none;display:inline-flex;align-items:center;gap:4px;background:#fee2e2;padding:4px 10px;border-radius:6px;"><i class="bi bi-x-circle-fill"></i> Clear Filters</a>';
+        }
+        $html .= '</div>';
+
+        $html .= '<form method="GET" action="' . $actionUrl . '" style="margin:0;display:grid;grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)) 100px;gap:12px;align-items:end;">';
+        
+        // 1. Class Filter
+        $html .= '<div>';
+        $html .= '<label style="display:block;font-size:11px;font-weight:800;color:#475569;margin-bottom:4px;text-transform:uppercase;">Class / Grade</label>';
+        $html .= '<select name="class" onchange="this.form.submit()" style="width:100%;padding:9px 12px;border:1.5px solid #cbd5e1;border-radius:10px;font-size:13px;font-weight:700;color:#1E1B4B;background:#f8fafc;cursor:pointer;outline:none;">';
+        $allSel = ($isAllClasses || $reqClass === 'all') ? 'selected' : '';
+        $html .= "<option value=\"all\" {$allSel}>🌟 All My Classes</option>";
         foreach ($myClasses as $c) {
-            $sel = strtolower(trim($c['class_name'])) === strtolower(trim($primaryClass)) ? 'selected' : '';
+            $sel = (!$isAllClasses && strtolower(trim($c['class_name'])) === strtolower(trim($primaryClass))) ? 'selected' : '';
             $html .= "<option value=\"{$c['class_name']}\" {$sel}>Class: {$c['label']}</option>";
         }
-        $html .= '</select>';
+        $html .= '</select></div>';
+
+        // 2. Section Filter
+        $html .= '<div>';
+        $html .= '<label style="display:block;font-size:11px;font-weight:800;color:#475569;margin-bottom:4px;text-transform:uppercase;">Section</label>';
+        $html .= '<select name="section" onchange="this.form.submit()" style="width:100%;padding:9px 12px;border:1.5px solid #cbd5e1;border-radius:10px;font-size:13px;font-weight:700;color:#1E1B4B;background:#f8fafc;cursor:pointer;outline:none;">';
+        $secAllSel = (empty($reqSection) || $reqSection === 'all') ? 'selected' : '';
+        $html .= "<option value=\"all\" {$secAllSel}>All Sections</option>";
+        if (!empty($availableSections)) {
+            foreach ($availableSections as $sec) {
+                if (empty($sec)) continue;
+                $sel = ($reqSection === $sec) ? 'selected' : '';
+                $html .= "<option value=\"{$sec}\" {$sel}>Section {$sec}</option>";
+            }
+        }
+        $html .= '</select></div>';
+
+        // 3. Subject Filter
+        $html .= '<div>';
+        $html .= '<label style="display:block;font-size:11px;font-weight:800;color:#475569;margin-bottom:4px;text-transform:uppercase;">Subject Taught</label>';
+        $html .= '<select name="subject" onchange="this.form.submit()" style="width:100%;padding:9px 12px;border:1.5px solid #cbd5e1;border-radius:10px;font-size:13px;font-weight:700;color:#1E1B4B;background:#f8fafc;cursor:pointer;outline:none;">';
+        $subAllSel = (empty($reqSubject) || $reqSubject === 'all') ? 'selected' : '';
+        $html .= "<option value=\"all\" {$subAllSel}>All My Subjects</option>";
+        if (!empty($availableFilterSubjects)) {
+            foreach ($availableFilterSubjects as $sub) {
+                if (empty($sub)) continue;
+                $sel = ($reqSubject === $sub) ? 'selected' : '';
+                $html .= "<option value=\"{$sub}\" {$sel}>{$sub}</option>";
+            }
+        }
+        $html .= '</select></div>';
+
+        // 4. Search Filter
+        $html .= '<div>';
+        $html .= '<label style="display:block;font-size:11px;font-weight:800;color:#475569;margin-bottom:4px;text-transform:uppercase;">Student Search</label>';
+        $html .= '<div style="position:relative;">';
+        $html .= '<input type="text" name="search" value="' . e($searchQuery) . '" placeholder="Name or Roll #..." style="width:100%;padding:9px 12px 9px 32px;border:1.5px solid #cbd5e1;border-radius:10px;font-size:13px;font-weight:600;color:#0f172a;background:#f8fafc;box-sizing:border-box;outline:none;">';
+        $html .= '<i class="bi bi-search" style="position:absolute;left:10px;top:50%;transform:translateY(-50%);color:#94a3b8;font-size:12px;"></i>';
+        $html .= '</div></div>';
+
+        // 5. Submit Button
+        $html .= '<div>';
+        $html .= '<button type="submit" style="width:100%;padding:9px 14px;border:none;background:linear-gradient(135deg, #1E1B4B 0%, #4F46E5 100%);color:#ffffff;border-radius:10px;font-size:13px;font-weight:800;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:6px;box-shadow:0 2px 8px rgba(79,70,229,0.25);"><i class="bi bi-filter"></i> Filter</button>';
+        $html .= '</div>';
+
         $html .= '</form></div>';
         return $html;
     };
@@ -304,6 +363,76 @@
 </div>
 @endif
 
+@if($page === 'classes')
+<div class="page-heading" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;margin-bottom:24px;">
+    <div>
+        <p style="font-size:12px;font-weight:800;color:#4F46E5;letter-spacing:0.05em;margin-bottom:4px;text-transform:uppercase;">ACADEMIC ASSIGNMENTS &bull; CLASS DIRECTORY</p>
+        <h1 style="font-size:26px;font-weight:800;color:#0f172a;margin:0;">My Assigned Classes & Student Roster</h1>
+        <p style="font-size:13.5px;color:#64748b;margin:4px 0 0;">Overview of all active classes and sections assigned to you with student counts and subjects taught.</p>
+    </div>
+</div>
+
+{!! $classFilterHtml() !!}
+
+<div style="display:grid;grid-template-columns:repeat(auto-fill, minmax(320px, 1fr));gap:20px;margin-bottom:30px;">
+    @forelse($assignedClassesSummary as $cItem)
+    <div style="background:#ffffff;border:1.5px solid #e2e8f0;border-radius:20px;padding:24px;box-shadow:0 8px 24px rgba(15,23,42,0.04);transition:all 0.25s ease;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden;">
+        <div style="position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg, #4F46E5, #14B8A6);"></div>
+        <div>
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:16px;">
+                <div>
+                    <span style="font-size:11px;font-weight:800;background:#EEF2FF;color:#4F46E5;padding:4px 10px;border-radius:6px;text-transform:uppercase;letter-spacing:0.05em;display:inline-block;margin-bottom:6px;">Assigned Grade</span>
+                    <h3 style="font-size:22px;font-weight:800;color:#0f172a;margin:0;">{{ $cItem['class_name'] }}</h3>
+                    <span style="font-size:13px;font-weight:700;color:#0d9488;">Section: {{ $cItem['section_name'] ?: 'All Sections' }}</span>
+                </div>
+                <div style="width:48px;height:48px;border-radius:14px;background:linear-gradient(135deg, #EEF2FF, #E0E7FF);color:#4F46E5;display:grid;place-items:center;font-size:22px;flex-shrink:0;">
+                    <i class="bi bi-mortarboard-fill"></i>
+                </div>
+            </div>
+
+            <div style="display:flex;align-items:center;gap:12px;padding:12px 14px;background:#f8fafc;border-radius:12px;margin-bottom:16px;border:1px solid #f1f5f9;">
+                <div style="flex:1;">
+                    <span style="font-size:11px;font-weight:700;color:#64748b;display:block;">Enrolled Students</span>
+                    <strong style="font-size:18px;font-weight:800;color:#0f172a;">{{ $cItem['student_count'] }} Students</strong>
+                </div>
+                <div style="flex:1;border-left:1px solid #e2e8f0;padding-left:12px;">
+                    <span style="font-size:11px;font-weight:700;color:#64748b;display:block;">Class In-Charge</span>
+                    <strong style="font-size:13px;font-weight:700;color:#0f172a;">{{ $cItem['incharge_name'] }}</strong>
+                </div>
+            </div>
+
+            <div style="margin-bottom:20px;">
+                <span style="font-size:11.5px;font-weight:800;color:#475569;display:block;margin-bottom:8px;text-transform:uppercase;">Subjects Taught By You:</span>
+                <div style="display:flex;flex-wrap:wrap;gap:6px;">
+                    @forelse($cItem['subjects'] as $sub)
+                        <span style="font-size:12px;font-weight:700;background:#F5F3FF;color:#4F46E5;border:1px solid #DDD6FE;padding:4px 10px;border-radius:8px;display:inline-flex;align-items:center;gap:4px;">
+                            <i class="bi bi-book-half" style="font-size:11px;"></i> {{ $sub }}
+                        </span>
+                    @empty
+                        <span style="font-size:12px;color:#94a3b8;font-style:italic;">General Assigned</span>
+                    @endforelse
+                </div>
+            </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;padding-top:16px;border-top:1px solid #f1f5f9;">
+            <a href="{{ $cItem['view_url'] }}" style="padding:10px 14px;background:#4F46E5;color:#ffffff;border-radius:10px;font-size:12.5px;font-weight:700;text-decoration:none;text-align:center;display:inline-flex;align-items:center;justify-content:center;gap:6px;box-shadow:0 2px 6px rgba(79,70,229,0.2);">
+                <i class="bi bi-people-fill"></i> View Students
+            </a>
+            <a href="{{ route('teacher.page', 'coteachers') . '?class=' . urlencode($cItem['class_name']) . ($cItem['section_name'] ? '&section=' . urlencode($cItem['section_name']) : '') }}" style="padding:10px 14px;background:#f8fafc;color:#334155;border:1px solid #cbd5e1;border-radius:10px;font-size:12.5px;font-weight:700;text-decoration:none;text-align:center;display:inline-flex;align-items:center;justify-content:center;gap:6px;">
+                <i class="bi bi-person-badge"></i> Co-Teachers
+            </a>
+        </div>
+    </div>
+    @empty
+    <div style="grid-column:1/-1;text-align:center;padding:40px;background:#fff;border-radius:16px;border:1px solid #e2e8f0;color:#64748b;">
+        <i class="bi bi-info-circle-fill" style="font-size:28px;color:#94a3b8;display:block;margin-bottom:10px;"></i>
+        No class assignments currently found for your account. Please contact Administration.
+    </div>
+    @endforelse
+</div>
+@endif
+
 @if($page === 'coteachers')
 <div class="page-heading">
     <p>EXCELLENCE TEACHER PORTAL &bull; CLASS & SUBJECTS</p>
@@ -312,21 +441,21 @@
 
 {!! $classFilterHtml() !!}
 
-<div class="table-panel">
-    <table>
+<div class="table-panel" style="overflow:hidden;width:100%;max-width:100%;border-radius:18px;box-shadow:0 8px 30px rgba(0,0,0,0.05);background:#ffffff;padding:6px 16px 16px 16px;">
+    <table style="width:100%;border-collapse:collapse;">
         <thead>
-            <tr>
-                <th>Teacher Name</th>
-                <th>Assigned Subject</th>
-                <th>Class / Section</th>
-                <th>Contact Number</th>
-                <th>Status</th>
+            <tr style="background:#f8fafc;border-bottom:2px solid #e2e8f0;">
+                <th style="padding:12px 14px;text-align:left;font-size:11.5px;font-weight:800;color:#475569;text-transform:uppercase;">Teacher Name</th>
+                <th style="padding:12px 14px;text-align:left;font-size:11.5px;font-weight:800;color:#475569;text-transform:uppercase;">Assigned Subject</th>
+                <th style="padding:12px 14px;text-align:left;font-size:11.5px;font-weight:800;color:#475569;text-transform:uppercase;">Class / Section</th>
+                <th style="padding:12px 14px;text-align:left;font-size:11.5px;font-weight:800;color:#475569;text-transform:uppercase;">Contact Number</th>
+                <th style="padding:12px 14px;text-align:center;font-size:11.5px;font-weight:800;color:#475569;text-transform:uppercase;">Status</th>
             </tr>
         </thead>
         <tbody>
-            @forelse($coTeacherAssignments as $ca)
-            <tr>
-                <td>
+            @forelse($coTeacherAssignmentsPaginated as $ca)
+            <tr style="border-bottom:1px solid #f1f5f9;">
+                <td style="padding:12px 14px;">
                     <div style="display:flex;align-items:center;gap:12px;">
                         <div style="width:40px;height:40px;border-radius:50%;overflow:hidden;background:#f1f5f9;display:grid;place-items:center;border:1px solid #cbd5e1;flex-shrink:0;">
                             @php
@@ -337,24 +466,66 @@
                             <img src="{{ $coTeacherImg }}" onerror="this.onerror=null; this.src='{{ asset('upload/dummy.jpeg') }}';" alt="{{ $ca->teacher?->teacher_name }}" style="width:100%;height:100%;object-fit:cover;">
                         </div>
                         <div>
-                            <strong style="color:#0f172a;font-size:14px;display:block;">{{ $ca->teacher?->teacher_name ?? "Ma'am Fatima Zahra" }}</strong>
+                            <strong style="color:#0f172a;font-size:14px;display:block;">{{ $ca->teacher?->teacher_name ?? "Faculty Member" }}</strong>
                             <span style="font-size:11px;color:#64748b;">Subject Specialist</span>
                             @if($ca->teacher_id == $teacher->id)
-                                <span style="font-size:10px;background:#C7D2FE;color:#0f766e;padding:2px 6px;border-radius:4px;font-weight:700;margin-left:4px;">(Logged in)</span>
+                                <span style="font-size:10px;background:#C7D2FE;color:#1E1B4B;padding:2px 6px;border-radius:4px;font-weight:700;margin-left:4px;">(Logged in Teacher)</span>
                             @endif
                         </div>
                     </div>
                 </td>
-                <td><strong style="color:#4F46E5;font-size:14px;">{{ $ca->subject_or_course }}</strong></td>
-                <td>{{ $ca->class_name }} ({{ $ca->section_name }})</td>
-                <td><i class="bi bi-telephone" style="color:#64748b;margin-right:4px;"></i> {{ $ca->teacher?->teacher_phone ?: '0300-1234567' }}</td>
-                <td><span class="status"><i class="bi bi-check-circle-fill"></i> Active</span></td>
+                <td style="padding:12px 14px;"><strong style="color:#4F46E5;font-size:14px;">{{ $ca->subject_or_course }}</strong></td>
+                <td style="padding:12px 14px;"><strong>{{ $ca->class_name }}</strong> ({{ $ca->section_name ?: 'All' }})</td>
+                <td style="padding:12px 14px;"><i class="bi bi-telephone" style="color:#64748b;margin-right:4px;"></i> {{ $ca->teacher?->teacher_phone ?: '0300-1234567' }}</td>
+                <td style="padding:12px 14px;text-align:center;"><span class="status"><i class="bi bi-check-circle-fill"></i> Active</span></td>
             </tr>
             @empty
-            <tr><td colspan="5" style="text-align:center;padding:20px;color:#64748b;">No co-teachers assigned for this class.</td></tr>
+            <tr><td colspan="5" style="text-align:center;padding:28px;color:#64748b;font-weight:600;">No co-teachers assigned for this class/section filter.</td></tr>
             @endforelse
         </tbody>
     </table>
+
+    @if(isset($coTeacherAssignmentsPaginated) && $coTeacherAssignmentsPaginated->total() > 0)
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:18px 24px;background:#ffffff;border-top:1px solid #e2e8f0;border-radius:0 0 18px 18px;flex-wrap:wrap;gap:12px;">
+        <div style="font-size:13.5px;color:#64748b;font-weight:500;">
+            Showing <strong style="color:#0f172a;font-weight:700;">{{ $coTeacherAssignmentsPaginated->firstItem() ?? 0 }}</strong> to <strong style="color:#0f172a;font-weight:700;">{{ $coTeacherAssignmentsPaginated->lastItem() ?? 0 }}</strong> of <strong style="color:#0f172a;font-weight:700;">{{ $coTeacherAssignmentsPaginated->total() }}</strong> co-teachers
+        </div>
+
+        <div style="display:flex;align-items:center;gap:8px;">
+            @if ($coTeacherAssignmentsPaginated->onFirstPage())
+                <span style="padding:8px 16px;border-radius:11px;border:1px solid #e2e8f0;background:#f8fafc;color:#94a3b8;font-size:13px;font-weight:700;display:inline-flex;align-items:center;gap:6px;cursor:not-allowed;">
+                    <i class="bi bi-chevron-left"></i> Previous
+                </span>
+            @else
+                <a href="{{ $coTeacherAssignmentsPaginated->previousPageUrl() }}" style="padding:8px 16px;border-radius:11px;border:1px solid #4F46E5;background:#EEF2FF;color:#4F46E5;font-size:13px;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;gap:6px;box-shadow:0 2px 6px rgba(79,70,229,0.12);">
+                    <i class="bi bi-chevron-left"></i> Previous
+                </a>
+            @endif
+
+            @foreach ($coTeacherAssignmentsPaginated->getUrlRange(max(1, $coTeacherAssignmentsPaginated->currentPage() - 2), min($coTeacherAssignmentsPaginated->lastPage(), $coTeacherAssignmentsPaginated->currentPage() + 2)) as $pageNumber => $url)
+                @if ($pageNumber == $coTeacherAssignmentsPaginated->currentPage())
+                    <span style="padding:8px 16px;border-radius:11px;background:linear-gradient(135deg, #1E1B4B 0%, #312E81 50%, #4F46E5 100%);color:#ffffff;font-size:13px;font-weight:800;border:none;box-shadow:0 4px 12px rgba(79,70,229,0.35);display:inline-flex;align-items:center;justify-content:center;">
+                        {{ $pageNumber }}
+                    </span>
+                @else
+                    <a href="{{ $url }}" style="padding:8px 16px;border-radius:11px;border:1px solid #cbd5e1;background:#ffffff;color:#334155;font-size:13px;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;">
+                        {{ $pageNumber }}
+                    </a>
+                @endif
+            @endforeach
+
+            @if ($coTeacherAssignmentsPaginated->hasMorePages())
+                <a href="{{ $coTeacherAssignmentsPaginated->nextPageUrl() }}" style="padding:8px 16px;border-radius:11px;border:1px solid #4F46E5;background:#EEF2FF;color:#4F46E5;font-size:13px;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;gap:6px;box-shadow:0 2px 6px rgba(79,70,229,0.12);">
+                    Next <i class="bi bi-chevron-right"></i>
+                </a>
+            @else
+                <span style="padding:8px 16px;border-radius:11px;border:1px solid #e2e8f0;background:#f8fafc;color:#94a3b8;font-size:13px;font-weight:700;display:inline-flex;align-items:center;gap:6px;cursor:not-allowed;">
+                    Next <i class="bi bi-chevron-right"></i>
+                </span>
+            @endif
+        </div>
+    </div>
+    @endif
 </div>
 @endif
 
@@ -366,28 +537,29 @@
 
 {!! $classFilterHtml() !!}
 
-<div class="table-panel">
-    <table>
+<div class="table-panel" style="overflow:hidden;width:100%;max-width:100%;border-radius:18px;box-shadow:0 8px 30px rgba(0,0,0,0.05);background:#ffffff;padding:6px 16px 16px 16px;">
+    <table style="width:100%;border-collapse:collapse;">
         <thead>
-            <tr>
-                <th>Roll #</th>
-                <th>Student Name</th>
-                <th>Registration No</th>
-                <th>Class & Section</th>
-                <th>Emergency Contact</th>
-                <th>Status</th>
+            <tr style="background:#f8fafc;border-bottom:2px solid #e2e8f0;">
+                <th style="padding:12px 14px;text-align:left;font-size:11.5px;font-weight:800;color:#475569;text-transform:uppercase;">Roll #</th>
+                <th style="padding:12px 14px;text-align:left;font-size:11.5px;font-weight:800;color:#475569;text-transform:uppercase;">Student Name</th>
+                <th style="padding:12px 14px;text-align:left;font-size:11.5px;font-weight:800;color:#475569;text-transform:uppercase;">Registration No</th>
+                <th style="padding:12px 14px;text-align:left;font-size:11.5px;font-weight:800;color:#475569;text-transform:uppercase;">Class & Section</th>
+                <th style="padding:12px 14px;text-align:left;font-size:11.5px;font-weight:800;color:#475569;text-transform:uppercase;">Your Subjects Taught</th>
+                <th style="padding:12px 14px;text-align:left;font-size:11.5px;font-weight:800;color:#475569;text-transform:uppercase;">Emergency Contact</th>
+                <th style="padding:12px 14px;text-align:center;font-size:11.5px;font-weight:800;color:#475569;text-transform:uppercase;">Status</th>
             </tr>
         </thead>
         <tbody>
-            @forelse($students as $std)
+            @forelse($studentsPaginated as $std)
             @php
                 $regNo = $std->registration_no ?: ('REG-2026-'.strtoupper(preg_replace('/[^A-Za-z0-9]/', '', $std->class ?? 'STD')).'-'.str_pad($std->std_id ?? 1, 3, '0', STR_PAD_LEFT));
             @endphp
-            <tr>
-                <td><strong style="color:#4F46E5;font-size:14px;">#{{ $std->std_id }}</strong></td>
-                <td>
+            <tr style="border-bottom:1px solid #f1f5f9;">
+                <td style="padding:12px 14px;"><strong style="color:#4F46E5;font-size:14px;">#{{ $std->std_id }}</strong></td>
+                <td style="padding:12px 14px;">
                     <div style="display:flex;align-items:center;gap:12px;">
-                        <div style="width:36px;height:36px;border-radius:50%;overflow:hidden;background:#f1f5f9;display:grid;place-items:center;border:1px solid #cbd5e1;flex-shrink:0;">
+                        <div style="width:38px;height:38px;border-radius:50%;overflow:hidden;background:#f1f5f9;display:grid;place-items:center;border:1px solid #cbd5e1;flex-shrink:0;">
                             @php
                                 $stdListImg = !empty($std->image) && $std->image !== 'dummy.jpeg'
                                     ? asset('storage/'.$std->image)
@@ -401,16 +573,309 @@
                         </div>
                     </div>
                 </td>
-                <td><span style="font-family:monospace;font-size:12.5px;font-weight:700;color:#475569;">{{ $regNo }}</span></td>
-                <td><strong>{{ $std->class }}</strong> ({{ $std->section }})</td>
-                <td><i class="bi bi-telephone" style="color:#64748b;margin-right:4px;"></i> {{ $std->emergency_phone ?: ($std->phone_no ?: '0300-9876543') }}</td>
-                <td><span class="status"><i class="bi bi-check-circle-fill"></i> Active Student</span></td>
+                <td style="padding:12px 14px;"><span style="font-family:monospace;font-size:12.5px;font-weight:700;color:#475569;background:#f1f5f9;padding:2px 8px;border-radius:6px;">{{ $regNo }}</span></td>
+                <td style="padding:12px 14px;"><strong>{{ $std->class }}</strong> ({{ $std->section ?: 'Red' }})</td>
+                <td style="padding:12px 14px;">
+                    @if(isset($std->my_subjects) && $std->my_subjects->isNotEmpty())
+                        <div style="display:flex;flex-wrap:wrap;gap:4px;">
+                            @foreach($std->my_subjects as $ms)
+                                <span style="font-size:11.5px;font-weight:700;background:#EEF2FF;color:#4F46E5;padding:2px 8px;border-radius:6px;">{{ $ms }}</span>
+                            @endforeach
+                        </div>
+                    @else
+                        <span style="font-size:12px;color:#94a3b8;">{{ $mySubjects->implode(', ') }}</span>
+                    @endif
+                </td>
+                <td style="padding:12px 14px;"><i class="bi bi-telephone" style="color:#64748b;margin-right:4px;"></i> {{ $std->emergency_phone ?: ($std->phone_no ?: '0300-9876543') }}</td>
+                <td style="padding:12px 14px;text-align:center;"><span class="status"><i class="bi bi-check-circle-fill"></i> Active</span></td>
             </tr>
             @empty
-            <tr><td colspan="6" style="text-align:center;padding:20px;color:#64748b;">No students enrolled in {{ $primaryClass }} {{ $primarySection }}.</td></tr>
+            <tr><td colspan="7" style="text-align:center;padding:28px;color:#64748b;font-weight:600;">No students enrolled matching the selected filters.</td></tr>
             @endforelse
         </tbody>
     </table>
+
+    @if(isset($studentsPaginated) && $studentsPaginated->total() > 0)
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:18px 24px;background:#ffffff;border-top:1px solid #e2e8f0;border-radius:0 0 18px 18px;flex-wrap:wrap;gap:12px;">
+        <div style="font-size:13.5px;color:#64748b;font-weight:500;">
+            Showing <strong style="color:#0f172a;font-weight:700;">{{ $studentsPaginated->firstItem() ?? 0 }}</strong> to <strong style="color:#0f172a;font-weight:700;">{{ $studentsPaginated->lastItem() ?? 0 }}</strong> of <strong style="color:#0f172a;font-weight:700;">{{ $studentsPaginated->total() }}</strong> enrolled students
+        </div>
+
+        <div style="display:flex;align-items:center;gap:8px;">
+            @if ($studentsPaginated->onFirstPage())
+                <span style="padding:8px 16px;border-radius:11px;border:1px solid #e2e8f0;background:#f8fafc;color:#94a3b8;font-size:13px;font-weight:700;display:inline-flex;align-items:center;gap:6px;cursor:not-allowed;">
+                    <i class="bi bi-chevron-left"></i> Previous
+                </span>
+            @else
+                <a href="{{ $studentsPaginated->previousPageUrl() }}" style="padding:8px 16px;border-radius:11px;border:1px solid #4F46E5;background:#EEF2FF;color:#4F46E5;font-size:13px;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;gap:6px;box-shadow:0 2px 6px rgba(79,70,229,0.12);">
+                    <i class="bi bi-chevron-left"></i> Previous
+                </a>
+            @endif
+
+            @foreach ($studentsPaginated->getUrlRange(max(1, $studentsPaginated->currentPage() - 2), min($studentsPaginated->lastPage(), $studentsPaginated->currentPage() + 2)) as $pageNumber => $url)
+                @if ($pageNumber == $studentsPaginated->currentPage())
+                    <span style="padding:8px 16px;border-radius:11px;background:linear-gradient(135deg, #1E1B4B 0%, #312E81 50%, #4F46E5 100%);color:#ffffff;font-size:13px;font-weight:800;border:none;box-shadow:0 4px 12px rgba(79,70,229,0.35);display:inline-flex;align-items:center;justify-content:center;">
+                        {{ $pageNumber }}
+                    </span>
+                @else
+                    <a href="{{ $url }}" style="padding:8px 16px;border-radius:11px;border:1px solid #cbd5e1;background:#ffffff;color:#334155;font-size:13px;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;">
+                        {{ $pageNumber }}
+                    </a>
+                @endif
+            @endforeach
+
+            @if ($studentsPaginated->hasMorePages())
+                <a href="{{ $studentsPaginated->nextPageUrl() }}" style="padding:8px 16px;border-radius:11px;border:1px solid #4F46E5;background:#EEF2FF;color:#4F46E5;font-size:13px;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;gap:6px;box-shadow:0 2px 6px rgba(79,70,229,0.12);">
+                    Next <i class="bi bi-chevron-right"></i>
+                </a>
+            @else
+                <span style="padding:8px 16px;border-radius:11px;border:1px solid #e2e8f0;background:#f8fafc;color:#94a3b8;font-size:13px;font-weight:700;display:inline-flex;align-items:center;gap:6px;cursor:not-allowed;">
+                    Next <i class="bi bi-chevron-right"></i>
+                </span>
+            @endif
+        </div>
+    </div>
+    @endif
+</div>
+@endif
+
+@if($page === 'incharge')
+<div class="page-heading" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;margin-bottom:24px;">
+    <div>
+        <p style="font-size:12px;font-weight:800;color:#F59E0B;letter-spacing:0.05em;margin-bottom:4px;text-transform:uppercase;display:flex;align-items:center;gap:6px;">
+            <i class="bi bi-award-fill" style="color:#F59E0B;"></i> CLASS IN-CHARGE &bull; OVERVIEW & ROSTER
+        </p>
+        <h1 style="font-size:26px;font-weight:800;color:#0f172a;margin:0;">Class Overview: {{ $managedClassName }} ({{ $managedSectionName }})</h1>
+        <p style="font-size:13.5px;color:#64748b;margin:4px 0 0;">Comprehensive administration overview of managed classes, assigned subject teachers, and enrolled students.</p>
+    </div>
+
+    @if(isset($managedClassRecords) && $managedClassRecords->count() > 1)
+    <form method="GET" action="{{ route('teacher.page', 'incharge') }}" style="margin:0;display:flex;align-items:center;gap:8px;background:#ffffff;padding:8px 14px;border-radius:12px;border:1.5px solid #F59E0B;box-shadow:0 2px 8px rgba(245,158,11,0.15);">
+        <i class="bi bi-award-fill" style="color:#F59E0B;font-size:16px;"></i>
+        <label style="font-size:12px;font-weight:800;color:#0f172a;margin:0;">Switch Managed Class:</label>
+        <select name="incharge_class_id" onchange="this.form.submit()" style="padding:6px 12px;border:1px solid #cbd5e1;border-radius:8px;font-size:12.5px;font-weight:700;color:#1E1B4B;background:#FFFBEB;cursor:pointer;">
+            @foreach($managedClassRecords as $mr)
+                <option value="{{ $mr->class_id }}" {{ ($activeInchargeRecord?->class_id == $mr->class_id) ? 'selected' : '' }}>
+                    {{ $mr->classRecord?->class_name }} ({{ $mr->classRecord?->section_name ?: 'Red' }})
+                </option>
+            @endforeach
+        </select>
+    </form>
+    @endif
+</div>
+
+<!-- Overview Stats Cards -->
+<div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));gap:16px;margin-bottom:28px;">
+    <div style="background:#ffffff;border:1px solid #e2e8f0;border-radius:16px;padding:18px 20px;box-shadow:0 4px 14px rgba(15,23,42,0.03);">
+        <span style="font-size:11px;font-weight:800;color:#64748b;text-transform:uppercase;">Managed Class</span>
+        <h3 style="font-size:22px;font-weight:800;color:#0f172a;margin:4px 0 0;">{{ $managedClassName }}</h3>
+        <span style="font-size:12.5px;font-weight:700;color:#4F46E5;">Section {{ $managedSectionName }}</span>
+    </div>
+
+    <div style="background:#ffffff;border:1px solid #e2e8f0;border-radius:16px;padding:18px 20px;box-shadow:0 4px 14px rgba(15,23,42,0.03);">
+        <span style="font-size:11px;font-weight:800;color:#64748b;text-transform:uppercase;">Enrolled Students</span>
+        <h3 style="font-size:22px;font-weight:800;color:#0d9488;margin:4px 0 0;">{{ $inchargeStudentCount }}</h3>
+        <span style="font-size:12.5px;font-weight:600;color:#64748b;">Active student roster</span>
+    </div>
+
+    <div style="background:#ffffff;border:1px solid #e2e8f0;border-radius:16px;padding:18px 20px;box-shadow:0 4px 14px rgba(15,23,42,0.03);">
+        <span style="font-size:11px;font-weight:800;color:#64748b;text-transform:uppercase;">Subject Faculty</span>
+        <h3 style="font-size:22px;font-weight:800;color:#4F46E5;margin:4px 0 0;">{{ $groupedSubjectTeachers->count() }}</h3>
+        <span style="font-size:12.5px;font-weight:600;color:#64748b;">Assigned teachers</span>
+    </div>
+
+    <div style="background:#ffffff;border:1px solid #e2e8f0;border-radius:16px;padding:18px 20px;box-shadow:0 4px 14px rgba(15,23,42,0.03);">
+        <span style="font-size:11px;font-weight:800;color:#64748b;text-transform:uppercase;">Classroom Capacity</span>
+        <h3 style="font-size:22px;font-weight:800;color:#F59E0B;margin:4px 0 0;">{{ $managedClass?->chairs ?: 30 }}</h3>
+        <span style="font-size:12.5px;font-weight:600;color:#64748b;">Classroom chairs</span>
+    </div>
+</div>
+
+<!-- In-Charge Teacher & Subject Teachers Section -->
+<div style="display:grid;grid-template-columns:300px 1fr;gap:24px;margin-bottom:28px;">
+    <!-- In-Charge Card -->
+    <div style="background:#ffffff;border:2px solid #FCD34D;border-radius:18px;padding:22px;box-shadow:0 6px 20px rgba(245,158,11,0.08);height:fit-content;">
+        <div style="display:flex;align-items:center;gap:6px;margin-bottom:14px;">
+            <span style="background:linear-gradient(135deg, #FEF3C7, #FDE68A);color:#92400E;font-size:11px;font-weight:800;padding:4px 10px;border-radius:999px;display:inline-flex;align-items:center;gap:4px;">
+                <i class="bi bi-award-fill"></i> Designated In-Charge
+            </span>
+        </div>
+        @foreach($inchargeTeachers as $it)
+        <div style="display:flex;align-items:center;gap:14px;margin-bottom:14px;">
+            <div style="width:52px;height:52px;border-radius:50%;overflow:hidden;background:#fef3c7;display:grid;place-items:center;border:2px solid #F59E0B;flex-shrink:0;">
+                @php
+                    $inchargeImg = !empty($it->teacher?->teacher_image) && $it->teacher->teacher_image !== 'dummy.jpeg'
+                        ? asset('storage/'.$it->teacher->teacher_image)
+                        : asset('upload/dummy.jpeg');
+                @endphp
+                <img src="{{ $inchargeImg }}" onerror="this.onerror=null; this.src='{{ asset('upload/dummy.jpeg') }}';" alt="{{ $it->teacher?->teacher_name }}" style="width:100%;height:100%;object-fit:cover;">
+            </div>
+            <div>
+                <h4 style="margin:0;font-size:15px;font-weight:800;color:#0f172a;">{{ $it->teacher?->teacher_name ?? $user->name }}</h4>
+                <span style="font-size:12px;color:#d97706;font-weight:700;">Class In-Charge</span>
+            </div>
+        </div>
+        <div style="font-size:12px;color:#64748b;display:flex;flex-direction:column;gap:6px;padding-top:10px;border-top:1px solid #fef3c7;">
+            <div><i class="bi bi-envelope" style="color:#d97706;margin-right:6px;"></i> {{ $it->teacher?->teacher_email ?: ($it->user?->email ?? 'incharge@school.edu') }}</div>
+            <div><i class="bi bi-telephone" style="color:#d97706;margin-right:6px;"></i> {{ $it->teacher?->teacher_phone ?: '0300-1234567' }}</div>
+        </div>
+        @endforeach
+    </div>
+
+    <!-- Subject Teachers Cards -->
+    <div style="background:#ffffff;border:1px solid #e2e8f0;border-radius:18px;padding:22px;box-shadow:0 4px 16px rgba(15,23,42,0.03);">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+            <h3 style="margin:0;font-size:16px;font-weight:800;color:#0f172a;display:flex;align-items:center;gap:8px;">
+                <i class="bi bi-people-fill" style="color:#4F46E5;"></i> Assigned Subject Teachers ({{ $groupedSubjectTeachers->count() }})
+            </h3>
+            <span style="font-size:12px;color:#64748b;">Teaching in {{ $managedClassName }} ({{ $managedSectionName }})</span>
+        </div>
+
+        <div style="display:grid;grid-template-columns:repeat(auto-fill, minmax(240px, 1fr));gap:14px;">
+            @forelse($groupedSubjectTeachers as $gst)
+            <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:14px;display:flex;flex-direction:column;justify-content:space-between;">
+                <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px;">
+                    <div style="width:42px;height:42px;border-radius:50%;overflow:hidden;background:#EEF2FF;display:grid;place-items:center;border:1px solid #C7D2FE;flex-shrink:0;">
+                        @php
+                            $gstImg = !empty($gst['teacher_image']) && $gst['teacher_image'] !== 'dummy.jpeg'
+                                ? asset('storage/'.$gst['teacher_image'])
+                                : asset('upload/dummy.jpeg');
+                        @endphp
+                        <img src="{{ $gstImg }}" onerror="this.onerror=null; this.src='{{ asset('upload/dummy.jpeg') }}';" alt="{{ $gst['teacher_name'] }}" style="width:100%;height:100%;object-fit:cover;">
+                    </div>
+                    <div>
+                        <strong style="font-size:13.5px;color:#0f172a;display:block;">{{ $gst['teacher_name'] }}</strong>
+                        <span style="font-size:11px;color:#64748b;">Subject Teacher</span>
+                    </div>
+                </div>
+
+                <div>
+                    <span style="font-size:11px;font-weight:700;color:#64748b;display:block;margin-bottom:4px;">Subjects:</span>
+                    <div style="display:flex;flex-wrap:wrap;gap:4px;">
+                        @foreach($gst['subjects'] as $sName)
+                            <span style="font-size:11px;font-weight:700;background:#EEF2FF;color:#4F46E5;padding:2px 8px;border-radius:6px;">{{ $sName }}</span>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+            @empty
+            <div style="grid-column:1/-1;text-align:center;padding:20px;color:#64748b;">No subject teachers currently mapped for this class.</div>
+            @endforelse
+        </div>
+    </div>
+</div>
+
+<!-- Enrolled Students Table with Search & Pagination -->
+<div style="background:#ffffff;border:1px solid #e2e8f0;border-radius:18px;padding:22px;box-shadow:0 4px 16px rgba(15,23,42,0.03);">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap;gap:12px;">
+        <div>
+            <h3 style="margin:0;font-size:17px;font-weight:800;color:#0f172a;display:flex;align-items:center;gap:8px;">
+                <i class="bi bi-backpack-fill" style="color:#0d9488;"></i> Enrolled Students Directory ({{ $inchargeStudentCount }})
+            </h3>
+            <span style="font-size:12.5px;color:#64748b;">Official roster for {{ $managedClassName }} ({{ $managedSectionName }})</span>
+        </div>
+
+        <form method="GET" action="{{ route('teacher.page', 'incharge') }}" style="margin:0;display:flex;align-items:center;gap:8px;">
+            @if(isset($activeInchargeRecord))
+                <input type="hidden" name="incharge_class_id" value="{{ $activeInchargeRecord->class_id }}">
+            @endif
+            <div style="position:relative;">
+                <input type="text" name="incharge_search" value="{{ e($inchargeSearch ?? '') }}" placeholder="Search by name or roll #..." style="padding:8px 12px 8px 30px;border:1px solid #cbd5e1;border-radius:10px;font-size:12.5px;font-weight:600;color:#0f172a;background:#f8fafc;width:220px;outline:none;">
+                <i class="bi bi-search" style="position:absolute;left:10px;top:50%;transform:translateY(-50%);color:#94a3b8;font-size:12px;"></i>
+            </div>
+            <button type="submit" style="padding:8px 14px;border:none;background:#4F46E5;color:#fff;border-radius:10px;font-size:12.5px;font-weight:700;cursor:pointer;">Search</button>
+            @if(!empty($inchargeSearch))
+                <a href="{{ route('teacher.page', 'incharge') . (isset($activeInchargeRecord) ? '?incharge_class_id=' . $activeInchargeRecord->class_id : '') }}" style="padding:8px 12px;background:#fee2e2;color:#ef4444;border-radius:10px;font-size:12px;font-weight:700;text-decoration:none;">Clear</a>
+            @endif
+        </form>
+    </div>
+
+    <table style="width:100%;border-collapse:collapse;">
+        <thead>
+            <tr style="background:#f8fafc;border-bottom:2px solid #e2e8f0;">
+                <th style="padding:12px 14px;text-align:left;font-size:11.5px;font-weight:800;color:#475569;text-transform:uppercase;">Roll #</th>
+                <th style="padding:12px 14px;text-align:left;font-size:11.5px;font-weight:800;color:#475569;text-transform:uppercase;">Student Name</th>
+                <th style="padding:12px 14px;text-align:left;font-size:11.5px;font-weight:800;color:#475569;text-transform:uppercase;">Registration No</th>
+                <th style="padding:12px 14px;text-align:left;font-size:11.5px;font-weight:800;color:#475569;text-transform:uppercase;">Class & Section</th>
+                <th style="padding:12px 14px;text-align:left;font-size:11.5px;font-weight:800;color:#475569;text-transform:uppercase;">Emergency Contact</th>
+                <th style="padding:12px 14px;text-align:center;font-size:11.5px;font-weight:800;color:#475569;text-transform:uppercase;">Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @forelse($inchargeStudentsPaginated as $std)
+            @php
+                $regNo = $std->registration_no ?: ('REG-2026-'.strtoupper(preg_replace('/[^A-Za-z0-9]/', '', $std->class ?? 'STD')).'-'.str_pad($std->std_id ?? 1, 3, '0', STR_PAD_LEFT));
+            @endphp
+            <tr style="border-bottom:1px solid #f1f5f9;">
+                <td style="padding:12px 14px;"><strong style="color:#4F46E5;font-size:14px;">#{{ $std->std_id }}</strong></td>
+                <td style="padding:12px 14px;">
+                    <div style="display:flex;align-items:center;gap:12px;">
+                        <div style="width:38px;height:38px;border-radius:50%;overflow:hidden;background:#f1f5f9;display:grid;place-items:center;border:1px solid #cbd5e1;flex-shrink:0;">
+                            @php
+                                $stdListImg = !empty($std->image) && $std->image !== 'dummy.jpeg'
+                                    ? asset('storage/'.$std->image)
+                                    : asset('upload/dummy.jpeg');
+                            @endphp
+                            <img src="{{ $stdListImg }}" onerror="this.onerror=null; this.src='{{ asset('upload/dummy.jpeg') }}';" alt="{{ $std->name }}" style="width:100%;height:100%;object-fit:cover;">
+                        </div>
+                        <div>
+                            <strong style="color:#0f172a;font-size:14px;display:block;">{{ $std->name }}</strong>
+                            <span style="font-size:11px;color:#64748b;">Enrolled Student</span>
+                        </div>
+                    </div>
+                </td>
+                <td style="padding:12px 14px;"><span style="font-family:monospace;font-size:12.5px;font-weight:700;color:#475569;background:#f1f5f9;padding:2px 8px;border-radius:6px;">{{ $regNo }}</span></td>
+                <td style="padding:12px 14px;"><strong>{{ $std->class }}</strong> ({{ $std->section ?: 'Red' }})</td>
+                <td style="padding:12px 14px;"><i class="bi bi-telephone" style="color:#64748b;margin-right:4px;"></i> {{ $std->emergency_phone ?: ($std->phone_no ?: '0300-9876543') }}</td>
+                <td style="padding:12px 14px;text-align:center;"><span class="status"><i class="bi bi-check-circle-fill"></i> Active</span></td>
+            </tr>
+            @empty
+            <tr><td colspan="6" style="text-align:center;padding:28px;color:#64748b;font-weight:600;">No students enrolled in {{ $managedClassName }} ({{ $managedSectionName }}).</td></tr>
+            @endforelse
+        </tbody>
+    </table>
+
+    @if(isset($inchargeStudentsPaginated) && $inchargeStudentsPaginated->total() > 0)
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:18px 24px;background:#ffffff;border-top:1px solid #e2e8f0;border-radius:0 0 18px 18px;flex-wrap:wrap;gap:12px;">
+        <div style="font-size:13.5px;color:#64748b;font-weight:500;">
+            Showing <strong style="color:#0f172a;font-weight:700;">{{ $inchargeStudentsPaginated->firstItem() ?? 0 }}</strong> to <strong style="color:#0f172a;font-weight:700;">{{ $inchargeStudentsPaginated->lastItem() ?? 0 }}</strong> of <strong style="color:#0f172a;font-weight:700;">{{ $inchargeStudentsPaginated->total() }}</strong> students
+        </div>
+
+        <div style="display:flex;align-items:center;gap:8px;">
+            @if ($inchargeStudentsPaginated->onFirstPage())
+                <span style="padding:8px 16px;border-radius:11px;border:1px solid #e2e8f0;background:#f8fafc;color:#94a3b8;font-size:13px;font-weight:700;display:inline-flex;align-items:center;gap:6px;cursor:not-allowed;">
+                    <i class="bi bi-chevron-left"></i> Previous
+                </span>
+            @else
+                <a href="{{ $inchargeStudentsPaginated->previousPageUrl() }}" style="padding:8px 16px;border-radius:11px;border:1px solid #4F46E5;background:#EEF2FF;color:#4F46E5;font-size:13px;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;gap:6px;box-shadow:0 2px 6px rgba(79,70,229,0.12);">
+                    <i class="bi bi-chevron-left"></i> Previous
+                </a>
+            @endif
+
+            @foreach ($inchargeStudentsPaginated->getUrlRange(max(1, $inchargeStudentsPaginated->currentPage() - 2), min($inchargeStudentsPaginated->lastPage(), $inchargeStudentsPaginated->currentPage() + 2)) as $pageNumber => $url)
+                @if ($pageNumber == $inchargeStudentsPaginated->currentPage())
+                    <span style="padding:8px 16px;border-radius:11px;background:linear-gradient(135deg, #1E1B4B 0%, #312E81 50%, #4F46E5 100%);color:#ffffff;font-size:13px;font-weight:800;border:none;box-shadow:0 4px 12px rgba(79,70,229,0.35);display:inline-flex;align-items:center;justify-content:center;">
+                        {{ $pageNumber }}
+                    </span>
+                @else
+                    <a href="{{ $url }}" style="padding:8px 16px;border-radius:11px;border:1px solid #cbd5e1;background:#ffffff;color:#334155;font-size:13px;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;">
+                        {{ $pageNumber }}
+                    </a>
+                @endif
+            @endforeach
+
+            @if ($inchargeStudentsPaginated->hasMorePages())
+                <a href="{{ $inchargeStudentsPaginated->nextPageUrl() }}" style="padding:8px 16px;border-radius:11px;border:1px solid #4F46E5;background:#EEF2FF;color:#4F46E5;font-size:13px;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;gap:6px;box-shadow:0 2px 6px rgba(79,70,229,0.12);">
+                    Next <i class="bi bi-chevron-right"></i>
+                </a>
+            @else
+                <span style="padding:8px 16px;border-radius:11px;border:1px solid #e2e8f0;background:#f8fafc;color:#94a3b8;font-size:13px;font-weight:700;display:inline-flex;align-items:center;gap:6px;cursor:not-allowed;">
+                    Next <i class="bi bi-chevron-right"></i>
+                </span>
+            @endif
+        </div>
+    </div>
+    @endif
 </div>
 @endif
 
@@ -662,7 +1127,7 @@
         </tbody>
     </table>
 
-    @if(isset($studentLeavesPaginated) && $studentLeavesPaginated->hasPages())
+    @if(isset($studentLeavesPaginated) && $studentLeavesPaginated->total() > 0)
     <div style="display:flex;align-items:center;justify-content:space-between;padding:18px 24px;background:#ffffff;border-top:1px solid #e2e8f0;border-radius:0 0 18px 18px;">
         <div style="font-size:13.5px;color:#64748b;font-weight:500;">
             Showing <strong style="color:#0f172a;font-weight:700;">{{ $studentLeavesPaginated->firstItem() ?? 0 }}</strong> to <strong style="color:#0f172a;font-weight:700;">{{ $studentLeavesPaginated->lastItem() ?? 0 }}</strong> of <strong style="color:#0f172a;font-weight:700;">{{ $studentLeavesPaginated->total() }}</strong> leave requests
@@ -1547,26 +2012,26 @@ function onAddStudentSelect(stdId) {
 
 {!! $classFilterHtml() !!}
 
-<div class="table-panel">
-    <table>
+<div class="table-panel" style="overflow:hidden;width:100%;max-width:100%;border-radius:18px;box-shadow:0 8px 30px rgba(0,0,0,0.05);background:#ffffff;padding:6px 16px 16px 16px;">
+    <table style="width:100%;border-collapse:collapse;">
         <thead>
-            <tr>
-                <th>Subject</th>
-                <th>Outline Title</th>
-                <th>Term</th>
-                <th>Description</th>
-                <th>File Attached</th>
-                <th>Date Uploaded</th>
+            <tr style="background:#f8fafc;border-bottom:2px solid #e2e8f0;">
+                <th style="padding:12px 14px;text-align:left;font-size:11.5px;font-weight:800;color:#475569;text-transform:uppercase;">Subject</th>
+                <th style="padding:12px 14px;text-align:left;font-size:11.5px;font-weight:800;color:#475569;text-transform:uppercase;">Outline Title</th>
+                <th style="padding:12px 14px;text-align:center;font-size:11.5px;font-weight:800;color:#475569;text-transform:uppercase;">Term</th>
+                <th style="padding:12px 14px;text-align:left;font-size:11.5px;font-weight:800;color:#475569;text-transform:uppercase;">Description</th>
+                <th style="padding:12px 14px;text-align:center;font-size:11.5px;font-weight:800;color:#475569;text-transform:uppercase;">File Attached</th>
+                <th style="padding:12px 14px;text-align:center;font-size:11.5px;font-weight:800;color:#475569;text-transform:uppercase;">Date Uploaded</th>
             </tr>
         </thead>
         <tbody>
-            @forelse($outlines as $out)
-            <tr>
-                <td><strong style="color:#4F46E5;">{{ $out->subject_name }}</strong></td>
-                <td><strong>{{ $out->title }}</strong></td>
-                <td><span class="status">{{ $out->term }}</span></td>
-                <td style="max-width:300px;font-size:12.5px;color:#475569;">{{ $out->description }}</td>
-                <td>
+            @forelse($outlinesPaginated ?? $outlines as $out)
+            <tr style="border-bottom:1px solid #f1f5f9;">
+                <td style="padding:12px 14px;"><strong style="color:#4F46E5;">{{ $out->subject_name }}</strong></td>
+                <td style="padding:12px 14px;"><strong>{{ $out->title }}</strong></td>
+                <td style="padding:12px 14px;text-align:center;"><span class="status">{{ $out->term }}</span></td>
+                <td style="padding:12px 14px;max-width:300px;font-size:12.5px;color:#475569;">{{ $out->description }}</td>
+                <td style="padding:12px 14px;text-align:center;">
                     @if($out->file_path)
                         <a href="{{ asset('storage/'.$out->file_path) }}" target="_blank" style="color:#0284c7;text-decoration:none;font-weight:700;display:inline-flex;align-items:center;gap:4px;">
                             <i class="bi bi-file-earmark-pdf-fill"></i> Download PDF
@@ -1575,13 +2040,55 @@ function onAddStudentSelect(stdId) {
                         <span style="color:#94a3b8;font-size:12px;">Syllabus Sheet</span>
                     @endif
                 </td>
-                <td>{{ $out->created_at->format('d M Y') }}</td>
+                <td style="padding:12px 14px;text-align:center;">{{ $out->created_at->format('d M Y') }}</td>
             </tr>
             @empty
-            <tr><td colspan="6" style="text-align:center;padding:20px;color:#64748b;">No course outlines uploaded yet. Click "Add Course Outline" above.</td></tr>
+            <tr><td colspan="6" style="text-align:center;padding:28px;color:#64748b;font-weight:600;">No course outlines uploaded yet. Click "Add Course Outline" above.</td></tr>
             @endforelse
         </tbody>
     </table>
+
+    @if(isset($outlinesPaginated) && $outlinesPaginated->hasPages())
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:18px 24px;background:#ffffff;border-top:1px solid #e2e8f0;border-radius:0 0 18px 18px;flex-wrap:wrap;gap:12px;">
+        <div style="font-size:13.5px;color:#64748b;font-weight:500;">
+            Showing <strong style="color:#0f172a;font-weight:700;">{{ $outlinesPaginated->firstItem() ?? 0 }}</strong> to <strong style="color:#0f172a;font-weight:700;">{{ $outlinesPaginated->lastItem() ?? 0 }}</strong> of <strong style="color:#0f172a;font-weight:700;">{{ $outlinesPaginated->total() }}</strong> course outlines
+        </div>
+
+        <div style="display:flex;align-items:center;gap:8px;">
+            @if ($outlinesPaginated->onFirstPage())
+                <span style="padding:8px 16px;border-radius:11px;border:1px solid #e2e8f0;background:#f8fafc;color:#94a3b8;font-size:13px;font-weight:700;display:inline-flex;align-items:center;gap:6px;cursor:not-allowed;">
+                    <i class="bi bi-chevron-left"></i> Previous
+                </span>
+            @else
+                <a href="{{ $outlinesPaginated->previousPageUrl() }}" style="padding:8px 16px;border-radius:11px;border:1px solid #4F46E5;background:#EEF2FF;color:#4F46E5;font-size:13px;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;gap:6px;box-shadow:0 2px 6px rgba(79,70,229,0.12);">
+                    <i class="bi bi-chevron-left"></i> Previous
+                </a>
+            @endif
+
+            @foreach ($outlinesPaginated->getUrlRange(max(1, $outlinesPaginated->currentPage() - 2), min($outlinesPaginated->lastPage(), $outlinesPaginated->currentPage() + 2)) as $pageNumber => $url)
+                @if ($pageNumber == $outlinesPaginated->currentPage())
+                    <span style="padding:8px 16px;border-radius:11px;background:linear-gradient(135deg, #1E1B4B 0%, #312E81 50%, #4F46E5 100%);color:#ffffff;font-size:13px;font-weight:800;border:none;box-shadow:0 4px 12px rgba(79,70,229,0.35);display:inline-flex;align-items:center;justify-content:center;">
+                        {{ $pageNumber }}
+                    </span>
+                @else
+                    <a href="{{ $url }}" style="padding:8px 16px;border-radius:11px;border:1px solid #cbd5e1;background:#ffffff;color:#334155;font-size:13px;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;">
+                        {{ $pageNumber }}
+                    </a>
+                @endif
+            @endforeach
+
+            @if ($outlinesPaginated->hasMorePages())
+                <a href="{{ $outlinesPaginated->nextPageUrl() }}" style="padding:8px 16px;border-radius:11px;border:1px solid #4F46E5;background:#EEF2FF;color:#4F46E5;font-size:13px;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;gap:6px;box-shadow:0 2px 6px rgba(79,70,229,0.12);">
+                    Next <i class="bi bi-chevron-right"></i>
+                </a>
+            @else
+                <span style="padding:8px 16px;border-radius:11px;border:1px solid #e2e8f0;background:#f8fafc;color:#94a3b8;font-size:13px;font-weight:700;display:inline-flex;align-items:center;gap:6px;cursor:not-allowed;">
+                    Next <i class="bi bi-chevron-right"></i>
+                </span>
+            @endif
+        </div>
+    </div>
+    @endif
 </div>
 
 <div id="uploadOutlineModal" style="display:none;position:fixed;inset:0;background:rgba(7,39,36,0.65);backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);z-index:9999;place-items:center;padding:20px;">
@@ -1694,41 +2201,83 @@ function onAddStudentSelect(stdId) {
     </article>
 </div>
 
-<div class="table-panel">
-    <table>
+<div class="table-panel" style="overflow:hidden;width:100%;max-width:100%;border-radius:18px;box-shadow:0 8px 30px rgba(0,0,0,0.05);background:#ffffff;padding:6px 16px 16px 16px;">
+    <table style="width:100%;border-collapse:collapse;">
         <thead>
-            <tr>
-                <th>Month</th>
-                <th>Basic Salary</th>
-                <th>Allowances</th>
-                <th>Deductions</th>
-                <th>Net Payable</th>
-                <th>Status</th>
-                <th>Disbursement Date</th>
-                <th style="text-align:center;">Action</th>
+            <tr style="background:#f8fafc;border-bottom:2px solid #e2e8f0;">
+                <th style="padding:12px 14px;text-align:left;font-size:11.5px;font-weight:800;color:#475569;text-transform:uppercase;">Month</th>
+                <th style="padding:12px 14px;text-align:left;font-size:11.5px;font-weight:800;color:#475569;text-transform:uppercase;">Basic Salary</th>
+                <th style="padding:12px 14px;text-align:left;font-size:11.5px;font-weight:800;color:#475569;text-transform:uppercase;">Allowances</th>
+                <th style="padding:12px 14px;text-align:left;font-size:11.5px;font-weight:800;color:#475569;text-transform:uppercase;">Deductions</th>
+                <th style="padding:12px 14px;text-align:left;font-size:11.5px;font-weight:800;color:#475569;text-transform:uppercase;">Net Payable</th>
+                <th style="padding:12px 14px;text-align:center;font-size:11.5px;font-weight:800;color:#475569;text-transform:uppercase;">Status</th>
+                <th style="padding:12px 14px;text-align:left;font-size:11.5px;font-weight:800;color:#475569;text-transform:uppercase;">Disbursement Date</th>
+                <th style="padding:12px 14px;text-align:center;font-size:11.5px;font-weight:800;color:#475569;text-transform:uppercase;">Action</th>
             </tr>
         </thead>
         <tbody>
-            @forelse($salaries as $sal)
-            <tr>
-                <td><strong>{{ \Carbon\Carbon::parse($sal->month.'-01')->format('F Y') }}</strong></td>
-                <td>Rs {{ number_format($sal->basic_salary) }}</td>
-                <td style="color:#059669;">+ Rs {{ number_format($sal->allowances) }}</td>
-                <td style="color:#dc2626;">- Rs {{ number_format($sal->deductions) }}</td>
-                <td><strong style="color:#4F46E5;font-size:15px;">Rs {{ number_format($sal->net_salary) }}</strong></td>
-                <td><span class="status"><i class="bi bi-check-circle-fill"></i> {{ $sal->status }}</span></td>
-                <td>{{ $sal->paid_date ? \Carbon\Carbon::parse($sal->paid_date)->format('d M Y') : '—' }}</td>
-                <td style="text-align:center;">
-                    <a href="{{ route('teacher.salary.download', $sal->id) }}" target="_blank" style="width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,#0284c7,#0369a1);color:#ffffff;border:none;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px;box-shadow:0 4px 12px rgba(2,132,199,0.3);transition:all 0.2s ease;text-decoration:none;" title="Print Official Pay Slip">
+            @forelse($salariesPaginated ?? $salaries as $sal)
+            <tr style="border-bottom:1px solid #f1f5f9;">
+                <td style="padding:12px 14px;"><strong>{{ \Carbon\Carbon::parse($sal->month.'-01')->format('F Y') }}</strong></td>
+                <td style="padding:12px 14px;">Rs {{ number_format($sal->basic_salary) }}</td>
+                <td style="padding:12px 14px;color:#059669;">+ Rs {{ number_format($sal->allowances) }}</td>
+                <td style="padding:12px 14px;color:#dc2626;">- Rs {{ number_format($sal->deductions) }}</td>
+                <td style="padding:12px 14px;"><strong style="color:#4F46E5;font-size:15px;">Rs {{ number_format($sal->net_salary) }}</strong></td>
+                <td style="padding:12px 14px;text-align:center;"><span class="status"><i class="bi bi-check-circle-fill"></i> {{ $sal->status }}</span></td>
+                <td style="padding:12px 14px;">{{ $sal->paid_date ? \Carbon\Carbon::parse($sal->paid_date)->format('d M Y') : '—' }}</td>
+                <td style="padding:12px 14px;text-align:center;">
+                    <a href="{{ route('teacher.salary.download', $sal->id) }}" target="_blank" style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#0284c7,#0369a1);color:#ffffff;border:none;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;box-shadow:0 3px 10px rgba(2,132,199,0.3);transition:all 0.2s ease;text-decoration:none;" title="Print Official Pay Slip">
                         <i class="bi bi-printer-fill"></i>
                     </a>
                 </td>
             </tr>
             @empty
-            <tr><td colspan="8" style="text-align:center;padding:20px;color:#64748b;">No salary records found.</td></tr>
+            <tr><td colspan="8" style="text-align:center;padding:28px;color:#64748b;font-weight:600;">No salary records found.</td></tr>
             @endforelse
         </tbody>
     </table>
+
+    @if(isset($salariesPaginated) && $salariesPaginated->hasPages())
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:18px 24px;background:#ffffff;border-top:1px solid #e2e8f0;border-radius:0 0 18px 18px;flex-wrap:wrap;gap:12px;">
+        <div style="font-size:13.5px;color:#64748b;font-weight:500;">
+            Showing <strong style="color:#0f172a;font-weight:700;">{{ $salariesPaginated->firstItem() ?? 0 }}</strong> to <strong style="color:#0f172a;font-weight:700;">{{ $salariesPaginated->lastItem() ?? 0 }}</strong> of <strong style="color:#0f172a;font-weight:700;">{{ $salariesPaginated->total() }}</strong> salary records
+        </div>
+
+        <div style="display:flex;align-items:center;gap:8px;">
+            @if ($salariesPaginated->onFirstPage())
+                <span style="padding:8px 16px;border-radius:11px;border:1px solid #e2e8f0;background:#f8fafc;color:#94a3b8;font-size:13px;font-weight:700;display:inline-flex;align-items:center;gap:6px;cursor:not-allowed;">
+                    <i class="bi bi-chevron-left"></i> Previous
+                </span>
+            @else
+                <a href="{{ $salariesPaginated->previousPageUrl() }}" style="padding:8px 16px;border-radius:11px;border:1px solid #4F46E5;background:#EEF2FF;color:#4F46E5;font-size:13px;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;gap:6px;box-shadow:0 2px 6px rgba(79,70,229,0.12);">
+                    <i class="bi bi-chevron-left"></i> Previous
+                </a>
+            @endif
+
+            @foreach ($salariesPaginated->getUrlRange(max(1, $salariesPaginated->currentPage() - 2), min($salariesPaginated->lastPage(), $salariesPaginated->currentPage() + 2)) as $pageNumber => $url)
+                @if ($pageNumber == $salariesPaginated->currentPage())
+                    <span style="padding:8px 16px;border-radius:11px;background:linear-gradient(135deg, #1E1B4B 0%, #312E81 50%, #4F46E5 100%);color:#ffffff;font-size:13px;font-weight:800;border:none;box-shadow:0 4px 12px rgba(79,70,229,0.35);display:inline-flex;align-items:center;justify-content:center;">
+                        {{ $pageNumber }}
+                    </span>
+                @else
+                    <a href="{{ $url }}" style="padding:8px 16px;border-radius:11px;border:1px solid #cbd5e1;background:#ffffff;color:#334155;font-size:13px;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;">
+                        {{ $pageNumber }}
+                    </a>
+                @endif
+            @endforeach
+
+            @if ($salariesPaginated->hasMorePages())
+                <a href="{{ $salariesPaginated->nextPageUrl() }}" style="padding:8px 16px;border-radius:11px;border:1px solid #4F46E5;background:#EEF2FF;color:#4F46E5;font-size:13px;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;gap:6px;box-shadow:0 2px 6px rgba(79,70,229,0.12);">
+                    Next <i class="bi bi-chevron-right"></i>
+                </a>
+            @else
+                <span style="padding:8px 16px;border-radius:11px;border:1px solid #e2e8f0;background:#f8fafc;color:#94a3b8;font-size:13px;font-weight:700;display:inline-flex;align-items:center;gap:6px;cursor:not-allowed;">
+                    Next <i class="bi bi-chevron-right"></i>
+                </span>
+            @endif
+        </div>
+    </div>
+    @endif
 </div>
 @endif
 

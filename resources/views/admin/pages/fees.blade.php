@@ -117,9 +117,13 @@
                                     @endif
                                 </div>
                             </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
         </div>
 
-        @if($feeCollections instanceof \Illuminate\Pagination\LengthAwarePaginator && $feeCollections->hasPages())
+        @if($feeCollections instanceof \Illuminate\Pagination\LengthAwarePaginator && $feeCollections->total() > 0)
             <div class="admin-pagination-bar">
                 <div class="admin-pagination-info">
                     Showing <strong>{{ $feeCollections->firstItem() }}</strong> to <strong>{{ $feeCollections->lastItem() }}</strong> of <strong>{{ $feeCollections->total() }}</strong> fee records

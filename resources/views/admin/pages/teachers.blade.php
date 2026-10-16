@@ -201,9 +201,13 @@
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                    @endforeach
+                </tbody>
+            </table>
         </div>
 
-        @if($teachers instanceof \Illuminate\Pagination\LengthAwarePaginator && $teachers->hasPages())
+        @if($teachers instanceof \Illuminate\Pagination\LengthAwarePaginator && $teachers->total() > 0)
             <div class="admin-pagination-bar">
                 <div class="admin-pagination-info">
                     Showing <strong>{{ $teachers->firstItem() }}</strong> to <strong>{{ $teachers->lastItem() }}</strong> of <strong>{{ $teachers->total() }}</strong> teachers

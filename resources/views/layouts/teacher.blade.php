@@ -49,6 +49,7 @@
             @php
             $academicMenu = [
                 'dashboard' => ['Dashboard', 'bi-grid-1x2-fill'],
+                'classes' => ['My Assigned Classes', 'bi-mortarboard-fill'],
                 'profile' => ['My Profile', 'bi-person-badge-fill'],
                 'attendance' => ['My Attendance', 'bi-calendar-check-fill'],
                 'leaves' => ['My Leaves / Apply Leave', 'bi-calendar-plus-fill'],
@@ -62,6 +63,17 @@
                     <span>{{ $item[0] }}</span>
                 </a>
             @endforeach
+
+            @if(!empty($isAnyIncharge) || ($user->role?->slug ?? '') === 'class-incharge')
+            <p class="student-menu-label" style="margin-top: 14px; color: #F59E0B; display: flex; align-items: center; gap: 6px;">
+                <i class="bi bi-award-fill" style="color: #F59E0B;"></i>
+                <span>CLASS IN-CHARGE</span>
+            </p>
+            <a href="{{ route('teacher.page', 'incharge') }}" class="{{ ($page ?? 'dashboard') === 'incharge' ? 'is-active' : '' }}" style="@if(($page ?? 'dashboard') === 'incharge') background: linear-gradient(135deg, rgba(245, 158, 11, 0.18), rgba(217, 119, 6, 0.25)); border-color: #F59E0B; color: #F59E0B; @endif">
+                <i class="bi bi-shield-check" style="color: #F59E0B;"></i>
+                <span>Class Overview (In-Charge)</span>
+            </a>
+            @endif
 
             <p class="student-menu-label" style="margin-top: 14px;">TESTS & EVALUATION</p>
             @php

@@ -2022,13 +2022,43 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
 
         {{-- PAGINATION CONTROLS (10 per page default) --}}
-        @if($teachersDirectory['subjectTeachers']->hasPages())
-            <div style="margin-top:24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;padding:12px 16px;background:#ffffff;border:1px solid #E2E8F0;border-radius:12px;">
+        @if($teachersDirectory['subjectTeachers']->total() > 0)
+            <div style="margin-top:24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;padding:14px 18px;background:#ffffff;border:1px solid #E2E8F0;border-radius:14px;box-shadow:0 1px 3px rgba(0,0,0,0.04);">
                 <span style="font-size:13px;color:#64748B;font-weight:600;">
-                    Showing <strong>{{ $teachersDirectory['subjectTeachers']->firstItem() }}</strong> to <strong>{{ $teachersDirectory['subjectTeachers']->lastItem() }}</strong> of <strong>{{ $teachersDirectory['subjectTeachers']->total() }}</strong> class teachers
+                    Showing <strong style="color:#0F172A;">{{ $teachersDirectory['subjectTeachers']->firstItem() ?? 0 }}</strong> to <strong style="color:#0F172A;">{{ $teachersDirectory['subjectTeachers']->lastItem() ?? 0 }}</strong> of <strong style="color:#0F172A;">{{ $teachersDirectory['subjectTeachers']->total() }}</strong> class teachers
                 </span>
-                <div>
-                    {{ $teachersDirectory['subjectTeachers']->links('pagination::bootstrap-4') }}
+                <div style="display:flex;align-items:center;gap:6px;">
+                    @if ($teachersDirectory['subjectTeachers']->onFirstPage())
+                        <span style="padding:6px 12px;border-radius:8px;border:1px solid #E2E8F0;background:#F8FAFC;color:#94A3B8;font-size:12px;font-weight:700;display:inline-flex;align-items:center;gap:4px;cursor:not-allowed;">
+                            <i class="bi bi-chevron-left"></i> Previous
+                        </span>
+                    @else
+                        <a href="{{ $teachersDirectory['subjectTeachers']->previousPageUrl() }}" style="padding:6px 12px;border-radius:8px;border:1px solid #4F46E5;background:#EEF2FF;color:#4F46E5;font-size:12px;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;gap:4px;">
+                            <i class="bi bi-chevron-left"></i> Previous
+                        </a>
+                    @endif
+
+                    @foreach ($teachersDirectory['subjectTeachers']->getUrlRange(max(1, $teachersDirectory['subjectTeachers']->currentPage() - 2), min($teachersDirectory['subjectTeachers']->lastPage(), $teachersDirectory['subjectTeachers']->currentPage() + 2)) as $pageNumber => $url)
+                        @if ($pageNumber == $teachersDirectory['subjectTeachers']->currentPage())
+                            <span style="padding:6px 12px;border-radius:8px;background:linear-gradient(135deg, #1E1B4B 0%, #4F46E5 100%);color:#ffffff;font-size:12px;font-weight:800;display:inline-flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(79,70,229,0.3);">
+                                {{ $pageNumber }}
+                            </span>
+                        @else
+                            <a href="{{ $url }}" style="padding:6px 12px;border-radius:8px;border:1px solid #CBD5E1;background:#ffffff;color:#334155;font-size:12px;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;">
+                                {{ $pageNumber }}
+                            </a>
+                        @endif
+                    @endforeach
+
+                    @if ($teachersDirectory['subjectTeachers']->hasMorePages())
+                        <a href="{{ $teachersDirectory['subjectTeachers']->nextPageUrl() }}" style="padding:6px 12px;border-radius:8px;border:1px solid #4F46E5;background:#EEF2FF;color:#4F46E5;font-size:12px;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;gap:4px;">
+                            Next <i class="bi bi-chevron-right"></i>
+                        </a>
+                    @else
+                        <span style="padding:6px 12px;border-radius:8px;border:1px solid #E2E8F0;background:#F8FAFC;color:#94A3B8;font-size:12px;font-weight:700;display:inline-flex;align-items:center;gap:4px;cursor:not-allowed;">
+                            Next <i class="bi bi-chevron-right"></i>
+                        </span>
+                    @endif
                 </div>
             </div>
         @endif

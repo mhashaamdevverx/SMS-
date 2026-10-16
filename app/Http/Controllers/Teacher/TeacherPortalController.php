@@ -94,49 +94,210 @@ class TeacherPortalController extends Controller
 
         // Active class selected from request dropdown
         $reqClass = $request ? $request->input('class') : null;
-        $activeClassObj = null;
+        $reqSection = $request ? $request->input('section') : null;
+        $reqSubject = $request ? $request->input('subject') : null;
+        $searchQuery = $request ? trim($request->input('search', '')) : '';
 
-        if ($reqClass) {
+        // Check for "All My Classes" option
+        $isAllClasses = ($reqClass === 'all');
+
+        // Security / Authorization Enforcement:
+        // Teacher can only access classes assigned to them.
+        $authorizedClassNames = $myClasses->pluck('class_name')->map(fn($c) => strtolower(trim($c)))->all();
+        if ($reqClass && !$isAllClasses && !in_array(strtolower(trim($reqClass)), $authorizedClassNames, true)) {
+            // Reject unauthorized class parameter and fallback safely to teacher's authorized class
+            $reqClass = $myClasses->first()['class_name'];
+        }
+
+        $activeClassObj = null;
+        if ($reqClass && !$isAllClasses) {
             $activeClassObj = $myClasses->first(fn($c) => strtolower(trim($c['class_name'])) === strtolower(trim($reqClass)));
         }
         if (!$activeClassObj) {
             $activeClassObj = $myClasses->first();
         }
 
-        $primaryClass = $activeClassObj['class_name'];
-        $primarySection = $activeClassObj['section_name'];
-
-        // Subjects taught by logged in teacher in selected class ONLY
-        $mySubjects = $myAssignments
-            ->filter(fn($a) => strtolower(trim($a->class_name)) === strtolower(trim($primaryClass)))
-            ->pluck('subject_or_course')
-            ->unique()
-            ->values();
+        if ($isAllClasses) {
+            $primaryClass = 'All My Classes';
+            $primarySection = $reqSection ?: 'All Sections';
+            $mySubjects = $myAssignments->pluck('subject_or_course')->filter()->unique()->values();
+            $availableSections = $myAssignments->pluck('section_name')->filter()->unique()->values();
+        } else {
+            $primaryClass = $activeClassObj['class_name'];
+            $primarySection = $reqSection ?: $activeClassObj['section_name'];
+            $mySubjects = $myAssignments
+                ->filter(fn($a) => strtolower(trim($a->class_name)) === strtolower(trim($primaryClass)))
+                ->pluck('subject_or_course')
+                ->filter()
+                ->unique()
+                ->values();
+            $availableSections = $myAssignments
+                ->filter(fn($a) => strtolower(trim($a->class_name)) === strtolower(trim($primaryClass)))
+                ->pluck('section_name')
+                ->filter()
+                ->unique()
+                ->values();
+        }
 
         if ($mySubjects->isEmpty()) {
             $mySubjects = collect(['English', 'Drawing & Arts']);
         }
 
-        // Co-Teachers assigned to selected class & section ONLY
-        $coTeacherAssignments = TeacherAssignment::with('teacher')
-            ->whereRaw('LOWER(TRIM(class_name)) = ?', [strtolower(trim($primaryClass))])
-            ->where(fn($q) => $q->whereRaw('LOWER(TRIM(section_name)) = ?', [strtolower(trim($primarySection))])->orWhereNull('section_name')->orWhere('section_name', ''))
-            ->get();
+        $availableFilterSubjects = $isAllClasses 
+            ? $myAssignments->pluck('subject_or_course')->filter()->unique()->values() 
+            : $mySubjects;
 
-        // Enrolled Students in selected class & section ONLY
-        $students = Student::whereRaw('LOWER(TRIM(class)) = ?', [strtolower(trim($primaryClass))])
-            ->where(fn($q) => $q->whereRaw('LOWER(TRIM(section)) = ?', [strtolower(trim($primarySection))])->orWhereNull('section')->orWhere('section', ''))
-            ->orderBy('std_id', 'asc')
-            ->get();
+        // Assigned Classes Summary for "My Assigned Classes" Feature Two
+        $assignedClassesSummary = $myClasses->map(function($c) use ($myAssignments) {
+            $cName = $c['class_name'];
+            $sName = $c['section_name'];
 
-        $studentCount = $students->count();
+            $subs = $myAssignments->filter(function($a) use ($cName, $sName) {
+                $matchC = strtolower(trim($a->class_name)) === strtolower(trim($cName));
+                $matchS = empty($sName) || empty($a->section_name) || strtolower(trim($a->section_name)) === strtolower(trim($sName));
+                return $matchC && $matchS;
+            })->pluck('subject_or_course')->filter()->unique()->values();
+
+            $stdQuery = Student::whereRaw('LOWER(TRIM(class)) = ?', [strtolower(trim($cName))]);
+            if (!empty($sName)) {
+                $stdQuery->where(fn($q) => $q->whereRaw('LOWER(TRIM(section)) = ?', [strtolower(trim($sName))])->orWhereNull('section')->orWhere('section', ''));
+            }
+            $studentCount = $stdQuery->count();
+
+            $incharge = \App\Models\ClassIncharge::with('teacher')
+                ->whereHas('classRecord', function($q) use ($cName) {
+                    $q->whereRaw('LOWER(TRIM(class_name)) = ?', [strtolower(trim($cName))]);
+                })->first();
+
+            return [
+                'class_name' => $cName,
+                'section_name' => $sName,
+                'label' => $c['label'],
+                'subjects' => $subs,
+                'student_count' => $studentCount,
+                'incharge_name' => $incharge?->teacher?->teacher_name ?? 'School Administration',
+                'view_url' => route('teacher.page', 'students') . '?class=' . urlencode($cName) . ($sName ? '&section=' . urlencode($sName) : ''),
+            ];
+        });
+
+        // Co-Teachers assigned to selected class & section ONLY (or all assigned classes)
+        $coTeachersQuery = TeacherAssignment::with('teacher');
+        if ($isAllClasses) {
+            $coTeachersQuery->where(function($q) use ($myClasses) {
+                foreach ($myClasses as $c) {
+                    $q->orWhere(function($sub) use ($c) {
+                        $sub->whereRaw('LOWER(TRIM(class_name)) = ?', [strtolower(trim($c['class_name']))]);
+                        if (!empty($c['section_name'])) {
+                            $sub->where(function($sQ) use ($c) {
+                                $sQ->whereRaw('LOWER(TRIM(section_name)) = ?', [strtolower(trim($c['section_name']))])
+                                   ->orWhereNull('section_name')
+                                   ->orWhere('section_name', '');
+                            });
+                        }
+                    });
+                }
+            });
+        } else {
+            $coTeachersQuery->whereRaw('LOWER(TRIM(class_name)) = ?', [strtolower(trim($primaryClass))]);
+            if (!empty($primarySection) && strtolower($primarySection) !== 'all' && strtolower($primarySection) !== 'all sections') {
+                $coTeachersQuery->where(function($q) use ($primarySection) {
+                    $q->whereRaw('LOWER(TRIM(section_name)) = ?', [strtolower(trim($primarySection))])
+                      ->orWhereNull('section_name')
+                      ->orWhere('section_name', '');
+                });
+            }
+        }
+
+        if (!empty($reqSubject) && $reqSubject !== 'all') {
+            $coTeachersQuery->whereRaw('LOWER(TRIM(subject_or_course)) = ?', [strtolower(trim($reqSubject))]);
+        }
+
+        $coTeacherAssignmentsPaginated = (clone $coTeachersQuery)->paginate(10, ['*'], 'coteacher_page')->withQueryString();
+        $coTeacherAssignments = $coTeachersQuery->get();
+
+        // Enrolled Students Query with Search & Section filters
+        $studentsQuery = Student::query();
+        if ($isAllClasses) {
+            $studentsQuery->where(function($q) use ($myClasses) {
+                foreach ($myClasses as $c) {
+                    $q->orWhere(function($sub) use ($c) {
+                        $sub->whereRaw('LOWER(TRIM(class)) = ?', [strtolower(trim($c['class_name']))]);
+                        if (!empty($c['section_name'])) {
+                            $sub->where(function($sQ) use ($c) {
+                                $sQ->whereRaw('LOWER(TRIM(section)) = ?', [strtolower(trim($c['section_name']))])
+                                   ->orWhereNull('section')
+                                   ->orWhere('section', '');
+                            });
+                        }
+                    });
+                }
+            });
+        } else {
+            $studentsQuery->whereRaw('LOWER(TRIM(class)) = ?', [strtolower(trim($primaryClass))]);
+            if (!empty($primarySection) && strtolower($primarySection) !== 'all' && strtolower($primarySection) !== 'all sections') {
+                $studentsQuery->where(function($q) use ($primarySection) {
+                    $q->whereRaw('LOWER(TRIM(section)) = ?', [strtolower(trim($primarySection))])
+                      ->orWhereNull('section')
+                      ->orWhere('section', '');
+                });
+            }
+        }
+
+        if (!empty($reqSection) && $reqSection !== 'all') {
+            $studentsQuery->whereRaw('LOWER(TRIM(section)) = ?', [strtolower(trim($reqSection))]);
+        }
+
+        if (!empty($searchQuery)) {
+            $studentsQuery->where(function($q) use ($searchQuery) {
+                $q->where('name', 'like', "%{$searchQuery}%")
+                  ->orWhere('std_id', 'like', "%{$searchQuery}%")
+                  ->orWhere('registration_no', 'like', "%{$searchQuery}%");
+            });
+        }
+
+        $studentCount = (clone $studentsQuery)->count();
+        $studentsPaginated = (clone $studentsQuery)->orderBy('class', 'asc')->orderBy('std_id', 'asc')->paginate(10, ['*'], 'student_page')->withQueryString();
+
+        // Attach teacher's relevant subjects for that class/section to each student
+        $studentsPaginated->getCollection()->transform(function($std) use ($myAssignments) {
+            $stdClass = strtolower(trim($std->class ?? ''));
+            $stdSec = strtolower(trim($std->section ?? ''));
+            $std->my_subjects = $myAssignments->filter(function($a) use ($stdClass, $stdSec) {
+                $matchC = strtolower(trim($a->class_name)) === $stdClass;
+                $matchS = empty($a->section_name) || empty($stdSec) || strtolower(trim($a->section_name)) === $stdSec;
+                return $matchC && $matchS;
+            })->pluck('subject_or_course')->filter()->unique()->values();
+            return $std;
+        });
+
+        $students = (clone $studentsQuery)->orderBy('std_id', 'asc')->get();
 
         // Academic Results of students in selected class & section ONLY with Term & Year filters
         $selectedResultTerm = $request->query('result_term', 'all');
         $selectedResultYear = $request->query('result_year', 'all');
 
-        $classResultsQuery = Result::whereRaw('LOWER(TRIM(student_class)) = ?', [strtolower(trim($primaryClass))])
-            ->where(fn($q) => $q->whereRaw('LOWER(TRIM(student_section)) = ?', [strtolower(trim($primarySection))])->orWhereNull('student_section')->orWhere('student_section', ''));
+        $classResultsQuery = Result::query();
+        if ($isAllClasses) {
+            $classResultsQuery->where(function($q) use ($myClasses) {
+                foreach ($myClasses as $c) {
+                    $q->orWhere(function($sub) use ($c) {
+                        $sub->whereRaw('LOWER(TRIM(student_class)) = ?', [strtolower(trim($c['class_name']))]);
+                        if (!empty($c['section_name'])) {
+                            $sub->where(function($sQ) use ($c) {
+                                $sQ->whereRaw('LOWER(TRIM(student_section)) = ?', [strtolower(trim($c['section_name']))])
+                                   ->orWhereNull('student_section')
+                                   ->orWhere('student_section', '');
+                            });
+                        }
+                    });
+                }
+            });
+        } else {
+            $classResultsQuery->whereRaw('LOWER(TRIM(student_class)) = ?', [strtolower(trim($primaryClass))]);
+            if (!empty($primarySection) && strtolower($primarySection) !== 'all') {
+                $classResultsQuery->where(fn($q) => $q->whereRaw('LOWER(TRIM(student_section)) = ?', [strtolower(trim($primarySection))])->orWhereNull('student_section')->orWhere('student_section', ''));
+            }
+        }
 
         if ($selectedResultTerm !== 'all' && !empty($selectedResultTerm)) {
             $classResultsQuery->where('term', $selectedResultTerm);
@@ -147,10 +308,7 @@ class TeacherPortalController extends Controller
         $classResults = $classResultsQuery->get();
 
         // Paginated Student Results (10 per page)
-        $studentResultsQuery = Student::whereRaw('LOWER(TRIM(class)) = ?', [strtolower(trim($primaryClass))])
-            ->where(fn($q) => $q->whereRaw('LOWER(TRIM(section)) = ?', [strtolower(trim($primarySection))])->orWhereNull('section')->orWhere('section', ''))
-            ->orderBy('std_id', 'asc');
-
+        $studentResultsQuery = (clone $studentsQuery);
         $studentResultsPaginated = $studentResultsQuery->paginate(10)->withQueryString();
 
         $studentResultsPaginated->getCollection()->transform(function($student) use ($selectedResultTerm, $selectedResultYear) {
@@ -221,6 +379,15 @@ class TeacherPortalController extends Controller
         $rawClass = trim($primaryClass);
         $cleanClass = trim(preg_replace('/\s*\(.*?\)/', '', $rawClass));
 
+        // Check all classes this teacher is an in-charge of:
+        $inchargeRecords = \App\Models\ClassIncharge::with(['classRecord', 'teacher'])
+            ->where(function($q) use ($teacher, $user) {
+                $q->where('teacher_id', $teacher->id);
+                if ($user) $q->orWhere('user_id', $user->id);
+            })->get();
+
+        $isAnyIncharge = $inchargeRecords->isNotEmpty() || ($user && $user->role?->slug === 'admin');
+
         $isClassIncharge = \App\Models\ClassIncharge::where(function($q) use ($teacher, $user) {
                 $q->where('teacher_id', $teacher->id);
                 if ($user) $q->orWhere('user_id', $user->id);
@@ -241,7 +408,14 @@ class TeacherPortalController extends Controller
                   ->orWhereRaw('LOWER(TRIM(class_name)) = ?', [strtolower($cleanClass)]);
             })->first()?->teacher?->teacher_name ?: $teacher->teacher_name;
 
-        return compact('myAssignments', 'myClasses', 'primaryClass', 'primarySection', 'mySubjects', 'coTeacherAssignments', 'students', 'studentCount', 'classResults', 'studentResultsPaginated', 'isClassIncharge', 'classInchargeTeacherName', 'selectedResultTerm', 'selectedResultYear');
+        return compact(
+            'myAssignments', 'myClasses', 'primaryClass', 'primarySection', 'mySubjects', 
+            'availableFilterSubjects', 'availableSections', 'isAllClasses', 'reqClass', 'reqSection', 'reqSubject', 'searchQuery',
+            'coTeacherAssignments', 'coTeacherAssignmentsPaginated', 'students', 'studentsPaginated', 'studentCount',
+            'assignedClassesSummary', 'classResults', 'studentResultsPaginated', 
+            'isClassIncharge', 'classInchargeTeacherName', 'isAnyIncharge', 'inchargeRecords',
+            'selectedResultTerm', 'selectedResultYear'
+        );
     }
 
     private function getAttendanceAndLeaveData(Teacher $teacher, Request $request = null): array
@@ -457,7 +631,7 @@ class TeacherPortalController extends Controller
     public function page(string $page, Request $request = null)
     {
         $request = $request ?? request();
-        abort_unless(in_array($page, ['profile', 'coteachers', 'students', 'results', 'outlines', 'salary', 'attendance', 'tests', 'slips', 'stdleaves', 'leaves'], true), 404);
+        abort_unless(in_array($page, ['profile', 'coteachers', 'students', 'results', 'outlines', 'salary', 'attendance', 'tests', 'slips', 'stdleaves', 'leaves', 'classes', 'incharge'], true), 404);
         
         [$user, $teacher] = $this->getTeacher();
         $base = $this->getTeacherBaseData($teacher, $request);
@@ -499,9 +673,99 @@ class TeacherPortalController extends Controller
             $salariesQuery->where('month', 'like', '%' . $selectedSalaryYear);
         }
 
+        $salariesPaginated = (clone $salariesQuery)->paginate(10, ['*'], 'salary_page')->withQueryString();
         $salaries = $salariesQuery->get();
         $latestSalary = TeacherSalary::where('teacher_id', $teacher->id)->orderBy('id', 'desc')->first();
+        
+        $outlinesPaginated = CourseOutline::where('teacher_id', $teacher->id)->orderBy('created_at', 'desc')->paginate(10, ['*'], 'outline_page')->withQueryString();
         $outlines = CourseOutline::where('teacher_id', $teacher->id)->orderBy('created_at', 'desc')->get();
+
+        // Feature Four: In-Charge Teacher Class Overview Data
+        $inchargeData = [];
+        if ($page === 'incharge') {
+            if (!$base['isAnyIncharge']) {
+                return redirect()->route('teacher.dashboard')->with('error', 'Access Denied: You are not designated as an In-Charge Teacher for any class.');
+            }
+
+            $managedClassRecords = $base['inchargeRecords'];
+            if ($managedClassRecords->isEmpty() && $user->role?->slug === 'admin') {
+                $managedClassRecords = \App\Models\ClassIncharge::with(['classRecord', 'teacher'])->get();
+            }
+
+            // Selected in-charge class
+            $reqInchargeClassId = $request->query('incharge_class_id');
+            $activeInchargeRecord = null;
+            if ($reqInchargeClassId) {
+                $activeInchargeRecord = $managedClassRecords->firstWhere('class_id', $reqInchargeClassId);
+            }
+            if (!$activeInchargeRecord) {
+                $activeInchargeRecord = $managedClassRecords->first();
+            }
+
+            $managedClass = $activeInchargeRecord?->classRecord;
+            $managedClassName = $managedClass?->class_name ?? 'TEN';
+            $managedSectionName = $managedClass?->section_name ?? 'Red';
+
+            // 1. In-charge teacher(s) for this class
+            $inchargeTeachers = \App\Models\ClassIncharge::with(['teacher.loginAccount', 'user'])
+                ->where('class_id', $activeInchargeRecord?->class_id)
+                ->get();
+
+            // 2. All Subject Teachers assigned to this class & section
+            $allSubjectAssignments = TeacherAssignment::with('teacher')
+                ->whereRaw('LOWER(TRIM(class_name)) = ?', [strtolower(trim($managedClassName))])
+                ->when($managedSectionName, function($q) use ($managedSectionName) {
+                    $q->where(fn($sub) => $sub->whereRaw('LOWER(TRIM(section_name)) = ?', [strtolower(trim($managedSectionName))])->orWhereNull('section_name')->orWhere('section_name', ''));
+                })
+                ->get();
+
+            // Group subjects by teacher to avoid duplicate teacher cards
+            $groupedSubjectTeachers = $allSubjectAssignments->groupBy('teacher_id')->map(function($assignments) {
+                $first = $assignments->first();
+                $t = $first->teacher;
+                $subs = $assignments->pluck('subject_or_course')->filter()->unique()->values();
+                return [
+                    'teacher' => $t,
+                    'teacher_id' => $first->teacher_id,
+                    'teacher_name' => $t?->teacher_name ?? 'Faculty Member',
+                    'teacher_image' => $t?->teacher_image,
+                    'phone' => $t?->teacher_phone ?: '0300-1234567',
+                    'email' => $t?->teacher_email ?: ($t?->loginAccount?->email ?? 'teacher@school.edu'),
+                    'subjects' => $subs,
+                ];
+            })->values();
+
+            // 3. Enrolled students for this in-charge class
+            $inchargeSearch = trim($request->query('incharge_search', ''));
+            $inchargeStudentsQuery = Student::whereRaw('LOWER(TRIM(class)) = ?', [strtolower(trim($managedClassName))])
+                ->when($managedSectionName, function($q) use ($managedSectionName) {
+                    $q->where(fn($sub) => $sub->whereRaw('LOWER(TRIM(section)) = ?', [strtolower(trim($managedSectionName))])->orWhereNull('section')->orWhere('section', ''));
+                });
+
+            if (!empty($inchargeSearch)) {
+                $inchargeStudentsQuery->where(function($q) use ($inchargeSearch) {
+                    $q->where('name', 'like', "%{$inchargeSearch}%")
+                      ->orWhere('std_id', 'like', "%{$inchargeSearch}%")
+                      ->orWhere('registration_no', 'like', "%{$inchargeSearch}%");
+                });
+            }
+
+            $inchargeStudentCount = (clone $inchargeStudentsQuery)->count();
+            $inchargeStudentsPaginated = $inchargeStudentsQuery->orderBy('std_id', 'asc')->paginate(10, ['*'], 'incharge_student_page')->withQueryString();
+
+            $inchargeData = compact(
+                'managedClassRecords',
+                'activeInchargeRecord',
+                'managedClass',
+                'managedClassName',
+                'managedSectionName',
+                'inchargeTeachers',
+                'groupedSubjectTeachers',
+                'inchargeStudentsPaginated',
+                'inchargeStudentCount',
+                'inchargeSearch'
+            );
+        }
 
         // Student Leaves Data for Active Class with Month & Year filters & View Modes
         $selectedLeaveView = $request->query('leave_view', 'monthly');
@@ -600,7 +864,7 @@ class TeacherPortalController extends Controller
             '2026-01' => 'January 2026',
         ];
 
-        return view('teacher.portal', array_merge($base, $attData, compact('user', 'teacher', 'salaries', 'latestSalary', 'outlines', 'page', 'selectedTestMonth', 'testSessionsMap', 'testMonthsList', 'studentLeavesPaginated', 'testStudentsPaginated', 'selectedSalaryMonth', 'selectedSalaryYear', 'selectedLeaveMonth', 'selectedLeaveYear', 'selectedLeaveView', 'yearlyLeaveSummaries')));
+        return view('teacher.portal', array_merge($base, $attData, compact('user', 'teacher', 'salaries', 'salariesPaginated', 'latestSalary', 'outlines', 'outlinesPaginated', 'page', 'selectedTestMonth', 'testSessionsMap', 'testMonthsList', 'studentLeavesPaginated', 'testStudentsPaginated', 'selectedSalaryMonth', 'selectedSalaryYear', 'selectedLeaveMonth', 'selectedLeaveYear', 'selectedLeaveView', 'yearlyLeaveSummaries') + $inchargeData));
     }
 
     public function updateTestMarks(Request $request)
