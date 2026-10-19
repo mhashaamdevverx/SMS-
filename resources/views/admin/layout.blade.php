@@ -148,6 +148,7 @@
             </div>
 
             <!-- Right Actions: Theme Toggle, Notifications, Profile Menu -->
+            <div class="nav-right-actions">
                 <!-- Broadcast Announcement Button -->
                 <button type="button" class="nav-icon-btn" onclick="openAnnouncementModal()" title="Broadcast Announcement">
                     <i class="bi bi-megaphone-fill" style="color: var(--primary);"></i>
