@@ -138,9 +138,11 @@
                                         @if($u->isAdmin())
                                             <span class="badge bg-secondary-subtle text-secondary">Protected Admin</span>
                                         @else
-                                            <button type="button" class="admin-btn admin-btn-outline admin-btn-sm" data-bs-toggle="modal" data-bs-target="#changeUserRoleModal{{ $u->id }}">
-                                                <i class="bi bi-pencil-square"></i> Assign / Change Role
-                                            </button>
+                                            <div class="admin-table-actions">
+                                                <button type="button" class="admin-btn-icon edit" data-bs-toggle="modal" data-bs-target="#changeUserRoleModal{{ $u->id }}" title="Assign / Change Role">
+                                                    <i class="bi bi-pencil"></i>
+                                                </button>
+                                            </div>
                                         @endif
                                     </td>
                                 </tr>
@@ -268,16 +270,16 @@
                                         @if($r->slug === 'admin')
                                             <span class="badge bg-secondary-subtle text-secondary">Protected Master Role</span>
                                         @else
-                                            <div class="d-inline-flex gap-1">
-                                                <button type="button" class="admin-btn admin-btn-outline admin-btn-sm" data-bs-toggle="modal" data-bs-target="#editRoleModal{{ $r->id }}">
-                                                    <i class="bi bi-pencil"></i> Edit & Permissions
+                                            <div class="admin-table-actions">
+                                                <button type="button" class="admin-btn-icon edit" data-bs-toggle="modal" data-bs-target="#editRoleModal{{ $r->id }}" title="Edit Role & Permissions">
+                                                    <i class="bi bi-pencil"></i>
                                                 </button>
 
                                                 @if(!$r->is_system && $r->users_count == 0)
                                                     <form action="{{ route('roles.destroy', $r->id) }}" method="POST" onsubmit="return confirm('Delete this custom role?');">
                                                         @csrf
                                                         @method('DELETE')
-                                                        <button type="submit" class="admin-btn admin-btn-danger admin-btn-sm">
+                                                        <button type="submit" class="admin-btn-icon danger" title="Delete Role">
                                                             <i class="bi bi-trash"></i>
                                                         </button>
                                                     </form>
@@ -377,13 +379,15 @@
                                     </td>
                                     <td>{{ $incharge->teacher?->teacher_email ?: $incharge->user?->email }}</td>
                                     <td class="text-end">
-                                        <form action="{{ route('roles.incharges.destroy', $incharge->id) }}" method="POST" onsubmit="return confirm('Remove incharge assignment?');">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="admin-btn admin-btn-danger admin-btn-sm">
-                                                <i class="bi bi-trash"></i> Remove Incharge
-                                            </button>
-                                        </form>
+                                        <div class="admin-table-actions">
+                                            <form action="{{ route('roles.incharges.destroy', $incharge->id) }}" method="POST" onsubmit="return confirm('Remove incharge assignment?');">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="admin-btn-icon danger" title="Remove Incharge Assignment">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            </form>
+                                        </div>
                                     </td>
                                 </tr>
                             @empty

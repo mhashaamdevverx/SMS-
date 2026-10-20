@@ -4,17 +4,41 @@
             <i class="bi bi-clock-history text-primary"></i> Attendance Logs & Daily Register
         </h3>
 
-        <form method="GET" action="{{ route('admin.page', 'attendance') }}" class="admin-filter-bar">
-            <input type="date" name="date" class="admin-input" value="{{ $selectedDate ?? date('Y-m-d') }}" onchange="this.form.submit()">
-            <select name="class" class="admin-select" onchange="this.form.submit()">
-                <option value="">-- All Classes --</option>
-                @foreach($classes as $c)
-                    <option value="{{ $c->class_name }}" {{ ($selectedClass ?? '') == $c->class_name ? 'selected' : '' }}>
-                        {{ $c->class_name }}
-                    </option>
-                @endforeach
-            </select>
-            <a href="/attendance" class="admin-btn admin-btn-outline admin-btn-sm">
+        <form method="GET" action="{{ route('admin.page', 'attendance') }}" class="admin-filter-bar d-flex align-items-center gap-2">
+            {{-- Date Picker --}}
+            <div style="position: relative; display: inline-flex; align-items: center;">
+                <input type="date" name="date" class="form-control form-control-sm admin-input" value="{{ $selectedDate ?? date('Y-m-d') }}" onchange="this.form.submit()" style="width: auto; min-width: 145px; height: 38px; border-radius: 10px; font-weight: 600; border: 1.5px solid var(--border); background: var(--surface); color: var(--heading); padding: 0 12px;">
+            </div>
+
+            {{-- Class Dropdown with Explicit Chevron --}}
+            <div style="position: relative; display: inline-flex; align-items: center;">
+                <select name="class" class="form-select form-select-sm admin-select" onchange="this.form.submit()" style="width: auto; min-width: 155px; height: 38px; border-radius: 10px; font-weight: 600; border: 1.5px solid var(--border); background-color: var(--surface); color: var(--heading); padding-left: 14px; padding-right: 32px; cursor: pointer;">
+                    <option value="">-- All Classes --</option>
+                    @foreach($classes as $c)
+                        <option value="{{ $c->class_name }}" {{ ($selectedClass ?? '') == $c->class_name ? 'selected' : '' }}>
+                            {{ $c->class_name }}
+                        </option>
+                    @endforeach
+                </select>
+                <i class="bi bi-chevron-down" style="position: absolute; right: 12px; font-size: 11px; color: var(--muted); pointer-events: none;"></i>
+            </div>
+
+            {{-- Section Dropdown with Explicit Chevron --}}
+            <div style="position: relative; display: inline-flex; align-items: center;">
+                <select name="section" class="form-select form-select-sm admin-select" onchange="this.form.submit()" style="width: auto; min-width: 145px; height: 38px; border-radius: 10px; font-weight: 600; border: 1.5px solid var(--border); background-color: var(--surface); color: var(--heading); padding-left: 14px; padding-right: 32px; cursor: pointer;">
+                    <option value="">-- All Sections --</option>
+                    @if(isset($sections))
+                        @foreach($sections as $sec)
+                            <option value="{{ $sec->section_name }}" {{ ($selectedSection ?? '') == $sec->section_name ? 'selected' : '' }}>
+                                {{ $sec->section_name }}
+                            </option>
+                        @endforeach
+                    @endif
+                </select>
+                <i class="bi bi-chevron-down" style="position: absolute; right: 12px; font-size: 11px; color: var(--muted); pointer-events: none;"></i>
+            </div>
+
+            <a href="/attendance" class="admin-btn admin-btn-outline admin-btn-sm" style="height: 38px; border-radius: 10px; display: inline-flex; align-items: center; gap: 6px;">
                 <i class="bi bi-pencil-square"></i> Open Attendance Sheet
             </a>
         </form>

@@ -101,34 +101,38 @@
                                     </td>
                                     <td class="text-center" style="white-space: nowrap; width: 1%;">
                                         @if(strtolower($tLeave->status) === 'pending')
-                                            <div class="d-inline-flex gap-1 justify-content-center">
+                                            <div class="admin-table-actions justify-content-center">
                                                 <form action="{{ route('admin.teacher-leave.approve', $tLeave->id) }}" method="POST">
                                                     @csrf
-                                                    <button type="submit" class="admin-btn admin-btn-success admin-btn-xs" style="padding: 4px 8px; font-size: 11px;">
-                                                        <i class="bi bi-check-circle-fill"></i> Approve
+                                                    <button type="submit" class="admin-btn-icon approve" title="Approve Leave">
+                                                        <i class="bi bi-check-lg"></i>
                                                     </button>
                                                 </form>
                                                 <form action="{{ route('admin.teacher-leave.reject', $tLeave->id) }}" method="POST">
                                                     @csrf
-                                                    <button type="submit" class="admin-btn admin-btn-danger admin-btn-xs" style="padding: 4px 8px; font-size: 11px;">
-                                                        <i class="bi bi-x-circle-fill"></i> Reject
+                                                    <button type="submit" class="admin-btn-icon danger" title="Reject Leave">
+                                                        <i class="bi bi-x-lg"></i>
                                                     </button>
                                                 </form>
                                             </div>
                                         @elseif(strtolower($tLeave->status) === 'approved')
-                                            <form action="{{ route('admin.teacher-leave.reject', $tLeave->id) }}" method="POST" class="d-inline">
-                                                @csrf
-                                                <button type="submit" class="btn btn-sm btn-outline-danger" title="Reject Leave" style="padding: 3px 8px; font-size: 11px; font-weight: 700; border-radius: 6px;">
-                                                    <i class="bi bi-x-circle"></i> Reject
-                                                </button>
-                                            </form>
+                                            <div class="admin-table-actions justify-content-center">
+                                                <form action="{{ route('admin.teacher-leave.reject', $tLeave->id) }}" method="POST">
+                                                    @csrf
+                                                    <button type="submit" class="admin-btn-icon danger" title="Reject Leave">
+                                                        <i class="bi bi-x-lg"></i>
+                                                    </button>
+                                                </form>
+                                            </div>
                                         @elseif(strtolower($tLeave->status) === 'rejected')
-                                            <form action="{{ route('admin.teacher-leave.approve', $tLeave->id) }}" method="POST" class="d-inline">
-                                                @csrf
-                                                <button type="submit" class="btn btn-sm btn-outline-success" title="Approve Leave" style="padding: 3px 8px; font-size: 11px; font-weight: 700; border-radius: 6px;">
-                                                    <i class="bi bi-check-circle"></i> Approve
-                                                </button>
-                                            </form>
+                                            <div class="admin-table-actions justify-content-center">
+                                                <form action="{{ route('admin.teacher-leave.approve', $tLeave->id) }}" method="POST">
+                                                    @csrf
+                                                    <button type="submit" class="admin-btn-icon approve" title="Approve Leave">
+                                                        <i class="bi bi-check-lg"></i>
+                                                    </button>
+                                                </form>
+                                            </div>
                                         @endif
                                     </td>
                                 </tr>
@@ -234,34 +238,38 @@
                                     </td>
                                     <td class="text-center" style="white-space: nowrap; width: 1%;">
                                         @if(strtolower($sLeave->status) === 'pending')
-                                            <div class="d-inline-flex gap-1 justify-content-center">
+                                            <div class="admin-table-actions justify-content-center">
                                                 <form action="{{ route('admin.student-leave.approve', $sLeave->id) }}" method="POST">
                                                     @csrf
-                                                    <button type="submit" class="admin-btn admin-btn-success admin-btn-xs" style="padding: 4px 8px; font-size: 11px;">
-                                                        <i class="bi bi-check-circle-fill"></i> Approve
+                                                    <button type="submit" class="admin-btn-icon approve" title="Approve Leave">
+                                                        <i class="bi bi-check-lg"></i>
                                                     </button>
                                                 </form>
                                                 <form action="{{ route('admin.student-leave.reject', $sLeave->id) }}" method="POST">
                                                     @csrf
-                                                    <button type="submit" class="admin-btn admin-btn-danger admin-btn-xs" style="padding: 4px 8px; font-size: 11px;">
-                                                        <i class="bi bi-x-circle-fill"></i> Reject
+                                                    <button type="submit" class="admin-btn-icon danger" title="Reject Leave">
+                                                        <i class="bi bi-x-lg"></i>
                                                     </button>
                                                 </form>
                                             </div>
                                         @elseif(strtolower($sLeave->status) === 'approved')
-                                            <form action="{{ route('admin.student-leave.reject', $sLeave->id) }}" method="POST" class="d-inline">
-                                                @csrf
-                                                <button type="submit" class="btn btn-sm btn-outline-danger" title="Reject Leave" style="padding: 3px 8px; font-size: 11px; font-weight: 700; border-radius: 6px;">
-                                                    <i class="bi bi-x-circle"></i> Reject
-                                                </button>
-                                            </form>
+                                            <div class="admin-table-actions justify-content-center">
+                                                <form action="{{ route('admin.student-leave.reject', $sLeave->id) }}" method="POST">
+                                                    @csrf
+                                                    <button type="submit" class="admin-btn-icon danger" title="Reject Leave">
+                                                        <i class="bi bi-x-lg"></i>
+                                                    </button>
+                                                </form>
+                                            </div>
                                         @elseif(strtolower($sLeave->status) === 'rejected')
-                                            <form action="{{ route('admin.student-leave.approve', $sLeave->id) }}" method="POST" class="d-inline">
-                                                @csrf
-                                                <button type="submit" class="btn btn-sm btn-outline-success" title="Approve Leave" style="padding: 3px 8px; font-size: 11px; font-weight: 700; border-radius: 6px;">
-                                                    <i class="bi bi-check-circle"></i> Approve
-                                                </button>
-                                            </form>
+                                            <div class="admin-table-actions justify-content-center">
+                                                <form action="{{ route('admin.student-leave.approve', $sLeave->id) }}" method="POST">
+                                                    @csrf
+                                                    <button type="submit" class="admin-btn-icon approve" title="Approve Leave">
+                                                        <i class="bi bi-check-lg"></i>
+                                                    </button>
+                                                </form>
+                                            </div>
                                         @endif
                                     </td>
                                 </tr>

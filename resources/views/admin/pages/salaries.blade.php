@@ -43,57 +43,60 @@
             <table class="admin-table">
                 <thead>
                     <tr>
-                        <th>Teacher</th>
-                        <th>Month</th>
-                        <th>Basic Salary</th>
-                        <th>Allowances</th>
-                        <th>Deductions</th>
-                        <th>Net Salary</th>
-                        <th>Status</th>
-                        <th>Paid Date</th>
-                        <th class="text-end">Actions</th>
+                        <th class="text-center">Teacher</th>
+                        <th class="text-center">Month</th>
+                        <th class="text-center">Basic Salary</th>
+                        <th class="text-center">Allowances</th>
+                        <th class="text-center">Deductions</th>
+                        <th class="text-center">Net Salary</th>
+                        <th class="text-center">Status</th>
+                        <th class="text-center">Paid Date</th>
+                        <th class="text-center">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach($salaries as $sal)
                         <tr>
-                            <td>
-                                <strong class="d-block text-dark">{{ $sal->teacher?->teacher_name ?? 'Staff' }}</strong>
+                            <td class="text-center" style="white-space: nowrap;">
+                                <strong class="d-block text-dark" style="white-space: nowrap;">{{ $sal->teacher?->teacher_name ?? 'Staff' }}</strong>
                                 <small class="text-muted">{{ $sal->teacher?->teacher_email }}</small>
                             </td>
-                            <td>
+                            <td class="text-center">
                                 <span class="badge bg-dark text-light fw-bold" style="font-size: 11px;">
                                     {{ $sal->month }}
                                 </span>
                             </td>
-                            <td>Rs {{ number_format($sal->basic_salary, 2) }}</td>
-                            <td class="text-success">+Rs {{ number_format($sal->allowances, 2) }}</td>
-                            <td class="text-danger">-Rs {{ number_format($sal->deductions, 2) }}</td>
-                            <td>
+                            <td class="text-center">Rs {{ number_format($sal->basic_salary, 2) }}</td>
+                            <td class="text-center text-success">+Rs {{ number_format($sal->allowances, 2) }}</td>
+                            <td class="text-center text-danger">-Rs {{ number_format($sal->deductions, 2) }}</td>
+                            <td class="text-center">
                                 <strong class="text-dark fs-6">Rs {{ number_format($sal->net_salary, 2) }}</strong>
                             </td>
-                            <td>
+                            <td class="text-center">
                                 <span class="admin-badge {{ strtolower($sal->status) }}">
                                     {{ $sal->status }}
                                 </span>
                             </td>
-                            <td>
+                            <td class="text-center">
                                 <small class="text-muted">{{ $sal->paid_date ? Carbon\Carbon::parse($sal->paid_date)->format('M d, Y') : '-' }}</small>
                             </td>
-                            <td class="text-end">
-                                <div class="d-inline-flex gap-1">
-                                    <a href="{{ route('admin.salaries.payslip', $sal->id) }}" target="_blank" class="admin-btn admin-btn-outline admin-btn-sm" title="Print Payslip">
-                                        <i class="bi bi-printer"></i> Slip
+                            <td class="text-center">
+                                <div class="admin-table-actions justify-content-center">
+                                    {{-- Print Payslip --}}
+                                    <a href="{{ route('admin.salaries.payslip', $sal->id) }}" target="_blank" class="admin-btn-icon print" title="Print Payslip">
+                                        <i class="bi bi-printer"></i>
                                     </a>
 
-                                    <button type="button" class="admin-btn admin-btn-primary admin-btn-sm" data-bs-toggle="modal" data-bs-target="#editSalaryModal{{ $sal->id }}">
-                                        <i class="bi bi-pencil-square"></i>
+                                    {{-- Edit Salary --}}
+                                    <button type="button" class="admin-btn-icon edit" data-bs-toggle="modal" data-bs-target="#editSalaryModal{{ $sal->id }}" title="Edit Salary Declaration">
+                                        <i class="bi bi-pencil"></i>
                                     </button>
 
+                                    {{-- Delete --}}
                                     <form action="{{ route('admin.salary.destroy', $sal->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this salary record?');">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="admin-btn admin-btn-danger admin-btn-sm">
+                                        <button type="submit" class="admin-btn-icon danger" title="Delete Salary Record">
                                             <i class="bi bi-trash"></i>
                                         </button>
                                     </form>

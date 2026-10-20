@@ -34,7 +34,8 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    {{-- CUSTOM CSS (Modular) --}}
+    {{-- CUSTOM CSS (Modular & Dedicated Style) --}}
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}?v={{ time() }}">
     <link rel="stylesheet" href="{{ asset('css/admin-portal.css') }}?v={{ time() }}">
     <link rel="stylesheet" href="{{ asset('css/global.css') }}?v={{ time() }}">
     <link rel="stylesheet" href="{{ asset('css/layout.css') }}?v={{ time() }}">
@@ -63,116 +64,15 @@
 </head>
 
 
-<body class="admin-shell">
+<body class="student-shell admin-shell">
 
     <div class="mobile-nav-overlay" id="mobileNavOverlay"></div>
 
-    {{-- REDESIGNED ADMIN PORTAL NAVBAR (Glassmorphism) --}}
-    <header class="admin-top">
-        <div class="nav-left-group">
-            <button type="button" class="mobile-nav-toggle nav-icon-btn" id="mobileNavToggle" aria-label="Toggle navigation drawer">
-                <i class="bi bi-list"></i>
-            </button>
-            <div class="portal-breadcrumb">
-                <span>Admin Portal</span> /
-                <strong>{{ ucwords(str_replace(['-', '/'], ' ', request()->path())) ?: 'Dashboard' }}</strong>
-            </div>
-        </div>
-
-        {{-- Center: Search Bar --}}
-        <div class="nav-search-bar">
-            <i class="bi bi-search"></i>
-            <input type="text" id="adminGlobalSearch" placeholder="Search students, teachers, results...">
-            <span class="kbd-shortcut">⌘K</span>
-        </div>
-
-        <div class="nav-right-actions">
-            {{-- Dark/Light Mode Toggle --}}
-            <button type="button" class="nav-icon-btn" id="adminThemeToggleBtn" title="Toggle Theme">
-                <i class="bi bi-moon-stars-fill"></i>
-            </button>
-
-            @if(session()->has('user_id') || auth()->check())
-                {{-- Notification Bell --}}
-                <div class="notification-wrapper" style="position: relative;">
-                    <button type="button" id="adminNotifBellBtn" class="nav-icon-btn" title="Notifications" style="position: relative;">
-                        <i class="bi bi-bell-fill"></i>
-                        <span id="adminNotifBadge" style="display: none; position: absolute; top: -4px; right: -4px; background: #EF4444; color: #ffffff; font-size: 10px; font-weight: 900; padding: 1px 5px; border-radius: 99px; border: 2px solid var(--surface); box-shadow: 0 2px 4px rgba(239, 68, 68, 0.4);">0</span>
-                    </button>
-
-                    {{-- Notification Dropdown --}}
-                    <div id="adminNotifDropdown" style="display: none; position: absolute; top: calc(100% + 12px); right: 0; width: 360px; max-width: 90vw; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); z-index: 999999; overflow: hidden;">
-                        <div style="padding: 14px 18px; background: var(--bg); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between;">
-                            <div style="display: flex; align-items: center; gap: 8px;">
-                                <i class="bi bi-bell-fill" style="color: var(--primary); font-size: 16px;"></i>
-                                <strong style="font-size: 14px; color: var(--text);">Notifications</strong>
-                            </div>
-                            <button type="button" onclick="markAllNotificationsAsReadAdmin()" style="background: transparent; border: none; color: var(--primary); font-size: 12px; font-weight: 700; cursor: pointer; text-decoration: underline;">Mark all as read</button>
-                        </div>
-                        <div id="adminNotifListContainer" style="max-height: 360px; overflow-y: auto; padding: 6px 0;">
-                            <div style="text-align: center; padding: 20px; color: var(--muted); font-size: 12.5px;">
-                                <i class="bi bi-hourglass-split" style="font-size: 18px; display: block; margin-bottom: 4px;"></i> Loading notifications...
-                            </div>
-                        </div>
-                        <div style="padding: 8px 14px; background: var(--bg); border-top: 1px solid var(--border); text-align: center;">
-                            <span style="font-size: 11px; color: var(--muted); font-weight: 600;">Excellence Real-Time Notifications</span>
-                        </div>
-                    </div>
-                </div>
-
-                {{-- Admin User Pill --}}
-                <div class="admin-user-pill" id="adminTopProfileUser" style="position: relative !important;">
-                    <div class="admin-avatar-ring">
-                        @php
-                            $admTopImg = session('user_image') && session('user_image') !== 'dummy.jpeg'
-                                ? asset('storage/'.session('user_image'))
-                                : asset('upload/dummy.jpeg');
-                        @endphp
-                        <img src="{{ $admTopImg }}" onerror="this.onerror=null; this.src='{{ asset('upload/dummy.jpeg') }}';" alt="{{ session('user_name', 'Admin') }}">
-                    </div>
-                    <div class="admin-user-details">
-                        <b>{{ session('user_name') }}</b>
-                        <small>Administrator</small>
-                    </div>
-                    <i class="bi bi-chevron-down" style="font-size: 11px; color: var(--muted); margin-left: 2px;"></i>
-
-                    {{-- Profile Dropdown --}}
-                    <div id="adminUserDropdown" style="display: none; position: absolute; top: calc(100% + 8px); left: 0; right: 0; width: 100%; min-width: 180px; box-sizing: border-box; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); box-shadow: var(--shadow-lg); z-index: 9999; padding: 6px 0; overflow: hidden;">
-                        <div style="padding: 10px 14px; border-bottom: 1px solid var(--border-light); overflow: hidden;">
-                            <strong style="display:block; font-size: 13px; color: var(--text); white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">{{ session('user_name') }}</strong>
-                            <small style="font-size: 11px; color: var(--primary); font-weight: 700; white-space: nowrap; text-overflow: ellipsis; overflow: hidden; display: block;">{{ auth()->user()?->email }}</small>
-                        </div>
-                        <button type="button" class="profile-menu-action" data-modal-target="profile-modal" style="width:100%; display: flex; align-items: center; gap: 10px; padding: 10px 14px; color: var(--text); background: transparent; border: none; font-size: 13px; font-weight: 600; cursor: pointer; text-align: left;">
-                            <i class="bi bi-person-circle" style="color: var(--primary);"></i> Profile
-                        </button>
-                        <button type="button" class="profile-menu-action" data-modal-target="settings-modal" style="width:100%; display: flex; align-items: center; gap: 10px; padding: 10px 14px; color: var(--text); background: transparent; border: none; font-size: 13px; font-weight: 600; cursor: pointer; text-align: left;">
-                            <i class="bi bi-gear-fill" style="color: var(--primary);"></i> Settings
-                        </button>
-                        <div style="border-top: 1px solid var(--border-light); margin-top: 4px; padding-top: 4px;">
-                            <form action="/logout" method="POST" style="margin:0;">
-                                @csrf
-                                <button type="submit" style="width:100%; display: flex; align-items: center; gap: 10px; padding: 10px 14px; color: var(--secondary); background: transparent; border: none; font-size: 13px; font-weight: 700; cursor: pointer; text-align: left;">
-                                    <i class="bi bi-box-arrow-right"></i> Logout
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-
-            @else
-                <a href="/login" class="nav-icon-btn" style="text-decoration:none; font-size: 13px; width: auto; padding: 0 14px;">Login</a>
-            @endif
-        </div>
-    </header>
-
-    {{-- ADMIN PORTAL LAYOUT --}}
-
-    <div style="display: flex; flex: 1; min-height: 100vh;">
 
         {{-- REDESIGNED PREMIUM ADMIN SIDEBAR --}}
-        <aside class="admin-side" id="adminSidebar">
+        <aside class="student-side admin-side" id="adminSidebar">
             {{-- Brand --}}
-            <a class="admin-brand" href="/">
+            <a class="student-brand admin-brand" href="/">
                 <div class="brand-badge">ESS</div>
                 <div class="brand-text">
                     <b>Excellence School System</b>
@@ -181,7 +81,7 @@
             </a>
 
             {{-- Session Pill --}}
-            <div class="admin-term">
+            <div class="student-term admin-term">
                 <i class="bi bi-circle-fill"></i>
                 <span>Current Session</span>
                 <b>{{ now()->format('Y') }}</b>
@@ -244,16 +144,16 @@
 
             {{-- Sidebar Bottom --}}
             <div class="sidebar-bottom">
-                <div class="admin-mini-card">
-                    <div class="admin-mini-avatar" style="overflow: hidden; background: transparent;">
+                <div class="student-mini-card admin-mini-card">
+                    <div class="student-mini-avatar admin-mini-avatar" style="width: 38px; height: 38px; min-width: 38px; max-width: 38px; min-height: 38px; max-height: 38px; border-radius: 50%; overflow: hidden; flex-shrink: 0; background: transparent;">
                         @php
                             $admSideApp = session('user_image') && session('user_image') !== 'dummy.jpeg'
                                 ? asset('storage/'.session('user_image'))
                                 : asset('upload/dummy.jpeg');
                         @endphp
-                        <img src="{{ $admSideApp }}" onerror="this.onerror=null; this.src='{{ asset('upload/dummy.jpeg') }}';" alt="{{ session('user_name', 'Admin') }}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">
+                        <img src="{{ $admSideApp }}" onerror="this.onerror=null; this.src='{{ asset('upload/dummy.jpeg') }}';" alt="{{ session('user_name', 'Admin') }}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;display:block;">
                     </div>
-                    <div class="admin-user-info">
+                    <div class="student-user-info admin-user-info">
                         <b>{{ session('user_name') }}</b>
                         <small>{{ $currentUser->role?->name ?? 'Administrator' }}</small>
                     </div>
@@ -275,16 +175,114 @@
         </aside>
 
 
-        {{-- MAIN CONTENT --}}
-        <main class="admin-main" id="adminMain">
-            <div class="admin-content">
+    {{-- MAIN PORTAL WRAPPER --}}
+    <main class="student-main admin-main" id="adminMain">
 
-                @yield('content')
-
+        {{-- REDESIGNED ADMIN PORTAL NAVBAR (Glassmorphism) --}}
+        <header class="student-top admin-top">
+            <div class="nav-left-group">
+                <button type="button" class="mobile-nav-toggle nav-icon-btn" id="mobileNavToggle" aria-label="Toggle navigation drawer">
+                    <i class="bi bi-list"></i>
+                </button>
+                <div class="portal-breadcrumb">
+                    <span>Admin Portal</span> /
+                    <strong>{{ ucwords(str_replace(['-', '/'], ' ', request()->path())) ?: 'Dashboard' }}</strong>
+                </div>
             </div>
-        </main>
 
-    </div>
+            {{-- Center: Search Bar --}}
+            <div class="nav-search-bar">
+                <i class="bi bi-search"></i>
+                <input type="text" id="adminGlobalSearch" placeholder="Search students, teachers, results...">
+                <span class="kbd-shortcut">⌘K</span>
+            </div>
+
+            <div class="nav-right-actions">
+                {{-- Dark/Light Mode Toggle --}}
+                <button type="button" class="nav-icon-btn" id="adminThemeToggleBtn" title="Toggle Theme">
+                    <i class="bi bi-moon-stars-fill"></i>
+                </button>
+
+                @if(session()->has('user_id') || auth()->check())
+                    {{-- Notification Bell --}}
+                    <div class="notification-wrapper" style="position: relative;">
+                        <button type="button" id="adminNotifBellBtn" class="nav-icon-btn" title="Notifications" style="position: relative;">
+                            <i class="bi bi-bell-fill"></i>
+                            <span id="adminNotifBadge" style="display: none; position: absolute; top: -4px; right: -4px; background: #EF4444; color: #ffffff; font-size: 10px; font-weight: 900; padding: 1px 5px; border-radius: 99px; border: 2px solid var(--surface); box-shadow: 0 2px 4px rgba(239, 68, 68, 0.4);">0</span>
+                        </button>
+
+                        {{-- Notification Dropdown --}}
+                        <div id="adminNotifDropdown" style="display: none; position: absolute; top: calc(100% + 12px); right: 0; width: 360px; max-width: 90vw; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); z-index: 999999; overflow: hidden;">
+                            <div style="padding: 14px 18px; background: var(--bg); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between;">
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <i class="bi bi-bell-fill" style="color: var(--primary); font-size: 16px;"></i>
+                                    <strong style="font-size: 14px; color: var(--text);">Notifications</strong>
+                                </div>
+                                <button type="button" onclick="markAllNotificationsAsReadAdmin()" style="background: transparent; border: none; color: var(--primary); font-size: 12px; font-weight: 700; cursor: pointer; text-decoration: underline;">Mark all as read</button>
+                            </div>
+                            <div id="adminNotifListContainer" style="max-height: 360px; overflow-y: auto; padding: 6px 0;">
+                                <div style="text-align: center; padding: 20px; color: var(--muted); font-size: 12.5px;">
+                                    <i class="bi bi-hourglass-split" style="font-size: 18px; display: block; margin-bottom: 4px;"></i> Loading notifications...
+                                </div>
+                            </div>
+                            <div style="padding: 8px 14px; background: var(--bg); border-top: 1px solid var(--border); text-align: center;">
+                                <span style="font-size: 11px; color: var(--muted); font-weight: 600;">Excellence Real-Time Notifications</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- Admin User Pill --}}
+                    <div class="admin-user-pill" id="adminTopProfileUser" style="position: relative !important;">
+                        <div class="student-avatar-ring admin-avatar-ring" style="width: 36px; height: 36px; min-width: 36px; max-width: 36px; min-height: 36px; max-height: 36px; border-radius: 50%; overflow: hidden; flex-shrink: 0;">
+                            @php
+                                $admTopImg = session('user_image') && session('user_image') !== 'dummy.jpeg'
+                                    ? asset('storage/'.session('user_image'))
+                                    : asset('upload/dummy.jpeg');
+                            @endphp
+                            <img src="{{ $admTopImg }}" onerror="this.onerror=null; this.src='{{ asset('upload/dummy.jpeg') }}';" alt="{{ session('user_name', 'Admin') }}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%; display: block;">
+                        </div>
+                        <div class="admin-user-details">
+                            <b>{{ session('user_name') }}</b>
+                            <small>Administrator</small>
+                        </div>
+                        <i class="bi bi-chevron-down" style="font-size: 11px; color: var(--muted); margin-left: 2px;"></i>
+
+                        {{-- Profile Dropdown --}}
+                        <div id="adminUserDropdown" style="display: none; position: absolute; top: calc(100% + 8px); left: 0; right: 0; width: 100%; min-width: 180px; box-sizing: border-box; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); box-shadow: var(--shadow-lg); z-index: 9999; padding: 6px 0; overflow: hidden;">
+                            <div style="padding: 10px 14px; border-bottom: 1px solid var(--border-light); overflow: hidden;">
+                                <strong style="display:block; font-size: 13px; color: var(--text); white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">{{ session('user_name') }}</strong>
+                                <small style="font-size: 11px; color: var(--primary); font-weight: 700; white-space: nowrap; text-overflow: ellipsis; overflow: hidden; display: block;">{{ auth()->user()?->email }}</small>
+                            </div>
+                            <button type="button" class="profile-menu-action" data-modal-target="profile-modal" style="width:100%; display: flex; align-items: center; gap: 10px; padding: 10px 14px; color: var(--text); background: transparent; border: none; font-size: 13px; font-weight: 600; cursor: pointer; text-align: left;">
+                                <i class="bi bi-person-circle" style="color: var(--primary);"></i> Profile
+                            </button>
+                            <button type="button" class="profile-menu-action" data-modal-target="settings-modal" style="width:100%; display: flex; align-items: center; gap: 10px; padding: 10px 14px; color: var(--text); background: transparent; border: none; font-size: 13px; font-weight: 600; cursor: pointer; text-align: left;">
+                                <i class="bi bi-gear-fill" style="color: var(--primary);"></i> Settings
+                            </button>
+                            <div style="border-top: 1px solid var(--border-light); margin-top: 4px; padding-top: 4px;">
+                                <form action="/logout" method="POST" style="margin:0;">
+                                    @csrf
+                                    <button type="submit" style="width:100%; display: flex; align-items: center; gap: 10px; padding: 10px 14px; color: var(--secondary); background: transparent; border: none; font-size: 13px; font-weight: 700; cursor: pointer; text-align: left;">
+                                        <i class="bi bi-box-arrow-right"></i> Logout
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                @else
+                    <a href="/login" class="nav-icon-btn" style="text-decoration:none; font-size: 13px; width: auto; padding: 0 14px;">Login</a>
+                @endif
+            </div>
+        </header>
+
+        {{-- MAIN CONTENT --}}
+        <div class="student-content admin-content">
+
+            @yield('content')
+
+        </div>
+    </main>
 
     <div class="crud-confirm-backdrop" id="crud-confirm-modal" hidden>
         <section class="crud-confirm-modal" role="dialog" aria-modal="true" aria-labelledby="crud-confirm-title">
@@ -585,12 +583,15 @@
         }
 
         // Desktop Sidebar Collapse Toggle
-        const sidebarCollapseBtn = document.getElementById('sidebarCollapseBtn');
+        const sidebarCollapseBtn = document.getElementById('sidebarCollapseBtn') || document.getElementById('adminSidebarCollapseBtn');
         const mainContent = document.querySelector('.admin-main');
         if (sidebarCollapseBtn && sidebar) {
             sidebarCollapseBtn.addEventListener('click', () => {
                 sidebar.classList.toggle('collapsed');
-                if (mainContent) mainContent.classList.toggle('main-expanded');
+                if (mainContent) {
+                    mainContent.classList.toggle('main-expanded');
+                    mainContent.classList.toggle('sidebar-collapsed');
+                }
             });
         }
 

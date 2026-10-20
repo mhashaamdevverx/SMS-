@@ -11,6 +11,8 @@ use App\Models\Course;
 use App\Models\Classes;
 use App\Models\Role;
 use App\Models\User;
+use App\Models\TeacherSalary;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -71,11 +73,18 @@ class TeacherController extends Controller
             'teacher_name' => ['required', 'regex:/^[a-zA-Z\s\.\']+$/'],
             'teacher_email' => ['required', 'email', 'regex:/^[a-zA-Z0-9._%+-]+@gmail\.com$/i', 'unique:teachers,teacher_email', 'unique:users,email'],
             'teacher_phone' => ['required', 'digits:11', 'regex:/^03[0-9]{9}$/'],
-            'course' => ['nullable', 'string', 'max:255'],
+            'course' => ['required', 'string', 'max:255'],
             'subject_course_selected' => ['nullable', 'array'],
-            'assigned_class' => ['nullable', 'string', 'max:50'],
+            'assigned_class' => ['required', 'string', 'max:50'],
             'teacher_image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
+            'basic_salary' => ['nullable', 'numeric', 'min:0'],
+            'allowances' => ['nullable', 'numeric', 'min:0'],
+            'deductions' => ['nullable', 'numeric', 'min:0'],
+            'salary_month' => ['nullable', 'string', 'max:50'],
+            'salary_status' => ['nullable', 'string', 'in:Paid,Pending,Unpaid'],
         ], [
+            'course.required' => 'Please select a primary course/subject.',
+            'assigned_class.required' => 'Please select an assigned class and section.',
             'teacher_email.regex' => 'The email address must be a valid @gmail.com address (e.g. name@gmail.com).',
         ]);
 
@@ -143,8 +152,34 @@ class TeacherController extends Controller
             ]);
         }
 
-        return redirect('/teachers')
-            ->with('success', 'Teacher and sign-in account added successfully.')
+        // Create initial salary declaration if basic salary is provided
+        if ($request->filled('basic_salary') && (float)$request->basic_salary > 0) {
+            $basic = (float)$request->basic_salary;
+            $allowances = (float)$request->input('allowances', 0);
+            $deductions = (float)$request->input('deductions', 0);
+            $net = $basic + $allowances - $deductions;
+            $month = $request->input('salary_month') ?: Carbon::now()->format('F Y');
+            $status = $request->input('salary_status', 'Paid');
+
+            TeacherSalary::create([
+                'teacher_id' => $teacher->id,
+                'month' => $month,
+                'basic_salary' => $basic,
+                'allowances' => $allowances,
+                'deductions' => $deductions,
+                'net_salary' => $net,
+                'status' => $status,
+                'paid_date' => $status === 'Paid' ? Carbon::now()->toDateString() : null,
+            ]);
+        }
+
+        $referer = $request->header('referer', '');
+        $redirectUrl = (str_contains($referer, 'admin') || session('role_slug') === 'admin')
+            ? route('admin.page', 'teachers')
+            : '/teachers';
+
+        return redirect($redirectUrl)
+            ->with('success', 'Teacher profile, sign-in account, and salary declaration added successfully.')
             ->with('issued_credentials', ['email' => $teacher->teacher_email, 'password' => $temporaryPassword]);
     }
 
@@ -164,12 +199,21 @@ class TeacherController extends Controller
             'subject_course_selected' => ['nullable', 'array'],
             'assigned_class' => ['nullable', 'string', 'max:50'],
             'teacher_image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
+            'basic_salary' => ['nullable', 'numeric', 'min:0'],
+            'allowances' => ['nullable', 'numeric', 'min:0'],
+            'deductions' => ['nullable', 'numeric', 'min:0'],
+            'salary_month' => ['nullable', 'string', 'max:50'],
+            'salary_status' => ['nullable', 'string', 'in:Paid,Pending,Unpaid'],
         ], [
             'teacher_email.regex' => 'The email address must be a valid @gmail.com address (e.g. name@gmail.com).',
         ]);
 
         if ($validator->fails()) {
-            return redirect('/teachers')->withErrors($validator)->withInput()->with('edit_modal', 'teacher-' . $teacher->id);
+            $referer = $request->header('referer', '');
+            $redirectUrl = (str_contains($referer, 'admin') || session('role_slug') === 'admin')
+                ? route('admin.page', 'teachers')
+                : '/teachers';
+            return redirect($redirectUrl)->withErrors($validator)->withInput()->with('edit_modal', 'teacher-' . $teacher->id);
         }
 
         $validated = $validator->validated();
@@ -236,7 +280,46 @@ class TeacherController extends Controller
             }
         }
 
-        $response = redirect('/teachers')->with('success', 'Teacher updated successfully!');
+        // Update or declare salary if basic_salary is provided
+        if ($request->filled('basic_salary') && (float)$request->basic_salary > 0) {
+            $basic = (float)$request->basic_salary;
+            $allowances = (float)$request->input('allowances', 0);
+            $deductions = (float)$request->input('deductions', 0);
+            $net = max(0, $basic + $allowances - $deductions);
+            $month = $request->input('salary_month') ?: Carbon::now()->format('F Y');
+            $status = $request->input('salary_status', 'Paid');
+
+            $existingSalary = TeacherSalary::where('teacher_id', $teacher->id)->latest('id')->first();
+            if ($existingSalary) {
+                $existingSalary->update([
+                    'month' => $month,
+                    'basic_salary' => $basic,
+                    'allowances' => $allowances,
+                    'deductions' => $deductions,
+                    'net_salary' => $net,
+                    'status' => $status,
+                    'paid_date' => $status === 'Paid' ? ($existingSalary->paid_date ?: Carbon::now()->toDateString()) : null,
+                ]);
+            } else {
+                TeacherSalary::create([
+                    'teacher_id' => $teacher->id,
+                    'month' => $month,
+                    'basic_salary' => $basic,
+                    'allowances' => $allowances,
+                    'deductions' => $deductions,
+                    'net_salary' => $net,
+                    'status' => $status,
+                    'paid_date' => $status === 'Paid' ? Carbon::now()->toDateString() : null,
+                ]);
+            }
+        }
+
+        $referer = $request->header('referer', '');
+        $redirectUrl = (str_contains($referer, 'admin') || session('role_slug') === 'admin')
+            ? route('admin.page', 'teachers')
+            : '/teachers';
+
+        $response = redirect($redirectUrl)->with('success', 'Teacher profile and details updated successfully!');
         if ($temporaryPassword) {
             $response->with('issued_credentials', ['email' => $teacher->teacher_email, 'password' => $temporaryPassword]);
         }
@@ -250,10 +333,16 @@ class TeacherController extends Controller
             return redirect('login');
         }
 
+        TeacherSalary::where('teacher_id', $teacher->id)->delete();
         TeacherAssignment::where('teacher_id', $teacher->id)->delete();
         $teacher->loginAccount?->delete();
         $teacher->delete();
 
-        return redirect('/teachers')->with('success', 'Teacher deleted successfully!');
+        $referer = request()->header('referer', '');
+        $redirectUrl = (str_contains($referer, 'admin') || session('role_slug') === 'admin')
+            ? route('admin.page', 'teachers')
+            : '/teachers';
+
+        return redirect($redirectUrl)->with('success', 'Teacher deleted successfully!');
     }
 }

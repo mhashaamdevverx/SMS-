@@ -1,10 +1,11 @@
 @extends('admin.layout')
 
 @section('content')
-    {{-- EXECUTIVE HERO BANNER WITH EMBEDDED TAB PILLS (Matching Student Portal Hero) --}}
+    {{-- EXECUTIVE HERO BANNER WITH EMBEDDED TAB PILLS (Matching Student Portal Hero) - Only shown on Dashboard --}}
+    @if(($currentPage ?? 'dashboard') === 'dashboard')
     <section class="student-hero admin-hero">
         <div>
-            <span class="hero-pill"><i></i> Excellence Admin Portal &bull; System Active</span>
+            <span class="hero-pill">Excellence Admin Portal <i></i> System Active</span>
             <h1>Admin & Head Management Authority Portal</h1>
             <p>Welcome back, <strong>{{ session('user_name', 'Abdul Moeez') }}</strong>! Full authority and control over leaves, teacher salaries, student fees, attendance, academic records, and system accounts.</p>
         </div>
@@ -35,6 +36,7 @@
             @endforeach
         </div>
     </section>
+    @endif
 
     {{-- PAGE CONTENT RENDERER --}}
     @if(view()->exists("admin.pages.{$currentPage}"))

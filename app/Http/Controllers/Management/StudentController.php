@@ -327,8 +327,11 @@ class StudentController extends Controller
             'emergency_phone' => 'nullable|string|max:20',
             'class' => 'required|string|max:50',
             'section' => 'required|string|max:50',
-            'std_id' => 'required|integer|min:1',
+            'std_id' => 'nullable|integer|min:1',
             'registration_no' => 'nullable|string|max:60',
+            'monthly_fee' => 'nullable|numeric|min:0',
+            'admission_fee' => 'nullable|numeric|min:0',
+            'test_session_fee' => 'nullable|numeric|min:0',
             'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
         ];
 
@@ -337,7 +340,7 @@ class StudentController extends Controller
         ]);
 
         if ($validation->fails()) {
-            return redirect('add-student')
+            return redirect()->back()
                 ->withErrors($validation)
                 ->withInput();
         }
@@ -345,16 +348,21 @@ class StudentController extends Controller
         $className = trim((string) $request->class);
         $sectionName = trim((string) $request->section);
         InchargeAccess::assertClassSection($className, $sectionName);
-        $stdId = (int) $request->std_id;
+        $stdId = $request->filled('std_id') ? (int) $request->std_id : null;
 
-        // Auto-increment roll no if duplicate exists in the same class
-        $existsInClass = Student::whereRaw('LOWER(TRIM(class)) = ?', [strtolower($className)])
-            ->where('std_id', $stdId)
-            ->exists();
-
-        if ($existsInClass) {
+        // Auto-increment roll no if duplicate exists or not specified
+        if (!$stdId) {
             $maxRoll = Student::whereRaw('LOWER(TRIM(class)) = ?', [strtolower($className)])->max('std_id');
-            $stdId = $maxRoll ? ((int)$maxRoll + 1) : $stdId;
+            $stdId = $maxRoll ? ((int)$maxRoll + 1) : 1;
+        } else {
+            $existsInClass = Student::whereRaw('LOWER(TRIM(class)) = ?', [strtolower($className)])
+                ->where('std_id', $stdId)
+                ->exists();
+
+            if ($existsInClass) {
+                $maxRoll = Student::whereRaw('LOWER(TRIM(class)) = ?', [strtolower($className)])->max('std_id');
+                $stdId = $maxRoll ? ((int)$maxRoll + 1) : $stdId;
+            }
         }
 
         // Generate Registration No if empty
@@ -396,9 +404,13 @@ class StudentController extends Controller
 
         $fsFee = \App\Models\FeeStructure::whereRaw('LOWER(TRIM(class_name)) = ?', [strtolower($className)])->first();
         $maySetFees = !InchargeAccess::isIncharge();
-        $student->monthly_fee = $maySetFees && $request->filled('monthly_fee') ? (float) $request->monthly_fee : ($fsFee ? (float) $fsFee->tuition_fee : 3500);
-        $student->admission_fee = $maySetFees && $request->filled('admission_fee') ? (float) $request->admission_fee : ($fsFee ? (float) $fsFee->admission_fee : 5000);
-        $student->test_session_fee = $maySetFees && $request->filled('test_session_fee') ? (float) $request->test_session_fee : ($fsFee ? (float) $fsFee->test_session_fee : 500);
+        $monthlyFee = $maySetFees && $request->filled('monthly_fee') ? (float) $request->monthly_fee : ($fsFee ? (float) $fsFee->tuition_fee : 3500);
+        $admissionFee = $maySetFees && $request->filled('admission_fee') ? (float) $request->admission_fee : ($fsFee ? (float) $fsFee->admission_fee : 5000);
+        $testSessionFee = $maySetFees && $request->filled('test_session_fee') ? (float) $request->test_session_fee : ($fsFee ? (float) $fsFee->test_session_fee : 500);
+
+        $student->monthly_fee = $monthlyFee;
+        $student->admission_fee = $admissionFee;
+        $student->test_session_fee = $testSessionFee;
 
         // Auto-assign subjects based on class and section
         $classSubjects = Subject::query()
@@ -437,11 +449,44 @@ class StudentController extends Controller
             ]);
             $student->update(['login_user_id' => $studentUser->id]);
 
+            // Auto-generate initial Fee Collection voucher for current month
+            $currentMonth = date('F');
+            $grossFee = $monthlyFee + ($admissionFee > 0 ? $admissionFee : 0);
+            \App\Models\FeeCollection::create([
+                'user_id' => session('user_id') ?: 1,
+                'voucher_no' => 'V-S' . $student->id . '-' . date('m') . date('y'),
+                'student_id' => $student->id,
+                'student_name' => $student->name,
+                'std_id' => (string) $student->std_id,
+                'student_class' => $student->class,
+                'student_section' => $student->section,
+                'month' => $currentMonth,
+                'tuition_fee' => $monthlyFee,
+                'admission_fee' => $admissionFee,
+                'exam_fee' => 0,
+                'lab_sports_fee' => 0,
+                'other_charges' => 0,
+                'gross_amount' => $grossFee,
+                'discount' => 0,
+                'net_amount' => $grossFee,
+                'status' => 'Pending',
+                'due_date' => date('Y-m-10'),
+                'payment_date' => null,
+                'payment_method' => null,
+            ]);
+
+            $isAdmin = $request->filled('admin_source') || str_contains(url()->previous(), 'admin') || request()->is('admin/*');
+            if ($isAdmin) {
+                return redirect()->route('admin.page', 'students')
+                    ->with('success', "Student {$student->name} (Roll #{$student->std_id}) enrolled successfully with portal account & fee voucher generated.")
+                    ->with('issued_credentials', ['email' => $student->email, 'password' => $temporaryPassword]);
+            }
+
             return redirect('list')
                 ->with('success', 'Student and sign-in account created.')
                 ->with('issued_credentials', ['email' => $student->email, 'password' => $temporaryPassword]);
         } else {
-            return redirect('add-student')->with('error', 'Student could not be added.');
+            return redirect()->back()->with('error', 'Student could not be added.');
         }
     }
 
@@ -621,6 +666,14 @@ class StudentController extends Controller
 
         $currentUser = \App\Models\User::find(session('user_id'));
         $classFeeStructure = \App\Models\FeeStructure::whereRaw('LOWER(TRIM(class_name)) = ?', [strtolower(trim($student->class))])->first();
+        $feeCollections = \App\Models\FeeCollection::where('student_id', $student->id)
+            ->orWhere(function ($q) use ($student) {
+                $q->where('std_id', (string) $student->std_id)
+                  ->whereRaw('LOWER(TRIM(student_class)) = ?', [strtolower(trim($student->class))]);
+            })
+            ->orderBy('due_date', 'desc')
+            ->orderBy('id', 'desc')
+            ->get();
 
         return view('student-profile', compact(
             'student',
@@ -645,7 +698,8 @@ class StudentController extends Controller
             'attendancePercentage',
             'recentAttendances',
             'currentUser',
-            'classFeeStructure'
+            'classFeeStructure',
+            'feeCollections'
         ));
     }
 
@@ -670,18 +724,24 @@ class StudentController extends Controller
     {
         InchargeAccess::assertStudent($student);
         $assignment = InchargeAccess::assignment();
+
+        if (!$request->has('std_id') || empty($request->std_id)) {
+            $request->merge(['std_id' => $student->std_id ?: $student->id]);
+        }
+
         $validation = Validator::make($request->all(), [
             'name' => 'required|min:2|max:60',
             'std_id' => 'required|integer|min:1',
+            'father_name' => 'nullable|string|max:60',
             'email' => [
-                'required',
+                'nullable',
                 'email',
                 'regex:/^[a-zA-Z0-9._%+-]+@gmail\.com$/i',
                 'max:60',
                 Rule::unique('Students', 'email')->ignore($student->id),
                 Rule::unique('users', 'email')->ignore($student->login_user_id),
             ],
-            'phone_no' => 'required|string|max:20',
+            'phone_no' => 'nullable|string|max:20',
             'emergency_phone' => 'nullable|string|max:20',
             'class' => 'required|string|max:50',
             'section' => ['required', Rule::in($assignment ? [$assignment->classRecord->section_name] : $this->sectionOptions()->all())],
@@ -696,7 +756,12 @@ class StudentController extends Controller
         ]);
 
         if ($validation->fails()) {
-            return redirect('/list')
+            $referer = $request->header('referer', '');
+            $redirectUrl = (str_contains($referer, 'admin') || session('role_slug') === 'admin')
+                ? route('admin.page', 'students')
+                : '/list';
+
+            return redirect($redirectUrl)
                 ->withErrors($validation)
                 ->withInput()
                 ->with('edit_modal', 'student-'.$student->id);
@@ -707,8 +772,9 @@ class StudentController extends Controller
         $originalName = $student->name;
         $student->name = $request->name;
         $student->std_id = $request->std_id;
+        $student->father_name = $request->input('father_name', $student->father_name);
         $student->email = $request->filled('email') ? $request->email : $student->email;
-        $student->phone_no = $request->phone_no;
+        $student->phone_no = $request->filled('phone_no') ? $request->phone_no : $student->phone_no;
         $student->emergency_phone = $request->emergency_phone;
         $student->class = $request->class;
         $student->section = $request->section;
@@ -738,7 +804,9 @@ class StudentController extends Controller
             ->filter()
             ->unique(fn ($subject) => strtolower($subject))
             ->values();
-        $student->subject = $subjects->isEmpty() ? null : $subjects->implode(', ');
+        if ($subjects->isNotEmpty()) {
+            $student->subject = $subjects->implode(', ');
+        }
 
         if ($request->hasFile('image')) {
             $student->image = $request->file('image')->store('upload', 'public');
@@ -761,7 +829,12 @@ class StudentController extends Controller
             }
         }
 
-        $response = redirect('/list')->with('success', 'Student updated successfully!');
+        $referer = $request->header('referer', '');
+        $redirectUrl = (str_contains($referer, 'admin') || session('role_slug') === 'admin')
+            ? route('admin.page', 'students')
+            : '/list';
+
+        $response = redirect($redirectUrl)->with('success', 'Student record updated successfully!');
         if (!empty($temporaryPassword)) {
             $response->with('issued_credentials', ['email' => $student->email, 'password' => $temporaryPassword]);
         }
@@ -775,7 +848,12 @@ class StudentController extends Controller
         $student->loginAccount?->delete();
         $student->delete();
 
-        return redirect('/list')->with('success', 'Student deleted successfully!');
+        $referer = request()->header('referer', '');
+        $redirectUrl = (str_contains($referer, 'admin') || session('role_slug') === 'admin')
+            ? route('admin.page', 'students')
+            : '/list';
+
+        return redirect($redirectUrl)->with('success', 'Student deleted successfully!');
     }
 
     public function updateStudentSubjects(Request $request, Student $student)

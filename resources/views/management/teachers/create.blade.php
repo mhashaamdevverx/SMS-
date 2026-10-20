@@ -129,6 +129,45 @@
                 </div>
             </div>
 
+            {{-- SALARY DECLARATION SECTION --}}
+            <div class="field-group field-full" style="background: linear-gradient(145deg, #F0FDF4 0%, #DCFCE7 100%); border: 1px solid #86EFAC; border-radius: 12px; padding: 16px; margin: 15px 0;">
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; border-bottom: 1px solid rgba(22, 101, 52, 0.15); padding-bottom: 8px;">
+                    <div>
+                        <strong style="color: #166534; font-size: 14px; display: block;">
+                            <i class="bi bi-cash-stack"></i> Salary Structure & Initial Declaration
+                        </strong>
+                        <small style="color: #15803D; font-size: 12px;">Reflects automatically on Admin Salaries and Teacher's Portal.</small>
+                    </div>
+                    <span style="background: #BBF7D0; color: #166534; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 99px;">Linked</span>
+                </div>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px;">
+                    <div>
+                        <label style="font-size: 12px; font-weight: 600; color: #166534;">Basic Salary (PKR) <span class="required-star text-danger">*</span></label>
+                        <input type="number" step="0.01" min="0" name="basic_salary" value="{{ old('basic_salary', 50000) }}" placeholder="50000" style="width: 100%; border: 1px solid #86EFAC; border-radius: 8px; padding: 8px 12px; background: #fff;" required>
+                    </div>
+                    <div>
+                        <label style="font-size: 12px; font-weight: 600; color: #166534;">Allowances (PKR)</label>
+                        <input type="number" step="0.01" min="0" name="allowances" value="{{ old('allowances', 0) }}" placeholder="0" style="width: 100%; border: 1px solid #86EFAC; border-radius: 8px; padding: 8px 12px; background: #fff;">
+                    </div>
+                    <div>
+                        <label style="font-size: 12px; font-weight: 600; color: #166534;">Deductions (PKR)</label>
+                        <input type="number" step="0.01" min="0" name="deductions" value="{{ old('deductions', 0) }}" placeholder="0" style="width: 100%; border: 1px solid #86EFAC; border-radius: 8px; padding: 8px 12px; background: #fff;">
+                    </div>
+                    <div>
+                        <label style="font-size: 12px; font-weight: 600; color: #166534;">Salary Month</label>
+                        <input type="text" name="salary_month" value="{{ old('salary_month', date('F Y')) }}" placeholder="e.g. May 2026" style="width: 100%; border: 1px solid #86EFAC; border-radius: 8px; padding: 8px 12px; background: #fff;">
+                    </div>
+                    <div>
+                        <label style="font-size: 12px; font-weight: 600; color: #166534;">Payment Status</label>
+                        <select name="salary_status" style="width: 100%; border: 1px solid #86EFAC; border-radius: 8px; padding: 8px 12px; background: #fff;">
+                            <option value="Paid" {{ old('salary_status', 'Paid') === 'Paid' ? 'selected' : '' }}>Paid</option>
+                            <option value="Pending" {{ old('salary_status') === 'Pending' ? 'selected' : '' }}>Pending</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
             {{-- FORM ACTIONS --}}
             <div class="field-group field-full" style="display: flex; gap: 12px; align-items: center; margin-top: 15px;">
                 <button type="submit" class="add-btn" style="margin-top: 0; flex: 1; min-height: 46px; display: inline-flex; align-items: center; justify-content: center;">

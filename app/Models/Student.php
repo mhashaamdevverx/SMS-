@@ -16,6 +16,7 @@ class Student extends Model
         'first_name',
         'last_name',
         'name',
+        'father_name',
         'email',
         'phone_no',
         'emergency_phone',
@@ -29,11 +30,17 @@ class Student extends Model
         'monthly_fee',
         'admission_fee',
         'test_session_fee',
+        'login_user_id',
     ];
 
     public function attendances()
     {
         return $this->hasMany(Attendance::class, 'student_id');
+    }
+
+    public function feeCollections()
+    {
+        return $this->hasMany(FeeCollection::class, 'student_id');
     }
 
     public function loginAccount(): BelongsTo

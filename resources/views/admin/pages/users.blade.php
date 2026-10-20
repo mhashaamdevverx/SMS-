@@ -12,37 +12,39 @@
         <table class="admin-table">
             <thead>
                 <tr>
-                    <th>User ID</th>
-                    <th>Name / Username</th>
-                    <th>Email</th>
-                    <th>Role</th>
-                    <th>Joined Date</th>
-                    <th class="text-end">Actions</th>
+                    <th class="text-center">User ID</th>
+                    <th class="text-center">Name / Username</th>
+                    <th class="text-center">Email</th>
+                    <th class="text-center">Role</th>
+                    <th class="text-center">Joined Date</th>
+                    <th class="text-center">Actions</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach($users as $u)
                     <tr>
-                        <td><span class="badge bg-dark text-light">#{{ $u->id }}</span></td>
-                        <td>
-                            <strong class="d-block text-dark">{{ $u->name ?: $u->username }}</strong>
+                        <td class="text-center"><span class="badge bg-dark text-light">#{{ $u->id }}</span></td>
+                        <td class="text-center" style="white-space: nowrap;">
+                            <strong class="d-block text-dark" style="white-space: nowrap;">{{ $u->name ?: $u->username }}</strong>
                             <small class="text-muted">{{ $u->username }}</small>
                         </td>
-                        <td>{{ $u->email }}</td>
-                        <td>
+                        <td class="text-center">{{ $u->email }}</td>
+                        <td class="text-center">
                             <span class="badge bg-info-subtle text-info-emphasis fw-bold">
                                 {{ $u->role?->name ?: 'User' }}
                             </span>
                         </td>
-                        <td><small class="text-muted">{{ $u->created_at ? $u->created_at->format('M d, Y') : '-' }}</small></td>
-                        <td class="text-end">
-                            <form action="{{ route('users.destroy', $u->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this user account?');" class="d-inline">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="admin-btn admin-btn-danger admin-btn-sm">
-                                    <i class="bi bi-trash"></i>
-                                </button>
-                            </form>
+                        <td class="text-center"><small class="text-muted">{{ $u->created_at ? $u->created_at->format('M d, Y') : '-' }}</small></td>
+                        <td class="text-center">
+                            <div class="admin-table-actions justify-content-center">
+                                <form action="{{ route('users.destroy', $u->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this user account?');" class="d-inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="admin-btn-icon danger" title="Delete User Account">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </form>
+                            </div>
                         </td>
                     </tr>
                 @endforeach

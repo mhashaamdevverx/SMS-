@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fee Voucher - {{ $feeCollection->voucher_no }} - {{ $feeCollection->student_name }}</title>
+    <title>Fee Slip - {{ $feeCollection->voucher_no ?? 'Voucher' }} - {{ $feeCollection->student_name ?? 'Student' }}</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <style>
         * {
@@ -12,286 +12,384 @@
             padding: 0;
         }
         body {
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            background: #f8fafc;
-            color: #1e293b;
-            padding: 20px;
+            font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
+            background: #eef2f6;
+            color: #000000;
+            padding: 24px;
         }
         .print-toolbar {
-            max-width: 1100px;
+            max-width: 1150px;
             margin: 0 auto 20px auto;
             display: flex;
             justify-content: space-between;
             align-items: center;
             background: #ffffff;
-            padding: 14px 20px;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            padding: 12px 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.06);
         }
         .print-btn {
-            background: #4F46E5;
+            background: #1e40af;
             color: #ffffff;
             border: none;
-            padding: 9px 18px;
-            border-radius: 8px;
+            padding: 8px 18px;
+            border-radius: 6px;
             font-size: 14px;
-            font-weight: 600;
+            font-weight: 700;
             cursor: pointer;
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            transition: background 0.2s;
+            transition: background 0.15s;
         }
         .print-btn:hover {
-            background: #4338CA;
+            background: #1d4ed8;
         }
         .back-btn {
             color: #475569;
             text-decoration: none;
             font-size: 14px;
             font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
         }
-        .voucher-grid {
-            max-width: 1100px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 16px;
+        .back-btn:hover {
+            color: #0f172a;
         }
-        .voucher-copy {
-            background: #ffffff;
-            border: 1px solid #cbd5e1;
-            border-radius: 10px;
-            padding: 16px;
-            position: relative;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-        }
-        .copy-tag {
-            position: absolute;
-            top: 10px;
-            right: 12px;
-            font-size: 10px;
-            font-weight: 700;
-            text-transform: uppercase;
-            background: #e2e8f0;
-            color: #475569;
-            padding: 2px 8px;
-            border-radius: 6px;
-        }
-        .school-header {
-            text-align: center;
-            border-bottom: 2px solid #4F46E5;
-            padding-bottom: 10px;
-            margin-bottom: 12px;
-        }
-        .school-logo {
-            width: 44px;
-            height: 44px;
-            margin-bottom: 4px;
-        }
-        .school-title {
-            font-size: 15px;
-            font-weight: 800;
-            color: #1E1B4B;
-        }
-        .school-sub {
-            font-size: 11px;
-            color: #64748b;
-        }
-        .voucher-info-table {
-            width: 100%;
-            font-size: 11px;
-            margin-bottom: 12px;
-            border-collapse: collapse;
-        }
-        .voucher-info-table td {
-            padding: 3px 0;
-        }
-        .fee-breakdown-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 11px;
-            margin-bottom: 12px;
-        }
-        .fee-breakdown-table th, .fee-breakdown-table td {
-            border: 1px solid #e2e8f0;
-            padding: 5px 8px;
-        }
-        .fee-breakdown-table th {
-            background: #f1f5f9;
-            text-align: left;
-            font-weight: 700;
-            color: #334155;
-        }
-        .total-row {
-            font-weight: 800;
-            background: #f0fdf4;
-            color: #065f46;
-        }
-        .signature-row {
-            margin-top: 24px;
+
+        /* 2 SLIPS WRAPPER */
+        .voucher-wrapper {
             display: flex;
-            justify-content: space-between;
-            font-size: 10px;
-            color: #64748b;
+            justify-content: center;
+            gap: 22px;
+            max-width: 1150px;
+            margin: 0 auto;
+        }
+        .slip-box {
+            flex: 1;
+            max-width: 550px;
+            background: #ffffff;
+            border: 1.5px solid #000000;
+            padding: 20px 22px;
+            color: #000000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+        }
+
+        /* HEADER */
+        .slip-header {
+            text-align: center;
+            margin-bottom: 14px;
+        }
+        .school-name {
+            font-size: 21px;
+            font-weight: 900;
+            letter-spacing: 0.5px;
+            color: #000000;
+            line-height: 1.2;
+            text-transform: uppercase;
+        }
+        .school-address {
+            font-size: 10.5px;
+            line-height: 1.35;
+            color: #000000;
+            margin-top: 3px;
+        }
+        .copy-title {
+            font-size: 13px;
+            font-weight: 700;
+            margin-top: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* METADATA ROWS */
+        .slip-meta {
+            margin-bottom: 12px;
+            font-size: 13.5px;
+        }
+        .meta-row {
+            display: flex;
+            align-items: flex-end;
+            margin-bottom: 7px;
+            line-height: 1.3;
+        }
+        .meta-col-left {
+            flex: 1;
+            display: flex;
+            align-items: flex-end;
+            padding-right: 12px;
+        }
+        .meta-col-right {
+            flex: 1;
+            display: flex;
+            align-items: flex-end;
+        }
+        .meta-label {
+            font-weight: 600;
+            white-space: nowrap;
+            margin-right: 6px;
+            color: #000;
+        }
+        .line-val {
+            flex: 1;
+            border-bottom: 1px solid #000;
+            padding-bottom: 1px;
+            padding-left: 4px;
+            font-weight: 600;
+            color: #000;
+            min-height: 18px;
+        }
+        .line-val.full {
+            width: 100%;
+        }
+        .comp-box {
+            border: 1.5px solid #000;
+            padding: 1px 16px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            display: inline-block;
+            min-width: 90px;
             text-align: center;
         }
-        .sig-box {
-            border-top: 1px dashed #cbd5e1;
-            padding-top: 4px;
-            width: 45%;
+
+        /* TABLE */
+        .slip-table {
+            width: 100%;
+            border-collapse: collapse;
+            border: 1.5px solid #000;
+            margin-bottom: 12px;
+            font-size: 13.5px;
+        }
+        .slip-table td {
+            border: 1px solid #000;
+            padding: 5px 10px;
+            vertical-align: middle;
+        }
+        .slip-table .col-particular {
+            width: 65%;
+            color: #000;
+        }
+        .slip-table .col-amount {
+            width: 35%;
+            text-align: right;
+            font-weight: 600;
+            color: #000;
+            padding-right: 14px;
+        }
+        .highlight-row {
+            font-weight: 700;
+        }
+        .sub-text {
+            font-size: 11px;
+            font-weight: normal;
+            margin-left: 2px;
+        }
+
+        /* NOTE */
+        .slip-note {
+            font-size: 13px;
+            margin-top: 8px;
+            color: #000;
         }
 
         @media print {
-            body {
-                background: #ffffff;
-                padding: 0;
+            @page {
+                size: A4 landscape;
+                margin: 8mm 6mm;
             }
-            .print-toolbar {
+            body {
+                background: #ffffff !important;
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+            .no-print {
                 display: none !important;
             }
-            .voucher-grid {
-                max-width: 100%;
-                gap: 10px;
+            .voucher-wrapper {
+                max-width: 100% !important;
+                width: 100% !important;
+                gap: 15px !important;
             }
-            .voucher-copy {
-                border: 1px solid #000;
-                box-shadow: none;
+            .slip-box {
+                flex: 1 !important;
+                max-width: 49% !important;
+                border: 1.5px solid #000000 !important;
+                box-shadow: none !important;
+                padding: 14px 16px !important;
+                page-break-inside: avoid;
+            }
+            .school-name {
+                font-size: 19px !important;
+            }
+            .slip-table td {
+                padding: 4px 8px !important;
             }
         }
     </style>
 </head>
 <body>
 
-    <div class="print-toolbar">
-        <a href="{{ url()->previous() ?: route('student.page', 'fees') }}" class="back-btn"><i class="bi bi-arrow-left"></i> Back to Portal / Fee Dues</a>
+    <div class="print-toolbar no-print">
+        <a href="{{ url()->previous() ?: route('admin.page', 'fees') }}" class="back-btn">
+            <i class="bi bi-arrow-left"></i> Back
+        </a>
         <button type="button" onclick="window.print()" class="print-btn">
-            <i class="bi bi-printer-fill"></i> Download / Print Fee Challan
+            <i class="bi bi-printer-fill"></i> Print Fee Slips (2 Copies)
         </button>
     </div>
 
     @php
-        $copies = ['Bank Copy', 'School Copy', 'Student Copy'];
-        $isPaid = strtolower(trim($feeCollection->status)) === 'paid';
-        $dueDate = $feeCollection->due_date ? \Carbon\Carbon::parse($feeCollection->due_date) : null;
-        $overdueDays = 0;
-        $lateFine = 0;
-        if (!$isPaid && $dueDate && now()->greaterThan($dueDate)) {
-            $overdueDays = (int) $dueDate->diffInDays(now());
-            $lateFine = $overdueDays * 500;
-        }
-        $totalPayable = $feeCollection->net_amount + $lateFine;
+        $student = $feeCollection->student;
+        $compNo = $feeCollection->std_id ?: ($student?->std_id ?: $feeCollection->student_id);
+        $studentName = strtoupper($feeCollection->student_name ?: ($student?->name ?? 'N/A'));
+        $fatherName = strtoupper($feeCollection->father_name ?: ($student?->father_name ?? 'N/A'));
+        $className = strtoupper($feeCollection->student_class ?: ($student?->class ?? '-'));
+        $sectionName = strtoupper($feeCollection->student_section ?: ($student?->section ?? '-'));
+        $voucherNo = $feeCollection->voucher_no ?: ('V-' . $compNo . '-' . date('my'));
+
+        $issueDateRaw = $feeCollection->issue_date ?: ($feeCollection->created_at ? $feeCollection->created_at->toDateString() : date('Y-m-d'));
+        $dueDateRaw = $feeCollection->due_date ?: date('Y-m-10');
+        $issueDate = \Carbon\Carbon::parse($issueDateRaw)->format('d-m-Y');
+        $dueDate = \Carbon\Carbon::parse($dueDateRaw)->format('d-m-Y');
+        $dueFormattedForNote = \Carbon\Carbon::parse($dueDateRaw)->format('jS F Y');
+
+        $month = $feeCollection->month ?: date('M - Y');
+        $mobNo = $feeCollection->mobile_no ?: ($student?->phone_no ?: ($student?->emergency_phone ?? '-'));
+
+        $monthlyFee = (float) ($feeCollection->tuition_fee > 0 ? $feeCollection->tuition_fee : ($feeCollection->amount ?? 0));
+        $arrears = (float) ($feeCollection->arrears ?? 0);
+        $admissionFee = (float) ($feeCollection->admission_fee ?? 0);
+        $lateFee = (float) ($feeCollection->late_fee > 0 ? $feeCollection->late_fee : 500);
+        $discount = (float) ($feeCollection->discount ?? 0);
+
+        $withinDueDate = max(0, ($monthlyFee + $arrears + $admissionFee) - $discount);
+        $afterDueDate = $withinDueDate + $lateFee;
+
+        $copies = [
+            'SCHOOL COPY',
+            'STUDENT COPY',
+        ];
     @endphp
 
-    <div class="voucher-grid">
-        @foreach($copies as $copyName)
-            <div class="voucher-copy" style="position:relative;overflow:hidden;">
-                @if($isPaid)
-                    <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-25deg);border:4px solid #16a34a;color:#16a34a;font-size:32px;font-weight:900;padding:6px 20px;border-radius:12px;opacity:0.25;letter-spacing:0.15em;pointer-events:none;text-transform:uppercase;">
-                        PAID & CLEARED
-                    </div>
-                @endif
-
-                <span class="copy-tag">{{ $copyName }}</span>
-
-                <div class="school-header">
-                    <img src="{{ asset('upload/Logo.png') }}" alt="Logo" class="school-logo">
-                    <div class="school-title">EXCELLENCE SCHOOL SYSTEM</div>
-                    <div class="school-sub">Official Student Fee Voucher / Receipt</div>
+    <div class="voucher-wrapper">
+        @foreach($copies as $copyTitle)
+            <div class="slip-box">
+                {{-- School Header --}}
+                <div class="slip-header">
+                    <div class="school-name">QAZI GRAMMAR GIRLS HIGH SCHOOL</div>
+                    <div class="school-address">Koh-e-Noor Housing Scheme,Qainchi Amer Sidhu Lahore Ph-042-35919480-82,35919485-87,35825777,Mob:-0301-7799777,0320-1117555.</div>
+                    <div class="copy-title">({{ $copyTitle }})</div>
                 </div>
 
-                <table class="voucher-info-table">
-                    <tr>
-                        <td><strong>Voucher #:</strong></td>
-                        <td style="text-align: right; color: #0d9488; font-weight: 700;">{{ $feeCollection->voucher_no }}</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Student:</strong></td>
-                        <td style="text-align: right;">{{ $feeCollection->student_name }}</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Std ID / Class:</strong></td>
-                        <td style="text-align: right;">#{{ $feeCollection->std_id ?? 'N/A' }} ({{ $feeCollection->student_class }} - {{ $feeCollection->student_section ?? 'A' }})</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Month:</strong></td>
-                        <td style="text-align: right;">{{ $feeCollection->month }}</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Due Date (10th):</strong></td>
-                        <td style="text-align: right; color: #dc2626; font-weight: 700;">{{ $dueDate ? $dueDate->format('d M Y') : '10th of Month' }}</td>
-                    </tr>
-                </table>
+                {{-- Meta Information Fields --}}
+                <div class="slip-meta">
+                    {{-- Row 1: Comp No & Month --}}
+                    <div class="meta-row">
+                        <div class="meta-col-left">
+                            <span class="meta-label">Comp.No:</span>
+                            <span class="comp-box">{{ $compNo }}</span>
+                        </div>
+                        <div class="meta-col-right">
+                            <span class="meta-label">Month:-</span>
+                            <span class="line-val">{{ $month }}</span>
+                        </div>
+                    </div>
 
-                <table class="fee-breakdown-table">
-                    <thead>
-                        <tr>
-                            <th>Fee Particulars</th>
-                            <th style="text-align: right;">Amount (Rs.)</th>
-                        </tr>
-                    </thead>
+                    {{-- Row 2: Student's Name --}}
+                    <div class="meta-row">
+                        <span class="meta-label">Student's Name:</span>
+                        <span class="line-val full">{{ $studentName }}</span>
+                    </div>
+
+                    {{-- Row 3: Father's Name --}}
+                    <div class="meta-row">
+                        <span class="meta-label">Father's Name:</span>
+                        <span class="line-val full">{{ $fatherName }}</span>
+                    </div>
+
+                    {{-- Row 4: Class & Section --}}
+                    <div class="meta-row">
+                        <div class="meta-col-left">
+                            <span class="meta-label">Class:</span>
+                            <span class="line-val">{{ $className }}</span>
+                        </div>
+                        <div class="meta-col-right">
+                            <span class="meta-label">Section:</span>
+                            <span class="line-val">{{ $sectionName }}</span>
+                        </div>
+                    </div>
+
+                    {{-- Row 5: Voucher No & Issue Date (Replacing Campus as requested) --}}
+                    <div class="meta-row">
+                        <div class="meta-col-left">
+                            <span class="meta-label">Voucher No:</span>
+                            <span class="line-val">{{ $voucherNo }}</span>
+                        </div>
+                        <div class="meta-col-right">
+                            <span class="meta-label">Issue Date:</span>
+                            <span class="line-val">{{ $issueDate }}</span>
+                        </div>
+                    </div>
+
+                    {{-- Row 6: Mob.No & Due Date --}}
+                    <div class="meta-row">
+                        <div class="meta-col-left">
+                            <span class="meta-label">Mob.No:</span>
+                            <span class="line-val">{{ $mobNo }}</span>
+                        </div>
+                        <div class="meta-col-right">
+                            <span class="meta-label">Due Date:</span>
+                            <span class="line-val">{{ $dueDate }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- Particulars & Amounts Table --}}
+                <table class="slip-table">
                     <tbody>
                         <tr>
-                            <td>Tuition Fee</td>
-                            <td style="text-align: right;">{{ number_format($feeCollection->tuition_fee) }}</td>
+                            <td class="col-particular">Monthly Fee</td>
+                            <td class="col-amount">{{ number_format($monthlyFee) }}</td>
                         </tr>
-                        @if($feeCollection->admission_fee > 0)
-                            <tr>
-                                <td>Admission Fee</td>
-                                <td style="text-align: right;">{{ number_format($feeCollection->admission_fee) }}</td>
-                            </tr>
-                        @endif
                         <tr>
-                            <td>Exam Fee</td>
-                            <td style="text-align: right;">{{ number_format($feeCollection->exam_fee) }}</td>
+                            <td class="col-particular">Arrears</td>
+                            <td class="col-amount">{{ $arrears > 0 ? number_format($arrears) : ($monthlyFee > 0 ? '0' : '-') }}</td>
                         </tr>
-                        @if($feeCollection->lab_sports_fee > 0)
-                            <tr>
-                                <td>Lab / Sports Fee</td>
-                                <td style="text-align: right;">{{ number_format($feeCollection->lab_sports_fee) }}</td>
-                            </tr>
+                        <tr>
+                            <td class="col-particular">Admission Fee</td>
+                            <td class="col-amount">{{ $admissionFee > 0 ? number_format($admissionFee) : '-' }}</td>
+                        </tr>
+                        @if($discount > 0)
+                        <tr>
+                            <td class="col-particular">Concession / Discount</td>
+                            <td class="col-amount">-{{ number_format($discount) }}</td>
+                        </tr>
                         @endif
-                        @if($feeCollection->other_charges > 0)
-                            <tr>
-                                <td>Other Dues / Service Fine</td>
-                                <td style="text-align: right;">{{ number_format($feeCollection->other_charges) }}</td>
-                            </tr>
-                        @endif
-                        @if($lateFine > 0)
-                            <tr style="color:#dc2626;font-weight:700;">
-                                <td>Late Fine ({{ $overdueDays }} days @ Rs 500/day)</td>
-                                <td style="text-align: right;">+ {{ number_format($lateFine) }}</td>
-                            </tr>
-                        @endif
-                        @if($feeCollection->discount > 0)
-                            <tr style="color: #047857;">
-                                <td>Concession / Discount</td>
-                                <td style="text-align: right;">-{{ number_format($feeCollection->discount) }}</td>
-                            </tr>
-                        @endif
-                        <tr class="total-row">
-                            <td>Total Amount Payable</td>
-                            <td style="text-align: right;">Rs. {{ number_format($totalPayable) }}</td>
+                        <tr class="highlight-row">
+                            <td class="col-particular">
+                                <strong>Total Receivable Amount</strong>
+                                <span class="sub-text">(Within the due date)</span>
+                            </td>
+                            <td class="col-amount">
+                                <strong>{{ number_format($withinDueDate) }}</strong>
+                            </td>
+                        </tr>
+                        <tr class="highlight-row">
+                            <td class="col-particular">
+                                <strong>Total Receivable Amount</strong>
+                                <span class="sub-text">(After the due date)</span>
+                            </td>
+                            <td class="col-amount">
+                                <strong>{{ number_format($afterDueDate) }}/-</strong>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
 
-                <div style="font-size: 10.5px; color: #475569; margin-top: 8px; background: #f8fafc; padding: 6px 10px; border-radius: 6px; border: 1px solid #e2e8f0;">
-                    <strong>Payment Status:</strong>
-                    @if($isPaid)
-                        <span style="color: #15803d; font-weight: 800;"><i class="bi bi-check-circle-fill"></i> PAID CLEARED</span>
-                        @if($feeCollection->payment_date)
-                            <small style="display:block;color:#64748b;margin-top:2px;">Paid Date: {{ \Carbon\Carbon::parse($feeCollection->payment_date)->format('d M Y') }} ({{ $feeCollection->payment_method ?: 'Online Transfer' }})</small>
-                        @endif
-                    @else
-                        <span style="color: #b45309; font-weight: 800;"><i class="bi bi-clock-history"></i> UNPAID / PENDING</span>
-                        <small style="display:block;color:#dc2626;margin-top:2px;">Please pay before 10th to avoid Rs 500/day fine.</small>
-                    @endif
-                </div>
-
-                <div class="signature-row">
-                    <div class="sig-box">Depositor Sig.</div>
-                    <div class="sig-box">Officer / Cashier</div>
+                {{-- Note & Dues Instruction (No Stamp) --}}
+                <div class="slip-note">
+                    <strong>Note:</strong> Pay your dues by {{ $dueFormattedForNote }}.
                 </div>
             </div>
         @endforeach

@@ -1,6 +1,7 @@
-@extends('layout')
+@extends('admin.layout', ['currentPage' => 'attendance'])
 
 @section('content')
+<link rel="stylesheet" href="{{ asset('css/attendance.css') }}?v={{ time() }}">
 <div class="attendance-page">
 
     {{-- PAGE HEADER --}}

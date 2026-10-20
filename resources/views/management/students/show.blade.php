@@ -189,7 +189,7 @@
                 </div>
             </section>
 
-            @if($currentUser->hasPermission('fees.view'))
+            @if($currentUser && ($currentUser->isAdmin() || $currentUser->hasPermission('fees.view') || ($currentUser->role?->slug === 'student' && $currentUser->id === $student->login_user_id)))
             {{-- FEE STRUCTURE & PARTICULARS CARD --}}
             <section class="student-profile-card">
                 <div class="student-profile-card-header">
@@ -265,6 +265,44 @@
                     <div class="student-detail-item student-detail-item-full mt-2 pt-2 border-top">
                         <span class="text-secondary fs-13"><i class="bi bi-info-circle-fill me-1" aria-hidden="true"></i> First Month Enrolment Total (with One-Time Admission): <strong>Rs. {{ number_format($totalInitialEnrolment) }}</strong></span>
                     </div>
+
+                    @if(isset($feeCollections) && $feeCollections->isNotEmpty())
+                    <div class="student-detail-item student-detail-item-full mt-3 pt-3 border-top">
+                        <span class="student-detail-label fw-bold mb-2 text-dark"><i class="bi bi-receipt" aria-hidden="true"></i> Fee Vouchers & Payment History</span>
+                        <div class="table-responsive w-100 mt-2">
+                            <table class="table table-sm table-bordered align-middle mb-0" style="font-size: 12px; background: #fff;">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Voucher #</th>
+                                        <th>Month</th>
+                                        <th>Net Fee</th>
+                                        <th>Due Date</th>
+                                        <th class="text-center">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($feeCollections as $vouch)
+                                        <tr>
+                                            <td class="fw-semibold text-primary">{{ $vouch->voucher_no }}</td>
+                                            <td>{{ $vouch->month }}</td>
+                                            <td class="fw-bold text-success">Rs {{ number_format($vouch->net_amount) }}</td>
+                                            <td>{{ $vouch->due_date ? date('d M, Y', strtotime($vouch->due_date)) : '10th' }}</td>
+                                            <td class="text-center">
+                                                @if(strtolower($vouch->status) === 'paid')
+                                                    <span class="badge bg-success-subtle text-success border border-success">Paid</span>
+                                                @elseif(strtolower($vouch->status) === 'overdue')
+                                                    <span class="badge bg-danger-subtle text-danger border border-danger">Overdue</span>
+                                                @else
+                                                    <span class="badge bg-warning-subtle text-warning-emphasis border border-warning">Pending</span>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    @endif
                 </div>
             </section>
 

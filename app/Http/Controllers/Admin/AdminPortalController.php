@@ -200,7 +200,7 @@ class AdminPortalController extends Controller
                 $selectedSection = $request->input('section');
                 $searchQuery = $request->input('search');
 
-                $studentsQuery = Student::with('user')->orderBy('class')->orderBy('std_id');
+                $studentsQuery = Student::with(['user', 'feeCollections'])->orderBy('class')->orderBy('std_id');
 
                 if ($selectedClass) {
                     $studentsQuery->whereRaw('LOWER(TRIM(class)) = ?', [strtolower(trim($selectedClass))]);
@@ -219,7 +219,10 @@ class AdminPortalController extends Controller
 
                 $data['students'] = $studentsQuery->paginate(10, ['*'], 'student_page')->withQueryString();
                 $data['classes'] = Classes::orderBy('class_name')->get();
+                $data['allClasses'] = $data['classes'];
                 $data['sections'] = Section::orderBy('section_name')->get();
+                $data['allSections'] = $data['sections'];
+                $data['feeStructures'] = \App\Models\FeeStructure::all();
                 $data['selectedClass'] = $selectedClass;
                 $data['selectedSection'] = $selectedSection;
                 $data['searchQuery'] = $searchQuery;
@@ -318,10 +321,14 @@ class AdminPortalController extends Controller
                 // Consolidated Attendance Viewer
                 $selectedDate = $request->input('date', $today);
                 $selectedClass = $request->input('class');
+                $selectedSection = $request->input('section');
 
                 $studentAttendanceQuery = Attendance::whereDate('date', $selectedDate);
                 if ($selectedClass) {
                     $studentAttendanceQuery->whereRaw('LOWER(TRIM(class_name)) = ?', [strtolower(trim($selectedClass))]);
+                }
+                if ($selectedSection) {
+                    $studentAttendanceQuery->whereRaw('LOWER(TRIM(section_name)) = ?', [strtolower(trim($selectedSection))]);
                 }
 
                 $data['studentAttendance'] = $studentAttendanceQuery->get();
@@ -331,8 +338,10 @@ class AdminPortalController extends Controller
                 
                 $data['teachersWithoutAttendance'] = Teacher::whereNotIn('id', $data['teacherAttendance']->pluck('teacher_id'))->get();
                 $data['classes'] = Classes::orderBy('class_name')->get();
+                $data['sections'] = Section::orderBy('section_name')->get();
                 $data['selectedDate'] = $selectedDate;
                 $data['selectedClass'] = $selectedClass;
+                $data['selectedSection'] = $selectedSection;
                 break;
 
             case 'academics':
@@ -581,51 +590,85 @@ class AdminPortalController extends Controller
         $validated = $request->validate([
             'student_id' => 'required|exists:students,id',
             'month' => 'required|string',
-            'amount' => 'required|numeric|min:0',
-            'fine_amount' => 'nullable|numeric|min:0',
+            'voucher_no' => 'nullable|string|max:50',
+            'father_name' => 'nullable|string|max:100',
+            'mobile_no' => 'nullable|string|max:30',
+            'issue_date' => 'nullable|date',
+            'due_date' => 'nullable|date',
+            'tuition_fee' => 'nullable|numeric|min:0',
+            'amount' => 'nullable|numeric|min:0',
+            'arrears' => 'nullable|numeric|min:0',
+            'admission_fee' => 'nullable|numeric|min:0',
+            'late_fee' => 'nullable|numeric|min:0',
             'discount_amount' => 'nullable|numeric|min:0',
             'status' => 'required|in:Paid,Pending,Overdue',
             'paid_date' => 'nullable|date',
         ]);
 
-        $amount = (float) $validated['amount'];
-        $fine = (float) ($validated['fine_amount'] ?? 0);
+        $student = Student::findOrFail($validated['student_id']);
+
+        $tuition = (float) ($validated['tuition_fee'] ?? $validated['amount'] ?? 0);
+        $arrears = (float) ($validated['arrears'] ?? 0);
+        $admission = (float) ($validated['admission_fee'] ?? 0);
+        $lateFee = (float) ($validated['late_fee'] ?? 500);
         $discount = (float) ($validated['discount_amount'] ?? 0);
-        $net = max(0, $amount + $fine - $discount);
-        $voucherNo = 'VOUCH-' . strtoupper(substr(md5(uniqid()), 0, 8));
+        $gross = $tuition + $arrears + $admission;
+        $net = max(0, $gross - $discount);
+
+        $defaultVoucherNo = 'V-' . ($student->std_id ?: $student->id) . '-' . date('my') . '-' . strtoupper(substr(uniqid(), -4));
+        $voucherNo = !empty($validated['voucher_no']) ? trim($validated['voucher_no']) : $defaultVoucherNo;
+
+        $fatherName = !empty($validated['father_name']) ? trim($validated['father_name']) : ($student->father_name ?? '');
+        $mobileNo = !empty($validated['mobile_no']) ? trim($validated['mobile_no']) : ($student->phone_no ?: ($student->emergency_phone ?? ''));
+        $issueDate = !empty($validated['issue_date']) ? $validated['issue_date'] : date('Y-m-d');
+        $dueDate = !empty($validated['due_date']) ? $validated['due_date'] : date('Y-m-10');
+
+        if (!empty($fatherName) && empty($student->father_name)) {
+            $student->update(['father_name' => $fatherName]);
+        }
 
         $feeCollection = FeeCollection::updateOrCreate(
             [
-                'student_id' => $validated['student_id'],
+                'student_id' => $student->id,
                 'month' => $validated['month'],
             ],
             [
-                'amount' => $amount,
-                'fine_amount' => $fine,
-                'discount_amount' => $discount,
+                'user_id' => session('user_id'),
+                'voucher_no' => $voucherNo,
+                'student_name' => $student->name,
+                'father_name' => $fatherName,
+                'std_id' => $student->std_id,
+                'student_class' => $student->class,
+                'student_section' => $student->section,
+                'mobile_no' => $mobileNo,
+                'issue_date' => $issueDate,
+                'due_date' => $dueDate,
+                'tuition_fee' => $tuition,
+                'arrears' => $arrears,
+                'admission_fee' => $admission,
+                'late_fee' => $lateFee,
+                'gross_amount' => $gross,
+                'discount' => $discount,
                 'net_amount' => $net,
                 'status' => $validated['status'],
-                'paid_date' => $validated['status'] === 'Paid' ? ($validated['paid_date'] ?? now()->toDateString()) : null,
-                'voucher_no' => DB::raw("COALESCE(voucher_no, '{$voucherNo}')"),
+                'payment_date' => $validated['status'] === 'Paid' ? ($validated['paid_date'] ?? date('Y-m-d')) : null,
+                'payment_method' => $validated['status'] === 'Paid' ? 'Cash' : null,
             ]
         );
 
-        $student = Student::find($validated['student_id']);
-        if ($student) {
-            $targetUserId = $student->login_user_id ?: $student->user_id;
-            if ($targetUserId) {
-                AppNotification::sendToUser(
-                    $targetUserId,
-                    "Fee Voucher Generated 💳",
-                    "Fee voucher for month {$validated['month']} is issued. Net Amount: Rs " . number_format($net, 2) . " (Status: {$validated['status']}).",
-                    'info',
-                    '/student/fees',
-                    'bi-receipt'
-                );
-            }
+        $targetUserId = $student->login_user_id ?: $student->user_id;
+        if ($targetUserId) {
+            AppNotification::sendToUser(
+                $targetUserId,
+                "Fee Voucher Generated 💳",
+                "Fee voucher for month {$validated['month']} is issued. Net Amount: Rs " . number_format($net, 2) . " (Status: {$validated['status']}).",
+                'info',
+                '/student/fees',
+                'bi-receipt'
+            );
         }
 
-        return back()->with('success', "Fee record created/updated successfully for {$student->name} ({$validated['month']}). Net: Rs " . number_format($net, 2));
+        return back()->with('success', "Fee voucher {$voucherNo} generated successfully for {$student->name} ({$validated['month']}). Total: Rs " . number_format($net, 2));
     }
 
     public function updateFeeStatus(Request $request, FeeCollection $feeCollection)

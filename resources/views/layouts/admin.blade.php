@@ -29,20 +29,18 @@
 
     <!-- REDESIGNED SIDEBAR (Deep Teal Gradient + Grain Pattern Overlay) -->
     <aside class="student-side admin-side">
-        <!-- Top Brand Badge -->
-        <a class="student-brand admin-brand" href="{{ route('admin.dashboard') }}">
-            <div class="brand-badge">ESS</div>
-            <div class="brand-text">
-                <b>Excellence School System</b>
-                <small class="brand-subtitle">Admin Portal</small>
-            </div>
-        </a>
-
-        <!-- Session Glassmorphism Pill -->
-        <div class="student-term admin-term">
-            <i class="bi bi-circle-fill"></i>
-            <span>Current Session</span>
-            <b>{{ now()->format('Y') }}</b>
+        <!-- Top Brand Header with Collapse Toggle Button -->
+        <div class="admin-brand-header">
+            <a class="student-brand admin-brand" href="{{ route('admin.dashboard') }}">
+                <div class="brand-badge">ESS</div>
+                <div class="brand-text">
+                    <b>Excellence School System</b>
+                    <small class="brand-subtitle">Admin Portal</small>
+                </div>
+            </a>
+            <button type="button" id="sidebarCollapseBtn" class="sidebar-collapse-toggle-btn" title="Toggle Sidebar" aria-label="Toggle Sidebar">
+                <i class="bi bi-arrow-left-right"></i>
+            </button>
         </div>
 
         <!-- Navigation Categories & Links -->
@@ -93,38 +91,6 @@
                 <span>System Accounts</span>
             </a>
         </nav>
-
-        <!-- Bottom Admin Mini-Card & Controls -->
-        <div class="sidebar-bottom">
-            <div class="student-mini-card admin-mini-card">
-                <div class="student-mini-avatar admin-mini-avatar" style="overflow: hidden; background: transparent;">
-                    @php
-                        $admSideImg = session('user_image') && session('user_image') !== 'dummy.jpeg'
-                            ? asset('storage/'.session('user_image'))
-                            : asset('upload/dummy.jpeg');
-                    @endphp
-                    <img src="{{ $admSideImg }}" onerror="this.onerror=null; this.src='{{ asset('upload/dummy.jpeg') }}';" alt="{{ session('user_name', 'Admin') }}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">
-                </div>
-                <div class="student-user-info admin-user-info">
-                    <b>{{ session('user_name', 'Abdul Moeez') }}</b>
-                    <small>Administrator</small>
-                </div>
-            </div>
-
-            <div class="sidebar-controls">
-                <button type="button" id="sidebarCollapseBtn" class="btn-sidebar-control" title="Toggle Sidebar">
-                    <i class="bi bi-arrow-left-right"></i>
-                    <span class="collapse-text">Collapse</span>
-                </button>
-                <form action="/logout" method="POST" style="margin:0; flex:1;">
-                    @csrf
-                    <button type="submit" class="btn-sidebar-control" style="width:100%; color:#FF7A59; border-color:rgba(255,122,89,0.3);" title="Logout">
-                        <i class="bi bi-box-arrow-right"></i>
-                        <span class="collapse-text">Exit</span>
-                    </button>
-                </form>
-            </div>
-        </div>
     </aside>
 
     <!-- MAIN PORTAL WRAPPER & STICKY GLASSMORPHISM NAVBAR -->
@@ -149,6 +115,13 @@
 
             <!-- Right Actions: Theme Toggle, Notifications, Profile Menu -->
             <div class="nav-right-actions">
+                <!-- Current Session Pill in Top Bar -->
+                <div class="student-term admin-term top-session-pill">
+                    <i class="bi bi-circle-fill"></i>
+                    <span>Current Session</span>
+                    <b>{{ now()->format('Y') }}</b>
+                </div>
+
                 <!-- Broadcast Announcement Button -->
                 <button type="button" class="nav-icon-btn" onclick="openAnnouncementModal()" title="Broadcast Announcement">
                     <i class="bi bi-megaphone-fill" style="color: var(--primary);"></i>

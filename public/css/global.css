@@ -133,7 +133,16 @@ body.modal-open {
 }
 
 .modal-backdrop[hidden],
-.crud-confirm-backdrop[hidden] {
+.crud-confirm-backdrop[hidden],
+#settings-modal[hidden],
+#profile-modal[hidden],
+#student-profile-modal[hidden],
+#stdLeaveDetailModal[hidden],
+#uploadOutlineModal[hidden],
+.result-group-modal[hidden],
+.result-view-modal[hidden],
+.result-edit-modal[hidden],
+[hidden] {
     display: none !important;
 }
 
@@ -174,6 +183,154 @@ body.modal-open {
         border-radius: 18px !important;
     }
 }
+
+/* Avatar constraints - Ensures user/admin avatar never explodes to raw image dimensions */
+.admin-avatar-ring,
+.student-avatar-ring {
+    width: 36px !important;
+    height: 36px !important;
+    min-width: 36px !important;
+    max-width: 36px !important;
+    min-height: 36px !important;
+    max-height: 36px !important;
+    border-radius: 50% !important;
+    overflow: hidden !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-shrink: 0 !important;
+}
+
+.admin-avatar-ring img,
+.student-avatar-ring img,
+.admin-mini-avatar img,
+.student-mini-avatar img,
+.admin-user-pill img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    border-radius: 50% !important;
+    display: block !important;
+}
+
+/* Sidebar structure and navigation link styling */
+.admin-side, .student-side {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    bottom: 0 !important;
+    width: 260px !important;
+    background: #1E1B4B !important;
+    color: #FFFFFF !important;
+    display: flex !important;
+    flex-direction: column !important;
+    z-index: 1010 !important;
+    box-shadow: 6px 0 24px rgba(0, 0, 0, 0.18) !important;
+    overflow-y: hidden !important;
+    overflow-x: hidden !important;
+}
+
+.admin-main, .student-main {
+    margin-left: 260px !important;
+    width: calc(100% - 260px) !important;
+    min-height: 100vh !important;
+    display: flex !important;
+    flex-direction: column !important;
+    position: relative !important;
+}
+
+.admin-top, .student-top {
+    height: 64px !important;
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 1000 !important;
+    width: 100% !important;
+}
+
+
+.admin-side nav, .student-side nav {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 4px !important;
+    padding: 12px 16px !important;
+}
+
+.admin-side nav a, .student-side nav a {
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+    padding: 10px 14px !important;
+    border-radius: 12px !important;
+    color: #C7D2FE !important;
+    text-decoration: none !important;
+    font-size: 13.5px !important;
+    font-weight: 600 !important;
+    transition: all 0.2s ease !important;
+}
+
+.admin-side nav a:hover, .student-side nav a:hover {
+    background: rgba(255, 255, 255, 0.08) !important;
+    color: #FFFFFF !important;
+}
+
+.admin-side nav a.is-active, .student-side nav a.is-active {
+    background: #4F46E5 !important;
+    color: #FFFFFF !important;
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.35) !important;
+}
+
+.admin-side .admin-menu-label, .student-side .admin-menu-label {
+    font-size: 11px !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.05em !important;
+    color: #A5B4FC !important;
+    padding: 12px 14px 4px !important;
+    margin: 0 !important;
+}
+
+.admin-mini-card, .student-mini-card {
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+    padding: 10px 14px !important;
+    background: rgba(255, 255, 255, 0.06) !important;
+    border-radius: 14px !important;
+    border: 1px solid rgba(199, 210, 254, 0.15) !important;
+}
+
+.admin-mini-avatar, .student-mini-avatar {
+    width: 38px !important;
+    height: 38px !important;
+    min-width: 38px !important;
+    max-width: 38px !important;
+    min-height: 38px !important;
+    max-height: 38px !important;
+    border-radius: 50% !important;
+    overflow: hidden !important;
+    flex-shrink: 0 !important;
+    background: transparent !important;
+}
+
+.admin-user-info, .student-user-info {
+    overflow: hidden !important;
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+.admin-user-info b, .student-user-info b {
+    color: #FFFFFF !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+}
+
+.admin-user-info small, .student-user-info small {
+    color: #A5B4FC !important;
+    font-size: 11px !important;
+}
+
 
 
 
