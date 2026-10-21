@@ -8,6 +8,7 @@ use App\Models\Arrangement;
 use App\Models\Classes;
 use App\Models\Student;
 use App\Models\User;
+use App\Models\AppNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -63,9 +64,13 @@ class ArrangementController extends Controller
             ->orderBy('chairs')
             ->paginate(10)
             ->withQueryString();
+
+        $rollNos = $arrangements->pluck('roll_no')->filter()->map(fn ($r) => (int) $r)->unique();
+        $studentsMap = Student::whereIn('std_id', $rollNos)->get(['std_id', 'name'])->keyBy('std_id');
+
         $classOptions = $this->classOptions();
 
-        return view('arrangements', compact('arrangements', 'classOptions', 'currentUser'));
+        return view('arrangements', compact('arrangements', 'classOptions', 'currentUser', 'studentsMap'));
     }
 
     public function create()
@@ -197,7 +202,7 @@ class ArrangementController extends Controller
                     'room' => (string) $roomClass->class_no,
                     'roll_no' => (string) $seat['student']->std_id,
                     'class_id' => $seat['source_class']->id,
-                    'user_id' => session('user_id'),
+                    'user_id' => session('user_id') ?? auth()->id() ?? User::where('role_id', 1)->value('id') ?? 1,
                     'created_at' => $now,
                     'updated_at' => $now,
                 ];
@@ -205,6 +210,51 @@ class ArrangementController extends Controller
         }
 
         DB::transaction(fn () => Arrangement::insert($rows));
+
+        // Dispatch notifications to students, class incharges, and teachers
+        try {
+            foreach ($rows as $row) {
+                $studentStdId = $row['roll_no'];
+                $studentObj = $students->firstWhere('std_id', $studentStdId);
+                if ($studentObj && !empty($studentObj->login_user_id)) {
+                    AppNotification::sendToUser(
+                        $studentObj->login_user_id,
+                        'Exam Seating Arrangement Ready',
+                        "Your exam desk seating plan is confirmed. Room #{$row['room']}, Seat/Chair #{$row['chairs']}.",
+                        'exam',
+                        '/student/roll-slip',
+                        'bi-diagram-3-fill'
+                    );
+                }
+            }
+
+            foreach ($selectedClasses as $cls) {
+                AppNotification::sendToClassIncharge(
+                    $cls->class_name,
+                    "Exam Seating Arrangements Generated",
+                    "Classroom seating plan generated for Class {$cls->class_name} ({$cls->section_name}) in Room #{$cls->class_no}.",
+                    'exam',
+                    '/teacher/classes',
+                    'bi-diagram-3-fill',
+                    null,
+                    $cls->section_name
+                );
+
+                $teacherUserIds = AppNotification::resolveTeachersForClassSubject($cls->class_name, $cls->section_name);
+                foreach ($teacherUserIds as $tuid) {
+                    AppNotification::sendToUser(
+                        $tuid,
+                        "Exam Seating Plan: Class {$cls->class_name}",
+                        "Seating distribution plan generated for Class {$cls->class_name} ({$cls->section_name}) in Room #{$cls->class_no}.",
+                        'exam',
+                        '/teacher/classes',
+                        'bi-diagram-3-fill'
+                    );
+                }
+            }
+        } catch (\Throwable $e) {
+            \Log::warning('Arrangement notification dispatch failed: ' . $e->getMessage());
+        }
 
         return redirect('/arrangements')->with('success', count($rows).' seats generated with alternating class-section students.');
     }

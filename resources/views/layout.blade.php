@@ -282,7 +282,73 @@
             @yield('content')
 
         </div>
+
+        <!-- FOOTER -->
+        <footer class="main-system-footer">
+            <div class="footer-grid-container">
+                <div>
+                    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
+                        <div class="brand-badge" style="width:34px; height:34px; font-size:13px; border-radius:10px;">ESS</div>
+                        <span class="footer-brand-title">Excellence School System</span>
+                    </div>
+                    <p style="font-size: 13px; color: var(--muted); margin: 0 0 16px; line-height: 1.5; max-width: 320px;">
+                        Central Control & Governance Authority Portal for Academic Tracking, Leaves, Salaries, Student Fees & School System Management.
+                    </p>
+                    <span class="status-pill-live">
+                        <span class="status-dot-pulse"></span> Head Office Active &bull; v2.4 Encrypted
+                    </span>
+                </div>
+
+                <div>
+                    <h5 class="footer-col-title">Administration</h5>
+                    <ul class="footer-links">
+                        <li><a href="/">Dashboard</a></li>
+                        <li><a href="/list">Students Directory</a></li>
+                        <li><a href="/teachers">Teachers Directory</a></li>
+                        <li><a href="/attendance">Attendance Logs</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h5 class="footer-col-title">Academics & Operations</h5>
+                    <ul class="footer-links">
+                        <li><a href="/classes">Classes & Enrolment</a></li>
+                        <li><a href="/sections">Sections Management</a></li>
+                        <li><a href="/subjects">Subjects & Syllabus</a></li>
+                        <li><a href="/results">Examination Results</a></li>
+                        <li><a href="/roll-slips">Roll No Slips</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h5 class="footer-col-title">Contact & Support</h5>
+                    <div class="footer-contact-item">
+                        <i class="bi bi-geo-alt-fill"></i>
+                        <span>Main Administrative Complex, Academic Wing A</span>
+                    </div>
+                    <div class="footer-contact-item">
+                        <i class="bi bi-envelope-fill"></i>
+                        <span>support@excellence.edu.pk</span>
+                    </div>
+                    <div class="footer-contact-item">
+                        <i class="bi bi-telephone-fill"></i>
+                        <span>+92 (042) 111-222-333</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom-bar">
+                <div>&copy; {{ date('Y') }} <strong>Excellence School System</strong> &bull; All Rights Reserved.</div>
+                <div class="footer-bottom-links">
+                    <a href="#">Privacy Protocol</a>
+                    <a href="#">Terms of Governance</a>
+                    <a href="#">Portal Security</a>
+                </div>
+            </div>
+        </footer>
     </main>
+
+
 
     <div class="crud-confirm-backdrop" id="crud-confirm-modal" hidden>
         <section class="crud-confirm-modal" role="dialog" aria-modal="true" aria-labelledby="crud-confirm-title">
@@ -461,95 +527,6 @@
         </section>
     </div>
 
-    <!-- MODERN ATTRACTIVE MULTI-COLUMN FOOTER -->
-    <footer class="portal-footer" style="background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%); color: #cbd5e1; font-family: 'Inter', sans-serif; padding-top: 50px; padding-bottom: 24px; border-top: 4px solid var(--primary-color, #4F46E5); margin-top: 60px;">
-        <div class="container" style="max-width: 1240px; margin: 0 auto; padding: 0 20px;">
-            <div class="footer-grid-container" style="display: grid; grid-template-columns: 2.2fr 1fr 1fr 1.5fr; gap: 40px; margin-bottom: 40px;">
-                <!-- Column 1: Brand & About -->
-                <div class="footer-col-brand">
-                    <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
-                        <img src="{{ asset('upload/Logo.png') }}" alt="Logo" style="height: 44px; width: auto; filter: brightness(0) invert(1);">
-                        <div>
-                            <h4 style="color: #ffffff; font-family: 'Outfit', sans-serif; font-size: 19px; font-weight: 700; margin: 0; line-height: 1.2;">Excellence School System</h4>
-                            <span style="font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--primary-light, #14b8a6); font-weight: 600;">Excellence & Innovation</span>
-                        </div>
-                    </div>
-                    <p style="font-size: 13.5px; line-height: 1.65; color: #94a3b8; margin-bottom: 20px;">
-                        Empowering educational management with real-time academic tracking, dynamic attendance monitoring, intelligent leave processing, and seamless portal interactions.
-                    </p>
-                    <div style="display: flex; gap: 12px;">
-                        <a href="#" style="width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.08); color: #ffffff; display: grid; place-items: center; text-decoration: none; transition: all 0.2s ease;"><i class="bi bi-facebook"></i></a>
-                        <a href="#" style="width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.08); color: #ffffff; display: grid; place-items: center; text-decoration: none; transition: all 0.2s ease;"><i class="bi bi-twitter-x"></i></a>
-                        <a href="#" style="width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.08); color: #ffffff; display: grid; place-items: center; text-decoration: none; transition: all 0.2s ease;"><i class="bi bi-linkedin"></i></a>
-                        <a href="#" style="width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.08); color: #ffffff; display: grid; place-items: center; text-decoration: none; transition: all 0.2s ease;"><i class="bi bi-globe"></i></a>
-                    </div>
-                </div>
-
-                <!-- Column 2: Navigation Links -->
-                <div>
-                    <h5 style="color: #ffffff; font-family: 'Outfit', sans-serif; font-size: 15px; font-weight: 700; margin-bottom: 18px; position: relative; padding-bottom: 8px;">
-                        Quick Navigation
-                        <span style="position: absolute; bottom: 0; left: 0; width: 30px; height: 2.5px; background: var(--primary-color, #4F46E5); border-radius: 4px;"></span>
-                    </h5>
-                    <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; font-size: 13.5px;">
-                        <li><a href="/" style="color: #cbd5e1; text-decoration: none; transition: color 0.2s;"><i class="bi bi-chevron-right" style="font-size: 10px; color: var(--primary-color);"></i> Dashboard</a></li>
-                        <li><a href="/list" style="color: #cbd5e1; text-decoration: none; transition: color 0.2s;"><i class="bi bi-chevron-right" style="font-size: 10px; color: var(--primary-color);"></i> Student Directory</a></li>
-                        <li><a href="/teachers" style="color: #cbd5e1; text-decoration: none; transition: color 0.2s;"><i class="bi bi-chevron-right" style="font-size: 10px; color: var(--primary-color);"></i> Faculty Directory</a></li>
-                        <li><a href="/attendance" style="color: #cbd5e1; text-decoration: none; transition: color 0.2s;"><i class="bi bi-chevron-right" style="font-size: 10px; color: var(--primary-color);"></i> Attendance Log</a></li>
-                        <li><a href="/results" style="color: #cbd5e1; text-decoration: none; transition: color 0.2s;"><i class="bi bi-chevron-right" style="font-size: 10px; color: var(--primary-color);"></i> Examination Results</a></li>
-                    </ul>
-                </div>
-
-                <!-- Column 3: Portals & Resources -->
-                <div>
-                    <h5 style="color: #ffffff; font-family: 'Outfit', sans-serif; font-size: 15px; font-weight: 700; margin-bottom: 18px; position: relative; padding-bottom: 8px;">
-                        System Portals
-                        <span style="position: absolute; bottom: 0; left: 0; width: 30px; height: 2.5px; background: var(--primary-color, #4F46E5); border-radius: 4px;"></span>
-                    </h5>
-                    <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; font-size: 13.5px;">
-                        <li><a href="/student/portal" style="color: #cbd5e1; text-decoration: none; transition: color 0.2s;"><i class="bi bi-mortarboard" style="color: var(--primary-color);"></i> Student Portal</a></li>
-                        <li><a href="/teacher/portal" style="color: #cbd5e1; text-decoration: none; transition: color 0.2s;"><i class="bi bi-person-video3" style="color: var(--primary-color);"></i> Teacher Portal</a></li>
-                        <li><a href="/fee-structure" style="color: #cbd5e1; text-decoration: none; transition: color 0.2s;"><i class="bi bi-cash-stack" style="color: var(--primary-color);"></i> Fee Management</a></li>
-                        <li><a href="/roll-slips" style="color: #cbd5e1; text-decoration: none; transition: color 0.2s;"><i class="bi bi-card-checklist" style="color: var(--primary-color);"></i> Roll Slips & Date Sheet</a></li>
-                    </ul>
-                </div>
-
-                <!-- Column 4: Contact & Support -->
-                <div>
-                    <h5 style="color: #ffffff; font-family: 'Outfit', sans-serif; font-size: 15px; font-weight: 700; margin-bottom: 18px; position: relative; padding-bottom: 8px;">
-                        Contact & Support
-                        <span style="position: absolute; bottom: 0; left: 0; width: 30px; height: 2.5px; background: var(--primary-color, #4F46E5); border-radius: 4px;"></span>
-                    </h5>
-                    <div style="display: flex; flex-direction: column; gap: 12px; font-size: 13px; color: #94a3b8;">
-                        <div style="display: flex; align-items: flex-start; gap: 10px;">
-                            <i class="bi bi-geo-alt-fill" style="color: var(--primary-color); font-size: 16px; margin-top: 2px;"></i>
-                            <span>Excellence School System Main Campus, Educational District, Pakistan</span>
-                        </div>
-                        <div style="display: flex; align-items: center; gap: 10px;">
-                            <i class="bi bi-envelope-fill" style="color: var(--primary-color); font-size: 15px;"></i>
-                            <a href="mailto:support@excellence.edu.pk" style="color: #cbd5e1; text-decoration: none;">support@excellence.edu.pk</a>
-                        </div>
-                        <div style="display: flex; align-items: center; gap: 10px;">
-                            <i class="bi bi-telephone-fill" style="color: var(--primary-color); font-size: 15px;"></i>
-                            <span style="color: #cbd5e1;">+92 (042) 111-222-333</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Bottom Sub-Footer -->
-            <div style="border-top: 1px solid rgba(255,255,255,0.08); padding-top: 20px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px; font-size: 12.5px; color: #64748b;">
-                <div>
-                    © {{ date('Y') }} <strong>Excellence School System</strong>. All rights reserved. Designed for optimal academic workflow.
-                </div>
-                <div style="display: flex; gap: 18px;">
-                    <a href="#" style="color: #64748b; text-decoration: none; transition: color 0.2s;">Privacy Policy</a>
-                    <a href="#" style="color: #64748b; text-decoration: none; transition: color 0.2s;">Terms of Service</a>
-                    <a href="#" style="color: #64748b; text-decoration: none; transition: color 0.2s;">Security</a>
-                </div>
-            </div>
-        </div>
-    </footer>
 
 
     {{-- BOOTSTRAP JS --}}

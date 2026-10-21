@@ -1,7 +1,7 @@
 <div class="admin-card mb-4">
     <div class="admin-card-header">
         <h3 class="admin-card-title">
-            <i class="bi bi-shield-lock-fill text-primary"></i> System Roles, Permissions & Access Management Center
+            <i class="bi bi-shield-lock-fill text-primary"></i> Roles & Perms Management Center
         </h3>
 
         <div class="admin-filter-bar">
@@ -231,7 +231,10 @@
             {{-- TAB 2: SYSTEM ROLES & PERMISSIONS MATRIX --}}
             <div class="tab-pane fade" id="system-roles-panel" role="tabpanel">
                 <div class="d-flex align-items-center justify-content-between mb-3">
-                    <h5 class="fw-bold text-dark mb-0"><i class="bi bi-shield-check text-success"></i> Defined System Roles & Permissions</h5>
+                    <div>
+                        <h5 class="fw-bold text-dark mb-0"><i class="bi bi-shield-check text-success"></i> Defined System Roles & Specific Permissions</h5>
+                        <small class="text-muted">Exact permissions assigned to each role defining what each user role is permitted to do</small>
+                    </div>
                     <button type="button" class="admin-btn admin-btn-primary admin-btn-sm" data-bs-toggle="modal" data-bs-target="#createRoleModal">
                         <i class="bi bi-plus-lg"></i> Create Custom Role
                     </button>
@@ -241,36 +244,63 @@
                     <table class="admin-table">
                         <thead>
                             <tr>
-                                <th>Role Name</th>
-                                <th>Slug Key</th>
-                                <th>Description</th>
-                                <th>Assigned Users</th>
-                                <th>Permissions</th>
-                                <th class="text-end">Actions</th>
+                                <th style="width: 190px;">Role Name</th>
+                                <th style="width: 130px;">Key / Slug</th>
+                                <th style="width: 95px;">Users</th>
+                                <th>Assigned Permissions (What this role can do)</th>
+                                <th class="text-end" style="width: 90px;">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach($roles as $r)
                                 <tr>
-                                    <td>
-                                        <strong class="text-dark fs-6">{{ $r->name }}</strong>
+                                    <td class="align-top">
+                                        <strong class="text-dark fs-6 d-block">{{ $r->name }}</strong>
                                         @if($r->is_system)
-                                            <span class="badge bg-info-subtle text-info-emphasis ms-1" style="font-size: 10px;">System Role</span>
+                                            <span class="badge bg-info-subtle text-info-emphasis" style="font-size: 10px;">System Role</span>
+                                        @else
+                                            <span class="badge bg-success-subtle text-success-emphasis" style="font-size: 10px;">Custom Role</span>
+                                        @endif
+                                        <small class="text-muted d-block mt-1">{{ $r->description ?: 'System defined access role' }}</small>
+                                    </td>
+                                    <td class="align-top">
+                                        <code class="px-2 py-1 bg-light border rounded">{{ $r->slug }}</code>
+                                    </td>
+                                    <td class="align-top">
+                                        <span class="badge bg-secondary-subtle text-dark fw-bold">
+                                            <i class="bi bi-people me-1"></i> {{ $r->users_count }}
+                                        </span>
+                                    </td>
+                                    <td class="align-top">
+                                        @if($r->slug === 'admin')
+                                            <div class="mb-2">
+                                                <span class="badge bg-danger-subtle text-danger border border-danger-subtle fw-bold px-2 py-1" style="font-size: 12px;">
+                                                    <i class="bi bi-shield-lock-fill me-1"></i> Super Administrator (All 52 Permissions Granted)
+                                                </span>
+                                            </div>
+                                            <p class="text-muted small mb-2">Full unrestricted permission across all modules: Students, Teachers, Staff Salaries, Fees, Attendance, Results, Academics, Incharges, System Accounts & Permissions.</p>
+                                        @else
+                                            <div class="d-flex align-items-center gap-2 mb-2">
+                                                <span class="badge bg-primary-subtle text-primary fw-bold" style="font-size: 11px;">
+                                                    <i class="bi bi-key-fill me-1"></i> {{ $r->permissions->count() }} Active Permissions:
+                                                </span>
+                                            </div>
+                                            <div class="d-flex flex-wrap gap-1" style="max-height: 160px; overflow-y: auto;">
+                                                @forelse($r->permissions as $perm)
+                                                    <span class="badge bg-light text-dark border px-2 py-1" style="font-size: 11px; font-weight: 600;">
+                                                        <i class="bi bi-check-circle-fill text-success me-1" style="font-size: 10px;"></i>{{ $perm->label }}
+                                                    </span>
+                                                @empty
+                                                    <span class="text-muted small fst-italic">No permissions assigned to this role yet. Click edit icon to assign.</span>
+                                                @endforelse
+                                            </div>
                                         @endif
                                     </td>
-                                    <td><code>{{ $r->slug }}</code></td>
-                                    <td><small class="text-muted">{{ $r->description ?: 'No description' }}</small></td>
-                                    <td>
-                                        <span class="badge bg-secondary-subtle text-dark fw-bold">{{ $r->users_count }} Users</span>
-                                    </td>
-                                    <td>
-                                        <span class="badge bg-primary-subtle text-primary fw-bold">{{ $r->permissions->count() }} Permissions</span>
-                                    </td>
-                                    <td class="text-end">
+                                    <td class="text-end align-top">
                                         @if($r->slug === 'admin')
-                                            <span class="badge bg-secondary-subtle text-secondary">Protected Master Role</span>
+                                            <span class="badge bg-secondary-subtle text-secondary" style="font-size: 10px;">Protected</span>
                                         @else
-                                            <div class="admin-table-actions">
+                                            <div class="admin-table-actions justify-content-end">
                                                 <button type="button" class="admin-btn-icon edit" data-bs-toggle="modal" data-bs-target="#editRoleModal{{ $r->id }}" title="Edit Role & Permissions">
                                                     <i class="bi bi-pencil"></i>
                                                 </button>
@@ -440,45 +470,121 @@
 {{-- MODAL 1: ASSIGN ROLE TO USER --}}
 <div class="modal fade admin-modal" id="assignUserRoleModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title fw-bold"><i class="bi bi-person-gear text-primary me-2"></i> Assign Role to System User</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body p-4">
-                <div class="mb-3">
-                    <label class="form-label fw-bold">Select User *</label>
-                    <select id="quick_user_select" class="form-select" onchange="document.getElementById('assignUserRoleForm').action = '/roles/users/' + this.value;">
-                        <option value="">-- Select User --</option>
-                        @foreach($allUsers ?? [] as $u)
-                            @if(!$u->isAdmin())
-                                <option value="{{ $u->id }}">{{ $u->name }} ({{ $u->email }}) — Current: {{ $u->role?->name ?: 'No Role' }}</option>
-                            @endif
-                        @endforeach
-                    </select>
+        <div class="modal-content shadow border-0" style="border-radius: 12px; overflow: hidden;">
+            <form id="assignUserRoleForm" action="" method="POST" onsubmit="return validateAssignUserRole(this);">
+                @csrf
+                @method('PUT')
+                <div class="modal-header bg-light py-2 px-3 border-bottom d-flex align-items-center justify-content-between">
+                    <h5 class="modal-title fw-bold fs-6 text-dark mb-0">
+                        <i class="bi bi-person-gear text-primary me-2"></i> Assign Role to System User
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-
-                <form id="assignUserRoleForm" action="" method="POST">
-                    @csrf
-                    @method('PUT')
+                <div class="modal-body p-4">
+                    <!-- Step 1: Select Category (Students or Teachers) -->
                     <div class="mb-3">
-                        <label class="form-label fw-bold">Select Target Role *</label>
-                        <select name="role_id" class="form-select" required>
-                            <option value="">-- Choose Role --</option>
-                            @foreach($roles as $r)
-                                @if(!in_array($r->slug, ['admin', 'class-incharge']))
-                                    <option value="{{ $r->id }}">{{ $r->name }} ({{ $r->description ?: 'System Role' }})</option>
-                                @endif
-                            @endforeach
+                        <label class="form-label fw-bold">
+                            <i class="bi bi-people-fill text-primary me-1"></i> Select User Category <span class="text-danger">*</span>
+                        </label>
+                        <select id="user_category_select" class="form-select" onchange="onCategoryChanged(this.value)" style="width: 100% !important; max-width: 100% !important; box-sizing: border-box !important;">
+                            <option value="">-- Choose Category (Students or Teachers) --</option>
+                            <option value="student">🎓 Students</option>
+                            <option value="teacher">👨‍🏫 Teachers</option>
                         </select>
                     </div>
 
-                    <div class="modal-footer px-0 pb-0">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        <button type="submit" class="admin-btn admin-btn-primary">Assign Role</button>
+                    <!-- Step 2: Class & Section Filters (Cascading) -->
+                    <div class="row g-2 mb-3" id="class_section_filter_row" style="display: none; background: #f8fafc; padding: 10px; border-radius: 8px; border: 1px solid #e2e8f0; width: 100%; margin: 0 0 16px 0;">
+                        <div class="col-6">
+                            <label class="form-label fw-semibold small text-muted mb-1">
+                                <i class="bi bi-mortarboard me-1"></i> Class
+                            </label>
+                            <select id="filter_class_select" class="form-select form-select-sm" onchange="filterUserList()" style="width: 100% !important; max-width: 100% !important; box-sizing: border-box !important;">
+                                <option value="">-- All Classes --</option>
+                                @foreach($classes->pluck('class_name')->filter()->unique()->values() as $cName)
+                                    <option value="{{ $cName }}">{{ $cName }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label fw-semibold small text-muted mb-1">
+                                <i class="bi bi-grid-3x3-gap me-1"></i> Section
+                            </label>
+                            <select id="filter_section_select" class="form-select form-select-sm" onchange="filterUserList()" style="width: 100% !important; max-width: 100% !important; box-sizing: border-box !important;">
+                                <option value="">-- All Sections --</option>
+                                @foreach($sections->pluck('section_name')->filter()->unique()->values() as $sName)
+                                    <option value="{{ $sName }}">{{ $sName }}</option>
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
-                </form>
-            </div>
+
+                    <!-- Step 3: Select Specific User Account (Opens strictly DOWNWARDS, bounded 100% between red lines) -->
+                    <div class="mb-3 position-relative" id="user_select_container">
+                        <label class="form-label fw-bold">
+                            <i class="bi bi-person-check-fill text-primary me-1"></i> Select User Account <span class="text-danger">*</span>
+                        </label>
+                        <input type="hidden" name="user_id" id="quick_user_select" value="" required>
+
+                        <div class="custom-modal-select" style="position: relative; width: 100%;">
+                            <button type="button" class="form-select text-start d-flex justify-content-between align-items-center w-100" id="userSelectBtn" onclick="toggleDropdownMenu('userDropdownMenu')" style="background-color: #fff; cursor: pointer; min-height: 42px; width: 100% !important; max-width: 100% !important; box-sizing: border-box !important;">
+                                <span id="userSelectLabel" class="text-muted text-truncate" style="max-width: calc(100% - 24px);">-- Select Category First --</span>
+                                <i class="bi bi-chevron-down text-muted" style="font-size: 12px; pointer-events: none;"></i>
+                            </button>
+
+                            <!-- Custom Dropdown Menu: Forced strictly downwards with top: 100%, 100% width within red lines -->
+                            <div id="userDropdownMenu" class="custom-dropdown-panel shadow" style="display: none; position: absolute; top: 100%; left: 0; right: 0; width: 100%; max-width: 100%; margin-top: 4px; box-sizing: border-box; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; box-shadow: 0 10px 25px rgba(0,0,0,0.15); z-index: 1080; overflow: hidden;">
+                                <div id="userDropdownItems" style="max-height: 200px; overflow-y: auto; overflow-x: hidden; padding: 4px 0;">
+                                    <div class="px-3 py-2 text-muted small fst-italic">Select a category above first</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-text" id="user_count_hint">Select Students or Teachers above to populate user accounts.</div>
+                    </div>
+
+                    <!-- Step 4: Select Target Role (Opens strictly DOWNWARDS, bounded 100% between red lines) -->
+                    <div class="mb-3 position-relative">
+                        <label class="form-label fw-bold">
+                            <i class="bi bi-shield-check text-primary me-1"></i> Select Target Role <span class="text-danger">*</span>
+                        </label>
+                        <input type="hidden" name="role_id" id="quick_role_select" value="" required>
+
+                        <div class="custom-modal-select" style="position: relative; width: 100%;">
+                            <button type="button" class="form-select text-start d-flex justify-content-between align-items-center w-100" id="roleSelectBtn" onclick="toggleDropdownMenu('roleDropdownMenu')" style="background-color: #fff; cursor: pointer; min-height: 42px; width: 100% !important; max-width: 100% !important; box-sizing: border-box !important;">
+                                <span id="roleSelectLabel" class="text-muted text-truncate" style="max-width: calc(100% - 24px);">-- Choose Role --</span>
+                                <i class="bi bi-chevron-down text-muted" style="font-size: 12px; pointer-events: none;"></i>
+                            </button>
+
+                            <!-- Custom Dropdown Menu: Forced strictly downwards with top: 100%, 100% width within red lines -->
+                            <div id="roleDropdownMenu" class="custom-dropdown-panel shadow" style="display: none; position: absolute; top: 100%; left: 0; right: 0; width: 100%; max-width: 100%; margin-top: 4px; box-sizing: border-box; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; box-shadow: 0 10px 25px rgba(0,0,0,0.15); z-index: 1080; overflow: hidden;">
+                                <div style="max-height: 200px; overflow-y: auto; overflow-x: hidden; padding: 4px 0;">
+                                    @foreach($roles as $r)
+                                        @if(!in_array($r->slug, ['admin']))
+                                            <div class="custom-role-option px-3 py-2" onclick="selectRoleItem('{{ $r->id }}', '{{ addslashes($r->name) }}', '{{ $r->slug }}')" style="cursor: pointer; border-bottom: 1px solid #f8fafc; transition: background 0.15s ease;" onmouseover="this.style.background='#f1f5f9'" onmouseout="this.style.background='transparent'">
+                                                <div class="d-flex justify-content-between align-items-center" style="gap: 8px; width: 100%; overflow: hidden;">
+                                                    <strong class="text-dark text-truncate" style="font-size: 13px;">{{ $r->name }}</strong>
+                                                    <span class="badge bg-primary-subtle text-primary border border-primary-subtle" style="font-size: 10.5px; flex-shrink: 0;">{{ $r->slug }}</span>
+                                                </div>
+                                            </div>
+                                        @endif
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="alert alert-info py-2 px-3 small mb-0 border-0">
+                        <i class="bi bi-info-circle-fill me-1"></i> Updating a user's role grants them all permissions assigned to that target role immediately.
+                    </div>
+                </div>
+
+                <div class="modal-footer py-2 px-3 bg-light border-top">
+                    <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="admin-btn admin-btn-primary fw-bold px-4">
+                        <i class="bi bi-check-circle me-1"></i> Update Role
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
@@ -486,16 +592,18 @@
 {{-- MODAL 2: ASSIGN CLASS INCHARGE --}}
 <div class="modal fade admin-modal" id="assignInchargeModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
+        <div class="modal-content shadow border-0" style="border-radius: 12px; overflow: hidden;">
             <form action="{{ route('roles.assign-incharge') }}" method="POST">
                 @csrf
-                <div class="modal-header">
-                    <h5 class="modal-title fw-bold"><i class="bi bi-person-workspace text-success me-2"></i> Assign Class Incharge Teacher</h5>
+                <div class="modal-header bg-light py-2 px-3 border-bottom d-flex align-items-center justify-content-between">
+                    <h5 class="modal-title fw-bold fs-6 text-dark mb-0">
+                        <i class="bi bi-person-workspace text-success me-2"></i> Assign Class Incharge Teacher
+                    </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body p-4">
                     <div class="mb-3">
-                        <label class="form-label fw-bold">Select Teacher *</label>
+                        <label class="form-label fw-bold">Select Teacher <span class="text-danger">*</span></label>
                         <select name="teacher_id" class="form-select" required>
                             <option value="">-- Select Teacher --</option>
                             @foreach($teachers as $t)
@@ -505,18 +613,24 @@
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label fw-bold">Select Class & Section *</label>
+                        <label class="form-label fw-bold">Select Class & Section <span class="text-danger">*</span></label>
                         <select name="class_id" class="form-select" required>
                             <option value="">-- Select Class --</option>
                             @foreach($classes as $c)
-                                <option value="{{ $c->id }}">{{ $c->class_name }} (Section {{ $c->section_name }})</option>
+                                <option value="{{ $c->id }}">{{ $c->class_name }} {{ $c->section_name ? '(Section ' . $c->section_name . ')' : '' }}</option>
                             @endforeach
                         </select>
                     </div>
+
+                    <div class="alert alert-success py-2 px-3 small mb-0 border-0">
+                        <i class="bi bi-info-circle-fill me-1"></i> The assigned teacher will manage attendance, leaves, and marks for students in this class.
+                    </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="admin-btn admin-btn-success">Assign Class Incharge</button>
+                <div class="modal-footer py-2 px-3 bg-light border-top">
+                    <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="admin-btn admin-btn-success fw-bold px-4">
+                        <i class="bi bi-check-circle me-1"></i> Assign Class Incharge
+                    </button>
                 </div>
             </form>
         </div>
@@ -526,33 +640,40 @@
 {{-- MODAL 3: CREATE NEW ROLE --}}
 <div class="modal fade admin-modal" id="createRoleModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
-        <div class="modal-content">
+        <div class="modal-content shadow border-0" style="border-radius: 12px; overflow: hidden;">
             <form action="{{ route('roles.store') }}" method="POST">
                 @csrf
-                <div class="modal-header">
-                    <h5 class="modal-title fw-bold"><i class="bi bi-plus-circle text-primary me-2"></i> Create New Custom System Role</h5>
+                <div class="modal-header bg-light py-2 px-3 border-bottom d-flex align-items-center justify-content-between">
+                    <h5 class="modal-title fw-bold fs-6 text-dark mb-0">
+                        <i class="bi bi-plus-circle text-primary me-2"></i> Create New Custom System Role
+                    </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body p-4">
                     <div class="row g-3 mb-3">
                         <div class="col-md-6">
-                            <label class="form-label fw-bold">Role Name *</label>
+                            <label class="form-label fw-bold">Role Name <span class="text-danger">*</span></label>
                             <input type="text" name="name" class="form-control" placeholder="e.g. Accountant, Exam Incharge" required>
                         </div>
                         <div class="col-md-6">
                             <label class="form-label fw-bold">Description</label>
-                            <input type="text" name="description" class="form-control" placeholder="Brief role summary">
+                            <input type="text" name="description" class="form-control" placeholder="Brief summary of duties">
                         </div>
                     </div>
 
-                    <h6 class="fw-bold text-dark border-bottom pb-2 mb-3">Assign Initial Permissions</h6>
-                    <div class="row g-3">
+                    <h6 class="fw-bold text-dark border-bottom pb-2 mb-3">
+                        <i class="bi bi-check2-square text-primary me-1"></i> Assign Initial Permissions
+                    </h6>
+                    <div class="row g-3" style="max-height: 380px; overflow-y: auto;">
                         @foreach($permissionGroups ?? [] as $module => $perms)
                             <div class="col-md-6">
                                 <div class="p-3 bg-light rounded border h-100">
-                                    <strong class="d-block text-primary text-uppercase fs-7 mb-2">{{ ucfirst($module) }} Module</strong>
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <strong class="text-primary text-uppercase fs-7">{{ ucfirst($module) }} Module</strong>
+                                        <span class="badge bg-secondary-subtle text-dark" style="font-size: 10px;">{{ count($perms) }} perms</span>
+                                    </div>
                                     @foreach($perms as $perm)
-                                        <div class="form-check">
+                                        <div class="form-check mb-1">
                                             <input class="form-check-input" type="checkbox" name="permissions[]" value="{{ $perm->id }}" id="new_perm_{{ $perm->id }}">
                                             <label class="form-check-label fs-7" for="new_perm_{{ $perm->id }}">
                                                 {{ $perm->label }}
@@ -564,11 +685,213 @@
                         @endforeach
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="admin-btn admin-btn-primary">Create Role</button>
+                <div class="modal-footer py-2 px-3 bg-light border-top">
+                    <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="admin-btn admin-btn-primary fw-bold px-4">
+                        <i class="bi bi-plus-lg me-1"></i> Create Role
+                    </button>
                 </div>
             </form>
         </div>
     </div>
 </div>
+
+<script>
+const systemUsersData = [
+@foreach($allUsersList ?? [] as $u)
+@if(!$u->isAdmin())
+@php
+    $isStudent = (bool) $u->studentRecord || ($u->role?->slug === 'student');
+    $isTeacher = (bool) $u->teacherRecord || in_array($u->role?->slug, ['teacher', 'class-incharge']);
+    $userType = $isStudent ? 'student' : ($isTeacher ? 'teacher' : 'other');
+
+    $uClass = $u->studentRecord?->class ?? '';
+    $uSec = $u->studentRecord?->section ?? '';
+
+    $tClasses = [];
+    $tSecs = [];
+    if ($u->teacherRecord) {
+        $tClasses = $u->teacherRecord->assignments->pluck('class_name')->filter()->unique()->values()->all();
+        $tSecs = $u->teacherRecord->assignments->pluck('section_name')->filter()->unique()->values()->all();
+    }
+@endphp
+    {
+        id: {{ $u->id }},
+        name: @json($u->name ?: $u->username),
+        email: @json($u->email),
+        role: @json($u->role?->name ?? 'No Role'),
+        type: @json($userType),
+        stdClass: @json($uClass),
+        stdSec: @json($uSec),
+        tClasses: @json($tClasses),
+        tSecs: @json($tSecs)
+    },
+@endif
+@endforeach
+];
+
+function toggleDropdownMenu(menuId) {
+    const target = document.getElementById(menuId);
+    document.querySelectorAll('.custom-dropdown-panel').forEach(p => {
+        if (p.id !== menuId) p.style.display = 'none';
+    });
+    if (target) {
+        target.style.display = (target.style.display === 'block') ? 'none' : 'block';
+    }
+}
+
+// Close dropdown on outside click
+document.addEventListener('click', function(e) {
+    if (!e.target.closest('.custom-modal-select')) {
+        document.querySelectorAll('.custom-dropdown-panel').forEach(p => p.style.display = 'none');
+    }
+});
+
+function selectUserItem(id, name, detail) {
+    const input = document.getElementById('quick_user_select');
+    const label = document.getElementById('userSelectLabel');
+    const menu = document.getElementById('userDropdownMenu');
+    const form = document.getElementById('assignUserRoleForm');
+
+    if (input) input.value = id;
+    if (label) {
+        label.innerHTML = '<strong class="text-dark">' + name + '</strong> <span class="text-muted small">(' + detail + ')</span>';
+        label.classList.remove('text-muted');
+    }
+    if (menu) menu.style.display = 'none';
+    if (form && id) {
+        form.action = '/roles/users/' + id;
+    }
+}
+
+function selectRoleItem(id, name, slug) {
+    const input = document.getElementById('quick_role_select');
+    const label = document.getElementById('roleSelectLabel');
+    const menu = document.getElementById('roleDropdownMenu');
+
+    if (input) input.value = id;
+    if (label) {
+        label.innerHTML = '<strong class="text-dark">' + name + '</strong> <span class="badge bg-primary-subtle text-primary border border-primary-subtle ms-1" style="font-size: 10px;">' + slug + '</span>';
+        label.classList.remove('text-muted');
+    }
+    if (menu) menu.style.display = 'none';
+}
+
+function onCategoryChanged(cat) {
+    const filterRow = document.getElementById('class_section_filter_row');
+    const classSelect = document.getElementById('filter_class_select');
+    const sectionSelect = document.getElementById('filter_section_select');
+    
+    if (classSelect) classSelect.value = '';
+    if (sectionSelect) sectionSelect.value = '';
+
+    if (filterRow) {
+        filterRow.style.display = cat ? 'flex' : 'none';
+    }
+
+    filterUserList();
+}
+
+function filterUserList() {
+    const cat = document.getElementById('user_category_select')?.value || '';
+    const selectedClass = (document.getElementById('filter_class_select')?.value || '').toLowerCase().trim();
+    const selectedSec = (document.getElementById('filter_section_select')?.value || '').toLowerCase().trim();
+    const userLabel = document.getElementById('userSelectLabel');
+    const userInput = document.getElementById('quick_user_select');
+    const userItemsList = document.getElementById('userDropdownItems');
+    const hint = document.getElementById('user_count_hint');
+    const form = document.getElementById('assignUserRoleForm');
+
+    if (userInput) userInput.value = '';
+    if (form) form.action = '';
+    if (userLabel) {
+        userLabel.innerHTML = cat ? `-- Choose ${cat === 'student' ? 'Student' : 'Teacher'} --` : '-- Select Category First --';
+        userLabel.classList.add('text-muted');
+    }
+
+    if (!userItemsList) return;
+    userItemsList.innerHTML = '';
+
+    if (!cat) {
+        userItemsList.innerHTML = '<div class="px-3 py-2 text-muted small fst-italic">Select a category above first</div>';
+        if (hint) hint.textContent = 'Select Students or Teachers above to populate user accounts.';
+        return;
+    }
+
+    const filtered = systemUsersData.filter(u => {
+        if (u.type !== cat) return false;
+
+        if (cat === 'student') {
+            if (selectedClass && u.stdClass.toLowerCase().trim() !== selectedClass) return false;
+            if (selectedSec && u.stdSec.toLowerCase().trim() !== selectedSec) return false;
+            return true;
+        }
+
+        if (cat === 'teacher') {
+            if (selectedClass) {
+                const hasClass = u.tClasses.some(c => c.toLowerCase().trim() === selectedClass);
+                if (!hasClass) return false;
+            }
+            if (selectedSec) {
+                const hasSec = u.tSecs.some(s => s.toLowerCase().trim() === selectedSec);
+                if (!hasSec) return false;
+            }
+            return true;
+        }
+
+        return true;
+    });
+
+    if (filtered.length === 0) {
+        userItemsList.innerHTML = '<div class="px-3 py-2 text-muted small fst-italic">No accounts found matching this filter.</div>';
+        if (hint) hint.textContent = `No ${cat === 'student' ? 'student' : 'teacher'} accounts found in this class/section.`;
+        return;
+    }
+
+    filtered.forEach(u => {
+        const item = document.createElement('div');
+        item.className = 'custom-user-option px-3 py-2';
+        item.style.cursor = 'pointer';
+        item.style.borderBottom = '1px solid #f8fafc';
+        item.style.transition = 'background 0.15s ease';
+        item.onmouseover = () => item.style.background = '#f1f5f9';
+        item.onmouseout = () => item.style.background = 'transparent';
+
+        const detail = (cat === 'student') 
+            ? (u.stdClass ? u.stdClass + (u.stdSec ? ' (' + u.stdSec + ')' : '') : 'General')
+            : (u.tClasses.length ? u.tClasses.join(', ') : u.role);
+
+        item.onclick = () => selectUserItem(u.id, u.name, detail);
+
+        item.innerHTML = `
+            <div class="d-flex justify-content-between align-items-center" style="gap: 8px; width: 100%; overflow: hidden;">
+                <div style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1;">
+                    <strong class="d-block text-dark text-truncate" style="font-size: 13px;">${u.name}</strong>
+                    <small class="text-muted text-truncate d-block" style="font-size: 11.5px;">${detail}</small>
+                </div>
+                <span class="badge bg-secondary-subtle text-dark border" style="font-size: 10px; flex-shrink: 0;">${u.role}</span>
+            </div>
+        `;
+        userItemsList.appendChild(item);
+    });
+
+    if (hint) {
+        hint.textContent = `Showing ${filtered.length} ${cat === 'student' ? 'student' : 'teacher'} account(s) matching your filter.`;
+    }
+}
+
+function validateAssignUserRole(form) {
+    const userSelect = document.getElementById('quick_user_select');
+    if (!userSelect || !userSelect.value) {
+        alert('Please select a user account first.');
+        return false;
+    }
+    const roleSelect = document.getElementById('quick_role_select');
+    if (!roleSelect || !roleSelect.value) {
+        alert('Please choose a target role first.');
+        return false;
+    }
+    form.action = '/roles/users/' + userSelect.value;
+    return true;
+}
+</script>

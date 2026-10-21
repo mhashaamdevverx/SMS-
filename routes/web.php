@@ -17,11 +17,23 @@ use App\Http\Controllers\Management\ResultController;
 use App\Http\Controllers\Management\RollSlipController;
 use App\Http\Controllers\Management\FeeController;
 use App\Http\Controllers\Management\AttendanceController;
+use App\Http\Controllers\LandingController;
 use App\Http\Controllers\Management\DashboardController;
 use App\Http\Controllers\Management\RoleController;
 use App\Http\Controllers\Management\TestSessionController;
 use App\Http\Controllers\Management\NotificationController;
 use App\Http\Middleware\RequireAuthentication;
+
+Route::get('/', [LandingController::class, 'index'])->name('home');
+Route::get('about', [LandingController::class, 'about'])->name('about');
+Route::get('admissions', [LandingController::class, 'admissions'])->name('admissions');
+Route::get('academics', [LandingController::class, 'academics'])->name('academics');
+Route::get('careers', [LandingController::class, 'careers'])->name('careers');
+Route::get('contact', [LandingController::class, 'contact'])->name('contact');
+Route::get('why-choose-us', [LandingController::class, 'whyChooseUs'])->name('why.choose.us');
+Route::post('inquiry/submit', [LandingController::class, 'submitInquiry'])->name('inquiry.submit');
+Route::post('career/submit', [LandingController::class, 'submitCareerApplication'])->name('career.submit');
+Route::post('tour/schedule', [LandingController::class, 'scheduleTour'])->name('tour.schedule');
 
 Route::get('signup', [AuthController::class, 'signupForm']);
 Route::post('signup', [AuthController::class, 'signup']);
@@ -37,7 +49,7 @@ Route::get('support', [AuthController::class, 'supportPage'])->name('support');
 Route::post('support', [AuthController::class, 'submitSupportRequest'])->name('support.submit');
 
 Route::middleware(RequireAuthentication::class)->group(function () {
-    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('student/dashboard', [StudentPortalController::class, 'dashboard'])->name('student.dashboard');
     Route::get('student/test-sessions', [TestSessionController::class, 'index'])->name('student.tests');
     Route::get('student/test-sessions/{month}/download', [TestSessionController::class, 'downloadResult'])->name('student.tests.download');
@@ -76,7 +88,9 @@ Route::middleware(RequireAuthentication::class)->group(function () {
     Route::put('admin/salaries/{salary}', [AdminPortalController::class, 'updateSalary'])->name('admin.salary.update');
     Route::delete('admin/salaries/{salary}', [AdminPortalController::class, 'destroySalary'])->name('admin.salary.destroy');
     Route::post('admin/fees', [AdminPortalController::class, 'storeFee'])->name('admin.fee.store');
-    Route::get('admin/{page}', [AdminPortalController::class, 'page'])->where('page', 'dashboard|leaves|salaries|students|teachers|fees|attendance|academics|roles|users')->name('admin.page');
+    Route::put('admin/profile', [AdminPortalController::class, 'updateProfile'])->name('admin.profile.update');
+    Route::post('admin/password', [AdminPortalController::class, 'updatePassword'])->name('admin.password.update');
+    Route::get('admin/{page}', [AdminPortalController::class, 'page'])->where('page', 'dashboard|leaves|salaries|students|teachers|fees|attendance|academics|roles|users|profile')->name('admin.page');
 
     Route::get('api/notifications', [NotificationController::class, 'getNotifications'])->name('notifications.get');
     Route::post('api/notifications/mark-read', [NotificationController::class, 'markAsRead'])->name('notifications.mark-read');

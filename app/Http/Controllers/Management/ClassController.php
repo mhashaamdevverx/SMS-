@@ -135,7 +135,7 @@ class ClassController extends Controller
             'class_name' => $className,
             'chairs' => $request->chairs,
             'section_name' => $sectionName,
-            'user_id' => session('user_id'),
+            'user_id' => session('user_id') ?? auth()->id() ?? User::where('role_id', 1)->value('id') ?? 1,
         ]);
 
         return redirect('/classes')->with('success', 'Class added successfully!');

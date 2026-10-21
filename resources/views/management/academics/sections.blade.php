@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('admin.layout', ['currentPage' => 'academics', 'pageTitle' => 'Sections Management'])
 
 @section('content')
 

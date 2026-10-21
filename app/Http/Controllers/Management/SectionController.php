@@ -37,7 +37,7 @@ class SectionController extends Controller
 
         Section::create([
             'section_name' => trim($validated['section_name']),
-            'user_id' => session('user_id'),
+            'user_id' => session('user_id') ?? auth()->id() ?? \App\Models\User::where('role_id', 1)->value('id') ?? 1,
         ]);
 
         return redirect('/sections')->with('success', 'Section added successfully!');

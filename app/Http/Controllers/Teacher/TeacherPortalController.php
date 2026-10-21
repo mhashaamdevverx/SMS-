@@ -751,7 +751,8 @@ class TeacherPortalController extends Controller
             }
 
             $inchargeStudentCount = (clone $inchargeStudentsQuery)->count();
-            $inchargeStudentsPaginated = $inchargeStudentsQuery->orderBy('std_id', 'asc')->paginate(10, ['*'], 'incharge_student_page')->withQueryString();
+            $inchargeStdIds = $inchargeStudentsPaginated->pluck('std_id')->filter()->map(fn($id) => (string)$id)->all();
+            $inchargeArrangements = \App\Models\Arrangement::whereIn('roll_no', $inchargeStdIds)->get()->keyBy('roll_no');
 
             $inchargeData = compact(
                 'managedClassRecords',
@@ -763,7 +764,8 @@ class TeacherPortalController extends Controller
                 'groupedSubjectTeachers',
                 'inchargeStudentsPaginated',
                 'inchargeStudentCount',
-                'inchargeSearch'
+                'inchargeSearch',
+                'inchargeArrangements'
             );
         }
 

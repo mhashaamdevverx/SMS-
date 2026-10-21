@@ -60,7 +60,7 @@ class RoleController extends Controller
         ]);
         $role->permissions()->sync($validated['permissions'] ?? []);
 
-        return redirect()->route('roles.index')->with('success', 'Role created successfully.');
+        return back()->with('success', 'Role created successfully.');
     }
 
     public function update(Request $request, Role $role)
@@ -86,7 +86,7 @@ class RoleController extends Controller
         ]);
         $role->permissions()->sync($validated['permissions'] ?? []);
 
-        return redirect()->route('roles.index')->with('success', 'Role and permissions updated.');
+        return back()->with('success', 'Role and permissions updated.');
     }
 
     public function destroy(Role $role)
@@ -94,7 +94,7 @@ class RoleController extends Controller
         abort_if($role->is_system || $role->users()->exists(), 403, 'This role is protected or assigned to users.');
         $role->delete();
 
-        return redirect()->route('roles.index')->with('success', 'Role deleted.');
+        return back()->with('success', 'Role deleted.');
     }
 
     public function updateUserRole(Request $request, User $user)
@@ -103,11 +103,11 @@ class RoleController extends Controller
 
         $validated = $request->validate(['role_id' => ['required', 'integer', 'exists:roles,id']]);
         $role = Role::findOrFail($validated['role_id']);
-        abort_if(in_array($role->slug, ['admin', 'class-incharge'], true), 422, 'Administrator and Class Incharge roles are assigned through protected workflows.');
+        abort_if($role->slug === 'admin', 422, 'Administrator role cannot be assigned through this workflow.');
 
         DB::transaction(function () use ($user, $role) {
             $user->update(['role_id' => $role->id]);
-            if ($user->classIncharge) {
+            if ($user->classIncharge && $role->slug !== 'class-incharge') {
                 $teacher = Teacher::find($user->classIncharge->teacher_id);
                 if ($teacher) {
                     $teacher->update(['login_user_id' => null]);
@@ -116,7 +116,7 @@ class RoleController extends Controller
             }
         });
 
-        return redirect()->route('roles.index')->with('success', 'User role updated.');
+        return back()->with('success', "Role '{$role->name}' successfully assigned to {$user->name}. Database updated.");
     }
 
     public function approveRequest(Request $request, TeacherAccessRequest $teacherAccessRequest)
@@ -171,11 +171,14 @@ class RoleController extends Controller
         ]);
 
         $teacher = Teacher::with('loginAccount')->findOrFail($validated['teacher_id']);
-        $classIncharge = ClassIncharge::where('class_id', $validated['class_id'])->first();
-        abort_if($classIncharge && $classIncharge->teacher_id !== $teacher->id, 422, 'This class already has an incharge.');
+        if ($classIncharge && $classIncharge->teacher_id !== $teacher->id) {
+            return back()->with('error', 'This class already has an assigned incharge (' . ($classIncharge->teacher?->teacher_name ?? 'Another Teacher') . ').');
+        }
 
         $user = $teacher->loginAccount ?: User::where('email', $teacher->teacher_email)->first();
-        abort_if($user?->isAdmin(), 422, 'Administrator accounts cannot be assigned as class incharges.');
+        if ($user?->isAdmin()) {
+            return back()->with('error', 'Administrator accounts cannot be assigned as class incharges.');
+        }
 
         $inchargeRole = Role::where('slug', 'class-incharge')->firstOrFail();
         $teacherRole = Role::where('slug', 'teacher')->firstOrFail();
@@ -215,7 +218,7 @@ class RoleController extends Controller
             }
         });
 
-        $response = redirect()->route('roles.index')->with('success', 'Class incharge assignment saved.');
+        $response = back()->with('success', 'Class incharge assigned successfully.');
         if ($temporaryPassword) {
             $response->with('issued_credentials', ['email' => $teacher->teacher_email, 'password' => $temporaryPassword]);
         }

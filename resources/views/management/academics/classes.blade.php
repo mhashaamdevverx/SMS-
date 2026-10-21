@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('admin.layout', ['currentPage' => 'academics', 'pageTitle' => 'Classes & Enrolment'])
 
 @section('content')
 <div class="classes-page-wrapper" data-assigned-sections="{{ json_encode($assignedSectionsByClass) }}">

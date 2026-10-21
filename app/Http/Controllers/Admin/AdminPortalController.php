@@ -346,9 +346,12 @@ class AdminPortalController extends Controller
 
             case 'academics':
                 // Academics hub: Classes, Sections, Subjects, Courses, Results, Roll Slips, Arrangements
-                $data['classes'] = Classes::get();
-                $data['sections'] = Section::get();
-                $data['subjects'] = Subject::get();
+                $data['totalClassesCount'] = Classes::count();
+                $data['totalSectionsCount'] = Section::count();
+                $data['totalSubjectsCount'] = Subject::count();
+                $data['classes'] = Classes::orderBy('class_no')->paginate(10, ['*'], 'classes_page')->withQueryString();
+                $data['sections'] = Section::orderBy('section_name')->paginate(10, ['*'], 'sections_page')->withQueryString();
+                $data['subjects'] = Subject::orderBy('subject_name')->paginate(10, ['*'], 'subjects_page')->withQueryString();
                 $data['courses'] = Course::get();
                 $data['totalResults'] = Result::count();
                 $data['totalRollSlips'] = RollSlip::count();
@@ -360,11 +363,18 @@ class AdminPortalController extends Controller
                 $data['roles'] = Role::with(['permissions', 'users'])->withCount('users')->orderByDesc('is_system')->orderBy('name')->get();
                 $data['classIncharges'] = ClassIncharge::with(['user', 'teacher', 'classRecord'])->paginate(10, ['*'], 'incharges_page')->withQueryString();
                 $data['accessRequests'] = TeacherAccessRequest::with(['user', 'teacher'])->latest()->paginate(10, ['*'], 'request_page')->withQueryString();
-                $data['teachers'] = Teacher::orderBy('teacher_name')->get();
+                $data['teachers'] = Teacher::with('assignments')->orderBy('teacher_name')->get();
                 $data['classes'] = Classes::orderBy('class_no')->orderBy('class_name')->get();
+                $data['sections'] = Section::orderBy('section_name')->get();
                 $data['allUsers'] = User::with(['role', 'classIncharge.classRecord'])->orderBy('name')->paginate(10, ['*'], 'users_page')->withQueryString();
+                $data['allUsersList'] = User::with(['role', 'studentRecord', 'teacherRecord.assignments'])->orderBy('name')->get();
                 $data['totalUsersCount'] = User::count();
                 $data['permissionGroups'] = Permission::orderBy('label')->get()->groupBy('module');
+                break;
+
+            case 'profile':
+                // Admin's own profile and account details
+                $data['user'] = $currentUser;
                 break;
 
             case 'users':
@@ -686,5 +696,60 @@ class AdminPortalController extends Controller
         ]);
 
         return back()->with('success', "Fee voucher {$feeCollection->voucher_no} status updated to {$validated['status']}.");
+    }
+
+    /**
+     * Update Admin's own profile details.
+     */
+    public function updateProfile(Request $request)
+    {
+        $admin = $this->getAdminUser();
+
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,' . $admin->id,
+            'phone' => 'nullable|string|max:50',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+        ]);
+
+        $updateData = [
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+        ];
+
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('upload/admins', 'public');
+            $updateData['image'] = $path;
+            session(['user_image' => $path]);
+        }
+
+        $admin->update($updateData);
+        session(['user_name' => $request->name]);
+
+        return back()->with('success', 'Admin profile and account details updated successfully!');
+    }
+
+    /**
+     * Update Admin's own password.
+     */
+    public function updatePassword(Request $request)
+    {
+        $admin = $this->getAdminUser();
+
+        $request->validate([
+            'current_password' => 'required',
+            'new_password' => 'required|min:6|confirmed',
+        ]);
+
+        if (!Hash::check($request->current_password, $admin->password)) {
+            return back()->withErrors(['current_password' => 'Current password is incorrect.'])->with('error', 'Current password is incorrect.');
+        }
+
+        $admin->update([
+            'password' => Hash::make($request->new_password),
+        ]);
+
+        return back()->with('success', 'Password updated successfully!');
     }
 }

@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('admin.layout', ['currentPage' => 'academics', 'pageTitle' => 'Subjects Management'])
 
 @section('content')
 <div class="subjects-page-wrapper">

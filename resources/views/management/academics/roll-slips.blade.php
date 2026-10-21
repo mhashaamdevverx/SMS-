@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('admin.layout', ['currentPage' => 'academics', 'pageTitle' => 'Roll Number Slips'])
 @section('content')
 <div class="container">
     <div class="student-header ext-style-108">

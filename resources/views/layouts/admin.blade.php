@@ -72,7 +72,7 @@
             @php
             $opsMenu = [
                 'academics' => ['Academics & Operations', 'bi-journal-bookmark-fill'],
-                'roles' => ['Roles & Incharges', 'bi-shield-lock-fill'],
+                'roles' => ['Roles & Perms', 'bi-shield-lock-fill'],
             ];
             @endphp
             @foreach($opsMenu as $key => $item)
@@ -103,7 +103,7 @@
                 </button>
                 <div class="portal-breadcrumb">
                     <span>Admin Portal</span> /
-                    <strong>{{ ucfirst($currentPageName ?? 'Dashboard') }}</strong>
+                    <strong>{{ $pageTitle ?? ($currentPageName === 'profile' ? 'Account Details' : ucfirst($currentPageName ?? 'Dashboard')) }}</strong>
                 </div>
             </div>
 
@@ -185,7 +185,7 @@
                             <strong style="display:block; font-size: 13px; color: var(--text); white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">{{ session('user_name', 'Abdul Moeez') }}</strong>
                             <small style="font-size: 11px; color: var(--primary); font-weight: 700; white-space: nowrap; text-overflow: ellipsis; overflow: hidden; display: block;">Head Administrator</small>
                         </div>
-                        <a href="{{ route('admin.page', 'users') }}" style="display: flex; align-items: center; gap: 10px; padding: 10px 14px; color: var(--text); text-decoration: none; font-size: 13px; font-weight: 600;">
+                        <a href="{{ route('admin.page', 'profile') }}" style="display: flex; align-items: center; gap: 10px; padding: 10px 14px; color: var(--text); text-decoration: none; font-size: 13px; font-weight: 600;">
                             <i class="bi bi-person-circle" style="color: var(--primary);"></i> Account Details
                         </a>
                         <div style="border-top: 1px solid var(--border-light); margin-top: 4px; padding-top: 4px;">
@@ -252,7 +252,7 @@
                         <li><a href="{{ route('admin.page', 'students') }}">Students Directory</a></li>
                         <li><a href="{{ route('admin.page', 'teachers') }}">Teachers Directory</a></li>
                         <li><a href="{{ route('admin.page', 'academics') }}">Academics & Operations</a></li>
-                        <li><a href="{{ route('admin.page', 'roles') }}">Roles & Incharges</a></li>
+                        <li><a href="{{ route('admin.page', 'roles') }}">Roles & Perms</a></li>
                     </ul>
                 </div>
 

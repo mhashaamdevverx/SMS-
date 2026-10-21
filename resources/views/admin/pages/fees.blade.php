@@ -348,9 +348,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
             const now = new Date();
             const monthCode = String(now.getMonth() + 1).padStart(2, '0') + String(now.getFullYear()).slice(-2);
-            if (voucherInput && !voucherInput.value) {
-                voucherInput.value = 'V-' + stdId + '-' + monthCode;
-            }
+            const randSuffix = Math.floor(1000 + Math.random() * 9000);
+            const cleanId = String(stdId).replace('#', '').trim();
+            voucherInput.value = 'V-' + cleanId + '-' + monthCode + '-' + randSuffix;
 
             calculateFeeTotals();
         });

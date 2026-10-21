@@ -96,7 +96,7 @@ class SubjectController extends Controller
             'section_name' => $classRecord->section_name,
             'subject_name' => trim($validated['subject_name']),
             'total_marks' => $validated['total_marks'],
-            'user_id' => session('user_id'),
+            'user_id' => session('user_id') ?? auth()->id() ?? \App\Models\User::where('role_id', 1)->value('id') ?? 1,
         ]);
 
         return redirect()->route('subjects.list', ['class_id' => $classRecord->id])

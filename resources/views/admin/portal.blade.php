@@ -21,7 +21,7 @@
                 'fees' => ['Fees Management', 'bi-receipt', 0],
                 'attendance' => ['Attendance Logs', 'bi-clock-history', 0],
                 'academics' => ['Academics & Operations', 'bi-journal-bookmark-fill', 0],
-                'roles' => ['Roles & Incharges', 'bi-shield-lock-fill', $pendingAccessRequestsCount ?? 0],
+                'roles' => ['Roles & Perms', 'bi-shield-lock-fill', $pendingAccessRequestsCount ?? 0],
                 'users' => ['System Accounts', 'bi-people-fill', 0],
             ];
             @endphp

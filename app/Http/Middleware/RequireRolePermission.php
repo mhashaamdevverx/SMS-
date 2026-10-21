@@ -13,10 +13,34 @@ class RequireRolePermission
     {
         $path = trim($request->path(), '/');
 
-            if (in_array($path, ['login', 'signup', 'forgot-password'], true)
-                || str_starts_with($path, 'reset-password/')
-                || $path === 'reset-password'
-                || str_starts_with($path, 'storage/')) {
+        $publicPaths = [
+            '',
+            'about',
+            'admissions',
+            'academics',
+            'careers',
+            'contact',
+            'why-choose-us',
+            'support',
+            'inquiry/submit',
+            'career/submit',
+            'tour/schedule',
+            'login',
+            'signup',
+            'forgot-password',
+            'reset-password',
+        ];
+
+        if (in_array($path, $publicPaths, true)
+            || str_starts_with($path, 'reset-password/')
+            || str_starts_with($path, 'storage/')) {
+            $userId = $request->session()->get('user_id');
+            if ($userId) {
+                $user = User::with(['role.permissions'])->find($userId);
+                if ($user) {
+                    view()->share('currentUser', $user);
+                }
+            }
             return $next($request);
         }
 

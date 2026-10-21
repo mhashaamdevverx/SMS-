@@ -162,6 +162,7 @@ class StudentPortalController extends Controller
             ->latest('id')
             ->paginate(10, ['*'], 'slip_page')
             ->withQueryString();
+        $data['arrangement'] = \App\Models\Arrangement::where('roll_no', (string) $student->std_id)->with('classRecord')->first();
 
         // Seed single September leave if no leaves exist
         $leavesCount = StudentLeave::where('student_id', $student->id)->count();

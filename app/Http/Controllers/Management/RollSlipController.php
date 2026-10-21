@@ -82,17 +82,56 @@ class RollSlipController extends Controller
         return view('roll-slips', compact('rollSlips', 'currentUser', 'classes'));
     }
 
-    public function create()
+    public function create(Request $request)
     {
         $this->ensureAuthenticated();
 
-        $subjects = Subject::query()->orderBy('subject_name')->get(['id', 'subject_name']);
+        // Get unique classes registered in the system
+        $classes = Classes::query()
+            ->whereNotNull('class_name')
+            ->where('class_name', '!=', '')
+            ->orderBy('class_no')
+            ->orderBy('class_name')
+            ->get()
+            ->unique(fn ($c) => strtolower(trim($c->class_name)))
+            ->values();
+
+        $selectedClass = trim((string) $request->query('class', ''));
+        if ($selectedClass === '' && $classes->isNotEmpty()) {
+            $selectedClass = $classes->first()->class_name;
+        }
+
+        $subjectsQuery = Subject::query()->orderBy('subject_name');
+        if ($selectedClass !== '' && strtolower($selectedClass) !== 'all') {
+            $subjectsQuery->whereRaw('LOWER(TRIM(class_name)) = ?', [strtolower($selectedClass)]);
+        }
+
+        // Dedup by subject_name so a subject never repeats
+        $subjects = $subjectsQuery->get(['id', 'subject_name', 'class_name', 'section_name'])
+            ->unique(fn ($s) => strtolower(trim($s->subject_name)))
+            ->values();
+
+        // All subjects map per class for instant client-side switching without page reload
+        $allClassSubjects = Subject::query()
+            ->orderBy('subject_name')
+            ->get(['id', 'subject_name', 'class_name'])
+            ->groupBy(fn ($s) => strtolower(trim((string) $s->class_name)))
+            ->map(fn ($group) => $group->unique(fn ($s) => strtolower(trim($s->subject_name)))->values());
+
         $arrangementCount = Arrangement::count();
         $issuedArrangementIds = RollSlip::query()->whereNotNull('arrangement_id')->pluck('arrangement_id');
         $availableArrangementCount = Arrangement::query()->whereNotIn('id', $issuedArrangementIds)->count();
         $currentUser = User::find(session('user_id'));
 
-        return view('issue-roll-slips', compact('subjects', 'arrangementCount', 'availableArrangementCount', 'currentUser'));
+        return view('issue-roll-slips', compact(
+            'classes',
+            'selectedClass',
+            'subjects',
+            'allClassSubjects',
+            'arrangementCount',
+            'availableArrangementCount',
+            'currentUser'
+        ));
     }
 
     public function store(Request $request)
@@ -100,6 +139,7 @@ class RollSlipController extends Controller
         $this->ensureAuthenticated();
 
         $validated = $request->validate([
+            'class_name' => ['nullable', 'string', 'max:100'],
             'exam_name' => ['required', 'string', 'max:150'],
             'exam_session' => ['nullable', 'string', 'max:100'],
             'schedules' => ['required', 'array', 'min:1'],
@@ -144,10 +184,17 @@ class RollSlipController extends Controller
             })
             ->sortBy('exam_date')
             ->values();
-        $studentsByStdId = Student::query()
-            ->whereIn('std_id', $arrangements->pluck('roll_no')->map(fn ($rollNo) => (int) $rollNo))
-            ->get()
-            ->keyBy('std_id');
+
+        $selectedClass = trim((string) ($validated['class_name'] ?? ''));
+
+        $studentsQuery = Student::query()
+            ->whereIn('std_id', $arrangements->pluck('roll_no')->map(fn ($rollNo) => (int) $rollNo));
+
+        if ($selectedClass !== '' && strtolower($selectedClass) !== 'all') {
+            $studentsQuery->whereRaw('LOWER(TRIM(class)) = ?', [strtolower($selectedClass)]);
+        }
+
+        $studentsByStdId = $studentsQuery->get()->keyBy('std_id');
 
         $slipRows = [];
         foreach ($arrangements as $arrangement) {
@@ -167,8 +214,12 @@ class RollSlipController extends Controller
         }
 
         if (empty($slipRows)) {
+            $msg = ($selectedClass !== '' && strtolower($selectedClass) !== 'all')
+                ? "No unissued student desk arrangement found for Class '{$selectedClass}'. Make sure students of this class have arrangements generated."
+                : 'No arranged student could be matched with a Std. ID.';
+
             return redirect('issue-roll-slips')->withErrors([
-                'exam_name' => 'No arranged student could be matched with a Std. ID.',
+                'exam_name' => $msg,
             ])->withInput();
         }
 
@@ -176,7 +227,7 @@ class RollSlipController extends Controller
             $exam = Exam::create([
                 'name' => $validated['exam_name'],
                 'session' => $validated['exam_session'] ?? null,
-                'user_id' => session('user_id'),
+                'user_id' => session('user_id') ?? auth()->id() ?? \App\Models\User::where('role_id', 1)->value('id') ?? 1,
             ]);
 
             $exam->schedules()->createMany($scheduleRows->all());
@@ -193,7 +244,7 @@ class RollSlipController extends Controller
                     'room_no' => $row['arrangement']->room,
                     'chair_no' => $row['arrangement']->chairs,
                     'datesheet' => $row['datesheet'],
-                    'issued_by' => session('user_id'),
+                    'issued_by' => session('user_id') ?? auth()->id() ?? \App\Models\User::where('role_id', 1)->value('id') ?? 1,
                 ]);
             }
         });

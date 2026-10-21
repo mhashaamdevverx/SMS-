@@ -70,9 +70,9 @@
 
                     <fieldset class="login-role-switch">
                         <legend>Sign in as</legend>
-                        <label><input type="radio" name="account_type" value="student" @checked(old('account_type', 'student') === 'student')><span><i class="bi bi-mortarboard-fill" aria-hidden="true"></i> Student</span></label>
-                        <label><input type="radio" name="account_type" value="teacher" @checked(old('account_type') === 'teacher')><span><i class="bi bi-person-badge-fill" aria-hidden="true"></i> Teacher</span></label>
-                        <label><input type="radio" name="account_type" value="admin" @checked(old('account_type') === 'admin')><span><i class="bi bi-shield-lock-fill" aria-hidden="true"></i> Admin</span></label>
+                        <label><input type="radio" name="account_type" value="student" @checked(old('account_type', request('account_type', 'student')) === 'student')><span><i class="bi bi-mortarboard-fill" aria-hidden="true"></i> Student</span></label>
+                        <label><input type="radio" name="account_type" value="teacher" @checked(old('account_type', request('account_type')) === 'teacher')><span><i class="bi bi-person-badge-fill" aria-hidden="true"></i> Teacher</span></label>
+                        <label><input type="radio" name="account_type" value="admin" @checked(old('account_type', request('account_type')) === 'admin')><span><i class="bi bi-shield-lock-fill" aria-hidden="true"></i> Admin</span></label>
                     </fieldset>
 
                     <!-- EMAIL INPUT -->
