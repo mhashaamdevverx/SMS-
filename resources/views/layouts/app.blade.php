@@ -13,8 +13,8 @@
 
     <title>Excellence School System</title>
 
-    <link rel="icon" type="image/png" href="{{ asset('upload/Logo.png') }}">
-    <link rel="apple-touch-icon" href="{{ asset('upload/Logo.png') }}">
+    <link rel="icon" type="image/png" href="{{ asset('images/school_logo.png') }}">
+    <link rel="apple-touch-icon" href="{{ asset('images/school_logo.png') }}">
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">

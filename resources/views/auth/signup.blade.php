@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up - Excellence School System</title>
 
-    <link rel="icon" type="image/png" href="{{ asset('upload/Logo.png') }}">
-    <link rel="apple-touch-icon" href="{{ asset('upload/Logo.png') }}">
+    <link rel="icon" type="image/png" href="{{ asset('images/school_logo.png') }}">
+    <link rel="apple-touch-icon" href="{{ asset('images/school_logo.png') }}">
 
     <link rel="stylesheet" href="{{ asset('css/global.css') }}">
     <link rel="stylesheet" href="{{ asset('css/signup.css') }}">
@@ -29,7 +29,7 @@
 
                 <div class="signup-header-area">
                     <div class="akm-logo-container">
-                        <img src="{{ asset('upload/Logo.png') }}" alt="Excellence School System Logo" class="akm-logo-img">
+                        <img src="{{ asset('images/school_logo.png') }}" alt="Excellence School System Logo" class="akm-logo-img">
                     </div>
                     <h1>Excellence School System</h1>
                     <p>Request teacher portal access. The administrator must approve your account and send your temporary sign-in details.</p>

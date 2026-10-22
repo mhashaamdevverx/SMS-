@@ -8,6 +8,8 @@ use App\Models\User;
 use App\Models\Teacher;
 use App\Models\Student;
 use App\Models\Classes;
+use App\Models\AdmissionApplication;
+use App\Models\CareerApplication;
 use App\Models\Section;
 use App\Models\Subject;
 use App\Models\Course;
@@ -93,6 +95,8 @@ class AdminPortalController extends Controller
         $pendingTeacherLeavesCount = TeacherLeave::whereIn('status', ['Pending', 'pending'])->count();
         $pendingLeavesCount = $pendingStudentLeavesCount + $pendingTeacherLeavesCount;
         $pendingAccessRequestsCount = TeacherAccessRequest::where('status', 'pending')->count();
+        $pendingAdmissionsCount = AdmissionApplication::where('status', 'pending')->count();
+        $pendingCareersCount = CareerApplication::where('status', 'pending')->count();
 
         $data = [
             'currentUser' => $currentUser,
@@ -101,6 +105,8 @@ class AdminPortalController extends Controller
             'pendingTeacherLeavesCount' => $pendingTeacherLeavesCount,
             'pendingLeavesCount' => $pendingLeavesCount,
             'pendingAccessRequestsCount' => $pendingAccessRequestsCount,
+            'pendingAdmissionsCount' => $pendingAdmissionsCount,
+            'pendingCareersCount' => $pendingCareersCount,
         ];
 
         switch ($page) {
@@ -382,6 +388,77 @@ class AdminPortalController extends Controller
                 $data['users'] = User::with('role')->latest('id')->paginate(10)->withQueryString();
                 $data['roles'] = Role::get();
                 break;
+
+            case 'admissions':
+                // Admissions Applications Management
+                $query = AdmissionApplication::query()->latest('id');
+
+                if ($request->filled('search')) {
+                    $search = trim($request->input('search'));
+                    $query->where(function ($q) use ($search) {
+                        $q->where('student_name', 'like', "%{$search}%")
+                          ->orWhere('guardian_name', 'like', "%{$search}%")
+                          ->orWhere('student_bform', 'like', "%{$search}%")
+                          ->orWhere('guardian_cnic', 'like', "%{$search}%")
+                          ->orWhere('guardian_phone', 'like', "%{$search}%")
+                          ->orWhere('application_no', 'like', "%{$search}%");
+                    });
+                }
+
+                if ($request->filled('status')) {
+                    $query->where('status', $request->input('status'));
+                }
+
+                if ($request->filled('grade')) {
+                    $query->where('grade_applied', $request->input('grade'));
+                }
+
+                $data['applications'] = $query->paginate(15)->withQueryString();
+                $data['totalAdmissionsCount'] = AdmissionApplication::count();
+                $data['pendingAdmissionsCount'] = AdmissionApplication::where('status', 'pending')->count();
+                $data['contactedAdmissionsCount'] = AdmissionApplication::where('status', 'contacted')->count();
+                $data['approvedAdmissionsCount'] = AdmissionApplication::where('status', 'approved')->count();
+                $data['rejectedAdmissionsCount'] = AdmissionApplication::where('status', 'rejected')->count();
+                break;
+            case 'careers':
+                // Career & Faculty Applications Management
+                $query = CareerApplication::query()->latest('id');
+
+                if ($request->filled('search')) {
+                    $search = trim($request->input('search'));
+                    $query->where(function ($q) use ($search) {
+                        $q->where('full_name', 'like', "%{$search}%")
+                          ->orWhere('email', 'like', "%{$search}%")
+                          ->orWhere('phone', 'like', "%{$search}%")
+                          ->orWhere('cnic', 'like', "%{$search}%")
+                          ->orWhere('job_title', 'like', "%{$search}%")
+                          ->orWhere('application_no', 'like', "%{$search}%")
+                          ->orWhere('institute', 'like', "%{$search}%")
+                          ->orWhere('degree_title', 'like', "%{$search}%");
+                    });
+                }
+
+                if ($request->filled('status')) {
+                    $query->where('status', $request->input('status'));
+                }
+
+                if ($request->filled('wing')) {
+                    $query->where('wing', $request->input('wing'));
+                }
+
+                if ($request->filled('has_relative')) {
+                    $query->where('has_relative', $request->input('has_relative') === 'yes' ? 1 : 0);
+                }
+
+                $data['applications'] = $query->paginate(15)->withQueryString();
+                $data['totalCareersCount'] = CareerApplication::count();
+                $data['pendingCareersCount'] = CareerApplication::where('status', 'pending')->count();
+                $data['shortlistedCareersCount'] = CareerApplication::where('status', 'shortlisted')->count();
+                $data['interviewedCareersCount'] = CareerApplication::where('status', 'interviewed')->count();
+                $data['hiredCareersCount'] = CareerApplication::where('status', 'hired')->count();
+                $data['rejectedCareersCount'] = CareerApplication::where('status', 'rejected')->count();
+                break;
+
         }
 
         return view('admin.portal', $data);
@@ -751,5 +828,73 @@ class AdminPortalController extends Controller
         ]);
 
         return back()->with('success', 'Password updated successfully!');
+    }
+
+    // ==========================================
+    // ADMISSION APPLICATION ACTIONS
+    // ==========================================
+
+    public function updateAdmissionStatus(Request $request, $id)
+    {
+        $app = AdmissionApplication::findOrFail($id);
+        $currentUser = $this->getAdminUser();
+
+        $validated = $request->validate([
+            'status'      => 'required|in:pending,contacted,approved,rejected',
+            'admin_notes' => 'nullable|string|max:1000',
+        ]);
+
+        $app->status = $validated['status'];
+        if (isset($validated['admin_notes'])) {
+            $app->admin_notes = $validated['admin_notes'];
+        }
+        $app->reviewed_by = $currentUser ? $currentUser->id : session('user_id');
+        $app->reviewed_at = now();
+        $app->save();
+
+        return back()->with('success', "Application #{$app->application_no} ({$app->student_name}) status updated to " . ucfirst($app->status) . ".");
+    }
+
+    public function deleteAdmissionApplication($id)
+    {
+        $app = AdmissionApplication::findOrFail($id);
+        $appNo = $app->application_no;
+        $app->delete();
+
+        return back()->with('success', "Admission Application #{$appNo} has been deleted.");
+    }
+
+    // ==========================================
+    // CAREER APPLICATION ACTIONS
+    // ==========================================
+
+    public function updateCareerStatus(Request $request, $id)
+    {
+        $app = CareerApplication::findOrFail($id);
+        $currentUser = $this->getAdminUser();
+
+        $validated = $request->validate([
+            'status'      => 'required|in:pending,shortlisted,interviewed,hired,rejected',
+            'admin_notes' => 'nullable|string|max:1000',
+        ]);
+
+        $app->status = $validated['status'];
+        if ($request->has('admin_notes')) {
+            $app->admin_notes = $validated['admin_notes'];
+        }
+        $app->reviewed_by = $currentUser ? $currentUser->id : session('user_id');
+        $app->reviewed_at = now();
+        $app->save();
+
+        return back()->with('success', "Application #{$app->application_no} ({$app->full_name}) status updated to " . ucfirst($app->status) . ".");
+    }
+
+    public function deleteCareerApplication($id)
+    {
+        $app = CareerApplication::findOrFail($id);
+        $appNo = $app->application_no;
+        $app->delete();
+
+        return back()->with('success', "Career Application #{$appNo} has been deleted.");
     }
 }

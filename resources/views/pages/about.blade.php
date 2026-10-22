@@ -58,32 +58,54 @@
     </div>
 </section>
 
-<!-- Key Milestones Stats -->
-<section class="py-5" style="background: linear-gradient(135deg, #1E1B4B 0%, #312E81 100%); color: #FFF;">
-    <div class="container py-3">
+<!-- Key Milestones Stats (With Smooth Count-Up Number Animations) -->
+<section class="py-5 about-stats-section" id="milestonesStatsSection">
+    <div class="stats-bg-orb orb-1"></div>
+    <div class="stats-bg-orb orb-2"></div>
+    <div class="container py-3 position-relative" style="z-index: 5;">
         <div class="row g-4 text-center">
             <div class="col-6 col-md-3">
-                <div class="p-3">
-                    <div class="display-5 fw-bold text-warning mb-1">{{ number_format($totalStudents ?? 2500) }}+</div>
-                    <div class="text-uppercase fw-semibold" style="letter-spacing: 0.05em; font-size: 13px; color: #C7D2FE;">Students Enrolled</div>
+                <div class="stat-counter-card p-3">
+                    <div class="display-5 fw-bold text-warning mb-1 stat-counter-val" 
+                         data-target="{{ $totalStudents ?? 2500 }}" 
+                         data-suffix="+" 
+                         data-decimals="0">
+                        0+
+                    </div>
+                    <div class="text-uppercase fw-semibold stat-label">Students Enrolled</div>
                 </div>
             </div>
             <div class="col-6 col-md-3">
-                <div class="p-3">
-                    <div class="display-5 fw-bold text-warning mb-1">{{ $totalTeachers ?? 120 }}+</div>
-                    <div class="text-uppercase fw-semibold" style="letter-spacing: 0.05em; font-size: 13px; color: #C7D2FE;">Certified Faculty</div>
+                <div class="stat-counter-card p-3">
+                    <div class="display-5 fw-bold text-warning mb-1 stat-counter-val" 
+                         data-target="{{ $totalTeachers ?? 120 }}" 
+                         data-suffix="+" 
+                         data-decimals="0">
+                        0+
+                    </div>
+                    <div class="text-uppercase fw-semibold stat-label">Certified Faculty</div>
                 </div>
             </div>
             <div class="col-6 col-md-3">
-                <div class="p-3">
-                    <div class="display-5 fw-bold text-warning mb-1">99.8%</div>
-                    <div class="text-uppercase fw-semibold" style="letter-spacing: 0.05em; font-size: 13px; color: #C7D2FE;">Board Distinction</div>
+                <div class="stat-counter-card p-3">
+                    <div class="display-5 fw-bold text-warning mb-1 stat-counter-val" 
+                         data-target="99.8" 
+                         data-suffix="%" 
+                         data-decimals="1">
+                        0.0%
+                    </div>
+                    <div class="text-uppercase fw-semibold stat-label">Board Distinction</div>
                 </div>
             </div>
             <div class="col-6 col-md-3">
-                <div class="p-3">
-                    <div class="display-5 fw-bold text-warning mb-1">15+</div>
-                    <div class="text-uppercase fw-semibold" style="letter-spacing: 0.05em; font-size: 13px; color: #C7D2FE;">Years of Excellence</div>
+                <div class="stat-counter-card p-3">
+                    <div class="display-5 fw-bold text-warning mb-1 stat-counter-val" 
+                         data-target="15" 
+                         data-suffix="+" 
+                         data-decimals="0">
+                        0+
+                    </div>
+                    <div class="text-uppercase fw-semibold stat-label">Years of Excellence</div>
                 </div>
             </div>
         </div>
@@ -136,3 +158,166 @@
     </div>
 </section>
 @endsection
+
+@push('styles')
+<style>
+    .about-stats-section {
+        background: linear-gradient(135deg, #1E1B4B 0%, #312E81 100%);
+        color: #FFFFFF;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .about-stats-section::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-image: radial-gradient(rgba(255, 255, 255, 0.15) 1px, transparent 1px);
+        background-size: 28px 28px;
+        opacity: 0.35;
+        pointer-events: none;
+    }
+
+    .stats-bg-orb {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(80px);
+        pointer-events: none;
+        opacity: 0.3;
+    }
+
+    .stats-bg-orb.orb-1 {
+        width: 300px;
+        height: 300px;
+        background: #4F46E5;
+        top: -60px;
+        left: 5%;
+    }
+
+    .stats-bg-orb.orb-2 {
+        width: 260px;
+        height: 260px;
+        background: #F59E0B;
+        bottom: -50px;
+        right: 8%;
+    }
+
+    .stat-counter-card {
+        border-radius: 18px;
+        transition: transform 0.3s ease, background 0.3s ease;
+        position: relative;
+    }
+
+    .stat-counter-card:hover {
+        transform: translateY(-4px);
+        background: rgba(255, 255, 255, 0.05);
+    }
+
+    .stat-counter-val {
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        font-feature-settings: "tnum";
+        font-variant-numeric: tabular-nums;
+        letter-spacing: -0.02em;
+        text-shadow: 0 4px 20px rgba(245, 158, 11, 0.25);
+        color: #FBBF24 !important;
+        transition: transform 0.2s ease;
+    }
+
+    .stat-counter-val.is-counting {
+        will-change: contents;
+    }
+
+    .stat-label {
+        letter-spacing: 0.06em;
+        font-size: 13px;
+        color: #C7D2FE;
+    }
+</style>
+@endpush
+
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const section = document.getElementById('milestonesStatsSection');
+    const counters = document.querySelectorAll('.stat-counter-val');
+    if (!section || !counters.length) return;
+
+    let hasAnimated = false;
+
+    // EaseOutExpo: Fast start with buttery-smooth exponential deceleration
+    function easeOutExpo(t) {
+        return t === 1 ? 1 : 1 - Math.pow(2, -10 * t);
+    }
+
+    function animateCounters() {
+        if (hasAnimated) return;
+        hasAnimated = true;
+
+        const duration = 2200; // 2.2 seconds animation
+        const startTime = performance.now();
+
+        counters.forEach(counter => {
+            counter.classList.add('is-counting');
+        });
+
+        function step(now) {
+            const elapsed = now - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            const easedProgress = easeOutExpo(progress);
+
+            counters.forEach(counter => {
+                const target = parseFloat(counter.getAttribute('data-target')) || 0;
+                const suffix = counter.getAttribute('data-suffix') || '';
+                const decimals = parseInt(counter.getAttribute('data-decimals'), 10) || 0;
+
+                const currentVal = easedProgress * target;
+
+                if (decimals > 0) {
+                    counter.textContent = currentVal.toFixed(decimals) + suffix;
+                } else {
+                    counter.textContent = Math.floor(currentVal).toLocaleString('en-US') + suffix;
+                }
+            });
+
+            if (progress < 1) {
+                requestAnimationFrame(step);
+            } else {
+                // Ensure exact final formatted value is displayed
+                counters.forEach(counter => {
+                    const target = parseFloat(counter.getAttribute('data-target')) || 0;
+                    const suffix = counter.getAttribute('data-suffix') || '';
+                    const decimals = parseInt(counter.getAttribute('data-decimals'), 10) || 0;
+
+                    if (decimals > 0) {
+                        counter.textContent = target.toFixed(decimals) + suffix;
+                    } else {
+                        counter.textContent = target.toLocaleString('en-US') + suffix;
+                    }
+                    counter.classList.remove('is-counting');
+                });
+            }
+        }
+
+        requestAnimationFrame(step);
+    }
+
+    // Trigger when section comes into view
+    if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateCounters();
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.25,
+            rootMargin: '0px 0px -40px 0px'
+        });
+        observer.observe(section);
+    } else {
+        animateCounters();
+    }
+});
+</script>
+@endpush

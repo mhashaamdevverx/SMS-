@@ -1,4 +1,4 @@
-<!-- =========================================================================
+﻿<!-- =========================================================================
      FOOTER (IDENTICAL DESIGN LANGUAGE AS ADMIN PORTAL)
      ========================================================================= -->
 <footer class="landing-footer">
@@ -28,12 +28,12 @@
                 <ul class="footer-links">
                     <li><a href="{{ route('home') }}"><i class="bi bi-chevron-right me-1 text-primary"></i> Home</a></li>
                     <li><a href="{{ route('about') }}"><i class="bi bi-chevron-right me-1 text-primary"></i> About Our Legacy</a></li>
-                    <li><a href="{{ route('why.choose.us') }}" class="text-warning fw-bold"><i class="bi bi-star-fill me-1 text-warning"></i> Why Choose Us</a></li>
+                    <li><a href="{{ route('why.choose.us') }}" class="fw-bold" style="color: #818CF8;"><i class="bi bi-star-fill me-1 text-primary"></i> Why Choose Us</a></li>
                     <li><a href="{{ route('academics') }}"><i class="bi bi-chevron-right me-1 text-primary"></i> Academic Wings</a></li>
                     <li><a href="{{ route('admissions') }}"><i class="bi bi-chevron-right me-1 text-primary"></i> Admissions {{ $academicSession ?? '2026-2027' }}</a></li>
                     <li><a href="{{ route('careers') }}"><i class="bi bi-chevron-right me-1 text-primary"></i> Career Openings</a></li>
                     <li><a href="{{ route('contact') }}"><i class="bi bi-chevron-right me-1 text-primary"></i> Contact Campus</a></li>
-                    <li><a href="{{ route('support') }}" class="text-info fw-bold"><i class="bi bi-headset me-1 text-info"></i> Help Desk & Support</a></li>
+                    <li><a href="{{ route('support') }}" class="fw-bold" style="color: #818CF8;"><i class="bi bi-headset me-1 text-primary"></i> Help Desk & Support</a></li>
                 </ul>
             </div>
 
@@ -62,7 +62,7 @@
                 <p style="font-size: 13.5px; color: #94A3B8; margin-bottom: 16px;">
                     <i class="bi bi-envelope-fill text-primary me-2"></i> info@excellenceschool.edu.pk
                 </p>
-                <a href="{{ route('login') }}" class="btn btn-sm btn-outline-light w-100 fw-bold py-2" style="border-radius: 10px; border-color: rgba(255,255,255,0.25);">
+                <a href="{{ route('login') }}" class="btn btn-sm btn-outline-light w-100 fw-bold py-2" class="btn-roots-apply w-100 justify-content-center">
                     <i class="bi bi-box-arrow-in-right me-2"></i> Sign In to Academic Portal
                 </a>
             </div>

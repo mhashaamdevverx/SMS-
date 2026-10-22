@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Help Desk & Support Center - Excellence School System</title>
 
-    <link rel="icon" type="image/png" href="{{ asset('upload/Logo.png') }}">
-    <link rel="apple-touch-icon" href="{{ asset('upload/Logo.png') }}">
+    <link rel="icon" type="image/png" href="{{ asset('images/school_logo.png') }}">
+    <link rel="apple-touch-icon" href="{{ asset('images/school_logo.png') }}">
 
     <!-- Google Fonts & Bootstrap Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -926,7 +926,7 @@
         <div class="header-inner">
             <a href="{{ route('login') }}" class="brand-link" title="Return to Portal">
                 <div class="brand-logo-wrap">
-                    <img src="{{ asset('upload/Logo.png') }}" alt="Excellence School System Logo">
+                    <img src="{{ asset('images/school_logo.png') }}" alt="Excellence School System Logo">
                 </div>
                 <div class="brand-text">
                     <h1>Excellence School System</h1>

@@ -6,7 +6,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Admin & Head Management Portal | Excellence School System</title>
     
-    <link rel="icon" type="image/png" href="{{ asset('upload/Logo.png') }}">
+    <link rel="icon" type="image/png" href="{{ asset('images/school_logo.png') }}">
     
     <!-- Google Fonts: Plus Jakarta Sans & Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -32,7 +32,7 @@
         <!-- Top Brand Header with Collapse Toggle Button -->
         <div class="admin-brand-header">
             <a class="student-brand admin-brand" href="{{ route('admin.dashboard') }}">
-                <div class="brand-badge">ESS</div>
+                <img src="{{ asset('images/school_logo.png') }}" alt="Excellence School System" class="admin-brand-logo-img" style="height: 44px; width: 44px; object-fit: contain; flex-shrink: 0; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.3));">
                 <div class="brand-text">
                     <b>Excellence School System</b>
                     <small class="brand-subtitle">Admin Portal</small>
@@ -63,7 +63,27 @@
                     <i class="bi {{ $item[1] }}"></i>
                     <span>{{ $item[0] }}</span>
                     @if($key === 'leaves' && isset($pendingLeavesCount) && $pendingLeavesCount > 0)
-                        <span class="nav-badge-pill" style="background: #EF4444; color: #fff; font-size: 10px; font-weight: 800; padding: 2px 7px; border-radius: 99px; margin-left: auto;">{{ $pendingLeavesCount }}</span>
+                        <span class="nav-badge-pill" style="background: #EF4444; color: #fff;">{{ $pendingLeavesCount }}</span>
+                    @endif
+                </a>
+            @endforeach
+
+            <p class="student-menu-label admin-menu-label" style="margin-top: 14px;">APPLICATIONS</p>
+            @php
+            $appsMenu = [
+                'admissions' => ['Admission Applications', 'bi-file-earmark-person-fill'],
+                'careers' => ['Career Applications', 'bi-briefcase-fill'],
+            ];
+            @endphp
+            @foreach($appsMenu as $key => $item)
+                <a href="{{ route('admin.page', $key) }}" class="{{ $currentPageName === $key ? 'is-active' : '' }}">
+                    <i class="bi {{ $item[1] }}"></i>
+                    <span>{{ $item[0] }}</span>
+                    @if($key === 'admissions' && isset($pendingAdmissionsCount) && $pendingAdmissionsCount > 0)
+                        <span class="nav-badge-pill" style="background: #EF4444; color: #fff;">{{ $pendingAdmissionsCount }}</span>
+                    @endif
+                    @if($key === 'careers' && isset($pendingCareersCount) && $pendingCareersCount > 0)
+                        <span class="nav-badge-pill" style="background: #EF4444; color: #fff;">{{ $pendingCareersCount }}</span>
                     @endif
                 </a>
             @endforeach
@@ -80,7 +100,7 @@
                     <i class="bi {{ $item[1] }}"></i>
                     <span>{{ $item[0] }}</span>
                     @if($key === 'roles' && isset($pendingAccessRequestsCount) && $pendingAccessRequestsCount > 0)
-                        <span class="nav-badge-pill" style="background: #F59E0B; color: #fff; font-size: 10px; font-weight: 800; padding: 2px 7px; border-radius: 99px; margin-left: auto;">{{ $pendingAccessRequestsCount }}</span>
+                        <span class="nav-badge-pill" style="background: #F59E0B; color: #fff;">{{ $pendingAccessRequestsCount }}</span>
                     @endif
                 </a>
             @endforeach

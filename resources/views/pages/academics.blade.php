@@ -3,112 +3,403 @@
 @section('title', 'Academic Wings & Curriculum - Excellence School System')
 
 @section('content')
-<!-- Page Banner Header -->
-<section class="page-banner text-center">
-    <div class="container">
-        <span class="page-banner-tag"><i class="bi bi-book-half me-1"></i> Academic Excellence</span>
-        <h1 class="page-banner-title">World-Class Academic Programs</h1>
-        <p class="page-banner-sub">
-            From sensory discovery in early years to rigorous board preparation and STEM robotics, our programs inspire critical inquiry, innovation, and ethical leadership.
-        </p>
+<!-- FULL-WIDTH 3-SECOND HERO IMAGE SLIDER -->
+<section class="position-relative overflow-hidden w-100 p-0 m-0">
+    <div id="academicCampusCarousel" class="carousel slide carousel-fade position-relative" data-bs-ride="carousel" data-bs-interval="3000" data-bs-pause="false">
+        <!-- Carousel Indicators -->
+        <div class="carousel-indicators mb-4">
+            <button type="button" data-bs-target="#academicCampusCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#academicCampusCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#academicCampusCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            <button type="button" data-bs-target="#academicCampusCarousel" data-bs-slide-to="3" aria-label="Slide 4"></button>
+        </div>
+
+        <!-- Carousel Items -->
+        <div class="carousel-inner">
+            <!-- Slide 1: Main Campus & Collegiate Architecture -->
+            <div class="carousel-item active" data-bs-interval="3000">
+                <div class="carousel-img-wrapper position-relative">
+                    <img src="{{ asset('images/landing_hero.jpg') }}" class="d-block w-100 carousel-slide-img" alt="Main Academic Campus">
+                    <div class="carousel-overlay position-absolute top-0 start-0 w-100 h-100 d-flex align-items-end p-4 p-md-5">
+                        <div class="container pb-2">
+                            <div class="glass-caption p-4 rounded-4 text-white" style="max-width: 680px;">
+                                <span class="badge px-3 py-1 rounded-pill bg-primary fw-bold mb-2 shadow-sm" style="font-size: 11px; letter-spacing: 0.05em;">ACADEMIC EXCELLENCE &bull; SESSION 2026-2027</span>
+                                <h2 class="fw-bold mb-2 text-white" style="font-size: clamp(1.4rem, 2.6vw, 2.1rem); letter-spacing: -0.01em;">World-Class Academic Programs & Campus</h2>
+                                <p class="mb-0 text-white-50 small" style="line-height: 1.6;">From sensory discovery in early childhood to FBISE board mastery and STEM robotics, our programs inspire critical inquiry and leadership.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 2: STEM & Robotics Innovation Lab -->
+            <div class="carousel-item" data-bs-interval="3000">
+                <div class="carousel-img-wrapper position-relative">
+                    <img src="{{ asset('images/academic_stem_lab.jpg') }}" class="d-block w-100 carousel-slide-img" alt="STEM & Robotics Innovation Lab">
+                    <div class="carousel-overlay position-absolute top-0 start-0 w-100 h-100 d-flex align-items-end p-4 p-md-5">
+                        <div class="container pb-2">
+                            <div class="glass-caption p-4 rounded-4 text-white" style="max-width: 680px;">
+                                <span class="badge px-3 py-1 rounded-pill bg-info text-dark fw-bold mb-2 shadow-sm" style="font-size: 11px; letter-spacing: 0.05em;">ROBOTICS & STEM LAB</span>
+                                <h2 class="fw-bold mb-2 text-white" style="font-size: clamp(1.4rem, 2.6vw, 2.1rem); letter-spacing: -0.01em;">Hands-On Robotics & Applied Sciences</h2>
+                                <p class="mb-0 text-white-50 small" style="line-height: 1.6;">3D printing, Arduino automation, and Python programming workshops empowering tomorrow's tech innovators.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 3: Two-Story Central Academic Library -->
+            <div class="carousel-item" data-bs-interval="3000">
+                <div class="carousel-img-wrapper position-relative">
+                    <img src="{{ asset('images/academic_library.jpg') }}" class="d-block w-100 carousel-slide-img" alt="Central Academic Library">
+                    <div class="carousel-overlay position-absolute top-0 start-0 w-100 h-100 d-flex align-items-end p-4 p-md-5">
+                        <div class="container pb-2">
+                            <div class="glass-caption p-4 rounded-4 text-white" style="max-width: 680px;">
+                                <span class="badge px-3 py-1 rounded-pill bg-warning text-dark fw-bold mb-2 shadow-sm" style="font-size: 11px; letter-spacing: 0.05em;">CENTRAL LIBRARY</span>
+                                <h2 class="fw-bold mb-2 text-white" style="font-size: clamp(1.4rem, 2.6vw, 2.1rem); letter-spacing: -0.01em;">Over 15,000 Academic Titles & Quiet Pods</h2>
+                                <p class="mb-0 text-white-50 small" style="line-height: 1.6;">Two-story naturally lit reading hall with digital JSTOR access, international journals, and collaborative study desks.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 4: Science Exploration Laboratories -->
+            <div class="carousel-item" data-bs-interval="3000">
+                <div class="carousel-img-wrapper position-relative">
+                    <img src="{{ asset('images/stem_lab.jpg') }}" class="d-block w-100 carousel-slide-img" alt="Advanced Physics and Chemistry Labs">
+                    <div class="carousel-overlay position-absolute top-0 start-0 w-100 h-100 d-flex align-items-end p-4 p-md-5">
+                        <div class="container pb-2">
+                            <div class="glass-caption p-4 rounded-4 text-white" style="max-width: 680px;">
+                                <span class="badge px-3 py-1 rounded-pill bg-success fw-bold mb-2 shadow-sm" style="font-size: 11px; letter-spacing: 0.05em;">SCIENTIFIC RESEARCH</span>
+                                <h2 class="fw-bold mb-2 text-white" style="font-size: clamp(1.4rem, 2.6vw, 2.1rem); letter-spacing: -0.01em;">Rigorous Science & Analytical Equipment</h2>
+                                <p class="mb-0 text-white-50 small" style="line-height: 1.6;">Complete FBISE and Cambridge O/A-level experimental apparatus with fume hoods, optics kits, and digital sensor probes.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Controls -->
+        <button class="carousel-control-prev" type="button" data-bs-target="#academicCampusCarousel" data-bs-slide="prev">
+            <span class="carousel-nav-btn"><i class="bi bi-chevron-left"></i></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#academicCampusCarousel" data-bs-slide="next">
+            <span class="carousel-nav-btn"><i class="bi bi-chevron-right"></i></span>
+            <span class="visually-hidden">Next</span>
+        </button>
     </div>
 </section>
 
-<!-- Academic Wings Tabs / Sections -->
+<!-- ============================================================== -->
+<!-- ACADEMIC WINGS SECTIONS                                        -->
+<!-- ============================================================== -->
 <section class="py-5 bg-white">
-    <div class="container py-4">
-        <!-- Wing 1: Early Childhood -->
-        <div class="row g-5 align-items-center mb-5 pb-5 border-bottom" id="preschool">
+    <div class="container py-3">
+
+        <!-- WING 1: EARLY CHILDHOOD DEVELOPMENT WING (WITH EQUAL HEIGHT BOXES) -->
+        <div class="row g-5 align-items-center mb-5 pb-5 border-bottom wing-section" id="preschool">
             <div class="col-lg-6">
-                <span class="badge px-3 py-2 rounded-pill bg-warning-subtle text-warning fw-bold mb-3" style="font-size: 13px;">AGES 3 - 5 YEARS</span>
-                <h2 class="fw-bold mb-3" style="color: #0F172A; font-size: 32px;">Early Childhood Development Wing</h2>
-                <p class="text-muted mb-4" style="font-size: 16px; line-height: 1.8;">
+                <span class="badge px-3 py-2 rounded-pill bg-warning-subtle text-warning-emphasis fw-bold mb-3 shadow-2xs" style="font-size: 12.5px;">
+                    <i class="bi bi-stars me-1 text-warning"></i> AGES 3 - 5 YEARS
+                </span>
+                <h2 class="fw-bold mb-3 text-dark" style="font-size: clamp(1.8rem, 3vw, 2.2rem); letter-spacing: -0.02em;">
+                    Early Childhood Development Wing
+                </h2>
+                <p class="text-muted mb-4" style="font-size: 15.5px; line-height: 1.8;">
                     Our kindergarten and Montessori classrooms are rich sensory environments designed around curiosity, play, and foundational motor development.
                 </p>
+
+                <!-- EQUAL HEIGHT SUB-CARDS (FIXED EQUAL HEIGHT) -->
                 <div class="row g-3">
-                    <div class="col-sm-6">
-                        <div class="p-3 rounded-3 bg-light border">
-                            <h6 class="fw-bold text-dark mb-1"><i class="bi bi-music-note-beamed text-primary me-2"></i> Phonics & Rhymes</h6>
-                            <p class="small text-muted mb-0">Early literacy, expressive speech, and joyful reading habit.</p>
+                    <div class="col-sm-6 d-flex">
+                        <div class="p-3 rounded-4 bg-light border w-100 h-100 d-flex flex-column justify-content-between equal-box hover-lift">
+                            <div>
+                                <h6 class="fw-bold text-dark mb-2">
+                                    <i class="bi bi-music-note-beamed text-primary me-2"></i> Phonics & Rhymes
+                                </h6>
+                                <p class="small text-muted mb-0" style="line-height: 1.6;">
+                                    Early literacy, expressive speech, and joyful reading habit through multisensory phonics.
+                                </p>
+                            </div>
+                            <div class="mt-3 pt-2 border-top">
+                                <span class="badge bg-white text-primary border small fw-bold">Daily Sessions</span>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-sm-6">
-                        <div class="p-3 rounded-3 bg-light border">
-                            <h6 class="fw-bold text-dark mb-1"><i class="bi bi-puzzle-fill text-success me-2"></i> Motor Skills</h6>
-                            <p class="small text-muted mb-0">Fine motor coordination, Montessori sensory kits, and creative arts.</p>
+                    <div class="col-sm-6 d-flex">
+                        <div class="p-3 rounded-4 bg-light border w-100 h-100 d-flex flex-column justify-content-between equal-box hover-lift">
+                            <div>
+                                <h6 class="fw-bold text-dark mb-2">
+                                    <i class="bi bi-puzzle-fill text-success me-2"></i> Motor Skills
+                                </h6>
+                                <p class="small text-muted mb-0" style="line-height: 1.6;">
+                                    Fine motor coordination, Montessori sensory kits, and creative arts exploration.
+                                </p>
+                            </div>
+                            <div class="mt-3 pt-2 border-top">
+                                <span class="badge bg-white text-success border small fw-bold">Sensory Kits</span>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+
             <div class="col-lg-6">
-                <img src="{{ asset('images/landing_hero.jpg') }}" alt="Early Childhood Wing" class="img-fluid rounded-4 shadow border" style="width: 100%; height: 350px; object-fit: cover;">
+                <div class="img-zoom-card rounded-4 shadow-sm border overflow-hidden">
+                    <img src="{{ asset('images/landing_hero.jpg') }}" alt="Early Childhood Wing Campus" class="img-fluid w-100 wing-feature-img">
+                </div>
             </div>
         </div>
 
-        <!-- Wing 2: Primary Wing -->
-        <div class="row g-5 align-items-center mb-5 pb-5 border-bottom flex-lg-row-reverse" id="primary">
+        <!-- WING 2: PRIMARY SCHOOL INNOVATION WING -->
+        <div class="row g-5 align-items-center mb-5 pb-5 border-bottom flex-lg-row-reverse wing-section" id="primary">
             <div class="col-lg-6">
-                <span class="badge px-3 py-2 rounded-pill bg-primary-subtle text-primary fw-bold mb-3" style="font-size: 13px;">GRADES 1 - 5</span>
-                <h2 class="fw-bold mb-3" style="color: #0F172A; font-size: 32px;">Primary School Innovation Wing</h2>
-                <p class="text-muted mb-4" style="font-size: 16px; line-height: 1.8;">
+                <span class="badge px-3 py-2 rounded-pill bg-primary-subtle text-primary fw-bold mb-3 shadow-2xs" style="font-size: 12.5px;">
+                    <i class="bi bi-mortarboard-fill me-1 text-primary"></i> GRADES 1 - 5
+                </span>
+                <h2 class="fw-bold mb-3 text-dark" style="font-size: clamp(1.8rem, 3vw, 2.2rem); letter-spacing: -0.02em;">
+                    Primary School Innovation Wing
+                </h2>
+                <p class="text-muted mb-4" style="font-size: 15.5px; line-height: 1.8;">
                     Bridging foundational literacy into scientific inquiry, conceptual mathematics, bilingual communication (English & Urdu), and introductory coding.
                 </p>
-                <ul class="list-unstyled text-muted mb-4">
-                    <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> Experiential STEM activities & young coder challenges</li>
-                    <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> Mental math, daily mental exercises, and reading clubs</li>
-                    <li><i class="bi bi-check-circle-fill text-success me-2"></i> Character building, sports day, and debate society</li>
-                </ul>
+                <div class="d-flex flex-column gap-2 mb-4">
+                    <div class="d-flex align-items-center gap-2 text-dark small fw-semibold">
+                        <i class="bi bi-check-circle-fill text-success fs-5 flex-shrink-0"></i>
+                        <span>Experiential STEM activities & young coder challenges</span>
+                    </div>
+                    <div class="d-flex align-items-center gap-2 text-dark small fw-semibold">
+                        <i class="bi bi-check-circle-fill text-success fs-5 flex-shrink-0"></i>
+                        <span>Mental math exercises, reading clubs, and spelling bees</span>
+                    </div>
+                    <div class="d-flex align-items-center gap-2 text-dark small fw-semibold">
+                        <i class="bi bi-check-circle-fill text-success fs-5 flex-shrink-0"></i>
+                        <span>Character building, athletics day, and bilingual debate society</span>
+                    </div>
+                </div>
+                <a href="{{ route('admissions') }}" class="btn btn-outline-primary btn-sm px-4 py-2 rounded-pill fw-bold">
+                    Inquire for Primary Wing <i class="bi bi-arrow-right ms-1"></i>
+                </a>
             </div>
+
             <div class="col-lg-6">
-                <img src="{{ asset('images/stem_lab.jpg') }}" alt="Primary School STEM Lab" class="img-fluid rounded-4 shadow border" style="width: 100%; height: 350px; object-fit: cover;">
+                <div class="img-zoom-card rounded-4 shadow-sm border overflow-hidden">
+                    <img src="{{ asset('images/stem_lab.jpg') }}" alt="Primary School STEM Lab" class="img-fluid w-100 wing-feature-img">
+                </div>
             </div>
         </div>
 
-        <!-- Wing 3: Middle & Matriculation FBISE / Cambridge -->
-        <div class="row g-5 align-items-center" id="matric">
+        <!-- WING 3: SENIOR SCHOOL & BOARD PREP WING (WITH BRIGHT CRISP WHITE TEXT) -->
+        <div class="row g-5 align-items-center wing-section" id="matric">
             <div class="col-lg-6">
-                <span class="badge px-3 py-2 rounded-pill bg-success-subtle text-success fw-bold mb-3" style="font-size: 13px;">GRADES 6 - 10 / MATRICULATION</span>
-                <h2 class="fw-bold mb-3" style="color: #0F172A; font-size: 32px;">Senior School & Board Prep Wing</h2>
-                <p class="text-muted mb-4" style="font-size: 16px; line-height: 1.8;">
+                <span class="badge px-3 py-2 rounded-pill bg-success-subtle text-success fw-bold mb-3 shadow-2xs" style="font-size: 12.5px;">
+                    <i class="bi bi-award-fill me-1 text-success"></i> GRADES 6 - 10 / MATRICULATION & FBISE
+                </span>
+                <h2 class="fw-bold mb-3 text-dark" style="font-size: clamp(1.8rem, 3vw, 2.2rem); letter-spacing: -0.02em;">
+                    Senior School & Board Prep Wing
+                </h2>
+                <p class="text-muted mb-4" style="font-size: 15.5px; line-height: 1.8;">
                     Accredited with the Federal Board of Intermediate and Secondary Education (FBISE), our senior wing equips scholars with deep subject mastery in Physics, Chemistry, Biology, Computer Science, and Mathematics.
                 </p>
-                <div class="p-3 rounded-4 bg-light border mb-4">
-                    <h6 class="fw-bold text-dark mb-2"><i class="bi bi-trophy-fill text-warning me-2"></i> 99.8% Distinction Track Record</h6>
-                    <p class="small text-muted mb-0">Comprehensive test session series, monthly diagnostic reporting, and individual mentorship ensuring top FBISE positions every year.</p>
+
+                <div class="p-4 rounded-4 bg-light border mb-4 shadow-sm" style="border-left: 4px solid #F59E0B !important;">
+                    <h6 class="fw-bold text-dark mb-2">
+                        <i class="bi bi-trophy-fill text-warning me-2"></i> 99.8% Distinction Track Record
+                    </h6>
+                    <p class="small text-muted mb-0" style="line-height: 1.6;">
+                        Comprehensive test session series, monthly diagnostic reporting, and individual mentorship ensuring top FBISE positions every year.
+                    </p>
                 </div>
-                <a href="{{ route('admissions') }}" class="btn btn-primary px-4 py-3 fw-bold rounded-3 shadow" style="background: linear-gradient(135deg, #4F46E5, #7C3AED);">
+
+                <a href="{{ route('admissions') }}" class="btn btn-primary px-4 py-3 fw-bold rounded-3 shadow hover-lift" style="background: linear-gradient(135deg, #4F46E5, #7C3AED);">
                     Apply for Senior Wing <i class="bi bi-arrow-right ms-2"></i>
                 </a>
             </div>
+
+            <!-- RIGHT DARK FACILITY CARD WITH 100% BRIGHT WHITE VISIBLE TEXT -->
             <div class="col-lg-6">
-                <div class="p-4 rounded-4 bg-dark text-white shadow-lg" style="background: #0F172A !important;">
-                    <h5 class="fw-bold text-warning mb-3"><i class="bi bi-cpu-fill me-2"></i> Advanced Laboratory Facilities:</h5>
+                <div class="p-4 p-md-5 rounded-4 shadow-xl position-relative overflow-hidden" style="background: #0F172A !important; border: 1px solid rgba(255,255,255,0.1);">
+                    <div class="d-flex align-items-center gap-2 mb-4">
+                        <div class="rounded-circle d-flex align-items-center justify-content-center text-warning" style="width: 36px; height: 36px; background: rgba(245, 158, 11, 0.15);">
+                            <i class="bi bi-cpu-fill fs-5"></i>
+                        </div>
+                        <h5 class="fw-bold text-warning mb-0" style="font-size: 18px; letter-spacing: -0.01em;">
+                            Advanced Laboratory Facilities:
+                        </h5>
+                    </div>
+
                     <div class="d-flex flex-column gap-3">
-                        <div class="d-flex align-items-center gap-3 p-3 rounded-3" style="background: rgba(255,255,255,0.06);">
-                            <i class="bi bi-laptop fs-3 text-info"></i>
+                        <!-- Lab Item 1 (Bright Crisp White Heading & Text) -->
+                        <div class="d-flex align-items-center gap-3 p-3 rounded-3 lab-item-box transition-all" style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.06);">
+                            <div class="rounded-circle d-flex align-items-center justify-content-center text-info" style="width: 44px; height: 44px; background: rgba(14, 165, 233, 0.15); flex-shrink: 0;">
+                                <i class="bi bi-laptop fs-4"></i>
+                            </div>
                             <div>
-                                <h6 class="mb-0 fw-bold">AI & Computer Systems Lab</h6>
-                                <small class="text-light opacity-75">High-speed gigabit workstations with Python, C++, and Scratch</small>
+                                <h6 class="mb-1 fw-bold text-white" style="color: #FFFFFF !important; font-size: 15px;">
+                                    AI & Computer Systems Lab
+                                </h6>
+                                <small class="d-block text-white-50" style="color: rgba(255, 255, 255, 0.82) !important; font-size: 12.5px; line-height: 1.4;">
+                                    High-speed gigabit workstations with Python, C++, and Scratch
+                                </small>
                             </div>
                         </div>
-                        <div class="d-flex align-items-center gap-3 p-3 rounded-3" style="background: rgba(255,255,255,0.06);">
-                            <i class="bi bi-radioactive fs-3 text-warning"></i>
+
+                        <!-- Lab Item 2 (Bright Crisp White Heading & Text) -->
+                        <div class="d-flex align-items-center gap-3 p-3 rounded-3 lab-item-box transition-all" style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.06);">
+                            <div class="rounded-circle d-flex align-items-center justify-content-center text-warning" style="width: 44px; height: 44px; background: rgba(245, 158, 11, 0.15); flex-shrink: 0;">
+                                <i class="bi bi-radioactive fs-4"></i>
+                            </div>
                             <div>
-                                <h6 class="mb-0 fw-bold">Physics & Chemistry Labs</h6>
-                                <small class="text-light opacity-75">Full safety apparatus and high-precision analytical equipment</small>
+                                <h6 class="mb-1 fw-bold text-white" style="color: #FFFFFF !important; font-size: 15px;">
+                                    Physics & Chemistry Labs
+                                </h6>
+                                <small class="d-block text-white-50" style="color: rgba(255, 255, 255, 0.82) !important; font-size: 12.5px; line-height: 1.4;">
+                                    Full safety apparatus and high-precision analytical equipment
+                                </small>
                             </div>
                         </div>
-                        <div class="d-flex align-items-center gap-3 p-3 rounded-3" style="background: rgba(255,255,255,0.06);">
-                            <i class="bi bi-book fs-3 text-success"></i>
+
+                        <!-- Lab Item 3 (Bright Crisp White Heading & Text) -->
+                        <div class="d-flex align-items-center gap-3 p-3 rounded-3 lab-item-box transition-all" style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.06);">
+                            <div class="rounded-circle d-flex align-items-center justify-content-center text-success" style="width: 44px; height: 44px; background: rgba(16, 185, 129, 0.15); flex-shrink: 0;">
+                                <i class="bi bi-book fs-4"></i>
+                            </div>
                             <div>
-                                <h6 class="mb-0 fw-bold">Digital Central Library</h6>
-                                <small class="text-light opacity-75">Over 15,000 academic titles, research journals, and quiet pods</small>
+                                <h6 class="mb-1 fw-bold text-white" style="color: #FFFFFF !important; font-size: 15px;">
+                                    Digital Central Library
+                                </h6>
+                                <small class="d-block text-white-50" style="color: rgba(255, 255, 255, 0.82) !important; font-size: 12.5px; line-height: 1.4;">
+                                    Over 15,000 academic titles, research journals, and quiet pods
+                                </small>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
     </div>
 </section>
 @endsection
+
+@push('styles')
+<style>
+/* Full-Width Carousel Styling */
+.carousel-slide-img {
+    height: 480px;
+    object-fit: cover;
+    filter: brightness(0.9);
+    transition: transform 6s ease;
+}
+.carousel-item.active .carousel-slide-img {
+    transform: scale(1.03);
+}
+.carousel-overlay {
+    background: linear-gradient(180deg, rgba(15, 23, 42, 0.1) 0%, rgba(15, 23, 42, 0.8) 100%);
+}
+.glass-caption {
+    background: rgba(15, 23, 42, 0.75);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+    animation: fadeInUp 0.8s ease forwards;
+}
+
+/* Carousel Nav Buttons */
+.carousel-nav-btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(8px);
+    color: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    transition: all 0.25s ease;
+}
+.carousel-control-prev:hover .carousel-nav-btn,
+.carousel-control-next:hover .carousel-nav-btn {
+    background: #4F46E5;
+    color: #FFFFFF;
+    transform: scale(1.1);
+}
+
+/* Equal Box Styles */
+.equal-box {
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+.equal-box:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+    border-color: #4F46E5 !important;
+}
+
+/* Image Zoom Card */
+.img-zoom-card {
+    position: relative;
+    overflow: hidden;
+}
+.wing-feature-img {
+    height: 360px;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+.img-zoom-card:hover .wing-feature-img {
+    transform: scale(1.05);
+}
+
+/* Laboratory Dark Box Hover */
+.lab-item-box {
+    transition: all 0.25s ease;
+}
+.lab-item-box:hover {
+    background: rgba(255, 255, 255, 0.14) !important;
+    transform: translateX(6px);
+}
+
+/* Keyframes */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.hover-lift {
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.hover-lift:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 25px rgba(79, 70, 229, 0.25) !important;
+}
+</style>
+@endpush
+
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const carouselEl = document.getElementById('academicCampusCarousel');
+    if (carouselEl) {
+        // Initialize bootstrap carousel with explicit 3000ms (3 seconds) cycle
+        const carousel = new bootstrap.Carousel(carouselEl, {
+            interval: 3000,
+            ride: 'carousel',
+            pause: false,
+            wrap: true
+        });
+        carousel.cycle();
+    }
+});
+</script>
+@endpush

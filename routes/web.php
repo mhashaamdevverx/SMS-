@@ -90,7 +90,11 @@ Route::middleware(RequireAuthentication::class)->group(function () {
     Route::post('admin/fees', [AdminPortalController::class, 'storeFee'])->name('admin.fee.store');
     Route::put('admin/profile', [AdminPortalController::class, 'updateProfile'])->name('admin.profile.update');
     Route::post('admin/password', [AdminPortalController::class, 'updatePassword'])->name('admin.password.update');
-    Route::get('admin/{page}', [AdminPortalController::class, 'page'])->where('page', 'dashboard|leaves|salaries|students|teachers|fees|attendance|academics|roles|users|profile')->name('admin.page');
+        Route::post('admin/admissions/{id}/status', [AdminPortalController::class, 'updateAdmissionStatus'])->name('admin.admission.status');
+    Route::delete('admin/admissions/{id}', [AdminPortalController::class, 'deleteAdmissionApplication'])->name('admin.admission.destroy');
+        Route::post('admin/careers/{id}/status', [AdminPortalController::class, 'updateCareerStatus'])->name('admin.career.status');
+        Route::delete('admin/careers/{id}', [AdminPortalController::class, 'deleteCareerApplication'])->name('admin.career.destroy');
+    Route::get('admin/{page}', [AdminPortalController::class, 'page'])->where('page', 'dashboard|leaves|salaries|students|teachers|fees|attendance|academics|roles|users|profile|admissions|careers')->name('admin.page');
 
     Route::get('api/notifications', [NotificationController::class, 'getNotifications'])->name('notifications.get');
     Route::post('api/notifications/mark-read', [NotificationController::class, 'markAsRead'])->name('notifications.mark-read');

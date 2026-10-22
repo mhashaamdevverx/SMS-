@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -19,45 +19,74 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
     <style>
+        /* ==========================================================================
+           EXCELLENCE SCHOOL SYSTEM - LANDING PAGE STYLESHEET
+           Exact Admin Portal Color System: Deep Indigo (#1E1B4B), Royal Indigo (#4F46E5),
+           Warm Amber (#F59E0B), Teal (#14B8A6), Clean Canvas (#F6F7FB)
+           ========================================================================== */
         :root {
+            --bg: #F6F7FB;
+            --surface: #FFFFFF;
+            --surface-hover: #F8FAFC;
+            --border: #E5E7EB;
+            --border-light: #F1F5F9;
+
+            /* Primary: Indigo (Exact Admin Portal) */
             --primary: #4F46E5;
-            --primary-dark: #4338CA;
-            --primary-light: #6366F1;
-            --purple: #8B5CF6;
-            --purple-dark: #7C3AED;
+            --primary-hover: #4338CA;
+            --primary-pressed: #3730A3;
+            --primary-light: #EEF2FF;
+            --primary-muted: rgba(79, 70, 229, 0.08);
+
+            /* Secondary: Teal */
+            --secondary: #14B8A6;
+            --secondary-hover: #0D9488;
+            --secondary-light: #CCFBF1;
+
+            /* Accent: Warm Amber / Gold (Exact Admin Portal) */
+            --accent: #F59E0B;
+            --accent-hover: #D97706;
+            --accent-glow: rgba(245, 158, 11, 0.35);
+            --accent-light: #FEF3C7;
+
+            /* Deep Indigo / Sidebar / Executive */
             --deep-indigo: #1E1B4B;
+            --indigo-hero: linear-gradient(135deg, #1E1B4B 0%, #312E81 50%, #4F46E5 100%);
             --dark-navy: #0F172A;
-            --accent-amber: #F59E0B;
-            --accent-green: #10B981;
-            --accent-orange: #F97316;
-            --accent-cyan: #06B6D4;
-            --text-dark: #0F172A;
-            --text-body: #475569;
-            --bg-light: #F8FAFC;
-            --border-light: #E2E8F0;
-            --font-display: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
-            --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+
+            /* Typography */
+            --text-heading: #1F2937;
+            --text-body: #4B5563;
+            --text-muted: #9CA3AF;
+
+            --font-display: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
         }
 
         * {
             box-sizing: border-box;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             font-family: var(--font-body);
             color: var(--text-body);
-            background-color: #FFFFFF;
+            background-color: var(--bg);
             overflow-x: hidden;
-            line-height: 1.6;
+            line-height: 1.65;
         }
 
         h1, h2, h3, h4, h5, h6 {
             font-family: var(--font-display);
-            color: var(--text-dark);
+            color: var(--text-heading);
             font-weight: 700;
+            letter-spacing: -0.02em;
         }
 
-        /* --- ROOTS-STYLE ULTRA CLEAN NAVBAR --- */
+        /* --- ULTRA CLEAN NAVBAR (MATCHING ADMIN PORTAL HEADER) --- */
         .landing-header {
             position: fixed;
             top: 0;
@@ -70,7 +99,7 @@
             background: rgba(255, 255, 255, 0.94);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(226, 232, 240, 0.85);
+            border-bottom: 1px solid var(--border);
             box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.04);
             transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
@@ -79,7 +108,7 @@
             height: 72px;
             background: rgba(255, 255, 255, 0.98);
             box-shadow: 0 8px 30px -4px rgba(15, 23, 42, 0.08);
-            border-bottom-color: rgba(203, 213, 225, 0.9);
+            border-bottom-color: #CBD5E1;
         }
 
         .roots-header-container {
@@ -138,7 +167,7 @@
             font-family: var(--font-display);
             font-size: 16.5px;
             font-weight: 800;
-            color: #0F172A;
+            color: var(--deep-indigo);
             letter-spacing: 0.06em;
             text-transform: uppercase;
         }
@@ -147,7 +176,7 @@
             font-family: var(--font-display);
             font-size: 10.5px;
             font-weight: 700;
-            color: #6366F1;
+            color: var(--primary);
             letter-spacing: 0.15em;
             text-transform: uppercase;
             margin-top: 2px;
@@ -156,7 +185,7 @@
         .roots-nav-menu {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
             margin: 0;
             padding: 0;
             list-style: none;
@@ -167,24 +196,24 @@
             font-family: var(--font-display);
             font-size: 14.5px;
             font-weight: 600;
-            color: #334155;
+            color: var(--text-heading);
             text-decoration: none;
             white-space: nowrap !important;
             padding: 8px 14px;
-            border-radius: 9px;
+            border-radius: 99px;
             position: relative;
             transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .roots-nav-link:hover {
-            color: #4F46E5;
-            background: rgba(99, 102, 241, 0.08);
+            color: var(--primary);
+            background: var(--primary-light);
             transform: translateY(-1px);
         }
 
         .roots-nav-link.active {
-            color: #4F46E5;
-            background: rgba(99, 102, 241, 0.12);
+            color: var(--primary);
+            background: rgba(79, 70, 229, 0.12);
             font-weight: 700;
         }
 
@@ -199,8 +228,8 @@
         .btn-roots-apply {
             height: 44px;
             padding: 0 22px;
-            border-radius: 12px;
-            background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%);
+            border-radius: 99px;
+            background: linear-gradient(135deg, #4F46E5 0%, #3730A3 100%);
             color: #FFFFFF !important;
             font-family: var(--font-display);
             font-weight: 700;
@@ -210,7 +239,7 @@
             display: inline-flex;
             align-items: center;
             gap: 9px;
-            border: 1px solid rgba(255, 255, 255, 0.28);
+            border: 1px solid rgba(255, 255, 255, 0.25);
             box-shadow: 0 4px 16px rgba(79, 70, 229, 0.35);
             white-space: nowrap !important;
             transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
@@ -221,7 +250,7 @@
         .btn-roots-apply .btn-icon-lock {
             width: 22px;
             height: 22px;
-            border-radius: 6px;
+            border-radius: 50%;
             background: rgba(255, 255, 255, 0.2);
             display: inline-flex;
             align-items: center;
@@ -236,7 +265,7 @@
         .btn-roots-apply:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 24px rgba(79, 70, 229, 0.48);
-            background: linear-gradient(135deg, #4338CA 0%, #6D28D9 100%);
+            background: linear-gradient(135deg, #4338CA 0%, #312E81 100%);
             color: #FFFFFF !important;
         }
 
@@ -244,17 +273,21 @@
             transform: translateX(4px);
         }
 
-        /* --- HERO SECTION (EDUKID / MODERN 3D LAYOUT) --- */
+        /* --- HERO SECTION (ADMIN PORTAL DESIGN HARMONY) --- */
         .hero-section {
-            padding-top: 135px;
-            padding-bottom: 90px;
+            min-height: calc(100vh - 78px);
+            padding-top: 105px;
+            padding-bottom: 50px;
+            display: flex;
+            align-items: center;
             position: relative;
             overflow: hidden;
+            box-sizing: border-box;
             background: 
-                radial-gradient(850px circle at 15% 15%, rgba(139, 92, 246, 0.09) 0%, transparent 70%),
-                radial-gradient(650px circle at 85% 60%, rgba(79, 70, 229, 0.08) 0%, transparent 70%),
-                radial-gradient(400px circle at 50% 90%, rgba(244, 114, 182, 0.04) 0%, transparent 60%),
-                #FFFFFF;
+                radial-gradient(850px circle at 15% 15%, rgba(79, 70, 229, 0.09) 0%, transparent 70%),
+                radial-gradient(650px circle at 85% 60%, rgba(30, 27, 75, 0.06) 0%, transparent 70%),
+                radial-gradient(400px circle at 50% 90%, rgba(245, 158, 11, 0.04) 0%, transparent 60%),
+                var(--bg);
         }
 
         .hero-section::before {
@@ -275,20 +308,26 @@
             filter: blur(80px);
             pointer-events: none;
             z-index: 1;
+            animation: pulseOrbGlow 8s ease-in-out infinite alternate;
         }
         .hero-glow-1 {
-            width: 360px;
-            height: 360px;
+            width: 380px;
+            height: 380px;
             top: 8%;
             right: 4%;
-            background: rgba(124, 58, 237, 0.12);
+            background: rgba(79, 70, 229, 0.12);
         }
         .hero-glow-2 {
-            width: 300px;
-            height: 300px;
+            width: 320px;
+            height: 320px;
             bottom: 8%;
             right: 30%;
-            background: rgba(79, 70, 229, 0.10);
+            background: rgba(30, 27, 75, 0.08);
+        }
+
+        @keyframes pulseOrbGlow {
+            0% { transform: scale(0.95); opacity: 0.6; }
+            100% { transform: scale(1.08); opacity: 0.9; }
         }
 
         .hero-badge-pill {
@@ -301,8 +340,8 @@
             border-radius: 99px;
             font-size: 13px;
             font-weight: 700;
-            color: #4F46E5;
-            margin-bottom: 24px;
+            color: var(--primary);
+            margin-bottom: 22px;
             box-shadow: 0 4px 14px rgba(79, 70, 229, 0.08);
             backdrop-filter: blur(8px);
         }
@@ -311,25 +350,25 @@
             width: 8px;
             height: 8px;
             border-radius: 50%;
-            background: #10B981;
-            box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
-            animation: pulseGreen 2s infinite;
+            background: var(--secondary);
+            box-shadow: 0 0 0 0 rgba(20, 184, 166, 0.7);
+            animation: pulseTealDot 2s infinite;
             display: inline-block;
         }
 
-        @keyframes pulseGreen {
-            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
-            70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
-            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+        @keyframes pulseTealDot {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(20, 184, 166, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(20, 184, 166, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(20, 184, 166, 0); }
         }
 
-        /* Bold Playful Title with Pill Words */
+        /* Bold Playful Title with Warm Amber & Royal Indigo Pills */
         .hero-playful-title {
-            font-size: clamp(38px, 4.8vw, 62px);
+            font-size: clamp(34px, 4vw, 56px);
             font-weight: 800;
-            line-height: 1.15;
+            line-height: 1.18;
             letter-spacing: -0.03em;
-            color: #0F172A;
+            color: var(--text-heading);
             margin-bottom: 22px;
         }
 
@@ -337,28 +376,35 @@
             display: inline-block;
             padding: 2px 14px;
             border-radius: 12px;
-            color: #FFFFFF;
             font-weight: 800;
             transform: rotate(-1.5deg);
             margin: 0 4px;
             box-shadow: 0 6px 16px rgba(0,0,0,0.1);
         }
 
-        .word-orange {
-            background: linear-gradient(135deg, #F97316 0%, #EA580C 100%);
+        /* Warm Amber Gold Pill */
+        .word-orange,
+        .word-gold {
+            background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+            color: #FFFFFF !important;
+            box-shadow: 0 6px 16px rgba(245, 158, 11, 0.35);
         }
 
-        .word-purple {
-            background: linear-gradient(135deg, #7C3AED 0%, #6366F1 100%);
+        /* Royal Indigo Pill */
+        .word-purple,
+        .word-burgundy {
+            background: linear-gradient(135deg, #4F46E5 0%, #3730A3 100%);
+            color: #FFFFFF !important;
             transform: rotate(1.5deg);
+            box-shadow: 0 6px 16px rgba(79, 70, 229, 0.35);
         }
 
         .hero-subtitle {
-            font-size: 18px;
-            line-height: 1.7;
-            color: #475569;
-            max-width: 540px;
-            margin-bottom: 34px;
+            font-size: clamp(15.5px, 1.2vw, 17.5px);
+            line-height: 1.68;
+            color: var(--text-body);
+            max-width: 560px;
+            margin-bottom: 30px;
         }
 
         .hero-cta-group {
@@ -366,52 +412,64 @@
             align-items: center;
             gap: 16px;
             flex-wrap: wrap;
-            margin-bottom: 32px;
+            margin-bottom: 30px;
         }
 
-        .btn-hero-orange {
-            background: linear-gradient(135deg, #F97316 0%, #EA580C 100%);
+        /* Primary Hero CTA Button: Royal Indigo (Matching Admin Button) */
+        .btn-hero-orange,
+        .btn-hero-burgundy {
+            background: linear-gradient(135deg, #4F46E5 0%, #3730A3 100%);
             color: #FFFFFF !important;
             font-family: var(--font-display);
             font-weight: 700;
-            font-size: 16px;
-            padding: 14px 34px;
+            font-size: 15.5px;
+            padding: 13px 32px;
             border-radius: 14px;
             text-decoration: none;
             display: inline-flex;
             align-items: center;
             gap: 10px;
-            box-shadow: 0 10px 25px -4px rgba(249, 115, 22, 0.45);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 10px 25px -4px rgba(79, 70, 229, 0.45);
             transition: all 0.25s ease;
+            position: relative;
+            overflow: hidden;
         }
 
-        .btn-hero-orange:hover {
+        .btn-hero-orange:hover,
+        .btn-hero-burgundy:hover {
             transform: translateY(-2px);
-            box-shadow: 0 16px 32px -4px rgba(249, 115, 22, 0.55);
+            box-shadow: 0 16px 32px -4px rgba(79, 70, 229, 0.55);
+            background: linear-gradient(135deg, #4338CA 0%, #312E81 100%);
             color: #FFFFFF;
         }
 
-        .btn-hero-purple-outline {
+        /* Secondary Outline Button */
+        .btn-hero-purple-outline,
+        .btn-hero-gold-outline {
             background: #FFFFFF;
-            color: #7C3AED !important;
+            color: var(--primary) !important;
             font-family: var(--font-display);
             font-weight: 700;
-            font-size: 16px;
-            padding: 14px 28px;
+            font-size: 15.5px;
+            padding: 13px 26px;
             border-radius: 14px;
             text-decoration: none;
             display: inline-flex;
             align-items: center;
             gap: 10px;
-            border: 2px solid #DDD6FE;
-            box-shadow: 0 4px 12px rgba(124, 58, 237, 0.08);
+            border: 2px solid #C7D2FE;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.08);
             transition: all 0.2s ease;
         }
 
-        .btn-hero-purple-outline:hover {
-            background: #F5F3FF;
-            border-color: #8B5CF6;
+        .btn-hero-purple-outline:hover,
+        .btn-hero-gold-outline:hover {
+            background: #EEF2FF;
+            border-color: var(--primary);
+            color: var(--primary-hover) !important;
             transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(79, 70, 229, 0.16);
         }
 
         .hero-rating-strip {
@@ -419,73 +477,253 @@
             align-items: center;
             gap: 16px;
             flex-wrap: wrap;
+            font-size: 14px;
         }
 
-        /* 3D Multi-Layer Screen Collage (Right Side) */
-        .hero-3d-stack {
+        .hero-rating-strip .text-warning {
+            color: var(--accent) !important;
+        }
+
+        .hero-affiliation-badge {
+            background: rgba(20, 184, 166, 0.12);
+            color: #0D9488;
+            font-weight: 700;
+            padding: 4px 14px;
+            border-radius: 99px;
+            font-size: 12.5px;
+        }
+
+        /* 3D Showcase Stage With Planetary Orbital Animation */
+        .hero-showcase-stage {
             position: relative;
             z-index: 10;
+            width: 100%;
+            max-width: 540px;
+            margin: 0 auto;
+            padding: 30px;
         }
 
+        /* Planetary Orbit Path Track */
+        .hero-orbit-track {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: calc(100% - 10px);
+            height: calc(100% - 10px);
+            border-radius: 50%;
+            border: 1.5px dashed rgba(99, 102, 241, 0.32);
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 3;
+            box-shadow: 0 0 35px rgba(79, 70, 229, 0.08);
+            animation: pulseOrbitTrack 4s ease-in-out infinite alternate;
+        }
+
+        @keyframes pulseOrbitTrack {
+            0% { opacity: 0.65; transform: translate(-50%, -50%) scale(0.99); }
+            100% { opacity: 1; transform: translate(-50%, -50%) scale(1.01); }
+        }
+
+        /* 360-degree Orbiting System */
+        .hero-orbit-rotator {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: calc(100% - 10px);
+            height: calc(100% - 10px);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 20;
+            animation: orbitPlanetRevolve 24s linear infinite;
+        }
+
+        @keyframes orbitPlanetRevolve {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to   { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        .orbit-node {
+            position: absolute;
+            pointer-events: auto;
+        }
+
+        .orbit-node-top    { top: 0; left: 50%; transform: translate(-50%, -50%); }
+        .orbit-node-right  { top: 50%; left: 100%; transform: translate(-50%, -50%); }
+        .orbit-node-bottom { top: 100%; left: 50%; transform: translate(-50%, -50%); }
+        .orbit-node-left   { top: 50%; left: 0; transform: translate(-50%, -50%); }
+
+        /* Counter-rotating badge so text & icons stay perfectly upright */
+        .orbit-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #FFFFFF;
+            border: 1.5px solid rgba(226, 232, 240, 0.95);
+            border-radius: 99px;
+            padding: 6px 14px 6px 7px;
+            box-shadow: 0 10px 24px -4px rgba(15, 23, 42, 0.16), 0 0 0 1px rgba(79, 70, 229, 0.06);
+            white-space: nowrap;
+            animation: orbitPillUpright 24s linear infinite;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        @keyframes orbitPillUpright {
+            from { transform: rotate(0deg); }
+            to   { transform: rotate(-360deg); }
+        }
+
+        .orbit-pill:hover {
+            transform: scale(1.1);
+            box-shadow: 0 14px 32px -4px rgba(79, 70, 229, 0.28);
+        }
+
+        .orbit-icon-bubble {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            color: #FFFFFF;
+            flex-shrink: 0;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        }
+
+        .bubble-amber  { background: linear-gradient(135deg, #F59E0B, #D97706); }
+        .bubble-indigo { background: linear-gradient(135deg, #4F46E5, #3730A3); }
+        .bubble-teal   { background: linear-gradient(135deg, #14B8A6, #0D9488); }
+        .bubble-rose   { background: linear-gradient(135deg, #EC4899, #BE185D); }
+
+        .orbit-pill-text {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-heading);
+            letter-spacing: -0.01em;
+        }
+
+        /* Central Tablet Showcase Card */
         .main-3d-tablet {
             background: #FFFFFF;
             border-radius: 28px;
             padding: 12px;
-            border: 2px solid rgba(226, 232, 240, 0.9);
-            box-shadow: 0 30px 70px -15px rgba(15, 23, 42, 0.18);
+            border: 2px solid rgba(226, 232, 240, 0.95);
+            box-shadow: 0 30px 70px -15px rgba(15, 23, 42, 0.16), 0 0 0 1px rgba(79, 70, 229, 0.05);
             position: relative;
+            z-index: 10;
             transform: perspective(1000px) rotateY(-4deg) rotateX(2deg);
-            transition: transform 0.4s ease;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
         }
 
         .main-3d-tablet:hover {
             transform: perspective(1000px) rotateY(0deg) rotateX(0deg);
+            box-shadow: 0 36px 85px -15px rgba(15, 23, 42, 0.22);
+        }
+
+        /* Decent Programme Badge Overlaid On Top Of Image */
+        .hero-image-overlay-badge {
+            position: absolute;
+            top: 24px;
+            left: 24px;
+            z-index: 15;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(15, 23, 42, 0.82);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.28);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+            padding: 7px 16px;
+            border-radius: 99px;
+            color: #FFFFFF;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
         }
 
         .tablet-screen {
             border-radius: 20px;
             overflow: hidden;
-            height: 420px;
+            height: 410px;
             position: relative;
+            background: #0F172A;
         }
 
-        .tablet-screen img {
+        /* 3-Second Automatic Image Slideshow */
+        .hero-slide {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.8s ease-in-out, transform 1.2s ease-out;
+            transform: scale(1.06);
+            z-index: 1;
+        }
+
+        .hero-slide.active {
+            opacity: 1;
+            visibility: visible;
+            transform: scale(1);
+            z-index: 2;
+        }
+
+        .hero-slide img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            display: block;
         }
 
-        /* Floating Overlap Cards in 3D Style */
-        .floating-badge-stem {
+        .hero-slide-caption {
             position: absolute;
-            top: -24px;
-            right: -20px;
-            background: #FFFFFF;
-            border-radius: 18px;
-            padding: 12px 18px;
-            border: 1.5px solid #E2E8F0;
-            box-shadow: 0 16px 36px -8px rgba(15, 23, 42, 0.16);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            z-index: 20;
-            animation: floatSlow 5s ease-in-out infinite alternate;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 18px 20px 14px;
+            background: linear-gradient(180deg, transparent 0%, rgba(15, 23, 42, 0.90) 100%);
+            color: #FFFFFF;
+            z-index: 10;
         }
 
-        .floating-badge-success {
-            position: absolute;
-            bottom: -24px;
-            left: -24px;
-            background: #FFFFFF;
-            border-radius: 18px;
-            padding: 12px 18px;
-            border: 1.5px solid #E2E8F0;
-            box-shadow: 0 16px 36px -8px rgba(15, 23, 42, 0.16);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            z-index: 20;
-            animation: floatSlow 5s ease-in-out infinite alternate 2.5s;
+        .hero-slide-badge {
+            background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+            color: #FFFFFF;
+            font-weight: 700;
+            font-size: 11.5px;
+            border: none;
+            box-shadow: 0 4px 10px rgba(245, 158, 11, 0.35);
+        }
+
+        .hero-dot {
+            width: 8px;
+            height: 4px;
+            border-radius: 4px;
+            background: rgba(255, 255, 255, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .hero-dot.active {
+            width: 22px;
+            background: #F59E0B;
+        }
+
+        .badge-icon-box {
+            border-radius: 12px;
+            padding: 8px 10px;
+            font-size: 20px;
+            display: grid;
+            place-items: center;
+        }
+        .badge-icon-gold {
+            background: var(--primary-light);
+            color: var(--primary);
+        }
+        .badge-icon-burgundy {
+            background: var(--accent-light);
+            color: var(--accent-hover);
         }
 
         @keyframes floatSlow {
@@ -495,8 +733,9 @@
 
         /* --- FOUR PILLARS SECTION --- */
         .pillars-section {
-            padding: 90px 0;
+            padding: 95px 0;
             background: #FFFFFF;
+            position: relative;
         }
 
         .section-tag-pill {
@@ -505,9 +744,10 @@
             font-weight: 800;
             text-transform: uppercase;
             letter-spacing: 0.12em;
-            color: #7C3AED;
-            background: #F5F3FF;
-            padding: 6px 16px;
+            color: var(--primary);
+            background: var(--primary-light);
+            border: 1px solid rgba(99, 102, 241, 0.25);
+            padding: 6px 18px;
             border-radius: 99px;
             margin-bottom: 14px;
         }
@@ -516,31 +756,31 @@
             font-size: clamp(30px, 3.6vw, 44px);
             font-weight: 800;
             letter-spacing: -0.02em;
-            color: #0F172A;
+            color: var(--text-heading);
             margin-bottom: 14px;
         }
 
         .section-subheading-clean {
             font-size: 17px;
-            color: #64748B;
+            color: var(--text-body);
             max-width: 620px;
             margin: 0 auto;
         }
 
         .pillar-card {
             background: #FFFFFF;
-            border: 1.5px solid #E2E8F0;
+            border: 1.5px solid var(--border);
             border-radius: 24px;
-            padding: 32px 28px;
+            padding: 34px 28px;
             height: 100%;
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
             position: relative;
         }
 
         .pillar-card:hover {
             transform: translateY(-8px);
             border-color: #CBD5E1;
-            box-shadow: 0 20px 45px -10px rgba(15, 23, 42, 0.12);
+            box-shadow: 0 24px 50px -10px rgba(15, 23, 42, 0.12);
         }
 
         .pillar-icon-box {
@@ -551,23 +791,28 @@
             place-items: center;
             font-size: 26px;
             margin-bottom: 22px;
+            transition: transform 0.3s ease;
         }
 
-        .pillar-icon-orange { background: #FFF7ED; color: #F97316; }
-        .pillar-icon-purple { background: #FAF5FF; color: #7C3AED; }
-        .pillar-icon-green  { background: #ECFDF5; color: #10B981; }
-        .pillar-icon-amber  { background: #FFFBEB; color: #F59E0B; }
+        .pillar-card:hover .pillar-icon-box {
+            transform: scale(1.08) rotate(3deg);
+        }
+
+        .pillar-icon-gold { background: var(--accent-light); color: var(--accent-hover); }
+        .pillar-icon-burgundy { background: var(--primary-light); color: var(--primary); }
+        .pillar-icon-maroon { background: var(--secondary-light); color: var(--secondary-hover); }
+        .pillar-icon-amber { background: #FEF3C7; color: #D97706; }
 
         .pillar-title {
             font-size: 19px;
             font-weight: 800;
-            color: #0F172A;
+            color: var(--text-heading);
             margin-bottom: 12px;
         }
 
         .pillar-desc {
             font-size: 14.5px;
-            color: #64748B;
+            color: var(--text-body);
             line-height: 1.65;
             margin-bottom: 20px;
         }
@@ -579,33 +824,35 @@
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            transition: gap 0.2s ease;
+            color: var(--primary) !important;
+            transition: gap 0.2s ease, color 0.2s ease;
         }
 
         .pillar-card:hover .pillar-link {
             gap: 10px;
+            color: var(--primary-hover) !important;
         }
 
         /* --- PROGRAMS TAILORED SECTION --- */
         .programs-section {
-            padding: 90px 0;
-            background: #F8FAFC;
+            padding: 95px 0;
+            background: var(--bg);
         }
 
         .program-card {
             background: #FFFFFF;
-            border: 1.5px solid #E2E8F0;
+            border: 1.5px solid var(--border);
             border-radius: 26px;
             overflow: hidden;
             box-shadow: 0 10px 30px -5px rgba(15, 23, 42, 0.06);
-            transition: all 0.3s ease;
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
             height: 100%;
             display: flex;
             flex-direction: column;
         }
 
         .program-card:hover {
-            transform: translateY(-6px);
+            transform: translateY(-8px);
             box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.14);
             border-color: #CBD5E1;
         }
@@ -620,29 +867,29 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 0.5s ease;
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .program-card:hover .program-img-box img {
-            transform: scale(1.06);
+            transform: scale(1.08);
         }
 
         .program-age-pill {
             position: absolute;
             top: 14px;
             left: 14px;
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(15, 23, 42, 0.85);
             backdrop-filter: blur(8px);
             padding: 5px 14px;
             border-radius: 99px;
             font-size: 12px;
             font-weight: 800;
-            color: #0F172A;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            color: #FFFFFF;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
         }
 
         .program-body {
-            padding: 26px;
+            padding: 28px;
             display: flex;
             flex-direction: column;
             flex-grow: 1;
@@ -651,13 +898,13 @@
         .program-title {
             font-size: 20px;
             font-weight: 800;
-            color: #0F172A;
+            color: var(--text-heading);
             margin-bottom: 10px;
         }
 
         .program-desc {
             font-size: 14px;
-            color: #64748B;
+            color: var(--text-body);
             margin-bottom: 18px;
         }
 
@@ -670,45 +917,130 @@
 
         .program-bullets li {
             font-size: 13.5px;
-            color: #475569;
+            color: var(--text-body);
             margin-bottom: 8px;
             display: flex;
             align-items: center;
             gap: 8px;
         }
 
+        .program-bullets li i {
+            color: var(--primary);
+            font-size: 15px;
+        }
+
         .program-footer-bar {
             padding-top: 18px;
-            border-top: 1px solid #F1F5F9;
+            border-top: 1px solid var(--border-light);
             display: flex;
             align-items: center;
             justify-content: space-between;
         }
 
-        /* --- DEEP BRAND GREEN/INDIGO ACCENT BANNER --- */
+        .btn-program-apply {
+            background: linear-gradient(135deg, #4F46E5 0%, #3730A3 100%);
+            color: #FFFFFF !important;
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 13px;
+            padding: 8px 20px;
+            border-radius: 99px;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .btn-program-apply:hover {
+            background: linear-gradient(135deg, #4338CA 0%, #312E81 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(79, 70, 229, 0.35);
+        }
+
+        .btn-program-tab {
+            background: #FFFFFF;
+            border: 1.5px solid var(--border);
+            color: var(--text-heading);
+            font-weight: 700;
+            border-radius: 99px;
+            padding: 6px 16px;
+            font-size: 13px;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .btn-program-tab:hover,
+        .btn-program-tab.active {
+            background: var(--primary);
+            color: #FFFFFF !important;
+            border-color: var(--primary);
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
+        }
+
+        /* --- EXECUTIVE DEEP INDIGO FEATURE BANNER (MATCHING ADMIN HERO) --- */
         .mentor-banner-section {
-            padding: 90px 0;
-            background: linear-gradient(135deg, #064E3B 0%, #065F46 50%, #1E1B4B 100%);
+            padding: 95px 0;
+            background: var(--indigo-hero);
             color: #FFFFFF;
             position: relative;
             overflow: hidden;
+        }
+
+        .mentor-banner-section h2 {
+            color: #FFFFFF !important;
+        }
+
+        .mentor-banner-section p.lead {
+            color: rgba(255, 255, 255, 0.92) !important;
+        }
+
+        .btn-mentor-visit {
+            background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%) !important;
+            color: #FFFFFF !important;
+            border: none !important;
+            display: inline-flex;
+            align-items: center;
+            box-shadow: 0 10px 24px rgba(245, 158, 11, 0.4) !important;
+            transition: all 0.25s ease;
+        }
+
+        .btn-mentor-visit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 14px 28px rgba(245, 158, 11, 0.55) !important;
+            color: #FFFFFF !important;
+        }
+
+        .mentor-banner-section::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: radial-gradient(rgba(255, 255, 255, 0.15) 1px, transparent 1px);
+            background-size: 28px 28px;
+            opacity: 0.45;
+            pointer-events: none;
         }
 
         .mentor-feature-item {
             display: flex;
             align-items: center;
             gap: 12px;
-            padding: 12px 18px;
-            border-radius: 14px;
+            padding: 14px 20px;
+            border-radius: 16px;
             background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.15);
             font-size: 14.5px;
             font-weight: 700;
+            color: #FFFFFF;
+            backdrop-filter: blur(8px);
+            transition: transform 0.25s ease, background 0.25s ease;
+        }
+
+        .mentor-feature-item:hover {
+            transform: translateY(-3px);
+            background: rgba(255, 255, 255, 0.14);
         }
 
         /* --- LIFE INSIDE CAMPUS GALLERY --- */
         .campus-gallery-section {
-            padding: 90px 0;
+            padding: 95px 0;
             background: #FFFFFF;
         }
 
@@ -717,14 +1049,15 @@
             overflow: hidden;
             position: relative;
             height: 250px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            box-shadow: 0 10px 25px rgba(15, 23, 42, 0.08);
+            border: 1.5px solid var(--border);
         }
 
         .gallery-photo-card img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 0.5s ease;
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .gallery-photo-card:hover img {
@@ -736,8 +1069,8 @@
             bottom: 0;
             left: 0;
             right: 0;
-            padding: 16px;
-            background: linear-gradient(180deg, transparent 0%, rgba(15, 23, 42, 0.85) 100%);
+            padding: 16px 20px;
+            background: linear-gradient(180deg, transparent 0%, rgba(15, 23, 42, 0.88) 100%);
             color: #FFFFFF;
             font-weight: 700;
             font-size: 14px;
@@ -745,44 +1078,142 @@
 
         /* --- TESTIMONIALS SECTION --- */
         .testimonials-section {
-            padding: 90px 0;
-            background: #F8FAFC;
+            padding: 95px 0;
+            background: var(--bg);
         }
 
         .review-card {
             background: #FFFFFF;
-            border: 1.5px solid #E2E8F0;
-            border-radius: 22px;
-            padding: 30px;
+            border: 1.5px solid var(--border);
+            border-radius: 24px;
+            padding: 32px;
             box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.05);
             height: 100%;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        /* --- SCHEDULE TOUR CTA BANNER --- */
+        .review-card:hover {
+            transform: translateY(-6px);
+            border-color: #CBD5E1;
+            box-shadow: 0 20px 45px -10px rgba(15, 23, 42, 0.12);
+        }
+
+        .review-stars {
+            color: var(--accent);
+            font-size: 15px;
+            margin-bottom: 14px;
+            display: flex;
+            gap: 3px;
+        }
+
+        .avatar-initials-burgundy {
+            background: linear-gradient(135deg, #1E1B4B 0%, #4F46E5 100%);
+            color: #FFFFFF;
+        }
+        .avatar-initials-gold {
+            background: linear-gradient(135deg, #14B8A6 0%, #0D9488 100%);
+            color: #FFFFFF;
+        }
+        .avatar-initials-maroon {
+            background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+            color: #FFFFFF;
+        }
+
+        /* --- SCHEDULE TOUR CTA BANNER (EXECUTIVE DEEP INDIGO GRADIENT) --- */
         .tour-cta-section {
-            padding: 80px 0;
-            background: linear-gradient(135deg, #F97316 0%, #EA580C 100%);
+            padding: 95px 0;
+            background: var(--indigo-hero);
             color: #FFFFFF;
             position: relative;
+            overflow: hidden;
+        }
+
+        .tour-cta-section h2 {
+            color: #FFFFFF !important;
+        }
+
+        .tour-cta-section p.lead,
+        .tour-cta-section .lead {
+            color: rgba(255, 255, 255, 0.92) !important;
+        }
+
+        .tour-cta-section::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: radial-gradient(rgba(255, 255, 255, 0.15) 1px, transparent 1px);
+            background-size: 32px 32px;
+            opacity: 0.45;
+            pointer-events: none;
+        }
+
+        .tour-badge {
+            background: rgba(255, 255, 255, 0.15);
+            color: #FFFFFF;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            padding: 8px 20px;
+            border-radius: 99px;
+            display: inline-block;
+            backdrop-filter: blur(8px);
         }
 
         .tour-form-card {
             background: #FFFFFF;
-            border-radius: 24px;
-            padding: 36px;
-            box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.25);
-            color: #0F172A;
+            border-radius: 26px;
+            padding: 40px;
+            border: 1.5px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 30px 80px -15px rgba(0, 0, 0, 0.4);
+            color: var(--text-heading);
         }
 
-        /* --- FOOTER --- */
+        .tour-form-card .form-control,
+        .tour-form-card .form-select {
+            border: 1.5px solid var(--border);
+            padding: 11px 16px;
+            border-radius: 12px;
+            color: var(--text-heading);
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .tour-form-card .form-control:focus,
+        .tour-form-card .form-select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.18);
+            outline: none;
+        }
+
+        .btn-tour-submit {
+            background: linear-gradient(135deg, #4F46E5 0%, #3730A3 100%);
+            color: #FFFFFF !important;
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: 16px;
+            padding: 14px 28px;
+            border-radius: 12px;
+            border: none;
+            box-shadow: 0 8px 24px rgba(79, 70, 229, 0.35);
+            transition: all 0.25s ease;
+        }
+
+        .btn-tour-submit:hover {
+            background: linear-gradient(135deg, #4338CA 0%, #312E81 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 14px 32px rgba(79, 70, 229, 0.48);
+            color: #FFFFFF !important;
+        }
+
+        /* --- FOOTER (DARK NAVY #0F172A MATCHING PORTAL) --- */
         .landing-footer {
             background: var(--dark-navy);
             color: #94A3B8;
-            padding-top: 80px;
-            padding-bottom: 30px;
+            padding-top: 85px;
+            padding-bottom: 35px;
             border-top: 1px solid rgba(255, 255, 255, 0.08);
         }
 
@@ -796,11 +1227,11 @@
         .footer-col-title {
             color: #FFFFFF;
             font-family: var(--font-display);
-            font-size: 15px;
+            font-size: 14px;
             font-weight: 700;
-            margin-bottom: 20px;
+            margin-bottom: 22px;
             text-transform: uppercase;
-            letter-spacing: 0.05em;
+            letter-spacing: 0.08em;
         }
 
         .footer-links {
@@ -810,19 +1241,21 @@
         }
 
         .footer-links li {
-            margin-bottom: 10px;
+            margin-bottom: 11px;
         }
 
         .footer-links a {
             color: #94A3B8;
             text-decoration: none;
             font-size: 14px;
-            transition: color 0.2s ease;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
         }
 
         .footer-links a:hover {
             color: #FFFFFF;
-            text-decoration: underline;
+            transform: translateX(4px);
         }
 
         .footer-bottom-bar {
@@ -835,24 +1268,51 @@
             flex-wrap: wrap;
             gap: 16px;
             font-size: 13px;
+            color: #64748B;
         }
 
-        .ssl-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            background: rgba(255, 255, 255, 0.06);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            padding: 5px 12px;
-            border-radius: 99px;
-            color: #38BDF8;
-            font-weight: 600;
-            font-size: 12px;
+        /* --- SCROLL REVEAL ANIMATIONS --- */
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1), transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal-on-scroll.is-revealed {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (max-width: 1199px) {
+            .hero-playful-title {
+                font-size: clamp(30px, 3.6vw, 46px);
+            }
+            .tablet-screen {
+                height: 360px;
+            }
+            .floating-badge-stem {
+                right: -10px;
+                top: -16px;
+                padding: 10px 15px;
+            }
+            .floating-badge-success {
+                left: -10px;
+                bottom: -16px;
+                padding: 10px 15px;
+            }
         }
 
         @media (max-width: 991px) {
             .landing-header {
                 height: 72px;
+            }
+            .hero-section {
+                min-height: auto;
+                padding-top: 105px;
+                padding-bottom: 60px;
+            }
+            .hero-playful-title {
+                font-size: clamp(28px, 6vw, 42px);
             }
             .roots-navbar .navbar-collapse {
                 background: #FFFFFF;
@@ -860,7 +1320,7 @@
                 border-radius: 16px;
                 margin-top: 10px;
                 box-shadow: 0 12px 30px rgba(15, 23, 42, 0.1);
-                border: 1px solid #E2E8F0;
+                border: 1px solid var(--border);
             }
             .roots-nav-menu {
                 flex-direction: column;
@@ -876,7 +1336,7 @@
             .roots-nav-actions {
                 margin-left: 0;
                 padding-top: 14px;
-                border-top: 1px solid #E2E8F0;
+                border-top: 1px solid var(--border);
                 width: 100%;
             }
             .btn-roots-apply {
@@ -885,15 +1345,51 @@
             }
             .main-3d-tablet {
                 transform: none;
-                margin-top: 40px;
             }
-            .floating-badge-stem,
-            .floating-badge-success {
-                position: static;
-                margin: 12px auto;
-                animation: none;
-                width: 100%;
-                max-width: 320px;
+            .hero-showcase-stage {
+                margin-top: 30px;
+                padding: 20px;
+            }
+            .tablet-screen {
+                height: 320px;
+            }
+            .hero-orbit-track,
+            .hero-orbit-rotator {
+                width: calc(100% - 10px);
+                height: calc(100% - 10px);
+            }
+            .orbit-pill {
+                padding: 4px 10px 4px 5px;
+            }
+            .orbit-pill-text {
+                font-size: 10.5px;
+            }
+            .orbit-icon-bubble {
+                width: 24px;
+                height: 24px;
+                font-size: 11px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero-showcase-stage {
+                padding: 10px;
+            }
+            .tablet-screen {
+                height: 300px;
+            }
+            .hero-image-overlay-badge {
+                top: 14px;
+                left: 14px;
+                font-size: 9.5px;
+                padding: 5px 12px;
+            }
+            .orbit-pill-text {
+                display: none;
+            }
+            .orbit-pill {
+                padding: 4px;
+                border-radius: 50%;
             }
         }
     </style>
@@ -913,18 +1409,13 @@
         <div class="hero-glow-orb hero-glow-2"></div>
 
         <div class="container position-relative" style="z-index: 5;">
-            <div class="row align-items-center g-5">
+            <div class="row align-items-center g-4 g-xl-5">
                 <!-- Left Hero Content -->
                 <div class="col-lg-6">
-                    <div class="hero-badge-pill">
-                        <span class="pulse-dot-live"></span>
-                        <span>FULL PROGRAMME {{ $academicSession ?? '2026-2027' }} OPEN NOW</span>
-                    </div>
-
                     <h1 class="hero-playful-title">
                         Nurturing Young Minds Through
-                        <span class="word-highlight-pill word-orange">Play,</span>
-                        <span class="word-highlight-pill word-purple">Wonder & 3D</span>
+                        <span class="word-highlight-pill word-gold">Play,</span>
+                        <span class="word-highlight-pill word-burgundy">Wonder & 3D</span>
                         Interactive Learning.
                     </h1>
 
@@ -933,12 +1424,12 @@
                     </p>
 
                     <div class="hero-cta-group">
-                        <a href="{{ route('admissions') }}" class="btn-hero-orange">
+                        <a href="{{ route('admissions') }}" class="btn-hero-burgundy">
                             <span>Enroll Your Child</span>
                             <i class="bi bi-arrow-right"></i>
                         </a>
-                        <a href="#tourSection" class="btn-hero-purple-outline">
-                            <i class="bi bi-calendar2-event text-purple"></i>
+                        <a href="#tourSection" class="btn-hero-gold-outline">
+                            <i class="bi bi-calendar2-event" style="color: var(--burgundy-primary);"></i>
                             <span>Book Campus Tour</span>
                         </a>
                     </div>
@@ -953,52 +1444,109 @@
                             <strong class="text-dark ms-2" style="font-size: 14px;">4.9 / 5</strong>
                         </div>
                         <span class="text-muted small">&bull; (1,200+ Happy Parent Reviews)</span>
-                        <span class="badge bg-success-subtle text-success fw-bold rounded-pill px-3 py-1">
+                        <span class="hero-affiliation-badge">
                             <i class="bi bi-check-circle-fill me-1"></i> FBISE & Cambridge
                         </span>
                     </div>
                 </div>
 
-                <!-- Right 3D Multi-Layer Screen Showcase -->
+                <!-- Right 3D Showcase With Planetary Orbiting Elements -->
                 <div class="col-lg-6">
-                    <div class="hero-3d-stack">
-                        <!-- Floating Badge 1 (Top Right) -->
-                        <div class="floating-badge-stem">
-                            <div class="rounded-3 p-2 bg-purple-subtle text-purple fs-4">
-                                <i class="bi bi-robot"></i>
+                    <div class="hero-showcase-stage">
+                        
+                        <!-- Planetary Orbital Track & Orbiting Education Elements -->
+                        <div class="hero-orbit-track"></div>
+                        <div class="hero-orbit-rotator">
+                            <!-- Orbit Node 1 (Top): Academic Distinction -->
+                            <div class="orbit-node orbit-node-top">
+                                <div class="orbit-pill">
+                                    <span class="orbit-icon-bubble bubble-amber">
+                                        <i class="bi bi-mortarboard-fill"></i>
+                                    </span>
+                                    <span class="orbit-pill-text">Board Distinction</span>
+                                </div>
                             </div>
-                            <div>
-                                <h6 class="fw-bold text-dark mb-0" style="font-size: 13.5px;">Teacher & AI STEM Pro</h6>
-                                <small class="text-muted" style="font-size: 11px;">Interactive Learning Modules</small>
+
+                            <!-- Orbit Node 2 (Right): STEM & AI Robotics -->
+                            <div class="orbit-node orbit-node-right">
+                                <div class="orbit-pill">
+                                    <span class="orbit-icon-bubble bubble-indigo">
+                                        <i class="bi bi-cpu-fill"></i>
+                                    </span>
+                                    <span class="orbit-pill-text">AI STEM Robotics</span>
+                                </div>
+                            </div>
+
+                            <!-- Orbit Node 3 (Bottom): Holistic Wings -->
+                            <div class="orbit-node orbit-node-bottom">
+                                <div class="orbit-pill">
+                                    <span class="orbit-icon-bubble bubble-teal">
+                                        <i class="bi bi-book-half"></i>
+                                    </span>
+                                    <span class="orbit-pill-text">Holistic Wings</span>
+                                </div>
+                            </div>
+
+                            <!-- Orbit Node 4 (Left): FBISE & Cambridge -->
+                            <div class="orbit-node orbit-node-left">
+                                <div class="orbit-pill">
+                                    <span class="orbit-icon-bubble bubble-rose">
+                                        <i class="bi bi-shield-check"></i>
+                                    </span>
+                                    <span class="orbit-pill-text">FBISE & Cambridge</span>
+                                </div>
                             </div>
                         </div>
 
-                        <!-- 3D Tablet Window Screen -->
-                        <div class="main-3d-tablet">
-                            <div class="tablet-screen">
-                                <img src="{{ asset('images/stem_lab.jpg') }}" alt="STEM Learning Lab" onerror="this.onerror=null; this.src='{{ asset('images/landing_hero.jpg') }}';">
-                                <div class="position-absolute bottom-0 start-0 end-0 p-3" style="background: linear-gradient(180deg, transparent 0%, rgba(15, 23, 42, 0.85) 100%); color: #FFF;">
+                        <!-- Central 3D Showcase Card With Auto-Changing Images (Every 3 Sec) -->
+                        <div class="main-3d-tablet" id="heroTabletCard">
+                            
+                            <!-- Decent Programme Badge Overlaid On Top Of Image -->
+                            <div class="hero-image-overlay-badge">
+                                <span class="pulse-dot-live"></span>
+                                <span>FULL PROGRAMME {{ $academicSession ?? '2026-2027' }} OPEN NOW</span>
+                            </div>
+
+                            <div class="tablet-screen" id="heroImageCarousel">
+                                <!-- Slide 1: STEM & Robotics -->
+                                <div class="hero-slide active" data-title="Live Innovation Class" data-sub="Hands-on 3D printing & sensor robotics" data-badge="Active Lab">
+                                    <img src="{{ asset('images/stem_lab.jpg') }}" alt="STEM Innovation Lab" onerror="this.onerror=null; this.src='{{ asset('images/landing_hero.jpg') }}';">
+                                </div>
+                                <!-- Slide 2: Smart Classrooms -->
+                                <div class="hero-slide" data-title="Smart AI Classrooms" data-sub="Interactive 3D digital learning boards" data-badge="Modern Wing">
+                                    <img src="{{ asset('images/landing_hero.jpg') }}" alt="Smart Classroom" onerror="this.onerror=null; this.src='{{ asset('images/stem_lab.jpg') }}';">
+                                </div>
+                                <!-- Slide 3: Campus & Sports -->
+                                <div class="hero-slide" data-title="State-of-the-Art Campus" data-sub="Sports arena, activity clubs & daylight studios" data-badge="Campus Tour">
+                                    <img src="{{ asset('upload/school_campus.jpg') }}" alt="Excellence Campus" onerror="this.onerror=null; this.src='{{ asset('images/landing_hero.jpg') }}';">
+                                </div>
+                                <!-- Slide 4: Academic Hub & Library -->
+                                <div class="hero-slide" data-title="Collaborative Library" data-sub="Advanced research & intellectual discovery" data-badge="Academic Hub">
+                                    <img src="{{ asset('upload/signup_hero.jpg') }}" alt="Academic Library" onerror="this.onerror=null; this.src='{{ asset('images/stem_lab.jpg') }}';">
+                                </div>
+
+                                <!-- Dynamic Bottom Info Bar (Updates with slide) -->
+                                <div class="hero-slide-caption">
                                     <div class="d-flex justify-content-between align-items-center">
                                         <div>
-                                            <h6 class="fw-bold mb-0 text-white"><i class="bi bi-broadcast text-danger me-1"></i> Live Innovation Class</h6>
-                                            <small class="text-light opacity-75">Hands-on 3D printing & sensor robotics</small>
+                                            <h6 class="fw-bold mb-0 text-white" id="heroSlideTitle">
+                                                <i class="bi bi-broadcast text-danger me-1"></i> Live Innovation Class
+                                            </h6>
+                                            <small class="text-light opacity-75" id="heroSlideSub">Hands-on 3D printing & sensor robotics</small>
                                         </div>
-                                        <span class="badge bg-primary px-3 py-1 rounded-pill">Active Lab</span>
+                                        <span class="badge px-3 py-1 rounded-pill hero-slide-badge" id="heroSlideBadge">Active Lab</span>
+                                    </div>
+                                    <!-- Slide Progress Dots -->
+                                    <div class="hero-slide-dots mt-2 d-flex gap-1 justify-content-center">
+                                        <span class="hero-dot active"></span>
+                                        <span class="hero-dot"></span>
+                                        <span class="hero-dot"></span>
+                                        <span class="hero-dot"></span>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Floating Badge 2 (Bottom Left) -->
-                        <div class="floating-badge-success">
-                            <div class="rounded-3 p-2 bg-success-subtle text-success fs-4">
-                                <i class="bi bi-award-fill"></i>
-                            </div>
-                            <div>
-                                <h6 class="fw-bold text-dark mb-0" style="font-size: 13.5px;">99.8% Board Distinction</h6>
-                                <small class="text-muted" style="font-size: 11px;">National Merit Positions</small>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -1008,7 +1556,7 @@
     <!-- =========================================================================
          SECTION 2: FOUR PILLARS OF HOLISTIC GROWTH
          ========================================================================= -->
-    <section class="pillars-section">
+    <section class="pillars-section reveal-on-scroll">
         <div class="container">
             <div class="text-center max-w-700 mx-auto mb-5">
                 <span class="section-tag-pill">EXCELLENCE AT EVERY STEP</span>
@@ -1022,14 +1570,14 @@
                 <!-- Pillar 1 -->
                 <div class="col-md-6 col-lg-3">
                     <div class="pillar-card">
-                        <div class="pillar-icon-box pillar-icon-orange">
+                        <div class="pillar-icon-box pillar-icon-gold">
                             <i class="bi bi-puzzle-fill"></i>
                         </div>
                         <h4 class="pillar-title">Montessori & STEM</h4>
                         <p class="pillar-desc">
                             Hands-on sensory exploration, coding logic, robotics sets, and practical observation from Early Years.
                         </p>
-                        <a href="{{ route('academics') }}#preschool" class="pillar-link text-warning">
+                        <a href="{{ route('academics') }}#preschool" class="pillar-link">
                             <span>Learn More</span> <i class="bi bi-arrow-right"></i>
                         </a>
                     </div>
@@ -1038,14 +1586,14 @@
                 <!-- Pillar 2 -->
                 <div class="col-md-6 col-lg-3">
                     <div class="pillar-card">
-                        <div class="pillar-icon-box pillar-icon-purple">
+                        <div class="pillar-icon-box pillar-icon-burgundy">
                             <i class="bi bi-person-heart"></i>
                         </div>
                         <h4 class="pillar-title">Nurturing Educators</h4>
                         <p class="pillar-desc">
                             Compassionate, certified teachers delivering individualized attention with a low 15:1 student-to-teacher ratio.
                         </p>
-                        <a href="{{ route('about') }}" class="pillar-link text-purple">
+                        <a href="{{ route('about') }}" class="pillar-link">
                             <span>Meet Culture</span> <i class="bi bi-arrow-right"></i>
                         </a>
                     </div>
@@ -1054,14 +1602,14 @@
                 <!-- Pillar 3 -->
                 <div class="col-md-6 col-lg-3">
                     <div class="pillar-card">
-                        <div class="pillar-icon-box pillar-icon-green">
+                        <div class="pillar-icon-box pillar-icon-maroon">
                             <i class="bi bi-shield-check"></i>
                         </div>
                         <h4 class="pillar-title">Safe & Active Sports</h4>
                         <p class="pillar-desc">
                             2-acre safe green campus, modern sports courts, karate, gymnastics, athletics, and physical wellness.
                         </p>
-                        <a href="{{ route('why.choose.us') }}" class="pillar-link text-success">
+                        <a href="{{ route('why.choose.us') }}" class="pillar-link">
                             <span>Explore Grounds</span> <i class="bi bi-arrow-right"></i>
                         </a>
                     </div>
@@ -1077,7 +1625,7 @@
                         <p class="pillar-desc">
                             Creative studio work, public speaking, Islamic moral ethics, and performing arts fostering well-rounded character.
                         </p>
-                        <a href="{{ route('academics') }}" class="pillar-link text-warning">
+                        <a href="{{ route('academics') }}" class="pillar-link">
                             <span>Discover Arts</span> <i class="bi bi-arrow-right"></i>
                         </a>
                     </div>
@@ -1089,7 +1637,7 @@
     <!-- =========================================================================
          SECTION 3: PROGRAMS TAILORED TO EVERY AGE STAGE
          ========================================================================= -->
-    <section class="programs-section">
+    <section class="programs-section reveal-on-scroll">
         <div class="container">
             <div class="d-flex flex-column flex-lg-row align-items-lg-end justify-content-between mb-5 gap-3">
                 <div>
@@ -1098,10 +1646,10 @@
                     <p class="text-muted mb-0">Select an academic tier tailored to your child's age, growth stage, and learning ambitions.</p>
                 </div>
                 <div class="d-flex gap-2 flex-wrap">
-                    <a href="{{ route('academics') }}#preschool" class="btn btn-sm btn-white border rounded-pill px-3 py-2 fw-bold text-dark shadow-sm bg-white">Pre-School</a>
-                    <a href="{{ route('academics') }}#primary" class="btn btn-sm btn-white border rounded-pill px-3 py-2 fw-bold text-dark shadow-sm bg-white">Primary Wing</a>
-                    <a href="{{ route('academics') }}#matric" class="btn btn-sm btn-white border rounded-pill px-3 py-2 fw-bold text-dark shadow-sm bg-white">Senior FBISE</a>
-                    <a href="{{ route('academics') }}" class="btn btn-sm btn-primary rounded-pill px-3 py-2 fw-bold shadow-sm" style="background: #7C3AED;">View All Wings &rarr;</a>
+                    <a href="{{ route('academics') }}#preschool" class="btn-program-tab">Pre-School</a>
+                    <a href="{{ route('academics') }}#primary" class="btn-program-tab">Primary Wing</a>
+                    <a href="{{ route('academics') }}#matric" class="btn-program-tab">Senior FBISE</a>
+                    <a href="{{ route('academics') }}" class="btn-program-tab active">View All Wings &rarr;</a>
                 </div>
             </div>
 
@@ -1126,7 +1674,7 @@
                                     <small class="text-muted d-block">Wing Enrollment</small>
                                     <strong class="text-dark">Spring 2026 Open</strong>
                                 </div>
-                                <a href="{{ route('admissions') }}" class="btn btn-sm btn-warning fw-bold px-3 py-2 rounded-3 text-dark">
+                                <a href="{{ route('admissions') }}" class="btn-program-apply">
                                     Apply Now &rarr;
                                 </a>
                             </div>
@@ -1154,7 +1702,7 @@
                                     <small class="text-muted d-block">Wing Enrollment</small>
                                     <strong class="text-dark">Seats Available</strong>
                                 </div>
-                                <a href="{{ route('admissions') }}" class="btn btn-sm btn-primary fw-bold px-3 py-2 rounded-3" style="background: #7C3AED;">
+                                <a href="{{ route('admissions') }}" class="btn-program-apply">
                                     Apply Now &rarr;
                                 </a>
                             </div>
@@ -1182,7 +1730,7 @@
                                     <small class="text-muted d-block">Wing Enrollment</small>
                                     <strong class="text-dark">Merit Admissions</strong>
                                 </div>
-                                <a href="{{ route('admissions') }}" class="btn btn-sm btn-success fw-bold px-3 py-2 rounded-3 text-white">
+                                <a href="{{ route('admissions') }}" class="btn-program-apply">
                                     Apply Now &rarr;
                                 </a>
                             </div>
@@ -1196,12 +1744,12 @@
     <!-- =========================================================================
          SECTION 4: MODERN DEEP EMERALD / BRAND FEATURE BANNER
          ========================================================================= -->
-    <section class="mentor-banner-section">
+    <section class="mentor-banner-section reveal-on-scroll">
         <div class="container">
-            <div class="row align-items-center g-5">
+            <div class="row align-items-center g-4 g-xl-5">
                 <div class="col-lg-6">
                     <span class="badge px-3 py-2 rounded-pill bg-light text-dark fw-bold mb-3" style="font-size: 13px;">TOP-TIER ACCREDITATION</span>
-                    <h2 class="display-6 fw-bold mb-3" style="letter-spacing: -0.02em;">We Are The Best Mentors In Modern Holistic Education</h2>
+                    <h2 class="display-6 fw-bold mb-3" style="letter-spacing: -0.02em; color: #FFFFFF !important;">We Are The Best Mentors In Modern Holistic Education</h2>
                     <p class="lead opacity-90 mb-4" style="font-size: 17px; line-height: 1.7;">
                         Dedicated to creating an inspiring environment where every learner thrives academically, socially, and creatively through compassionate guidance and world-class digital tools.
                     </p>
@@ -1234,7 +1782,7 @@
                     </div>
 
                     <div class="d-flex gap-3 flex-wrap">
-                        <a href="{{ route('admissions') }}" class="btn btn-warning px-4 py-3 fw-bold rounded-3 shadow text-dark">
+                        <a href="{{ route('admissions') }}" class="btn btn-mentor-visit px-4 py-3 fw-bold rounded-pill shadow">
                             Schedule Campus Visit <i class="bi bi-arrow-right ms-2"></i>
                         </a>
                         <a href="{{ route('about') }}" class="btn btn-outline-light px-4 py-3 fw-bold rounded-3">
@@ -1264,7 +1812,7 @@
     <!-- =========================================================================
          SECTION 5: LIFE INSIDE EXCELLENCE CAMPUS (CAMPUS GALLERY)
          ========================================================================= -->
-    <section class="campus-gallery-section">
+    <section class="campus-gallery-section reveal-on-scroll">
         <div class="container">
             <div class="text-center max-w-700 mx-auto mb-5">
                 <span class="section-tag-pill">CAMPUS LIFE & CULTURE</span>
@@ -1306,7 +1854,7 @@
     <!-- =========================================================================
          SECTION 6: TESTIMONIALS (WHAT 500+ PARENTS SAY)
          ========================================================================= -->
-    <section class="testimonials-section">
+    <section class="testimonials-section reveal-on-scroll">
         <div class="container">
             <div class="text-center max-w-700 mx-auto mb-5">
                 <span class="section-tag-pill">PARENT TESTIMONIALS</span>
@@ -1321,7 +1869,7 @@
                 <div class="col-md-4">
                     <div class="review-card">
                         <div>
-                            <div class="text-warning mb-3">
+                            <div class="review-stars">
                                 <i class="bi bi-star-fill"></i>
                                 <i class="bi bi-star-fill"></i>
                                 <i class="bi bi-star-fill"></i>
@@ -1333,7 +1881,7 @@
                             </p>
                         </div>
                         <div class="d-flex align-items-center gap-3 pt-3 border-top">
-                            <div class="rounded-circle d-flex align-items-center justify-content-center text-white fw-bold shadow-sm" style="width: 44px; height: 44px; background: #F97316;">
+                            <div class="rounded-circle d-flex align-items-center justify-content-center text-white fw-bold shadow-sm" class="rounded-circle d-flex align-items-center justify-content-center fw-bold shadow-sm avatar-initials-burgundy" style="width: 44px; height: 44px;">
                                 FA
                             </div>
                             <div>
@@ -1348,7 +1896,7 @@
                 <div class="col-md-4">
                     <div class="review-card">
                         <div>
-                            <div class="text-warning mb-3">
+                            <div class="review-stars">
                                 <i class="bi bi-star-fill"></i>
                                 <i class="bi bi-star-fill"></i>
                                 <i class="bi bi-star-fill"></i>
@@ -1360,7 +1908,7 @@
                             </p>
                         </div>
                         <div class="d-flex align-items-center gap-3 pt-3 border-top">
-                            <div class="rounded-circle d-flex align-items-center justify-content-center text-white fw-bold shadow-sm" style="width: 44px; height: 44px; background: #7C3AED;">
+                            <div class="rounded-circle d-flex align-items-center justify-content-center text-white fw-bold shadow-sm" class="rounded-circle d-flex align-items-center justify-content-center fw-bold shadow-sm avatar-initials-gold" style="width: 44px; height: 44px;">
                                 TR
                             </div>
                             <div>
@@ -1375,7 +1923,7 @@
                 <div class="col-md-4">
                     <div class="review-card">
                         <div>
-                            <div class="text-warning mb-3">
+                            <div class="review-stars">
                                 <i class="bi bi-star-fill"></i>
                                 <i class="bi bi-star-fill"></i>
                                 <i class="bi bi-star-fill"></i>
@@ -1387,7 +1935,7 @@
                             </p>
                         </div>
                         <div class="d-flex align-items-center gap-3 pt-3 border-top">
-                            <div class="rounded-circle d-flex align-items-center justify-content-center text-white fw-bold shadow-sm" style="width: 44px; height: 44px; background: #10B981;">
+                            <div class="rounded-circle d-flex align-items-center justify-content-center text-white fw-bold shadow-sm" class="rounded-circle d-flex align-items-center justify-content-center fw-bold shadow-sm avatar-initials-maroon" style="width: 44px; height: 44px;">
                                 SK
                             </div>
                             <div>
@@ -1404,12 +1952,12 @@
     <!-- =========================================================================
          SECTION 7: SCHEDULE CAMPUS TOUR CTA (EDUKID STYLE)
          ========================================================================= -->
-    <section class="tour-cta-section" id="tourSection">
+    <section class="tour-cta-section reveal-on-scroll" id="tourSection">
         <div class="container">
             <div class="text-center max-w-700 mx-auto mb-5">
-                <span class="badge px-3 py-2 rounded-pill bg-white text-dark fw-bold mb-2">CAMPUS VISIT & REGISTRATION</span>
-                <h2 class="display-6 fw-bold mb-2">Schedule Your Private Campus Tour Today</h2>
-                <p class="lead opacity-90 max-w-600 mx-auto" style="font-size: 16px;">
+                <span class="tour-badge mb-3">CAMPUS VISIT & REGISTRATION</span>
+                <h2 class="display-6 fw-bold mb-2 text-white" style="letter-spacing: -0.02em; color: #FFFFFF !important;">Schedule Your Private Campus Tour Today</h2>
+                <p class="lead opacity-90 max-w-600 mx-auto text-white" style="font-size: 16px; color: rgba(255, 255, 255, 0.92) !important;">
                     Experience our smart classrooms, STEM robotics labs, and meet the leadership team in person.
                 </p>
             </div>
@@ -1450,7 +1998,7 @@
                             <input type="date" name="tour_date" class="form-control py-2 rounded-3" min="{{ date('Y-m-d') }}" required>
                         </div>
                         <div class="col-12 mt-3">
-                            <button type="submit" class="btn btn-primary w-100 py-3 fw-bold rounded-3 shadow" style="background: linear-gradient(135deg, #7C3AED 0%, #4F46E5 100%);">
+                            <button type="submit" class="btn btn-tour-submit w-100 py-3 shadow">
                                 <i class="bi bi-calendar-check-fill me-2"></i> Book Free Campus Visit & Tour
                             </button>
                             <div class="text-center mt-2 small text-muted">
@@ -1472,6 +2020,25 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
+        // Scroll Reveal Observer for luxury micro-animations
+        const revealElements = document.querySelectorAll('.reveal-on-scroll');
+        if ('IntersectionObserver' in window) {
+            const revealObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-revealed');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.12,
+                rootMargin: '0px 0px -40px 0px'
+            });
+            revealElements.forEach(el => revealObserver.observe(el));
+        } else {
+            revealElements.forEach(el => el.classList.add('is-revealed'));
+        }
+
         // Sticky Header scroll effect
         window.addEventListener('scroll', function () {
             const header = document.getElementById('landingHeader');
@@ -1482,6 +2049,75 @@
                 header.classList.remove('scrolled');
             }
         });
+
+        // 3-Second Auto Image Slideshow
+        (function initHeroImageSlideshow() {
+            const slides = document.querySelectorAll('#heroImageCarousel .hero-slide');
+            const dots = document.querySelectorAll('.hero-slide-dots .hero-dot');
+            const titleEl = document.getElementById('heroSlideTitle');
+            const subEl = document.getElementById('heroSlideSub');
+            const badgeEl = document.getElementById('heroSlideBadge');
+            if (!slides || slides.length === 0) return;
+
+            let currentIndex = 0;
+            const slideIcons = [
+                'bi-broadcast text-danger',
+                'bi-cpu-fill text-info',
+                'bi-trophy-fill text-warning',
+                'bi-journal-bookmark-fill text-success'
+            ];
+
+            function switchSlide(index) {
+                slides.forEach((slide, i) => {
+                    slide.classList.toggle('active', i === index);
+                });
+                dots.forEach((dot, i) => {
+                    dot.classList.toggle('active', i === index);
+                });
+                const activeSlide = slides[index];
+                if (activeSlide && titleEl && subEl && badgeEl) {
+                    const title = activeSlide.getAttribute('data-title') || '';
+                    const sub = activeSlide.getAttribute('data-sub') || '';
+                    const badge = activeSlide.getAttribute('data-badge') || '';
+                    const iconClass = slideIcons[index % slideIcons.length];
+                    titleEl.innerHTML = `<i class="bi ${iconClass} me-1"></i> ${title}`;
+                    subEl.textContent = sub;
+                    badgeEl.textContent = badge;
+                }
+            }
+
+            let carouselInterval = setInterval(() => {
+                currentIndex = (currentIndex + 1) % slides.length;
+                switchSlide(currentIndex);
+            }, 3000);
+
+            // Click on dots to jump
+            dots.forEach((dot, idx) => {
+                dot.style.cursor = 'pointer';
+                dot.addEventListener('click', () => {
+                    currentIndex = idx;
+                    switchSlide(currentIndex);
+                    clearInterval(carouselInterval);
+                    carouselInterval = setInterval(() => {
+                        currentIndex = (currentIndex + 1) % slides.length;
+                        switchSlide(currentIndex);
+                    }, 3000);
+                });
+            });
+
+            // Pause on hover over tablet card
+            const tabletCard = document.getElementById('heroTabletCard');
+            if (tabletCard) {
+                tabletCard.addEventListener('mouseenter', () => clearInterval(carouselInterval));
+                tabletCard.addEventListener('mouseleave', () => {
+                    clearInterval(carouselInterval);
+                    carouselInterval = setInterval(() => {
+                        currentIndex = (currentIndex + 1) % slides.length;
+                        switchSlide(currentIndex);
+                    }, 3000);
+                });
+            }
+        })();
     </script>
 </body>
 </html>

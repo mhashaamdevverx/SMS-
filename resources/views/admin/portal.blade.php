@@ -14,6 +14,8 @@
             @php
             $tabMenu = [
                 'dashboard' => ['Dashboard', 'bi-grid-1x2-fill'],
+                'admissions' => ['Admissions Applications', 'bi-file-earmark-person-fill', $pendingAdmissionsCount ?? 0],
+                'careers' => ['Careers Applications', 'bi-briefcase-fill', $pendingCareersCount ?? 0],
                 'leaves' => ['Leaves Approval', 'bi-calendar2-check-fill', $pendingLeavesCount ?? 0],
                 'salaries' => ['Teacher Salaries', 'bi-cash-stack', 0],
                 'students' => ['Students Directory', 'bi-mortarboard-fill', 0],

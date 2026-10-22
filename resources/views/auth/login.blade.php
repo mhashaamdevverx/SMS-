@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Excellence School System</title>
 
-    <link rel="icon" type="image/png" href="{{ asset('upload/Logo.png') }}">
-    <link rel="apple-touch-icon" href="{{ asset('upload/Logo.png') }}">
+    <link rel="icon" type="image/png" href="{{ asset('images/school_logo.png') }}">
+    <link rel="apple-touch-icon" href="{{ asset('images/school_logo.png') }}">
     
     <!-- Bootstrap Icons & Google Fonts -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
@@ -40,7 +40,7 @@
                 <!-- BRAND LOGO BADGE (CENTERED) -->
                 <div class="badge-logo-outer">
                     <div class="badge-logo-inner">
-                        <img src="{{ asset('upload/Logo.png') }}" alt="Excellence School System Logo">
+                        <img src="{{ asset('images/school_logo.png') }}" alt="Excellence School System Logo">
                     </div>
                 </div>
 
