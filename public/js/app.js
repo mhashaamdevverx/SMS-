@@ -357,6 +357,9 @@ const initSubjectsPage=()=>{
                 countDisplay.innerHTML = '<strong>' + visibleCount + '</strong> subject' + (visibleCount === 1 ? '' : 's');
             }
         });
+    }
+};
+
 const initEmailAutoSuggestions=()=>{
     const generateGmail=(name1,name2='')=>{
         const clean=s=>(s||'').toLowerCase().replace(/^(sir|madam|ma'am|mr\.?|mrs\.?|ms\.?|dr\.?|prof\.?)\s+/i,'').replace(/[^a-z0-9]/g,'');

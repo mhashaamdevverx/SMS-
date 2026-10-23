@@ -15,17 +15,22 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
 
     
-    <link rel="stylesheet" href="{{ asset('css/global.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/login.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/global.css') }}?v={{ time() }}">
+    <link rel="stylesheet" href="{{ asset('css/login.css') }}?v={{ time() }}">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}?v={{ time() }}">
 </head>
 <body>
 
-    <!-- TOP NAVBAR -->
-    <header class="top-navbar" style="position: fixed; top: 16px; right: 24px; z-index: 99999; pointer-events: auto;">
+    <!-- TOP NAVIGATION BAR -->
+    <header class="top-navbar">
+        <a href="/" class="btn-back-home" title="Return to Home">
+            <i class="bi bi-arrow-left"></i>
+            <span>Back to Home</span>
+        </a>
         <div class="top-nav-actions">
-            <a href="{{ route('support') }}" class="btn-header-support" title="Help Desk & Support Center" style="cursor: pointer; text-decoration: none;" onclick="window.location.href='{{ route('support') }}';">
+            <a href="{{ route('support') }}" class="btn-header-support" title="Help Desk &amp; Support Center">
                 <span class="support-icon-circle">?</span>
+                <span>Help &amp; Support</span>
             </a>
         </div>
     </header>
@@ -38,11 +43,13 @@
             <div class="form-side">
                 
                 <!-- BRAND LOGO BADGE (CENTERED) -->
-                <div class="badge-logo-outer">
-                    <div class="badge-logo-inner">
-                        <img src="{{ asset('images/school_logo.png') }}" alt="Excellence School System Logo">
+                <a href="/" title="Back to Home" style="text-decoration:none;">
+                    <div class="badge-logo-outer">
+                        <div class="badge-logo-inner">
+                            <img src="{{ asset('images/school_logo.png') }}" alt="Excellence School System Logo">
+                        </div>
                     </div>
-                </div>
+                </a>
 
                 <!-- TITLE & SUBTITLE (CENTERED) -->
                 <h1 class="form-heading">Excellence School System</h1>
@@ -70,9 +77,9 @@
 
                     <fieldset class="login-role-switch">
                         <legend>Sign in as</legend>
-                        <label><input type="radio" name="account_type" value="student" @checked(old('account_type', request('account_type', 'student')) === 'student')><span><i class="bi bi-mortarboard-fill" aria-hidden="true"></i> Student</span></label>
-                        <label><input type="radio" name="account_type" value="teacher" @checked(old('account_type', request('account_type')) === 'teacher')><span><i class="bi bi-person-badge-fill" aria-hidden="true"></i> Teacher</span></label>
-                        <label><input type="radio" name="account_type" value="admin" @checked(old('account_type', request('account_type')) === 'admin')><span><i class="bi bi-shield-lock-fill" aria-hidden="true"></i> Admin</span></label>
+                        <label><input type="radio" name="account_type" value="student" @checked(old('account_type', 'student') === 'student')><span><i class="bi bi-mortarboard-fill" aria-hidden="true"></i> Student</span></label>
+                        <label><input type="radio" name="account_type" value="teacher" @checked(old('account_type') === 'teacher')><span><i class="bi bi-person-badge-fill" aria-hidden="true"></i> Teacher</span></label>
+                        <label><input type="radio" name="account_type" value="admin" @checked(old('account_type') === 'admin')><span><i class="bi bi-shield-lock-fill" aria-hidden="true"></i> Admin</span></label>
                     </fieldset>
 
                     <!-- EMAIL INPUT -->
@@ -85,9 +92,7 @@
                                 type="email" 
                                 name="email" 
                                 class="input-pill" 
-                                placeholder="name@gmail.com" 
-                                pattern="^[a-zA-Z0-9._%+-]+@gmail\.com$"
-                                title="Please enter a valid Gmail address ending in @gmail.com (e.g. name@gmail.com)"
+                                placeholder="Enter Your Email" 
                                 value="{{ old('email') }}" 
                                 required
                                 autocomplete="email"
@@ -111,7 +116,7 @@
                                 placeholder="Enter Your Password" 
                                 required
                             >
-                            <button type="button" class="btn-toggle-eye" id="togglePasswordBtn" title="Toggle password visibility">
+                            <button type="button" class="btn-toggle-eye" id="togglePasswordBtn" onclick="togglePasswordVisibility(event)" title="Toggle password visibility">
                                 <i class="bi bi-eye" id="eyeIcon"></i>
                             </button>
                         </div>
@@ -193,7 +198,32 @@
     </main>
 
     <!-- SCRIPT FOR INTERACTION -->
-    
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    <script>
+        function togglePasswordVisibility(e) {
+            if (e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+            var passInput = document.getElementById('login-password');
+            var eyeIcon = document.getElementById('eyeIcon');
+            if (!passInput) return;
+            var isPass = passInput.type === 'password';
+            passInput.type = isPass ? 'text' : 'password';
+            if (eyeIcon) {
+                if (isPass) {
+                    eyeIcon.className = 'bi bi-eye-slash';
+                } else {
+                    eyeIcon.className = 'bi bi-eye';
+                }
+            }
+        }
+        document.addEventListener('DOMContentLoaded', function() {
+            var btn = document.getElementById('togglePasswordBtn');
+            if (btn) {
+                btn.onclick = togglePasswordVisibility;
+            }
+        });
+    </script>
+    <script src="{{ asset('js/app.js') }}?v={{ time() }}" defer></script>
 </body>
 </html>
