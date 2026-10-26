@@ -17,7 +17,7 @@
 
             {{-- MONTH FILTER DROPDOWN --}}
             <div class="ts-month-filter-box">
-                <i class="bi bi-calendar3" style="color:#4F46E5;font-size:16px;"></i>
+                <i class="bi bi-calendar3" style="color:#0d8f83;font-size:16px;"></i>
                 <span style="font-size:12.5px;font-weight:700;color:#64748b;">Select Month:</span>
                 <select id="testSessionMonthSelect" onchange="switchTestSessionMonth(this.value)">
                     @foreach($testSessions as $mKey => $sData)
@@ -82,7 +82,7 @@
                     </div>
                     <div>
                         <small style="display:block;font-size:10.5px;color:#64748b;font-weight:700;text-transform:uppercase;">Registration No</small>
-                        <strong style="font-size:14px;color:#4F46E5;">{{ $stdRegNo }}</strong>
+                        <strong style="font-size:14px;color:#0d8f83;">{{ $stdRegNo }}</strong>
                     </div>
                     <div>
                         <small style="display:block;font-size:10.5px;color:#64748b;font-weight:700;text-transform:uppercase;">Roll Number</small>
@@ -95,16 +95,20 @@
                 </div>
 
                 {{-- DATE SHEET TABLE (1 WEEK: MON-FRI EXAMS, SAT-SUN OFF) --}}
-                <div class="ts-table-wrapper">
-                    <table class="ts-table">
+                <div class="ts-table-wrapper" style="border: 1px solid #E2E8F0; border-radius: 14px; overflow: hidden; background: #ffffff; margin-bottom: 24px;">
+                    <div style="padding:14px 20px;background:#ffffff;border-bottom:1px solid #e2e8f0;display:flex;align-items:center;gap:10px;">
+                        <i class="bi bi-calendar-check-fill" style="color:#4F46E5;font-size:18px;"></i>
+                        <h3 style="margin:0;font-size:15px;color:#0f172a;font-weight:700;">Examination Datesheet Schedule</h3>
+                    </div>
+                    <table class="ts-table" style="width: 100%; border-collapse: collapse; margin: 0;">
                         <thead>
-                            <tr>
-                                <th>DATE &amp; DAY</th>
-                                <th>SUBJECT EXAM</th>
-                                <th>TIMING</th>
-                                <th>VENUE</th>
-                                <th style="text-align:center;">MAX MARKS</th>
-                                <th style="text-align:center;">OBTAINED MARKS</th>
+                            <tr style="background: linear-gradient(135deg, #1E1B4B 0%, #4F46E5 100%) !important;">
+                                <th style="padding: 13px 14px; color: #FFFFFF !important; font-size: 11.5px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; border: none; width: 18%;">DATE &amp; DAY</th>
+                                <th style="padding: 13px 14px; color: #FFFFFF !important; font-size: 11.5px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; border: none; width: 26%;">SUBJECT EXAM</th>
+                                <th style="padding: 13px 14px; color: #FFFFFF !important; font-size: 11.5px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; border: none; width: 18%;">TIMING</th>
+                                <th style="padding: 13px 14px; color: #FFFFFF !important; font-size: 11.5px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; border: none; width: 14%;">VENUE</th>
+                                <th style="padding: 13px 14px; color: #FFFFFF !important; font-size: 11.5px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; text-align:center; border: none; width: 11%;">MAX MARKS</th>
+                                <th style="padding: 13px 14px; color: #FFFFFF !important; font-size: 11.5px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; text-align:center; border: none; width: 13%;">OBTAINED MARKS</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -112,7 +116,7 @@
                                 <tr class="{{ ($row['is_off'] ?? false) ? 'ts-row-off' : 'ts-row-exam' }}">
                                     <td>
                                         <b style="color:#0f172a;">{{ $row['date'] }}</b>
-                                        <small style="display:block;color:{{ ($row['is_off'] ?? false) ? '#64748b' : '#4F46E5' }};font-weight:700;">{{ $row['day'] }}</small>
+                                        <small style="display:block;color:{{ ($row['is_off'] ?? false) ? '#64748b' : '#0d8f83' }};font-weight:700;">{{ $row['day'] }}</small>
                                     </td>
                                     <td>
                                         @if($row['is_off'] ?? false)
@@ -209,7 +213,7 @@
 
         <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:12px 16px;margin-bottom:14px;display:grid;grid-template-columns:repeat(2, 1fr);gap:8px;font-size:12.5px;flex-shrink:0;">
             <div><small style="color:#64748b;font-weight:700;display:block;">STUDENT NAME</small><b id="modalStdName">{{ $student->name }}</b></div>
-            <div><small style="color:#64748b;font-weight:700;display:block;">REGISTRATION NO</small><b style="color:#4F46E5;">{{ $stdRegNo }}</b></div>
+            <div><small style="color:#64748b;font-weight:700;display:block;">REGISTRATION NO</small><b style="color:#0d8f83;">{{ $stdRegNo }}</b></div>
             <div><small style="color:#64748b;font-weight:700;display:block;">ROLL NO</small><b>Roll #{{ $student->std_id }}</b></div>
             <div><small style="color:#64748b;font-weight:700;display:block;">CLASS & SECTION</small><b>{{ $student->class }} ({{ $student->section }})</b></div>
         </div>
@@ -226,7 +230,7 @@
 
         <div style="display:flex;justify-content:flex-end;gap:10px;flex-shrink:0;">
             <button type="button" onclick="closeTestResultModal()" style="background:#f1f5f9;color:#334155;border:none;padding:8px 18px;border-radius:10px;font-weight:700;font-size:12.5px;cursor:pointer;">Close</button>
-            <a id="modalDownloadBtn" href="#" target="_blank" style="background:#4F46E5;color:#ffffff;text-decoration:none;padding:8px 18px;border-radius:10px;font-weight:700;font-size:12.5px;display:inline-flex;align-items:center;gap:6px;"><i class="bi bi-download"></i> Download Slip</a>
+            <a id="modalDownloadBtn" href="#" target="_blank" style="background:#0d8f83;color:#ffffff;text-decoration:none;padding:8px 18px;border-radius:10px;font-weight:700;font-size:12.5px;display:inline-flex;align-items:center;gap:6px;"><i class="bi bi-download"></i> Download Slip</a>
         </div>
     </div>
 </div>

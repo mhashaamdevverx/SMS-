@@ -14,6 +14,7 @@
     <!-- Icon Fonts & Stylesheet -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="{{ asset('css/student-portal.css') }}?v={{ time() }}">
+    <link rel="stylesheet" href="{{ asset('css/admin-portal.css') }}?v={{ time() }}">
     <link rel="stylesheet" href="{{ asset('css/teacher-portal.css') }}?v={{ time() }}">
     
     <!-- Custom Theme & Interactive Logic -->
@@ -21,31 +22,36 @@
     <script src="{{ asset('js/common/notifications.js') }}?v={{ time() }}" defer></script>
     <script src="{{ asset('js/teacher/teacher-portal-page.js') }}?v={{ time() }}" defer></script>
 </head>
-<body class="student-shell">
+<body class="student-shell admin-shell teacher-shell">
     <!-- Mobile Navigation Overlay -->
     <div class="mobile-nav-overlay" id="mobileNavOverlay"></div>
 
     <!-- REDESIGNED SIDEBAR (Deep Teal Gradient + Pattern Overlay) -->
-    <aside class="student-side teacher-side">
-        <!-- Top Brand Badge -->
-        <a class="student-brand" href="{{ route('teacher.dashboard') }}">
-            <div class="brand-badge" style="background: linear-gradient(135deg, #4F46E5, #14B8A6);">ESS</div>
-            <div class="brand-text">
-                <b>Excellence School System</b>
-                <small class="brand-subtitle" style="color: #14B8A6;">Teacher Portal</small>
-            </div>
-        </a>
+    <aside class="student-side teacher-side admin-side">
+        <!-- Top Brand Header with Official Crest Logo & Collapse Toggle Button -->
+        <div class="admin-brand-header">
+            <a class="student-brand admin-brand" href="{{ route('teacher.dashboard') }}">
+                <img src="{{ asset('images/school_logo.png') }}" alt="Excellence School System" class="admin-brand-logo-img" style="height: 44px; width: 44px; object-fit: contain; flex-shrink: 0; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.3));">
+                <div class="brand-text">
+                    <b>Excellence School System</b>
+                    <small class="brand-subtitle">Teacher Portal</small>
+                </div>
+            </a>
+            <button type="button" id="sidebarCollapseBtn" class="sidebar-collapse-toggle-btn" title="Toggle Sidebar" aria-label="Toggle Sidebar">
+                <i class="bi bi-arrow-left-right"></i>
+            </button>
+        </div>
 
         <!-- Session Glassmorphism Pill -->
-        <div class="student-term">
-            <i class="bi bi-circle-fill" style="color: #14B8A6;"></i>
+        <div class="student-term admin-term" style="margin: 0 16px 16px 16px;">
+            <i class="bi bi-circle-fill" style="color: #10B981; font-size: 8px;"></i>
             <span>Current Session</span>
             <b>{{ now()->format('Y') }}</b>
         </div>
 
         <!-- Navigation Categories & Links -->
         <nav>
-            <p class="student-menu-label">ACADEMICS & STUDENTS</p>
+            <p class="student-menu-label admin-menu-label">ACADEMICS & STUDENTS</p>
             @php
             $academicMenu = [
                 'dashboard' => ['Dashboard', 'bi-grid-1x2-fill'],
@@ -65,7 +71,7 @@
             @endforeach
 
             @if(!empty($isAnyIncharge) || ($user->role?->slug ?? '') === 'class-incharge')
-            <p class="student-menu-label" style="margin-top: 14px; color: #F59E0B; display: flex; align-items: center; gap: 6px;">
+            <p class="student-menu-label admin-menu-label" style="margin-top: 14px; color: #F59E0B; display: flex; align-items: center; gap: 6px;">
                 <i class="bi bi-award-fill" style="color: #F59E0B;"></i>
                 <span>CLASS IN-CHARGE</span>
             </p>
@@ -75,7 +81,7 @@
             </a>
             @endif
 
-            <p class="student-menu-label" style="margin-top: 14px;">TESTS & EVALUATION</p>
+            <p class="student-menu-label admin-menu-label" style="margin-top: 14px;">TESTS & EVALUATION</p>
             @php
             $evalMenu = [
                 'stdleaves' => ['Student Leaves', 'bi-envelope-paper-fill'],
@@ -92,48 +98,12 @@
                 </a>
             @endforeach
 
-            <p class="student-menu-label" style="margin-top: 14px;">ACCOUNT & FINANCE</p>
+            <p class="student-menu-label admin-menu-label" style="margin-top: 14px;">ACCOUNT & FINANCE</p>
             <a href="{{ route('teacher.page', 'salary') }}" class="{{ ($page ?? 'dashboard') === 'salary' ? 'is-active' : '' }}">
                 <i class="bi bi-cash-stack"></i>
                 <span>My Salary & Dues</span>
             </a>
         </nav>
-
-        <!-- Bottom Teacher Mini-Card & Desktop Collapse Trigger -->
-        <div class="sidebar-bottom">
-            <div class="student-mini-card">
-                <div class="student-mini-avatar" style="overflow: hidden; background: transparent;">
-                    @php
-                        $tSideImg = !empty($teacher->teacher_image) && $teacher->teacher_image !== 'dummy.jpeg'
-                            ? asset('storage/'.$teacher->teacher_image)
-                            : asset('upload/dummy.jpeg');
-                    @endphp
-                    <img src="{{ $tSideImg }}" onerror="this.onerror=null; this.src='{{ asset('upload/dummy.jpeg') }}';" alt="{{ $teacher->teacher_name }}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">
-                </div>
-                <div class="student-user-info">
-                    <b>{{ $teacher->teacher_name }}</b>
-                    @if(!empty($isClassIncharge) || ($user->role?->slug ?? '') === 'class-incharge')
-                        <small style="color:#a5b4fc;font-weight:800;">👑 Incharge &bull; {{ $primaryClass ?? 'Class' }} ({{ $primarySection ?? 'Red' }})</small>
-                    @else
-                        <small>Faculty &bull; {{ $primaryClass ?? 'Class' }}</small>
-                    @endif
-                </div>
-            </div>
-
-            <div class="sidebar-controls">
-                <button type="button" id="sidebarCollapseBtn" class="btn-sidebar-control" title="Toggle Sidebar Width">
-                    <i class="bi bi-arrow-left-right"></i>
-                    <span class="collapse-text">Collapse</span>
-                </button>
-                <form action="/logout" method="POST" style="margin:0; flex:1;">
-                    @csrf
-                    <button type="submit" class="btn-sidebar-control" style="width:100%; color:#FF7A59; border-color:rgba(255,122,89,0.3);" title="Logout">
-                        <i class="bi bi-box-arrow-right"></i>
-                        <span class="collapse-text">Exit</span>
-                    </button>
-                </form>
-            </div>
-        </div>
     </aside>
 
     <!-- MAIN PORTAL WRAPPER & STICKY GLASSMORPHISM NAVBAR -->
@@ -158,6 +128,9 @@
 
             <!-- Right Actions: Theme Toggle, Notifications, Profile Menu -->
             <div class="nav-right-actions">
+                <div class="session-badge-top" style="display:inline-flex;align-items:center;gap:6px;background:#ffffff;border:1px solid #e2e8f0;padding:6px 14px;border-radius:99px;font-size:12px;font-weight:700;color:#0f172a;box-shadow:0 1px 3px rgba(0,0,0,0.03);">
+                    <i class="bi bi-circle-fill" style="color:#10B981;font-size:7px;"></i> Current Session <span style="color:#4F46E5;font-weight:800;">{{ now()->format('Y') }}</span>
+                </div>
                 @if(!empty($isClassIncharge) || ($user->role?->slug ?? '') === 'class-incharge')
                 <!-- In-Charge Teacher Announcement Button -->
                 <button type="button" class="nav-icon-btn" onclick="openAnnouncementModal()" title="Broadcast Class Announcement">

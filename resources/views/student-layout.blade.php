@@ -2,50 +2,54 @@
 <html lang="en" data-theme="light">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Student Portal | Excellence School System</title>
+    
+    <link rel="icon" type="image/png" href="{{ asset('images/school_logo.png') }}">
+    <link rel="apple-touch-icon" href="{{ asset('images/school_logo.png') }}">
     
     <!-- Google Fonts: Plus Jakarta Sans for Headings, Inter for Body -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
     
-    <!-- Icon Fonts & Stylesheet -->
+    <!-- Icon Fonts & Stylesheets -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/student-portal.css') }}?v={{ time() }}">
+    <link rel="stylesheet" href="{{ asset('css/admin-portal.css') }}?v={{ time() }}">
     
     <!-- Custom Theme & Interactive Logic -->
     <script src="{{ asset('js/student-portal.js') }}?v={{ time() }}" defer></script>
     <script src="{{ asset('js/common/notifications.js') }}?v={{ time() }}" defer></script>
     <script src="{{ asset('js/student/student-portal-page.js') }}?v={{ time() }}" defer></script>
 </head>
-<body class="student-shell">
+<body class="student-shell admin-shell">
     <!-- Mobile Navigation Overlay -->
     <div class="mobile-nav-overlay" id="mobileNavOverlay"></div>
 
-    <!-- REDESIGNED SIDEBAR (Deep Teal Gradient + Grain Pattern Overlay) -->
-    <aside class="student-side">
-        <!-- Top Brand Badge -->
-        <a class="student-brand" href="{{ route('student.dashboard') }}">
-            <div class="brand-badge">ESS</div>
-            <div class="brand-text">
-                <b>Excellence School System</b>
-                <small class="brand-subtitle">Student Portal</small>
-            </div>
-        </a>
-
-        <!-- Session Glassmorphism Pill -->
-        <div class="student-term">
-            <i class="bi bi-circle-fill"></i>
-            <span>Current Session</span>
-            <b>{{ now()->format('Y') }}</b>
+    <!-- SIDEBAR (Matching Admin Color Scheme & Header) -->
+    <aside class="student-side admin-side">
+        <!-- Top Brand Header with Official Crest Logo & Collapse Toggle Button -->
+        <div class="admin-brand-header">
+            <a class="student-brand admin-brand" href="{{ route('student.dashboard') }}">
+                <img src="{{ asset('images/school_logo.png') }}" alt="Excellence School System" class="admin-brand-logo-img" style="height: 44px; width: 44px; object-fit: contain; flex-shrink: 0; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.3));">
+                <div class="brand-text">
+                    <b>Excellence School System</b>
+                    <small class="brand-subtitle">Student Portal</small>
+                </div>
+            </a>
+            <button type="button" id="sidebarCollapseBtn" class="sidebar-collapse-toggle-btn" title="Toggle Sidebar" aria-label="Toggle Sidebar">
+                <i class="bi bi-arrow-left-right"></i>
+            </button>
         </div>
 
         <!-- Navigation Categories & Links -->
         <nav>
-            <p class="student-menu-label">ACADEMICS</p>
+            <p class="student-menu-label admin-menu-label">ACADEMICS</p>
             @php
+            $currentPageKey = $page ?? 'dashboard';
             $academicMenu = [
                 'dashboard' => ['Dashboard', 'bi-grid-1x2-fill'],
                 'profile' => ['My Profile', 'bi-person-vcard'],
@@ -53,17 +57,17 @@
                 'academics' => ['Class & Enrolled Subjects', 'bi-book-half'],
                 'outlines' => ['Course Outlines', 'bi-journal-bookmark-fill'],
                 'results' => ['Academic Results', 'bi-bar-chart-line-fill'],
-                'attendance' => ['Attendance Record', 'bi-calendar2-check-fill'],
+                'attendance' => ['Attendance Logs', 'bi-clock-history'],
             ];
             @endphp
             @foreach($academicMenu as $key => $item)
-                <a href="{{ $key==='dashboard' ? route('student.dashboard') : route('student.page', $key) }}" class="{{ ($page ?? 'dashboard') === $key ? 'is-active' : '' }}">
+                <a href="{{ $key==='dashboard' ? route('student.dashboard') : route('student.page', $key) }}" class="{{ $currentPageKey === $key ? 'is-active' : '' }}">
                     <i class="bi {{ $item[1] }}"></i>
                     <span>{{ $item[0] }}</span>
                 </a>
             @endforeach
 
-            <p class="student-menu-label" style="margin-top: 14px;">FINANCE & TESTS</p>
+            <p class="student-menu-label admin-menu-label" style="margin-top: 14px;">FINANCE & TESTS</p>
             @php
             $financeMenu = [
                 'tests' => ['Monthly Test Sessions', 'bi-journal-check'],
@@ -72,55 +76,23 @@
             ];
             @endphp
             @foreach($financeMenu as $key => $item)
-                <a href="{{ $key==='tests' ? route('student.tests') : route('student.page', $key) }}" class="{{ ($page ?? 'dashboard') === $key ? 'is-active' : '' }}">
+                <a href="{{ $key==='tests' ? route('student.tests') : route('student.page', $key) }}" class="{{ $currentPageKey === $key ? 'is-active' : '' }}">
                     <i class="bi {{ $item[1] }}"></i>
                     <span>{{ $item[0] }}</span>
                 </a>
             @endforeach
 
-            <p class="student-menu-label" style="margin-top: 14px;">REQUESTS & ACCOUNT</p>
-            <a href="{{ route('student.page', 'leaves') }}" class="{{ ($page ?? 'dashboard') === 'leaves' ? 'is-active' : '' }}">
+            <p class="student-menu-label admin-menu-label" style="margin-top: 14px;">REQUESTS & ACCOUNT</p>
+            <a href="{{ route('student.page', 'leaves') }}" class="{{ $currentPageKey === 'leaves' ? 'is-active' : '' }}">
                 <i class="bi bi-calendar2-week"></i>
                 <span>Leaves & Requests</span>
             </a>
         </nav>
-
-        <!-- Bottom Student Mini-Card & Desktop Collapse Trigger -->
-        <div class="sidebar-bottom">
-            <div class="student-mini-card">
-                <div class="student-mini-avatar" style="overflow: hidden; background: transparent;">
-                    @php
-                        $stdSideImg = !empty($student->image) && $student->image !== 'dummy.jpeg'
-                            ? asset('storage/'.$student->image)
-                            : asset('upload/dummy.jpeg');
-                    @endphp
-                    <img src="{{ $stdSideImg }}" onerror="this.onerror=null; this.src='{{ asset('upload/dummy.jpeg') }}';" alt="{{ $student->name }}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">
-                </div>
-                <div class="student-user-info">
-                    <b>{{ $student->name }}</b>
-                    <small>{{ $student->class }} ({{ $student->section }})</small>
-                </div>
-            </div>
-
-            <div class="sidebar-controls">
-                <button type="button" id="sidebarCollapseBtn" class="btn-sidebar-control" title="Toggle Sidebar Width">
-                    <i class="bi bi-arrow-left-right"></i>
-                    <span class="collapse-text">Collapse</span>
-                </button>
-                <form action="/logout" method="POST" style="margin:0; flex:1;">
-                    @csrf
-                    <button type="submit" class="btn-sidebar-control" style="width:100%; color:#FF7A59; border-color:rgba(255,122,89,0.3);" title="Logout">
-                        <i class="bi bi-box-arrow-right"></i>
-                        <span class="collapse-text">Exit</span>
-                    </button>
-                </form>
-            </div>
-        </div>
     </aside>
 
     <!-- MAIN PORTAL WRAPPER & STICKY GLASSMORPHISM NAVBAR -->
-    <main class="student-main">
-        <header class="student-top">
+    <main class="student-main admin-main">
+        <header class="student-top admin-top">
             <!-- Left Group: Mobile Drawer Toggle & Breadcrumb -->
             <div class="nav-left-group">
                 <button type="button" class="nav-icon-btn mobile-nav-toggle" id="mobileNavToggle" aria-label="Toggle Mobile Menu">
@@ -128,18 +100,25 @@
                 </button>
                 <div class="portal-breadcrumb">
                     <span>Student Portal</span> /
-                    <strong>{{ ucfirst($page ?? 'Dashboard') }}</strong>
+                    <strong>{{ ucfirst($currentPageKey === 'dashboard' ? 'Dashboard' : $currentPageKey) }}</strong>
                 </div>
             </div>
 
             <!-- Center Group: Command-Style Search Bar -->
             <div class="nav-search-bar">
                 <i class="bi bi-search"></i>
-                <input type="text" id="globalSearchInput" placeholder="Search outlines, results, fees...">
+                <input type="text" id="globalSearchInput" placeholder="Search outlines, results, fees, subjects...">
             </div>
 
-            <!-- Right Actions: Theme Toggle, Notifications, Profile Menu -->
+            <!-- Right Actions: Current Session Pill, Theme Switcher, Notifications, Student Profile Menu -->
             <div class="nav-right-actions">
+                <!-- Current Session Pill in Top Bar (Exact Match with Admin Dashboard) -->
+                <div class="student-term admin-term top-session-pill">
+                    <i class="bi bi-circle-fill"></i>
+                    <span>Current Session</span>
+                    <b>{{ now()->format('Y') }}</b>
+                </div>
+
                 <!-- Light / Dark Theme Switcher Button -->
                 <button type="button" class="nav-icon-btn" id="themeToggleBtn" title="Switch Theme">
                     <i class="bi bi-moon-stars-fill"></i>
@@ -176,9 +155,9 @@
                     </div>
                 </div>
 
-                <!-- User Profile Pill & Dropdown -->
-                <div class="student-user-pill" id="topProfileUser" style="position: relative !important;">
-                    <div class="student-avatar-ring">
+                <!-- Student Profile Pill & Dropdown -->
+                <div class="student-user-pill admin-user-pill" id="topProfileUser" style="position: relative !important;">
+                    <div class="student-avatar-ring admin-avatar-ring">
                         @php
                             $stdTopImg = !empty($student->image) && $student->image !== 'dummy.jpeg'
                                 ? asset('storage/'.$student->image)
@@ -186,23 +165,23 @@
                         @endphp
                         <img src="{{ $stdTopImg }}" onerror="this.onerror=null; this.src='{{ asset('upload/dummy.jpeg') }}';" alt="{{ $student->name }}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">
                     </div>
-                    <div class="student-user-details">
+                    <div class="student-user-details admin-user-details">
                         <b>{{ $student->name }}</b>
                         <small>{{ $student->class }} ({{ $student->section }})</small>
                     </div>
                     <i class="bi bi-chevron-down" id="topProfileArrow" style="font-size: 11px; color: var(--muted); margin-left: 2px;"></i>
 
-                    <!-- Profile Dropdown Menu (Aligned perfectly between pill lines) -->
-                    <div id="userDropdownMenu" style="display: none; position: absolute; top: calc(100% + 8px); left: 0; right: 0; width: 100%; min-width: 170px; box-sizing: border-box; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); box-shadow: var(--shadow-lg); z-index: 9999; padding: 6px 0; overflow: hidden;">
+                    <!-- Profile Dropdown Menu -->
+                    <div id="userDropdownMenu" style="display: none; position: absolute; top: calc(100% + 8px); left: 0; right: 0; width: 100%; min-width: 180px; box-sizing: border-box; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); box-shadow: var(--shadow-lg); z-index: 9999; padding: 6px 0; overflow: hidden;">
                         <div style="padding: 10px 14px; border-bottom: 1px solid var(--border-light); overflow: hidden;">
                             <strong style="display:block; font-size: 13px; color: var(--text); white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">{{ $student->name }}</strong>
-                            <small style="font-size: 11px; color: var(--primary); font-weight: 700; white-space: nowrap; text-overflow: ellipsis; overflow: hidden; display: block;">Roll #{{ $student->std_id }}</small>
+                            <small style="font-size: 11px; color: var(--primary); font-weight: 700; white-space: nowrap; text-overflow: ellipsis; overflow: hidden; display: block;">Roll #{{ $student->std_id }} &bull; {{ $student->class }}</small>
                         </div>
                         <a href="javascript:void(0)" id="dropdownProfileBtn" style="display: flex; align-items: center; gap: 10px; padding: 10px 14px; color: var(--text); text-decoration: none; font-size: 13px; font-weight: 600;">
                             <i class="bi bi-person-circle" style="color: var(--primary);"></i> Profile Details
                         </a>
                         <a href="{{ route('student.page', 'profile') }}" style="display: flex; align-items: center; gap: 10px; padding: 10px 14px; color: var(--text); text-decoration: none; font-size: 13px; font-weight: 600;">
-                            <i class="bi bi-gear-fill" style="color: var(--primary);"></i> Settings
+                            <i class="bi bi-gear-fill" style="color: var(--primary);"></i> Account Settings
                         </a>
                         <div style="border-top: 1px solid var(--border-light); margin-top: 4px; padding-top: 4px;">
                             <form action="/logout" method="POST" style="margin:0;">
@@ -218,30 +197,44 @@
         </header>
 
         <!-- PAGE CONTENT SLOTS -->
-        <div class="student-content">
+        <div class="student-content admin-content">
+            @if(session('success'))
+                <div class="alert alert-success alert-dismissible fade show border-0 shadow-sm mb-4" role="alert" style="border-radius: 14px;">
+                    <i class="bi bi-check-circle-fill me-2"></i> {{ session('success') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
+
+            @if(session('error'))
+                <div class="alert alert-danger alert-dismissible fade show border-0 shadow-sm mb-4" role="alert" style="border-radius: 14px;">
+                    <i class="bi bi-exclamation-triangle-fill me-2"></i> {{ session('error') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
+
             @yield('content')
         </div>
 
-        <!-- REDESIGNED MULTI-COLUMN SURFACE FOOTER (Rounded Top Corners + Live Status Pill) -->
+        <!-- MULTI-COLUMN SURFACE FOOTER -->
         <footer class="main-system-footer">
             <div class="footer-grid-container">
                 <!-- Col 1: Brand & Status -->
                 <div>
                     <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
-                        <div class="brand-badge" style="width:34px; height:34px; font-size:13px; border-radius:10px;">ESS</div>
-                        <span class="footer-brand-title">Excellence School System</span>
+                        <img src="{{ asset('images/school_logo.png') }}" alt="Excellence School System" style="width:34px; height:34px; object-fit:contain; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15));">
+                        <span class="footer-brand-title">Excellence Student Portal</span>
                     </div>
                     <p style="font-size: 13px; color: var(--muted); margin: 0 0 16px; line-height: 1.5; max-width: 320px;">
                         Integrated Cloud Platform for Real-Time Academic Records, Attendance Monitoring & Secure Student Communication.
                     </p>
                     <span class="status-pill-live">
-                        <span class="status-dot-pulse"></span> System Operational &bull; v2.4 Encrypted
+                        <span class="status-dot-pulse"></span> Student Session Active &bull; v2.4 Encrypted
                     </span>
                 </div>
 
                 <!-- Col 2: Navigation -->
                 <div>
-                    <h5 class="footer-col-title">Navigation</h5>
+                    <h5 class="footer-col-title">Academics</h5>
                     <ul class="footer-links">
                         <li><a href="{{ route('student.dashboard') }}">Dashboard</a></li>
                         <li><a href="{{ route('student.page', 'profile') }}">My Profile</a></li>
@@ -252,23 +245,23 @@
 
                 <!-- Col 3: Portals -->
                 <div>
-                    <h5 class="footer-col-title">System Portals</h5>
+                    <h5 class="footer-col-title">Finance & Results</h5>
                     <ul class="footer-links">
-                        <li><a href="{{ route('student.page', 'leaves') }}">Leave Requests</a></li>
                         <li><a href="{{ route('student.page', 'results') }}">Academic Results</a></li>
-                        <li><a href="{{ route('student.page', 'fees') }}">Fees & Vouchers</a></li>
+                        <li><a href="{{ route('student.page', 'fees') }}">Fees & Dues</a></li>
                         <li><a href="{{ route('student.page', 'slips') }}">Roll No Slips</a></li>
+                        <li><a href="{{ route('student.page', 'leaves') }}">Leave Requests</a></li>
                     </ul>
                 </div>
 
                 <!-- Col 4: Security & Support -->
                 <div>
-                    <h5 class="footer-col-title">Security & Support</h5>
+                    <h5 class="footer-col-title">Account Support</h5>
                     <p style="font-size: 12.5px; color: var(--muted); margin: 0 0 12px; line-height: 1.4;">
-                        Have questions about your portal account or academic records? Contact the IT help desk.
+                        Have questions about your student account, attendance or exam slips? Contact academic office.
                     </p>
                     <a href="{{ route('student.page', 'profile') }}" style="display: inline-flex; align-items: center; gap: 6px; color: var(--primary); font-size: 12.5px; font-weight: 800; text-decoration: none;">
-                        Account Security Portal <i class="bi bi-shield-check"></i>
+                        Student Account Security <i class="bi bi-shield-check"></i>
                     </a>
                 </div>
             </div>
@@ -277,14 +270,8 @@
             <div class="footer-bottom-bar">
                 <span>&copy; {{ date('Y') }} Excellence School System. All rights reserved.</span>
                 <span class="ssl-badge">
-                    <i class="bi bi-lock-fill"></i> 256-Bit SSL Encrypted Connection
+                    <i class="bi bi-lock-fill"></i> 256-Bit SSL Encrypted Student Session
                 </span>
-                <div class="footer-social-icons">
-                    <a href="#" title="Facebook"><i class="bi bi-facebook"></i></a>
-                    <a href="#" title="Twitter"><i class="bi bi-twitter-x"></i></a>
-                    <a href="#" title="LinkedIn"><i class="bi bi-linkedin"></i></a>
-                    <a href="#" title="Support"><i class="bi bi-envelope-fill"></i></a>
-                </div>
             </div>
         </footer>
     </main>
@@ -326,7 +313,7 @@
                     <dt style="color: var(--muted); font-size: 13px; font-weight: 600;">Phone Number</dt>
                     <dd style="margin: 0; font-weight: 700; color: var(--text); font-size: 14px;">{{ $student->phone_no ?: 'Not provided' }}</dd>
                 </div>
-                <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; background: var(--primary-light); border-radius: var(--radius-md); border: 1px solid rgba(45, 212, 191, 0.3);">
+                <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; background: var(--primary-light); border-radius: var(--radius-md); border: 1px solid rgba(79, 70, 229, 0.3);">
                     <dt style="color: var(--primary); font-size: 13px; font-weight: 700;">Roll Number</dt>
                     <dd style="margin: 0; font-weight: 800; color: var(--primary); font-size: 16px;">#{{ $student->std_id }}</dd>
                 </div>
@@ -334,6 +321,6 @@
         </section>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-</html>
 </html>

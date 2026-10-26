@@ -86,158 +86,389 @@
 @endphp
 
 @if($page === 'dashboard')
-<section class="student-hero">
+<section class="student-hero admin-hero">
     <div>
         <span class="hero-pill">
-            @if($isClassIncharge || ($user->role?->slug ?? '') === 'class-incharge')
-                👑 Class In-Charge &bull; {{ $primaryClass }} ({{ $primarySection }}) <i></i> Active Session
+            @if(!empty($isClassIncharge) || ($user->role?->slug ?? '') === 'class-incharge')
+                👑 Class In-Charge &bull; {{ $primaryClass }} ({{ $primarySection }}) &bull; Session Active
             @else
-                Excellence Teacher Portal <i></i> Session Active
+                Excellence Teacher Portal &bull; Session Active
             @endif
         </span>
-        <h1>Welcome back, {{ $teacher->teacher_name }}!</h1>
-        <p>Active Class: <strong>{{ $primaryClass }} ({{ $primarySection }})</strong> <i></i> Subjects: <strong>{{ $mySubjects->implode(', ') }}</strong> <i></i> Reg Email: <strong>{{ $user->email }}</strong> <i></i> Keep guiding and inspiring.</p>
+        <h1>Teacher Academic & Classroom Operations Portal</h1>
+        <p>Welcome back, <strong>{{ $teacher->teacher_name }}</strong>! Active Class: <strong>{{ $primaryClass }} ({{ $primarySection }})</strong> &bull; Subjects: <strong>{{ $mySubjects->implode(', ') }}</strong> &bull; Full authority over attendance, class results, tests, leaves, and classroom records.</p>
     </div>
-    <a href="javascript:void(0)" onclick="document.getElementById('uploadOutlineModal').style.display='grid'" class="hero-action"><i class="bi bi-upload"></i> Upload Outline</a>
+    <div class="admin-hero-actions">
+        <a href="javascript:void(0)" onclick="document.getElementById('uploadOutlineModal').style.display='grid'" class="hero-action" style="display:inline-flex;align-items:center;gap:8px;">
+            <i class="bi bi-upload"></i> Upload Outline
+        </a>
+    </div>
     <div class="hero-tabs">
-        @foreach(['dashboard'=>'Dashboard', 'profile'=>'Profile', 'attendance'=>'My Attendance', 'coteachers'=>'Class Co-Teachers', 'students'=>'My Class Students', 'results'=>'Class Results', 'outlines'=>'Course Outlines', 'salary'=>'My Salary'] as $key => $label)
-            <a href="{{ $key === 'dashboard' ? route('teacher.dashboard') : route('teacher.page', $key) }}" class="{{ $key === $page ? 'selected' : '' }}">{{ $label }}</a>
+        @php
+        $teacherTabs = [
+            'dashboard' => ['Dashboard', 'bi-grid-1x2-fill'],
+            'classes' => ['Assigned Classes', 'bi-mortarboard-fill'],
+            'profile' => ['My Profile', 'bi-person-badge-fill'],
+            'attendance' => ['My Attendance', 'bi-calendar-check-fill'],
+            'leaves' => ['My Leaves', 'bi-calendar-plus-fill'],
+            'coteachers' => ['Class Co-Teachers', 'bi-people-fill'],
+            'students' => ['Class Students', 'bi-backpack-fill'],
+            'results' => ['Class Results', 'bi-bar-chart-line-fill'],
+            'tests' => ['Monthly Tests', 'bi-journal-check'],
+            'outlines' => ['Course Outlines', 'bi-journal-bookmark-fill'],
+            'salary' => ['My Salary', 'bi-cash-stack'],
+        ];
+        @endphp
+        @foreach($teacherTabs as $key => $tab)
+            <a href="{{ $key === 'dashboard' ? route('teacher.dashboard') : route('teacher.page', $key) }}" class="{{ ($page ?? 'dashboard') === $key ? 'selected' : '' }}">
+                <i class="bi {{ $tab[1] }}"></i> {{ $tab[0] }}
+            </a>
         @endforeach
     </div>
 </section>
 
 {!! $classFilterHtml() !!}
 
-<section class="metric-grid">
-    <a href="{{ route('teacher.page', 'students') }}" class="metric-card-link">
-        <article>
-            <span class="metric-icon blue"><i class="bi bi-building"></i></span>
-            <small>ASSIGNED CLASS</small>
-            <strong>{{ $primaryClass }}</strong>
-            <p>Section {{ $primarySection }} &bull; {{ $studentCount }} Enrolled Students</p>
-        </article>
+<section class="analytics-metric-grid" aria-label="Teacher Key Performance Indicators">
+    {{-- Card 1: Students --}}
+    <a href="{{ route('teacher.page', 'students') }}" class="analytics-stat-card">
+        <div class="stat-card-header">
+            <span class="stat-icon-pill indigo" aria-hidden="true">
+                <i class="bi bi-mortarboard-fill"></i>
+            </span>
+            <div class="stat-sparkline-group indigo" aria-hidden="true">
+                <span class="spark-bar" style="height: 38%;"></span>
+                <span class="spark-bar" style="height: 55%;"></span>
+                <span class="spark-bar" style="height: 72%;"></span>
+                <span class="spark-bar" style="height: 60%;"></span>
+                <span class="spark-bar" style="height: 88%;"></span>
+                <span class="spark-bar" style="height: 75%;"></span>
+                <span class="spark-bar" style="height: 100%;"></span>
+            </div>
+        </div>
+        <div class="stat-card-body">
+            <div class="stat-value-wrap">
+                <span class="stat-card-value">{{ number_format($studentCount) }}</span>
+                <span class="stat-trend-tag positive"><i class="bi bi-arrow-up-short"></i> Active</span>
+            </div>
+            <div class="stat-card-label">Total Assigned Students</div>
+        </div>
+        <div class="stat-card-progress-footer">
+            <div class="stat-progress-track">
+                <div class="stat-progress-fill indigo" style="width: 82%;"></div>
+            </div>
+            <div class="stat-footer-text">
+                <span>Active class enrollments</span>
+                <span>{{ $primaryClass }} ({{ $primarySection }})</span>
+            </div>
+        </div>
     </a>
-    <a href="{{ route('teacher.page', 'coteachers') }}" class="metric-card-link">
-        <article>
-            <span class="metric-icon green"><i class="bi bi-people"></i></span>
-            <small>CLASS CO-TEACHERS</small>
-            <strong>{{ $coTeacherAssignments->pluck('teacher_id')->unique()->count() }}</strong>
-            <p>Subject Specialists in {{ $primaryClass }}</p>
-        </article>
+
+    {{-- Card 2: Faculty Staff & Co-Teachers --}}
+    <a href="{{ route('teacher.page', 'coteachers') }}" class="analytics-stat-card">
+        <div class="stat-card-header">
+            <span class="stat-icon-pill emerald" aria-hidden="true">
+                <i class="bi bi-people-fill"></i>
+            </span>
+            <div class="stat-sparkline-group emerald" aria-hidden="true">
+                <span class="spark-bar" style="height: 45%;"></span>
+                <span class="spark-bar" style="height: 62%;"></span>
+                <span class="spark-bar" style="height: 50%;"></span>
+                <span class="spark-bar" style="height: 80%;"></span>
+                <span class="spark-bar" style="height: 90%;"></span>
+                <span class="spark-bar" style="height: 70%;"></span>
+                <span class="spark-bar" style="height: 100%;"></span>
+            </div>
+        </div>
+        <div class="stat-card-body">
+            <div class="stat-value-wrap">
+                <span class="stat-card-value">{{ number_format($coTeacherAssignments->pluck('teacher_id')->unique()->count()) }}</span>
+                <span class="stat-trend-tag positive"><i class="bi bi-arrow-up-short"></i> Staff</span>
+            </div>
+            <div class="stat-card-label">Subject Specialist Co-Teachers</div>
+        </div>
+        <div class="stat-card-progress-footer">
+            <div class="stat-progress-track">
+                <div class="stat-progress-fill emerald" style="width: 90%;"></div>
+            </div>
+            <div class="stat-footer-text">
+                <span>Faculty specialists assigned</span>
+                <span>100% Assigned</span>
+            </div>
+        </div>
     </a>
-    <a href="{{ route('teacher.page', 'salary') }}" class="metric-card-link">
-        <article class="fee-card">
-            <span class="metric-icon amber"><i class="bi bi-cash-stack"></i></span>
-            <small>MY MONTHLY SALARY</small>
-            <strong>Rs {{ number_format($latestSalary?->net_salary ?? 50000) }}</strong>
-            <p>{{ $latestSalary?->status ?? 'Paid' }} &bull; Oct 2026</p>
-        </article>
+
+    {{-- Card 3: Monthly Net Salary --}}
+    <a href="{{ route('teacher.page', 'salary') }}" class="analytics-stat-card">
+        <div class="stat-card-header">
+            <span class="stat-icon-pill cyan" aria-hidden="true">
+                <i class="bi bi-receipt"></i>
+            </span>
+            <div class="stat-sparkline-group cyan" aria-hidden="true">
+                <span class="spark-bar" style="height: 35%;"></span>
+                <span class="spark-bar" style="height: 50%;"></span>
+                <span class="spark-bar" style="height: 68%;"></span>
+                <span class="spark-bar" style="height: 85%;"></span>
+                <span class="spark-bar" style="height: 65%;"></span>
+                <span class="spark-bar" style="height: 95%;"></span>
+                <span class="spark-bar" style="height: 100%;"></span>
+            </div>
+        </div>
+        <div class="stat-card-body">
+            <div class="stat-value-wrap">
+                <span class="stat-card-value">Rs {{ number_format($latestSalary?->net_salary ?? 50000, 0) }}</span>
+                <span class="stat-trend-tag neutral">100%</span>
+            </div>
+            <div class="stat-card-label">Monthly Net Remuneration</div>
+        </div>
+        <div class="stat-card-progress-footer">
+            <div class="stat-progress-track">
+                <div class="stat-progress-fill cyan" style="width: 100%;"></div>
+            </div>
+            <div class="stat-footer-text">
+                <span>Salary voucher realized</span>
+                <span>{{ $latestSalary?->status ?? 'Paid' }} &bull; {{ $activeMonthName ?? 'Oct 2026' }}</span>
+            </div>
+        </div>
     </a>
-    <a href="{{ route('teacher.page', 'attendance') }}" class="metric-card-link">
-        <article>
-            <span class="metric-icon purple"><i class="bi bi-calendar2-check"></i></span>
-            <small>{{ strtoupper($activeMonthName) }} ATTENDANCE RATE</small>
-            <strong style="color:#4F46E5;">{{ $monthPct }}%</strong>
-            <p>{{ $monthPresent }} Present &bull; {{ $monthLate }} Late &bull; {{ $monthLeave }} Leaves</p>
-        </article>
+
+    {{-- Card 4: Attendance Rate --}}
+    <a href="{{ route('teacher.page', 'attendance') }}" class="analytics-stat-card">
+        <div class="stat-card-header">
+            <span class="stat-icon-pill purple" aria-hidden="true">
+                <i class="bi bi-cash-stack"></i>
+            </span>
+            <div class="stat-sparkline-group purple" aria-hidden="true">
+                <span class="spark-bar" style="height: 40%;"></span>
+                <span class="spark-bar" style="height: 55%;"></span>
+                <span class="spark-bar" style="height: 70%;"></span>
+                <span class="spark-bar" style="height: 85%;"></span>
+                <span class="spark-bar" style="height: 75%;"></span>
+                <span class="spark-bar" style="height: 95%;"></span>
+                <span class="spark-bar" style="height: 100%;"></span>
+            </div>
+        </div>
+        <div class="stat-card-body">
+            <div class="stat-value-wrap">
+                <span class="stat-card-value">{{ $monthPct }}%</span>
+                <span class="stat-trend-tag positive"><i class="bi bi-check2"></i> Present</span>
+            </div>
+            <div class="stat-card-label">{{ strtoupper($activeMonthName) }} Attendance Rate</div>
+        </div>
+        <div class="stat-card-progress-footer">
+            <div class="stat-progress-track">
+                <div class="stat-progress-fill purple" style="width: {{ $monthPct }}%;"></div>
+            </div>
+            <div class="stat-footer-text">
+                <span>{{ $monthPresent }} Present &bull; {{ $monthLate }} Late</span>
+                <span>{{ $monthLeave }} Leaves</span>
+            </div>
+        </div>
     </a>
 </section>
 
-<section class="student-dashboard-grid">
-    <article class="student-panel">
-        <div class="panel-head">
-            <div>
-                <h2>{{ $primaryClass }} {{ $primarySection }} &bull; Class Teachers & Subjects</h2>
-                <p>Teachers assigned to {{ $primaryClass }} ({{ $primarySection }}) and their respective subjects</p>
+<section class="analytics-main-grid" style="display: grid; grid-template-columns: minmax(0, 1.8fr) minmax(320px, 1.2fr); gap: 24px; align-items: start; margin-top: 24px;">
+    {{-- LEFT COLUMN: Academic Wave Spline Chart & Co-Teachers Table --}}
+    <div class="analytics-col" style="display: flex; flex-direction: column; gap: 24px;">
+        <div class="analytics-panel" style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 18px; padding: 22px 24px; box-shadow: 0 4px 14px rgba(15,23,42,0.03);">
+            <div class="analytics-panel-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                <div class="analytics-panel-title-group">
+                    <h3 style="margin: 0; font-size: 16px; font-weight: 800; color: #0F172A; display: flex; align-items: center; gap: 8px;">
+                        <i class="bi bi-activity text-primary"></i> Academic Activity &amp; Teaching Workload
+                    </h3>
+                    <p style="margin: 4px 0 0; font-size: 12.5px; color: #64748B;">Curriculum coverage inflow versus monthly student evaluations trajectory</p>
+                </div>
+                <div class="analytics-legend-group" style="display: flex; gap: 14px; font-size: 12px; font-weight: 700;">
+                    <span style="display: inline-flex; align-items: center; gap: 6px; color: #0891b2;">
+                        <span style="width: 8px; height: 8px; border-radius: 50%; background: #06B6D4;"></span> Curriculum Inflow
+                    </span>
+                    <span style="display: inline-flex; align-items: center; gap: 6px; color: #4338ca;">
+                        <span style="width: 8px; height: 8px; border-radius: 50%; background: #4F46E5;"></span> Student Evaluations
+                    </span>
+                </div>
             </div>
-            <a href="{{ route('teacher.page', 'coteachers') }}">View all</a>
+
+            {{-- Smooth Spline Wave Area Chart (SVG Bezier Curves + Markers) --}}
+            <div class="wave-chart-wrapper" aria-label="Academic Workload spline area chart" style="position: relative; width: 100%;">
+                <svg class="wave-chart-svg" viewBox="0 0 700 240" preserveAspectRatio="none" style="width: 100%; height: 210px; display: block;">
+                    <defs>
+                        <linearGradient id="tCyanWaveGrad" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0%" stop-color="#06B6D4" stop-opacity="0.32"/>
+                            <stop offset="60%" stop-color="#06B6D4" stop-opacity="0.10"/>
+                            <stop offset="100%" stop-color="#06B6D4" stop-opacity="0.00"/>
+                        </linearGradient>
+                        <linearGradient id="tIndigoWaveGrad" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0%" stop-color="#4F46E5" stop-opacity="0.28"/>
+                            <stop offset="60%" stop-color="#4F46E5" stop-opacity="0.08"/>
+                            <stop offset="100%" stop-color="#4F46E5" stop-opacity="0.00"/>
+                        </linearGradient>
+                    </defs>
+                    <line x1="0" y1="30" x2="700" y2="30" stroke="#F1F5F9" stroke-width="1" stroke-dasharray="4 4"/>
+                    <line x1="0" y1="90" x2="700" y2="90" stroke="#F1F5F9" stroke-width="1" stroke-dasharray="4 4"/>
+                    <line x1="0" y1="150" x2="700" y2="150" stroke="#F1F5F9" stroke-width="1" stroke-dasharray="4 4"/>
+                    <line x1="0" y1="210" x2="700" y2="210" stroke="#F1F5F9" stroke-width="1"/>
+                    <path d="M 0 170 C 60 170, 90 145, 150 145 C 210 145, 240 85, 300 85 C 360 85, 400 155, 460 155 C 520 155, 570 140, 630 140 C 660 140, 680 120, 700 115 L 700 240 L 0 240 Z" fill="url(#tCyanWaveGrad)" />
+                    <path d="M 0 195 C 50 195, 90 135, 140 135 C 200 135, 230 180, 290 180 C 350 180, 390 120, 450 120 C 510 120, 560 160, 620 160 C 660 160, 680 60, 700 50 L 700 240 L 0 240 Z" fill="url(#tIndigoWaveGrad)" />
+                    <path d="M 0 170 C 60 170, 90 145, 150 145 C 210 145, 240 85, 300 85 C 360 85, 400 155, 460 155 C 520 155, 570 140, 630 140 C 660 140, 680 120, 700 115" fill="none" stroke="#06B6D4" stroke-width="3" stroke-linecap="round"/>
+                    <path d="M 0 195 C 50 195, 90 135, 140 135 C 200 135, 230 180, 290 180 C 350 180, 390 120, 450 120 C 510 120, 560 160, 620 160 C 660 160, 680 60, 700 50" fill="none" stroke="#4F46E5" stroke-width="3.2" stroke-linecap="round"/>
+                    <circle cx="150" cy="145" r="4.5" fill="#06B6D4" stroke="#FFFFFF" stroke-width="2"/>
+                    <circle cx="300" cy="85" r="5" fill="#06B6D4" stroke="#FFFFFF" stroke-width="2.5"/>
+                    <circle cx="460" cy="155" r="4.5" fill="#06B6D4" stroke="#FFFFFF" stroke-width="2"/>
+                    <circle cx="630" cy="140" r="4.5" fill="#06B6D4" stroke="#FFFFFF" stroke-width="2"/>
+                    <circle cx="700" cy="115" r="5" fill="#06B6D4" stroke="#FFFFFF" stroke-width="2.5"/>
+                    <circle cx="140" cy="135" r="4.5" fill="#4F46E5" stroke="#FFFFFF" stroke-width="2"/>
+                    <circle cx="290" cy="180" r="4.5" fill="#4F46E5" stroke="#FFFFFF" stroke-width="2"/>
+                    <circle cx="450" cy="120" r="5" fill="#4F46E5" stroke="#FFFFFF" stroke-width="2.5"/>
+                    <circle cx="620" cy="160" r="4.5" fill="#4F46E5" stroke="#FFFFFF" stroke-width="2"/>
+                    <circle cx="700" cy="50" r="5" fill="#4F46E5" stroke="#FFFFFF" stroke-width="2.5"/>
+                </svg>
+                <div style="display: flex; justify-content: space-between; padding-top: 10px; font-size: 11px; font-weight: 700; color: #94A3B8;">
+                    <span>Jan</span><span>Feb</span><span>Mar</span><span>Apr</span><span>May</span><span>Jun</span><span>Jul</span><span>Aug</span><span>Sep</span><span>Oct</span><span>Nov</span><span>Dec</span>
+                </div>
+            </div>
         </div>
-        <div class="table-panel">
-            <table>
+
+        {{-- Co-Teachers Table with Image 2 Table Styling --}}
+        <div class="admin-table-wrapper" style="border: 1px solid #E2E8F0; border-radius: 18px; overflow: hidden; background: #ffffff; box-shadow: 0 4px 14px rgba(15,23,42,0.03);">
+            <div style="padding: 16px 20px; background: #ffffff; border-bottom: 1px solid #e2e8f0; display: flex; align-items: center; justify-content: space-between;">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <i class="bi bi-people-fill" style="color: #4F46E5; font-size: 18px;"></i>
+                    <div>
+                        <h3 style="margin: 0; font-size: 15px; color: #0f172a; font-weight: 800;">{{ $primaryClass }} ({{ $primarySection }}) &bull; Class Teachers &amp; Subjects</h3>
+                        <p style="margin: 2px 0 0; font-size: 12px; color: #64748B;">Faculty members assigned to {{ $primaryClass }}</p>
+                    </div>
+                </div>
+                <a href="{{ route('teacher.page', 'coteachers') }}" style="font-size: 12px; font-weight: 700; color: #4F46E5; text-decoration: none;">View all &rarr;</a>
+            </div>
+            <table class="admin-table" style="width: 100%; border-collapse: collapse; margin: 0;">
                 <thead>
-                    <tr>
-                        <th>Teacher Name</th>
-                        <th>Subject Assigned</th>
-                        <th>Class & Sec</th>
-                        <th>Contact</th>
+            <tr style="background: linear-gradient(135deg, #1E1B4B 0%, #4F46E5 100%) !important;">
+                        <th style="background: transparent !important; padding: 13px 14px; color: #FFFFFF !important; font-size: 11.5px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; border: none; text-align: left;">TEACHER NAME</th>
+                        <th style="background: transparent !important; padding: 13px 14px; color: #FFFFFF !important; font-size: 11.5px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; border: none; text-align: left;">SUBJECT ASSIGNED</th>
+                        <th style="background: transparent !important; padding: 13px 14px; color: #FFFFFF !important; font-size: 11.5px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; border: none; text-align: left;">CLASS &amp; SEC</th>
+                        <th style="background: transparent !important; padding: 13px 14px; color: #FFFFFF !important; font-size: 11.5px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; border: none; text-align: left;">CONTACT</th>
                     </tr>
                 </thead>
                 <tbody>
                     @forelse($coTeacherAssignments as $ca)
-                    <tr>
-                        <td>
+                    <tr style="border-bottom: 1px solid #F1F5F9; vertical-align: middle;">
+                        <td style="padding: 12px 14px;">
                             <div style="display:flex;align-items:center;gap:10px;">
-                                <div style="width:34px;height:34px;border-radius:50%;background:#C7D2FE;color:#0f766e;display:grid;place-items:center;font-weight:800;font-size:13px;">
+                                <div style="width:34px;height:34px;border-radius:50%;background:#EEF2FF;color:#4F46E5;display:grid;place-items:center;font-weight:800;font-size:13px;border:1px solid #C7D2FE;">
                                     {{ strtoupper(substr($ca->teacher?->teacher_name ?? 'T', 0, 1)) }}
                                 </div>
                                 <div>
-                                    <strong style="color:#0f172a;display:block;">{{ $ca->teacher?->teacher_name ?? "Ma'am Fatima Zahra" }}</strong>
+                                    <strong style="color:#0f172a;display:block;font-size:13px;">{{ $ca->teacher?->teacher_name ?? "Teacher" }}</strong>
                                     @if($ca->teacher_id == $teacher->id)
-                                        <span style="font-size:10px;background:#C7D2FE;color:#0f766e;padding:2px 6px;border-radius:4px;font-weight:700;">(You)</span>
+                                        <span style="font-size:10px;background:#EEF2FF;color:#4F46E5;padding:1px 6px;border-radius:4px;font-weight:700;">(You)</span>
                                     @endif
                                 </div>
                             </div>
                         </td>
-                        <td><span style="font-weight:700;color:#4F46E5;">{{ $ca->subject_or_course }}</span></td>
-                        <td>{{ $ca->class_name }} ({{ $ca->section_name }})</td>
-                        <td>{{ $ca->teacher?->teacher_phone ?: '0300-1234567' }}</td>
+                        <td style="padding: 12px 14px;"><strong style="color:#4F46E5;font-size:13px;">{{ $ca->subject_or_course }}</strong></td>
+                        <td style="padding: 12px 14px;color:#475569;font-weight:600;">{{ $ca->class_name }} ({{ $ca->section_name }})</td>
+                        <td style="padding: 12px 14px;color:#64748B;font-size:12.5px;">{{ $ca->teacher?->teacher_phone ?: '0300-1234567' }}</td>
                     </tr>
                     @empty
-                    <tr><td colspan="4" style="text-align:center;color:#64748b;">No co-teachers assigned yet.</td></tr>
+                    <tr><td colspan="4" style="text-align:center;padding:24px;color:#64748b;">No co-teachers assigned yet.</td></tr>
                     @endforelse
                 </tbody>
             </table>
         </div>
-    </article>
+    </div>
 
-    <div class="student-right">
-        <!-- Monthly Attendance Summary Panel on Dashboard -->
-        <article class="mini-panel" style="border-left:4px solid #4F46E5;">
-            <h3 style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
-                <span style="font-size:14px;font-weight:800;color:#0f172a;"><i class="bi bi-clock-history" style="color:#4F46E5;"></i> {{ $activeMonthName }} Attendance</span>
-                <span style="background:#dcfce7;color:#15803d;padding:3px 10px;border-radius:8px;font-size:12px;font-weight:800;">{{ $monthPct }}%</span>
-            </h3>
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:12px;margin-bottom:16px;">
-                <div style="background:#f8fafc;padding:8px 10px;border-radius:8px;border:1px solid #e2e8f0;">
-                    <span style="color:#64748b;font-size:10px;display:block;text-transform:uppercase;font-weight:700;">Present</span>
-                    <strong style="color:#059669;font-size:13.5px;">{{ $monthPresent }} Days</strong>
+    {{-- RIGHT COLUMN: Campus Attendance Pulse & Quick Actions --}}
+    <div class="analytics-col" style="display: flex; flex-direction: column; gap: 24px;">
+        {{-- Campus Attendance Donut Card --}}
+        @php
+            $donutRadius = 62;
+            $donutCircumference = 2 * pi() * $donutRadius;
+            $tDonutOffset = $donutCircumference - (($monthPct / 100) * $donutCircumference);
+        @endphp
+        <div class="analytics-panel" style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 18px; padding: 22px 24px; box-shadow: 0 4px 14px rgba(15,23,42,0.03);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                <div>
+                    <h3 style="margin: 0; font-size: 16px; font-weight: 800; color: #0F172A; display: flex; align-items: center; gap: 8px;">
+                        <i class="bi bi-pie-chart-fill text-primary"></i> Campus Attendance Pulse
+                    </h3>
+                    <p style="margin: 4px 0 0; font-size: 12.5px; color: #64748B;">Live student and teacher presence on campus</p>
                 </div>
-                <div style="background:#f8fafc;padding:8px 10px;border-radius:8px;border:1px solid #e2e8f0;">
-                    <span style="color:#64748b;font-size:10px;display:block;text-transform:uppercase;font-weight:700;">Late</span>
-                    <strong style="color:#dc2626;font-size:13.5px;">{{ $monthLate }} Days</strong>
+                <span class="badge bg-success-subtle text-success" style="font-size: 11px; font-weight: 800; border-radius: 99px; padding: 4px 10px;">
+                    <i class="bi bi-dot"></i> Live
+                </span>
+            </div>
+
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 16px;">
+                <div style="position: relative; width: 140px; height: 140px; display: grid; place-items: center;">
+                    <svg viewBox="0 0 160 160" style="width: 100%; height: 100%; transform: rotate(-90deg);">
+                        <circle cx="80" cy="80" r="{{ $donutRadius }}" fill="transparent" stroke="#F1F5F9" stroke-width="15" />
+                        <circle cx="80" cy="80" r="{{ $donutRadius }}" fill="transparent" stroke="#4F46E5" stroke-width="15" stroke-dasharray="{{ $donutCircumference }}" stroke-dashoffset="{{ $tDonutOffset }}" stroke-linecap="round" />
+                    </svg>
+                    <div style="position: absolute; text-align: center;">
+                        <div style="font-size: 26px; font-weight: 900; color: #0F172A; line-height: 1;">{{ $monthPct }}%</div>
+                        <div style="font-size: 11px; font-weight: 700; color: #64748B; text-transform: uppercase; margin-top: 2px;">Faculty Rate</div>
+                    </div>
                 </div>
-                <div style="background:#f8fafc;padding:8px 10px;border-radius:8px;border:1px solid #e2e8f0;">
-                    <span style="color:#64748b;font-size:10px;display:block;text-transform:uppercase;font-weight:700;">Leaves</span>
-                    <strong style="color:#0284c7;font-size:13.5px;">{{ $monthLeave }} Days</strong>
-                </div>
-                <div style="background:#f8fafc;padding:8px 10px;border-radius:8px;border:1px solid #e2e8f0;">
-                    <span style="color:#64748b;font-size:10px;display:block;text-transform:uppercase;font-weight:700;">Absences</span>
-                    <strong style="color:#b91c1c;font-size:13.5px;">{{ $monthAbsent }} Days</strong>
+
+                {{-- Breakdown bars --}}
+                <div style="width: 100%; display: flex; flex-direction: column; gap: 12px;">
+                    <div>
+                        <div style="display: flex; justify-content: space-between; font-size: 12px; font-weight: 700; margin-bottom: 4px;">
+                            <span style="color: #0F172A;"><i class="bi bi-mortarboard-fill" style="color: #4F46E5;"></i> Student Attendance</span>
+                            <span style="color: #64748B;">100% Rate</span>
+                        </div>
+                        <div style="height: 8px; border-radius: 99px; background: #F1F5F9; overflow: hidden;">
+                            <div style="width: 100%; height: 100%; background: #4F46E5; border-radius: 99px;"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div style="display: flex; justify-content: space-between; font-size: 12px; font-weight: 700; margin-bottom: 4px;">
+                            <span style="color: #0F172A;"><i class="bi bi-person-badge-fill" style="color: #10B981;"></i> My Attendance Log</span>
+                            <span style="color: #64748B;">{{ $monthPresent }} / {{ max(1, $monthPresent + $monthLate + $monthLeave) }} Days</span>
+                        </div>
+                        <div style="height: 8px; border-radius: 99px; background: #F1F5F9; overflow: hidden;">
+                            <div style="width: {{ $monthPct }}%; height: 100%; background: #10B981; border-radius: 99px;"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <a href="{{ route('teacher.page', 'attendance') }}" style="display:inline-block;width:100%;text-align:center;background:linear-gradient(135deg, #1E1B4B 0%, #312E81 50%, #4F46E5 100%);color:#fff;padding:10px;border-radius:10px;text-decoration:none;font-weight:800;font-size:13px;box-shadow:0 4px 12px rgba(79,70,229,0.25);">
-                Open Attendance Terminal <i class="bi bi-arrow-right-short"></i>
-            </a>
-        </article>
+        </div>
 
-        <article class="mini-panel">
-            <h3><i class="bi bi-backpack-fill" style="color:#4F46E5;"></i> Enrolled Students</h3>
-            <p style="font-size:12.5px;color:#64748b;margin:0 0 16px;">You have {{ $studentCount }} enrolled students in {{ $primaryClass }} {{ $primarySection }}.</p>
-            <a href="{{ route('teacher.page', 'students') }}" style="display:inline-block;width:100%;text-align:center;background:#4F46E5;color:#fff;padding:10px;border-radius:10px;text-decoration:none;font-weight:700;font-size:13px;">View Class Roster</a>
-        </article>
-
-        <article class="mini-panel">
-            <h3><i class="bi bi-cash" style="color:#059669;"></i> My Salary Overview</h3>
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
-                <span style="font-size:13px;color:#64748b;">Net Salary:</span>
-                <strong style="font-size:16px;color:#059669;">Rs {{ number_format($latestSalary?->net_salary ?? 50000) }}</strong>
+        {{-- Executive Teacher Operations Suite Card --}}
+        <div class="executive-suite-card" style="background: linear-gradient(135deg, #1E1B4B 0%, #312E81 50%, #4338CA 100%); color: #ffffff; border-radius: 18px; padding: 22px 24px; box-shadow: 0 10px 25px rgba(30,27,75,0.25);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+                <span style="font-size: 11px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #A5B4FC; display: inline-flex; align-items: center; gap: 6px;">
+                    <span style="width: 6px; height: 6px; border-radius: 50%; background: #34D399; animation: pulse 2s infinite;"></span> FACULTY KERNEL
+                </span>
+                <span class="badge" style="background: rgba(255,255,255,0.12); color: #C7D2FE; font-size: 11px;">#ESS-TEACHER</span>
             </div>
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
-                <span style="font-size:13px;color:#64748b;">Status:</span>
-                <span class="status"><i class="bi bi-check-circle-fill"></i> {{ $latestSalary?->status ?? 'Paid' }}</span>
+            <h4 style="margin: 0 0 6px; font-size: 16px; font-weight: 800; color: #FFFFFF;">Teacher Academic Desk</h4>
+            <p style="margin: 0 0 18px; font-size: 12px; color: #C7D2FE; line-height: 1.5;">Direct classroom management, biometric punch actions, and student record assessment.</p>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                @if(!empty($todayAttendance) && $todayAttendance->punch_in && !$todayAttendance->punch_out)
+                    <form action="{{ route('teacher.punchOut') }}" method="POST" style="margin: 0;">
+                        @csrf
+                        <button type="submit" style="width: 100%; padding: 10px; border: none; border-radius: 10px; background: #EF4444; color: #ffffff; font-weight: 800; font-size: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px;">
+                            <i class="bi bi-box-arrow-right"></i> Punch Out
+                        </button>
+                    </form>
+                @elseif(empty($todayAttendance) || !$todayAttendance->punch_in)
+                    <form action="{{ route('teacher.punchIn') }}" method="POST" style="margin: 0;">
+                        @csrf
+                        <button type="submit" style="width: 100%; padding: 10px; border: none; border-radius: 10px; background: #10B981; color: #ffffff; font-weight: 800; font-size: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px;">
+                            <i class="bi bi-fingerprint"></i> Punch In
+                        </button>
+                    </form>
+                @else
+                    <button type="button" disabled style="width: 100%; padding: 10px; border: none; border-radius: 10px; background: rgba(255,255,255,0.15); color: #C7D2FE; font-weight: 700; font-size: 12px;">
+                        <i class="bi bi-check2-all"></i> Completed
+                    </button>
+                @endif
+                <a href="{{ route('teacher.page', 'leaves') }}" style="text-decoration: none; padding: 10px; border-radius: 10px; background: rgba(255,255,255,0.15); color: #FFFFFF; font-weight: 800; font-size: 12px; display: flex; align-items: center; justify-content: center; gap: 6px;">
+                    <i class="bi bi-calendar-plus"></i> Apply Leave
+                </a>
             </div>
-            <a href="{{ route('teacher.page', 'salary') }}" style="display:inline-block;width:100%;text-align:center;background:#f1f5f9;color:#0f172a;padding:10px;border-radius:10px;text-decoration:none;font-weight:700;font-size:13px;">View Pay Slip</a>
-        </article>
+        </div>
     </div>
 </section>
 @endif
@@ -442,14 +673,14 @@
 {!! $classFilterHtml() !!}
 
 <div class="table-panel" style="overflow:hidden;width:100%;max-width:100%;border-radius:18px;box-shadow:0 8px 30px rgba(0,0,0,0.05);background:#ffffff;padding:6px 16px 16px 16px;">
-    <table style="width:100%;border-collapse:collapse;">
+    <table class="admin-table" style="width:100%;border-collapse:collapse;margin:0;">
         <thead>
-            <tr style="background:#f8fafc;border-bottom:2px solid #e2e8f0;">
-                <th style="padding:12px 14px;text-align:left;font-size:11.5px;font-weight:800;color:#475569;text-transform:uppercase;">Teacher Name</th>
-                <th style="padding:12px 14px;text-align:left;font-size:11.5px;font-weight:800;color:#475569;text-transform:uppercase;">Assigned Subject</th>
-                <th style="padding:12px 14px;text-align:left;font-size:11.5px;font-weight:800;color:#475569;text-transform:uppercase;">Class / Section</th>
-                <th style="padding:12px 14px;text-align:left;font-size:11.5px;font-weight:800;color:#475569;text-transform:uppercase;">Contact Number</th>
-                <th style="padding:12px 14px;text-align:center;font-size:11.5px;font-weight:800;color:#475569;text-transform:uppercase;">Status</th>
+            <tr style="background: linear-gradient(135deg, #1E1B4B 0%, #4F46E5 100%) !important;">
+                <th style="padding:12px 14px;text-align:left;font-size:11.5px;font-weight:800;color:#FFFFFF !important; background: transparent !important;text-transform:uppercase;">Teacher Name</th>
+                <th style="padding:12px 14px;text-align:left;font-size:11.5px;font-weight:800;color:#FFFFFF !important; background: transparent !important;text-transform:uppercase;">Assigned Subject</th>
+                <th style="padding:12px 14px;text-align:left;font-size:11.5px;font-weight:800;color:#FFFFFF !important; background: transparent !important;text-transform:uppercase;">Class / Section</th>
+                <th style="padding:12px 14px;text-align:left;font-size:11.5px;font-weight:800;color:#FFFFFF !important; background: transparent !important;text-transform:uppercase;">Contact Number</th>
+                <th style="padding:12px 14px;text-align:center;font-size:11.5px;font-weight:800;color:#FFFFFF !important; background: transparent !important;text-transform:uppercase;">Status</th>
             </tr>
         </thead>
         <tbody>
@@ -538,16 +769,16 @@
 {!! $classFilterHtml() !!}
 
 <div class="table-panel" style="overflow:hidden;width:100%;max-width:100%;border-radius:18px;box-shadow:0 8px 30px rgba(0,0,0,0.05);background:#ffffff;padding:6px 16px 16px 16px;">
-    <table style="width:100%;border-collapse:collapse;">
+    <table class="admin-table" style="width:100%;border-collapse:collapse;margin:0;">
         <thead>
-            <tr style="background:#f8fafc;border-bottom:2px solid #e2e8f0;">
-                <th style="padding:12px 14px;text-align:left;font-size:11.5px;font-weight:800;color:#475569;text-transform:uppercase;">Roll #</th>
-                <th style="padding:12px 14px;text-align:left;font-size:11.5px;font-weight:800;color:#475569;text-transform:uppercase;">Student Name</th>
-                <th style="padding:12px 14px;text-align:left;font-size:11.5px;font-weight:800;color:#475569;text-transform:uppercase;">Registration No</th>
-                <th style="padding:12px 14px;text-align:left;font-size:11.5px;font-weight:800;color:#475569;text-transform:uppercase;">Class & Section</th>
-                <th style="padding:12px 14px;text-align:left;font-size:11.5px;font-weight:800;color:#475569;text-transform:uppercase;">Your Subjects Taught</th>
-                <th style="padding:12px 14px;text-align:left;font-size:11.5px;font-weight:800;color:#475569;text-transform:uppercase;">Emergency Contact</th>
-                <th style="padding:12px 14px;text-align:center;font-size:11.5px;font-weight:800;color:#475569;text-transform:uppercase;">Status</th>
+            <tr style="background: linear-gradient(135deg, #1E1B4B 0%, #4F46E5 100%) !important;">
+                <th style="padding:12px 14px;text-align:left;font-size:11.5px;font-weight:800;color:#FFFFFF !important; background: transparent !important;text-transform:uppercase;">Roll #</th>
+                <th style="padding:12px 14px;text-align:left;font-size:11.5px;font-weight:800;color:#FFFFFF !important; background: transparent !important;text-transform:uppercase;">Student Name</th>
+                <th style="padding:12px 14px;text-align:left;font-size:11.5px;font-weight:800;color:#FFFFFF !important; background: transparent !important;text-transform:uppercase;">Registration No</th>
+                <th style="padding:12px 14px;text-align:left;font-size:11.5px;font-weight:800;color:#FFFFFF !important; background: transparent !important;text-transform:uppercase;">Class & Section</th>
+                <th style="padding:12px 14px;text-align:left;font-size:11.5px;font-weight:800;color:#FFFFFF !important; background: transparent !important;text-transform:uppercase;">Your Subjects Taught</th>
+                <th style="padding:12px 14px;text-align:left;font-size:11.5px;font-weight:800;color:#FFFFFF !important; background: transparent !important;text-transform:uppercase;">Emergency Contact</th>
+                <th style="padding:12px 14px;text-align:center;font-size:11.5px;font-weight:800;color:#FFFFFF !important; background: transparent !important;text-transform:uppercase;">Status</th>
             </tr>
         </thead>
         <tbody>
@@ -790,15 +1021,15 @@
         </form>
     </div>
 
-    <table style="width:100%;border-collapse:collapse;">
+    <table class="admin-table" style="width:100%;border-collapse:collapse;margin:0;">
         <thead>
-            <tr style="background:#f8fafc;border-bottom:2px solid #e2e8f0;">
-                <th style="padding:12px 14px;text-align:left;font-size:11.5px;font-weight:800;color:#475569;text-transform:uppercase;">Roll #</th>
-                <th style="padding:12px 14px;text-align:left;font-size:11.5px;font-weight:800;color:#475569;text-transform:uppercase;">Student Name</th>
-                <th style="padding:12px 14px;text-align:left;font-size:11.5px;font-weight:800;color:#475569;text-transform:uppercase;">Registration No</th>
-                <th style="padding:12px 14px;text-align:left;font-size:11.5px;font-weight:800;color:#475569;text-transform:uppercase;">Class & Section</th>
-                <th style="padding:12px 14px;text-align:left;font-size:11.5px;font-weight:800;color:#475569;text-transform:uppercase;">Emergency Contact</th>
-                <th style="padding:12px 14px;text-align:center;font-size:11.5px;font-weight:800;color:#475569;text-transform:uppercase;">Status</th>
+            <tr style="background: linear-gradient(135deg, #1E1B4B 0%, #4F46E5 100%) !important;">
+                <th style="padding:12px 14px;text-align:left;font-size:11.5px;font-weight:800;color:#FFFFFF !important; background: transparent !important;text-transform:uppercase;">Roll #</th>
+                <th style="padding:12px 14px;text-align:left;font-size:11.5px;font-weight:800;color:#FFFFFF !important; background: transparent !important;text-transform:uppercase;">Student Name</th>
+                <th style="padding:12px 14px;text-align:left;font-size:11.5px;font-weight:800;color:#FFFFFF !important; background: transparent !important;text-transform:uppercase;">Registration No</th>
+                <th style="padding:12px 14px;text-align:left;font-size:11.5px;font-weight:800;color:#FFFFFF !important; background: transparent !important;text-transform:uppercase;">Class & Section</th>
+                <th style="padding:12px 14px;text-align:left;font-size:11.5px;font-weight:800;color:#FFFFFF !important; background: transparent !important;text-transform:uppercase;">Emergency Contact</th>
+                <th style="padding:12px 14px;text-align:center;font-size:11.5px;font-weight:800;color:#FFFFFF !important; background: transparent !important;text-transform:uppercase;">Status</th>
             </tr>
         </thead>
         <tbody>
@@ -1010,14 +1241,14 @@
 <div class="table-panel" style="overflow:hidden;width:100%;max-width:100%;border-radius:18px;box-shadow:0 8px 30px rgba(0,0,0,0.05);background:#ffffff;padding:6px 16px 16px 16px;">
     <table style="width:100%;border-collapse:collapse;table-layout:fixed;">
         <thead>
-            <tr style="background:#f8fafc;border-bottom:2px solid #e2e8f0;">
-                <th style="width:7%;padding:12px 10px;text-align:left;font-size:11.5px;font-weight:800;color:#475569;text-transform:uppercase;">Std ID</th>
-                <th style="width:20%;padding:12px 12px;text-align:left;font-size:11.5px;font-weight:800;color:#475569;text-transform:uppercase;">Student Name</th>
-                <th style="width:16%;padding:12px 10px;text-align:left;font-size:11.5px;font-weight:800;color:#475569;text-transform:uppercase;">Class & Sec</th>
-                <th style="width:15%;padding:12px 10px;text-align:left;font-size:11.5px;font-weight:800;color:#475569;text-transform:uppercase;">Leave Date</th>
-                <th style="width:8%;padding:12px 8px;text-align:center;font-size:11.5px;font-weight:800;color:#475569;text-transform:uppercase;">Type</th>
-                <th style="width:14%;padding:12px 8px;text-align:center;font-size:11.5px;font-weight:800;color:#475569;text-transform:uppercase;">Status</th>
-                <th style="width:20%;padding:12px 10px;text-align:center;font-size:11.5px;font-weight:800;color:#475569;text-transform:uppercase;">Action</th>
+            <tr style="background: linear-gradient(135deg, #1E1B4B 0%, #4F46E5 100%) !important;">
+                <th style="width:7%;padding:12px 10px;text-align:left;font-size:11.5px;font-weight:800;color:#FFFFFF !important; background: transparent !important;text-transform:uppercase;">Std ID</th>
+                <th style="width:20%;padding:12px 12px;text-align:left;font-size:11.5px;font-weight:800;color:#FFFFFF !important; background: transparent !important;text-transform:uppercase;">Student Name</th>
+                <th style="width:16%;padding:12px 10px;text-align:left;font-size:11.5px;font-weight:800;color:#FFFFFF !important; background: transparent !important;text-transform:uppercase;">Class & Sec</th>
+                <th style="width:15%;padding:12px 10px;text-align:left;font-size:11.5px;font-weight:800;color:#FFFFFF !important; background: transparent !important;text-transform:uppercase;">Leave Date</th>
+                <th style="width:8%;padding:12px 8px;text-align:center;font-size:11.5px;font-weight:800;color:#FFFFFF !important; background: transparent !important;text-transform:uppercase;">Type</th>
+                <th style="width:14%;padding:12px 8px;text-align:center;font-size:11.5px;font-weight:800;color:#FFFFFF !important; background: transparent !important;text-transform:uppercase;">Status</th>
+                <th style="width:20%;padding:12px 10px;text-align:center;font-size:11.5px;font-weight:800;color:#FFFFFF !important; background: transparent !important;text-transform:uppercase;">Action</th>
             </tr>
         </thead>
         <tbody>
@@ -1420,13 +1651,13 @@ document.addEventListener('DOMContentLoaded', () => {
 </div>
 
 <div class="table-panel">
-    <table>
+    <table class="admin-table">
         <thead>
-            <tr>
-                <th>Student Name</th>
-                <th>Class & Sec</th>
-                <th>Term</th>
-                <th style="text-align:center;">Action</th>
+            <tr style="background: linear-gradient(135deg, #1E1B4B 0%, #4F46E5 100%) !important;">
+                <th style="background: transparent !important; color: #FFFFFF !important; font-size: 11.5px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; border: none; padding: 13px 14px;">Student Name</th>
+                <th style="background: transparent !important; color: #FFFFFF !important; font-size: 11.5px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; border: none; padding: 13px 14px;">Class & Sec</th>
+                <th style="background: transparent !important; color: #FFFFFF !important; font-size: 11.5px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; border: none; padding: 13px 14px;">Term</th>
+                <th style="background: transparent !important; color: #FFFFFF !important; font-size: 11.5px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; border: none; text-align:center;">Action</th>
             </tr>
         </thead>
         <tbody>
@@ -1711,11 +1942,11 @@ document.addEventListener('DOMContentLoaded', () => {
             <table style="width:100%;border-collapse:collapse;font-size:13px;">
                 <thead style="position:sticky;top:0;background:#f8fafc;z-index:1;">
                     <tr>
-                        <th style="padding:10px 14px;text-align:left;color:#64748b;font-size:11px;text-transform:uppercase;">Subject</th>
-                        <th style="padding:10px 14px;text-align:left;color:#64748b;font-size:11px;text-transform:uppercase;">Term</th>
-                        <th style="padding:10px 14px;text-align:left;color:#64748b;font-size:11px;text-transform:uppercase;">Marks</th>
-                        <th style="padding:10px 14px;text-align:left;color:#64748b;font-size:11px;text-transform:uppercase;">Percentage</th>
-                        <th style="padding:10px 14px;text-align:left;color:#64748b;font-size:11px;text-transform:uppercase;">Grade</th>
+                        <th style="padding:10px 14px;text-align:left;color:#FFFFFF !important; background: transparent !important;font-size:11px;text-transform:uppercase;">Subject</th>
+                        <th style="padding:10px 14px;text-align:left;color:#FFFFFF !important; background: transparent !important;font-size:11px;text-transform:uppercase;">Term</th>
+                        <th style="padding:10px 14px;text-align:left;color:#FFFFFF !important; background: transparent !important;font-size:11px;text-transform:uppercase;">Marks</th>
+                        <th style="padding:10px 14px;text-align:left;color:#FFFFFF !important; background: transparent !important;font-size:11px;text-transform:uppercase;">Percentage</th>
+                        <th style="padding:10px 14px;text-align:left;color:#FFFFFF !important; background: transparent !important;font-size:11px;text-transform:uppercase;">Grade</th>
                     </tr>
                 </thead>
                 <tbody id="modalResultsBody">
@@ -1914,9 +2145,9 @@ function onAddStudentSelect(stdId) {
                 <table style="width:100%;border-collapse:collapse;font-size:13.5px;">
                     <thead style="position:sticky;top:0;background:#f1f5f9;z-index:1;">
                         <tr>
-                            <th style="padding:10px 14px;text-align:left;color:#475569;font-size:11px;text-transform:uppercase;">Subject</th>
-                            <th style="padding:10px 14px;text-align:center;color:#475569;font-size:11px;text-transform:uppercase;">Total Marks</th>
-                            <th style="padding:10px 14px;text-align:center;color:#475569;font-size:11px;text-transform:uppercase;width:180px;">Obtained Marks</th>
+                            <th style="padding:10px 14px;text-align:left;color:#FFFFFF !important; background: transparent !important;font-size:11px;text-transform:uppercase;">Subject</th>
+                            <th style="padding:10px 14px;text-align:center;color:#FFFFFF !important; background: transparent !important;font-size:11px;text-transform:uppercase;">Total Marks</th>
+                            <th style="padding:10px 14px;text-align:center;color:#FFFFFF !important; background: transparent !important;font-size:11px;text-transform:uppercase;width:180px;">Obtained Marks</th>
                         </tr>
                     </thead>
                     <tbody id="editModalSubjectsBody">
@@ -1977,9 +2208,9 @@ function onAddStudentSelect(stdId) {
                 <table style="width:100%;border-collapse:collapse;font-size:13.5px;">
                     <thead style="position:sticky;top:0;background:#f1f5f9;z-index:1;">
                         <tr>
-                            <th style="padding:10px 14px;text-align:left;color:#475569;font-size:11px;text-transform:uppercase;">Subject</th>
-                            <th style="padding:10px 14px;text-align:center;color:#475569;font-size:11px;text-transform:uppercase;">Total Marks</th>
-                            <th style="padding:10px 14px;text-align:center;color:#475569;font-size:11px;text-transform:uppercase;width:180px;">Obtained Marks</th>
+                            <th style="padding:10px 14px;text-align:left;color:#FFFFFF !important; background: transparent !important;font-size:11px;text-transform:uppercase;">Subject</th>
+                            <th style="padding:10px 14px;text-align:center;color:#FFFFFF !important; background: transparent !important;font-size:11px;text-transform:uppercase;">Total Marks</th>
+                            <th style="padding:10px 14px;text-align:center;color:#FFFFFF !important; background: transparent !important;font-size:11px;text-transform:uppercase;width:180px;">Obtained Marks</th>
                         </tr>
                     </thead>
                     <tbody id="addModalSubjectsBody">
@@ -2013,15 +2244,15 @@ function onAddStudentSelect(stdId) {
 {!! $classFilterHtml() !!}
 
 <div class="table-panel" style="overflow:hidden;width:100%;max-width:100%;border-radius:18px;box-shadow:0 8px 30px rgba(0,0,0,0.05);background:#ffffff;padding:6px 16px 16px 16px;">
-    <table style="width:100%;border-collapse:collapse;">
+    <table class="admin-table" style="width:100%;border-collapse:collapse;margin:0;">
         <thead>
-            <tr style="background:#f8fafc;border-bottom:2px solid #e2e8f0;">
-                <th style="padding:12px 14px;text-align:left;font-size:11.5px;font-weight:800;color:#475569;text-transform:uppercase;">Subject</th>
-                <th style="padding:12px 14px;text-align:left;font-size:11.5px;font-weight:800;color:#475569;text-transform:uppercase;">Outline Title</th>
-                <th style="padding:12px 14px;text-align:center;font-size:11.5px;font-weight:800;color:#475569;text-transform:uppercase;">Term</th>
-                <th style="padding:12px 14px;text-align:left;font-size:11.5px;font-weight:800;color:#475569;text-transform:uppercase;">Description</th>
-                <th style="padding:12px 14px;text-align:center;font-size:11.5px;font-weight:800;color:#475569;text-transform:uppercase;">File Attached</th>
-                <th style="padding:12px 14px;text-align:center;font-size:11.5px;font-weight:800;color:#475569;text-transform:uppercase;">Date Uploaded</th>
+            <tr style="background: linear-gradient(135deg, #1E1B4B 0%, #4F46E5 100%) !important;">
+                <th style="padding:12px 14px;text-align:left;font-size:11.5px;font-weight:800;color:#FFFFFF !important; background: transparent !important;text-transform:uppercase;">Subject</th>
+                <th style="padding:12px 14px;text-align:left;font-size:11.5px;font-weight:800;color:#FFFFFF !important; background: transparent !important;text-transform:uppercase;">Outline Title</th>
+                <th style="padding:12px 14px;text-align:center;font-size:11.5px;font-weight:800;color:#FFFFFF !important; background: transparent !important;text-transform:uppercase;">Term</th>
+                <th style="padding:12px 14px;text-align:left;font-size:11.5px;font-weight:800;color:#FFFFFF !important; background: transparent !important;text-transform:uppercase;">Description</th>
+                <th style="padding:12px 14px;text-align:center;font-size:11.5px;font-weight:800;color:#FFFFFF !important; background: transparent !important;text-transform:uppercase;">File Attached</th>
+                <th style="padding:12px 14px;text-align:center;font-size:11.5px;font-weight:800;color:#FFFFFF !important; background: transparent !important;text-transform:uppercase;">Date Uploaded</th>
             </tr>
         </thead>
         <tbody>
@@ -2202,17 +2433,17 @@ function onAddStudentSelect(stdId) {
 </div>
 
 <div class="table-panel" style="overflow:hidden;width:100%;max-width:100%;border-radius:18px;box-shadow:0 8px 30px rgba(0,0,0,0.05);background:#ffffff;padding:6px 16px 16px 16px;">
-    <table style="width:100%;border-collapse:collapse;">
+    <table class="admin-table" style="width:100%;border-collapse:collapse;margin:0;">
         <thead>
-            <tr style="background:#f8fafc;border-bottom:2px solid #e2e8f0;">
-                <th style="padding:12px 14px;text-align:left;font-size:11.5px;font-weight:800;color:#475569;text-transform:uppercase;">Month</th>
-                <th style="padding:12px 14px;text-align:left;font-size:11.5px;font-weight:800;color:#475569;text-transform:uppercase;">Basic Salary</th>
-                <th style="padding:12px 14px;text-align:left;font-size:11.5px;font-weight:800;color:#475569;text-transform:uppercase;">Allowances</th>
-                <th style="padding:12px 14px;text-align:left;font-size:11.5px;font-weight:800;color:#475569;text-transform:uppercase;">Deductions</th>
-                <th style="padding:12px 14px;text-align:left;font-size:11.5px;font-weight:800;color:#475569;text-transform:uppercase;">Net Payable</th>
-                <th style="padding:12px 14px;text-align:center;font-size:11.5px;font-weight:800;color:#475569;text-transform:uppercase;">Status</th>
-                <th style="padding:12px 14px;text-align:left;font-size:11.5px;font-weight:800;color:#475569;text-transform:uppercase;">Disbursement Date</th>
-                <th style="padding:12px 14px;text-align:center;font-size:11.5px;font-weight:800;color:#475569;text-transform:uppercase;">Action</th>
+            <tr style="background: linear-gradient(135deg, #1E1B4B 0%, #4F46E5 100%) !important;">
+                <th style="padding:12px 14px;text-align:left;font-size:11.5px;font-weight:800;color:#FFFFFF !important; background: transparent !important;text-transform:uppercase;">Month</th>
+                <th style="padding:12px 14px;text-align:left;font-size:11.5px;font-weight:800;color:#FFFFFF !important; background: transparent !important;text-transform:uppercase;">Basic Salary</th>
+                <th style="padding:12px 14px;text-align:left;font-size:11.5px;font-weight:800;color:#FFFFFF !important; background: transparent !important;text-transform:uppercase;">Allowances</th>
+                <th style="padding:12px 14px;text-align:left;font-size:11.5px;font-weight:800;color:#FFFFFF !important; background: transparent !important;text-transform:uppercase;">Deductions</th>
+                <th style="padding:12px 14px;text-align:left;font-size:11.5px;font-weight:800;color:#FFFFFF !important; background: transparent !important;text-transform:uppercase;">Net Payable</th>
+                <th style="padding:12px 14px;text-align:center;font-size:11.5px;font-weight:800;color:#FFFFFF !important; background: transparent !important;text-transform:uppercase;">Status</th>
+                <th style="padding:12px 14px;text-align:left;font-size:11.5px;font-weight:800;color:#FFFFFF !important; background: transparent !important;text-transform:uppercase;">Disbursement Date</th>
+                <th style="padding:12px 14px;text-align:center;font-size:11.5px;font-weight:800;color:#FFFFFF !important; background: transparent !important;text-transform:uppercase;">Action</th>
             </tr>
         </thead>
         <tbody>
@@ -2562,16 +2793,16 @@ function onAddStudentSelect(stdId) {
     </div>
 
     <div class="table-panel" style="border:1px solid #cbd5e1;border-radius:14px;overflow:hidden;box-shadow:0 4px 12px rgba(0,0,0,0.03);">
-        <table style="width:100%;border-collapse:collapse;">
+        <table class="admin-table" style="width:100%;border-collapse:collapse;margin:0;">
             <thead>
-                <tr style="background:#107c41;color:#ffffff;">
-                    <th style="padding:12px 14px;text-align:center;font-size:11.5px;text-transform:uppercase;border-right:1px solid rgba(255,255,255,0.2);">#</th>
-                    <th style="padding:12px 14px;text-align:left;font-size:11.5px;text-transform:uppercase;border-right:1px solid rgba(255,255,255,0.2);">Date</th>
-                    <th style="padding:12px 14px;text-align:left;font-size:11.5px;text-transform:uppercase;border-right:1px solid rgba(255,255,255,0.2);">Day</th>
-                    <th style="padding:12px 14px;text-align:left;font-size:11.5px;text-transform:uppercase;border-right:1px solid rgba(255,255,255,0.2);">Check In (Time In)</th>
-                    <th style="padding:12px 14px;text-align:left;font-size:11.5px;text-transform:uppercase;border-right:1px solid rgba(255,255,255,0.2);">Check Out (Time Out)</th>
-                    <th style="padding:12px 14px;text-align:left;font-size:11.5px;text-transform:uppercase;border-right:1px solid rgba(255,255,255,0.2);">Attendance Status</th>
-                    <th style="padding:12px 14px;text-align:left;font-size:11.5px;text-transform:uppercase;">Remarks & Verification</th>
+            <tr style="background: linear-gradient(135deg, #1E1B4B 0%, #4F46E5 100%) !important;">
+                    <th style="background: transparent !important; color: #FFFFFF !important; font-size: 11.5px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; border: none; padding:12px 14px;text-align:center;font-size:11.5px;text-transform:uppercase;border-right:1px solid rgba(255,255,255,0.2);">#</th>
+                    <th style="background: transparent !important; color: #FFFFFF !important; font-size: 11.5px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; border: none; padding:12px 14px;text-align:left;font-size:11.5px;text-transform:uppercase;border-right:1px solid rgba(255,255,255,0.2);">Date</th>
+                    <th style="background: transparent !important; color: #FFFFFF !important; font-size: 11.5px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; border: none; padding:12px 14px;text-align:left;font-size:11.5px;text-transform:uppercase;border-right:1px solid rgba(255,255,255,0.2);">Day</th>
+                    <th style="background: transparent !important; color: #FFFFFF !important; font-size: 11.5px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; border: none; padding:12px 14px;text-align:left;font-size:11.5px;text-transform:uppercase;border-right:1px solid rgba(255,255,255,0.2);">Check In (Time In)</th>
+                    <th style="background: transparent !important; color: #FFFFFF !important; font-size: 11.5px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; border: none; padding:12px 14px;text-align:left;font-size:11.5px;text-transform:uppercase;border-right:1px solid rgba(255,255,255,0.2);">Check Out (Time Out)</th>
+                    <th style="background: transparent !important; color: #FFFFFF !important; font-size: 11.5px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; border: none; padding:12px 14px;text-align:left;font-size:11.5px;text-transform:uppercase;border-right:1px solid rgba(255,255,255,0.2);">Attendance Status</th>
+                    <th style="background: transparent !important; color: #FFFFFF !important; font-size: 11.5px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; border: none; padding:12px 14px;text-align:left;font-size:11.5px;text-transform:uppercase;">Remarks & Verification</th>
                 </tr>
             </thead>
             <tbody>
@@ -2772,16 +3003,16 @@ updateLiveClock();
         </button>
     </div>
 
-    <table>
+    <table class="admin-table">
         <thead>
-            <tr>
-                <th>#</th>
-                <th>Leave Date</th>
-                <th>Leave Type</th>
-                <th>Reason</th>
-                <th>Status</th>
-                <th>Approval / Remarks</th>
-                <th>Applied On</th>
+            <tr style="background: linear-gradient(135deg, #1E1B4B 0%, #4F46E5 100%) !important;">
+                <th style="background: transparent !important; color: #FFFFFF !important; font-size: 11.5px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; border: none; padding: 13px 14px;">#</th>
+                <th style="background: transparent !important; color: #FFFFFF !important; font-size: 11.5px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; border: none; padding: 13px 14px;">Leave Date</th>
+                <th style="background: transparent !important; color: #FFFFFF !important; font-size: 11.5px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; border: none; padding: 13px 14px;">Leave Type</th>
+                <th style="background: transparent !important; color: #FFFFFF !important; font-size: 11.5px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; border: none; padding: 13px 14px;">Reason</th>
+                <th style="background: transparent !important; color: #FFFFFF !important; font-size: 11.5px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; border: none; padding: 13px 14px;">Status</th>
+                <th style="background: transparent !important; color: #FFFFFF !important; font-size: 11.5px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; border: none; padding: 13px 14px;">Approval / Remarks</th>
+                <th style="background: transparent !important; color: #FFFFFF !important; font-size: 11.5px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; border: none; padding: 13px 14px;">Applied On</th>
             </tr>
         </thead>
         <tbody>
@@ -2899,17 +3130,17 @@ updateLiveClock();
 @endif
 
 <div class="table-panel">
-    <table>
+    <table class="admin-table">
         <thead>
-            <tr>
-                <th>Roll #</th>
-                <th>Student Name</th>
-                <th>Class & Sec</th>
-                <th>Session Month</th>
-                <th style="text-align:center;">Obtained / Max Marks</th>
-                <th style="text-align:center;">Percentage & Grade</th>
-                <th style="text-align:center;">Status</th>
-                <th style="text-align:center;">Action</th>
+            <tr style="background: linear-gradient(135deg, #1E1B4B 0%, #4F46E5 100%) !important;">
+                <th style="background: transparent !important; color: #FFFFFF !important; font-size: 11.5px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; border: none; padding: 13px 14px;">Roll #</th>
+                <th style="background: transparent !important; color: #FFFFFF !important; font-size: 11.5px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; border: none; padding: 13px 14px;">Student Name</th>
+                <th style="background: transparent !important; color: #FFFFFF !important; font-size: 11.5px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; border: none; padding: 13px 14px;">Class & Sec</th>
+                <th style="background: transparent !important; color: #FFFFFF !important; font-size: 11.5px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; border: none; padding: 13px 14px;">Session Month</th>
+                <th style="background: transparent !important; color: #FFFFFF !important; font-size: 11.5px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; border: none; text-align:center;">Obtained / Max Marks</th>
+                <th style="background: transparent !important; color: #FFFFFF !important; font-size: 11.5px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; border: none; text-align:center;">Percentage & Grade</th>
+                <th style="background: transparent !important; color: #FFFFFF !important; font-size: 11.5px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; border: none; text-align:center;">Status</th>
+                <th style="background: transparent !important; color: #FFFFFF !important; font-size: 11.5px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; border: none; text-align:center;">Action</th>
             </tr>
         </thead>
         <tbody>
@@ -3056,10 +3287,10 @@ updateLiveClock();
             <table style="width:100%;border-collapse:collapse;font-size:13px;text-align:left;">
                 <thead style="position:sticky;top:0;background:#f8fafc;z-index:1;">
                     <tr style="border-bottom:1px solid #cbd5e1;">
-                        <th style="padding:10px 12px;color:#475569;">Date & Day</th>
-                        <th style="padding:10px 12px;color:#475569;">Subject Exam</th>
-                        <th style="padding:10px 12px;color:#475569;">Timing & Venue</th>
-                        <th style="padding:10px 12px;text-align:center;color:#475569;">Obtained / Max Marks</th>
+                        <th style="padding:10px 12px;color:#FFFFFF !important; background: transparent !important;">Date & Day</th>
+                        <th style="padding:10px 12px;color:#FFFFFF !important; background: transparent !important;">Subject Exam</th>
+                        <th style="padding:10px 12px;color:#FFFFFF !important; background: transparent !important;">Timing & Venue</th>
+                        <th style="padding:10px 12px;text-align:center;color:#FFFFFF !important; background: transparent !important;">Obtained / Max Marks</th>
                     </tr>
                 </thead>
                 <tbody id="tModalTableBody">
@@ -3326,16 +3557,16 @@ function onAddTestStudentChange() {
 @endif
 
 <div class="table-panel">
-    <table>
+    <table class="admin-table">
         <thead>
-            <tr>
-                <th>Roll #</th>
-                <th>Student Name</th>
-                <th>Class & Sec</th>
-                <th>Assigned Room / Hall</th>
-                <th>Chair / Seat #</th>
-                <th>Exam Center</th>
-                <th style="text-align:center;">Action</th>
+            <tr style="background: linear-gradient(135deg, #1E1B4B 0%, #4F46E5 100%) !important;">
+                <th style="background: transparent !important; color: #FFFFFF !important; font-size: 11.5px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; border: none; padding: 13px 14px;">Roll #</th>
+                <th style="background: transparent !important; color: #FFFFFF !important; font-size: 11.5px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; border: none; padding: 13px 14px;">Student Name</th>
+                <th style="background: transparent !important; color: #FFFFFF !important; font-size: 11.5px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; border: none; padding: 13px 14px;">Class & Sec</th>
+                <th style="background: transparent !important; color: #FFFFFF !important; font-size: 11.5px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; border: none; padding: 13px 14px;">Assigned Room / Hall</th>
+                <th style="background: transparent !important; color: #FFFFFF !important; font-size: 11.5px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; border: none; padding: 13px 14px;">Chair / Seat #</th>
+                <th style="background: transparent !important; color: #FFFFFF !important; font-size: 11.5px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; border: none; padding: 13px 14px;">Exam Center</th>
+                <th style="background: transparent !important; color: #FFFFFF !important; font-size: 11.5px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; border: none; text-align:center;">Action</th>
             </tr>
         </thead>
         <tbody>

@@ -10,6 +10,14 @@
             <p>Welcome back, <strong>{{ session('user_name', 'Abdul Moeez') }}</strong>! Full authority and control over leaves, teacher salaries, student fees, attendance, academic records, and system accounts.</p>
         </div>
 
+        <div class="admin-hero-actions">
+            <a href="{{ url('/') }}" class="btn-back-website" title="Back to Main Website">
+                <i class="bi bi-globe2"></i>
+                <span>Back to Website</span>
+                <i class="bi bi-arrow-up-right"></i>
+            </a>
+        </div>
+
         <div class="hero-tabs">
             @php
             $tabMenu = [

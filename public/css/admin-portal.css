@@ -3666,3 +3666,69 @@ a:hover {
 .student-brand:hover .admin-brand-logo-img {
     transform: scale(1.08);
 }
+
+
+/* --- BACK TO WEBSITE BUTTON IN ADMIN HERO BANNER --- */
+.admin-hero-actions {
+    align-self: start;
+    display: flex;
+    justify-content: flex-end;
+    position: relative;
+    z-index: 2;
+}
+
+.btn-back-website {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 18px;
+    background: rgba(255, 255, 255, 0.15) !important;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    border-radius: 9999px !important;
+    color: #FFFFFF !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    text-decoration: none !important;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15) !important;
+    transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    white-space: nowrap;
+}
+
+.btn-back-website:hover {
+    background: #FFFFFF !important;
+    color: #4F46E5 !important;
+    border-color: #FFFFFF !important;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.22) !important;
+}
+
+.btn-back-website i.bi-globe2 {
+    font-size: 14px;
+    color: #F59E0B;
+    transition: transform 0.25s ease;
+}
+
+.btn-back-website i.bi-arrow-up-right {
+    font-size: 11px;
+    opacity: 0.85;
+    transition: transform 0.25s ease;
+}
+
+.btn-back-website:hover i.bi-globe2 {
+    color: #4F46E5;
+    transform: rotate(15deg);
+}
+
+.btn-back-website:hover i.bi-arrow-up-right {
+    transform: translate(2px, -2px);
+    opacity: 1;
+}
+
+@media (max-width: 768px) {
+    .admin-hero-actions {
+        margin-top: 10px;
+        justify-content: flex-start;
+    }
+}

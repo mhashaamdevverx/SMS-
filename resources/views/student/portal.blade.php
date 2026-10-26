@@ -11,17 +11,11 @@
 @if(session('success'))
     <div class="student-toast"><i class="bi bi-check-circle-fill"></i> {{ session('success') }}</div>
 @endif
-@if(session('error'))
-    <div class="student-toast" style="background:#fee2e2;color:#991b1b;border:1px solid #f87171;"><i class="bi bi-exclamation-circle-fill"></i> {{ session('error') }}</div>
-@endif
-@if($errors->any())
-    <div class="student-toast" style="background:#fee2e2;color:#991b1b;border:1px solid #f87171;"><i class="bi bi-exclamation-circle-fill"></i> {{ $errors->first() }}</div>
-@endif
 
 @if($page === 'dashboard')
 <section class="student-hero">
     <div>
-        <span class="hero-pill">Excellence Student Portal <i></i> Session Active</span>
+        <span class="hero-pill">Veylora Student Portal <i></i> Session Active</span>
         <h1>Welcome back, {{ $student->name }}!</h1>
         <p>{{ $student->class }} / {{ $student->section }} <i></i> Roll No: #{{ $student->std_id }} <i></i> Reg No: <strong>{{ $stdRegNo }}</strong> <i></i> Keep learning and growing.</p>
     </div>
@@ -140,13 +134,13 @@
             <a href="{{ route('student.page', 'attendance') }}">Open full attendance</a>
         </article>
         <article class="mini-panel" style="margin-top:16px;">
-            <h3 style="display:flex;align-items:center;gap:8px;"><i class="bi bi-journal-check" style="color:#4F46E5;"></i> Monthly Test Session</h3>
+            <h3 style="display:flex;align-items:center;gap:8px;"><i class="bi bi-journal-check" style="color:#0d8f83;"></i> Monthly Test Session</h3>
             <div style="display:flex;justify-content:space-between;align-items:center;margin:12px 0 6px;">
                 <b style="font-size:15px;color:#0f172a;">Oct 2026 Score</b>
                 <span style="background:#ecfdf5;color:#047857;padding:3px 10px;border-radius:6px;font-size:12px;font-weight:800;border:1px solid #a7f3d0;">{{ $octPct }}% ({{ $octGrade }})</span>
             </div>
             <p style="font-size:12px;color:#64748b;margin:0 0 12px;line-height:1.4;">Total Marks: <b style="color:#0f172a;">{{ $octObt }} / 250</b> &bull; 1-Week Series</p>
-            <a href="{{ route('student.tests') }}" style="font-weight:700;color:#4F46E5;font-size:12.5px;text-decoration:none;display:inline-flex;align-items:center;gap:4px;">Open Test Sessions & Results &rarr;</a>
+            <a href="{{ route('student.tests') }}" style="font-weight:700;color:#0d8f83;font-size:12.5px;text-decoration:none;display:inline-flex;align-items:center;gap:4px;">Open Test Sessions & Results &rarr;</a>
         </article>
     </aside>
 </section>
@@ -161,7 +155,7 @@
         
         {{-- TOP NAVIGATION TABS --}}
         <div style="display:inline-flex;background:#e2e8f0;padding:4px;border-radius:12px;gap:4px;">
-            <button type="button" id="attTabMonthly" class="att-sheet-tab active" onclick="switchAttTab('monthly')" style="border:none;background:#4F46E5;color:#ffffff;padding:8px 18px;border-radius:9px;font-size:13px;font-weight:700;cursor:pointer;transition:all 0.2s;display:inline-flex;align-items:center;gap:6px;">
+            <button type="button" id="attTabMonthly" class="att-sheet-tab active" onclick="switchAttTab('monthly')" style="border:none;background:#0d8f83;color:#ffffff;padding:8px 18px;border-radius:9px;font-size:13px;font-weight:700;cursor:pointer;transition:all 0.2s;display:inline-flex;align-items:center;gap:6px;">
                 <i class="bi bi-file-earmark-spreadsheet-fill"></i> Monthly Grid Sheet
             </button>
             <button type="button" id="attTabYearly" class="att-sheet-tab" onclick="switchAttTab('yearly')" style="border:none;background:transparent;color:#475569;padding:8px 18px;border-radius:9px;font-size:13px;font-weight:700;cursor:pointer;transition:all 0.2s;display:inline-flex;align-items:center;gap:6px;">
@@ -319,7 +313,7 @@
             @endphp
             <div id="attMonthPanel-{{ $mKey }}" class="att-month-grid-wrapper" style="display: {{ $mKey === '2026-10' ? 'block' : 'none' }};">
                 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
-                    <h3 style="margin:0;font-size:16px;color:#0f172a;font-weight:800;"><i class="bi bi-file-earmark-spreadsheet-fill" style="color:#4F46E5;"></i> Excel Sheet Grid &bull; {{ $mTitle }}</h3>
+                    <h3 style="margin:0;font-size:16px;color:#0f172a;font-weight:800;"><i class="bi bi-file-earmark-spreadsheet-fill" style="color:#0d8f83;"></i> Excel Sheet Grid &bull; {{ $mTitle }}</h3>
                     <span style="font-size:12px;color:#64748b;font-weight:700;">Total Days: {{ $daysInMonth }}</span>
                 </div>
 
@@ -345,7 +339,7 @@
                             <tr>
                                 <td style="width:16%;padding:8px 6px;text-align:left;font-family:sans-serif;background:#faf5ff;border-right:1px solid #cbd5e1;overflow:hidden;">
                                     <div style="font-size:12.5px;font-weight:800;color:#0f172a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" title="{{ $student->name }}">{{ $student->name }}</div>
-                                    <small style="display:block;color:#4F46E5;font-size:9.5px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" title="{{ $stdRegNo }}">Reg: {{ $stdRegNo }} &bull; Roll #{{ $student->std_id }}</small>
+                                    <small style="display:block;color:#0d8f83;font-size:9.5px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" title="{{ $stdRegNo }}">Reg: {{ $stdRegNo }} &bull; Roll #{{ $student->std_id }}</small>
                                 </td>
                                 @for($d = 1; $d <= $daysInMonth; $d++)
                                     @php
@@ -407,7 +401,7 @@
     <article class="student-panel" style="padding:22px;">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
             <div>
-                <h3 style="margin:0;font-size:18px;color:#0f172a;font-weight:800;"><i class="bi bi-calendar-range-fill" style="color:#4F46E5;"></i> 2026 Academic Year Attendance Sheet</h3>
+                <h3 style="margin:0;font-size:18px;color:#0f172a;font-weight:800;"><i class="bi bi-calendar-range-fill" style="color:#0d8f83;"></i> 2026 Academic Year Attendance Sheet</h3>
                 <span style="font-size:12.5px;color:#64748b;">Comprehensive 12-Month Excel Summary Matrix</span>
             </div>
             <span style="background:#e0f2fe;color:#0284c7;padding:6px 14px;border-radius:10px;font-weight:800;font-size:13px;">Year: 2026</span>
@@ -449,7 +443,7 @@
                             <td style="padding:12px 14px;"><span style="color:#1d4ed8;font-weight:800;">{{ $mCL }}</span></td>
                             <td style="padding:12px 14px;"><span style="color:#b45309;font-weight:800;">{{ $mSL }}</span></td>
                             <td style="padding:12px 14px;"><span style="color:#64748b;font-weight:600;">{{ $mW }}</span></td>
-                            <td style="padding:12px 14px;"><strong style="color:#4F46E5;font-size:14px;">{{ $mPct }}%</strong></td>
+                            <td style="padding:12px 14px;"><strong style="color:#0d8f83;font-size:14px;">{{ $mPct }}%</strong></td>
                             <td style="padding:12px 14px;">
                                 @if($mPct >= 90)
                                     <span style="background:#ecfdf5;color:#047857;padding:4px 10px;border-radius:99px;font-size:11.5px;font-weight:700;"><i class="bi bi-star-fill"></i> Excellent</span>
@@ -460,7 +454,7 @@
                                 @endif
                             </td>
                             <td style="padding:12px 14px;text-align:center;">
-                                <button type="button" onclick="selectAndShowAttMonth('{{ $mKey }}')" style="border:1px solid #cbd5e1;background:#ffffff;color:#4F46E5;padding:6px 14px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:4px;">
+                                <button type="button" onclick="selectAndShowAttMonth('{{ $mKey }}')" style="border:1px solid #cbd5e1;background:#ffffff;color:#0d8f83;padding:6px 14px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:4px;">
                                     <i class="bi bi-eye-fill"></i> View Sheet
                                 </button>
                             </td>
@@ -523,13 +517,13 @@ function switchAttTab(type) {
     if (panelD) panelD.style.display = 'none';
 
     if (type === 'monthly') {
-        if (btnM) { btnM.style.background = '#4F46E5'; btnM.style.color = '#ffffff'; }
+        if (btnM) { btnM.style.background = '#0d8f83'; btnM.style.color = '#ffffff'; }
         if (panelM) panelM.style.display = 'block';
     } else if (type === 'yearly') {
-        if (btnY) { btnY.style.background = '#4F46E5'; btnY.style.color = '#ffffff'; }
+        if (btnY) { btnY.style.background = '#0d8f83'; btnY.style.color = '#ffffff'; }
         if (panelY) panelY.style.display = 'block';
     } else {
-        if (btnD) { btnD.style.background = '#4F46E5'; btnD.style.color = '#ffffff'; }
+        if (btnD) { btnD.style.background = '#0d8f83'; btnD.style.color = '#ffffff'; }
         if (panelD) panelD.style.display = 'block';
     }
 }
@@ -672,7 +666,7 @@ function selectAndShowAttMonth(mKey) {
     <article class="student-panel" style="padding:24px;background:#fff;border-radius:18px;border:1px solid #e2e8f0;box-shadow:0 4px 16px rgba(15,23,42,0.04);">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:12px;">
             <div>
-                <span style="background:#C7D2FE;color:#0f766e;padding:4px 12px;border-radius:99px;font-size:11px;font-weight:800;letter-spacing:0.05em;text-transform:uppercase;"><i class="bi bi-shield-check"></i> OFFICIAL SEATING ALLOCATION</span>
+                <span style="background:#ccfbf1;color:#0f766e;padding:4px 12px;border-radius:99px;font-size:11px;font-weight:800;letter-spacing:0.05em;text-transform:uppercase;"><i class="bi bi-shield-check"></i> OFFICIAL SEATING ALLOCATION</span>
                 <h2 style="margin:8px 0 2px;font-size:20px;color:#0f172a;font-weight:800;">{{ $slip->exam?->name ?? 'Annual Examination' }} {{ $slip->exam?->session ? '('.$slip->exam->session.')' : '' }}</h2>
                 <p style="margin:0;color:#64748b;font-size:13px;">Class & Section: <strong>{{ $slip->class_name }} {{ $slip->section_name ? '('.$slip->section_name.')' : '' }}</strong></p>
             </div>
@@ -685,7 +679,7 @@ function selectAndShowAttMonth(mKey) {
                 <span style="position:absolute;right:14px;top:14px;width:34px;height:34px;border-radius:10px;background:#e0f2fe;color:#0284c7;display:grid;place-items:center;font-size:16px;"><i class="bi bi-person-vcard-fill"></i></span>
                 <small style="display:block;font-size:10.5px;font-weight:800;color:#64748b;letter-spacing:0.05em;text-transform:uppercase;">ROLL NO</small>
                 <strong style="display:block;font-size:24px;font-weight:800;color:#0f172a;margin-top:6px;">#{{ $slip->roll_no }}</strong>
-                <span style="font-size:11px;color:#4F46E5;font-weight:600;">Verified Student ID</span>
+                <span style="font-size:11px;color:#0d8f83;font-weight:600;">Verified Student ID</span>
             </div>
 
             <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:14px;padding:16px;position:relative;">
@@ -705,7 +699,7 @@ function selectAndShowAttMonth(mKey) {
             <div style="background:#faf5ff;border:1px solid #f3e8ff;border-radius:14px;padding:16px;position:relative;">
                 <span style="position:absolute;right:14px;top:14px;width:34px;height:34px;border-radius:10px;background:#f3e8ff;color:#9333ea;display:grid;place-items:center;font-size:16px;"><i class="bi bi-building-check"></i></span>
                 <small style="display:block;font-size:10.5px;font-weight:800;color:#7e22ce;letter-spacing:0.05em;text-transform:uppercase;">EXAM CENTER</small>
-                <strong style="display:block;font-size:16px;font-weight:800;color:#581c87;margin-top:10px;">Excellence Main Hall</strong>
+                <strong style="display:block;font-size:16px;font-weight:800;color:#5D172D;margin-top:10px;">Veylora Main Hall</strong>
                 <span style="font-size:11px;color:#9333ea;font-weight:600;">School Center</span>
             </div>
         </div>
@@ -716,20 +710,20 @@ function selectAndShowAttMonth(mKey) {
         </div>
     </article>
 
-    {{-- DATESHEET TABLE --}}
-    <article class="student-panel table-panel">
-        <div style="padding:16px 20px;background:#f8fafc;border-bottom:1px solid #e2e8f0;display:flex;align-items:center;gap:10px;">
+        {{-- DATESHEET TABLE --}}
+    <div class="admin-table-wrapper" style="border: 1px solid #E2E8F0; border-radius: 14px; overflow: hidden; background: #ffffff; margin-top: 18px;">
+        <div style="padding:14px 20px;background:#f8fafc;border-bottom:1px solid #e2e8f0;display:flex;align-items:center;gap:10px;">
             <i class="bi bi-calendar-check-fill" style="color:#4F46E5;font-size:18px;"></i>
             <h3 style="margin:0;font-size:15px;color:#0f172a;font-weight:700;">Examination Datesheet Schedule</h3>
         </div>
-        <table>
+        <table class="admin-table" style="width: 100%; border-collapse: collapse; margin: 0;">
             <thead>
-                <tr>
-                    <th style="width:50px;text-align:center;">#</th>
-                    <th>Subject Name</th>
-                    <th>Paper Date & Day</th>
-                    <th>Exam Timing</th>
-                    <th>Seating Venue</th>
+                <tr style="background: linear-gradient(135deg, #1E1B4B 0%, #4F46E5 100%);">
+                    <th class="text-center" style="padding: 13px 14px; color: #FFFFFF; font-size: 11.5px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; text-align: center; border: none; width: 8%;">#</th>
+                    <th class="text-center" style="padding: 13px 14px; color: #FFFFFF; font-size: 11.5px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; text-align: center; border: none; width: 28%;">SUBJECT NAME</th>
+                    <th class="text-center" style="padding: 13px 14px; color: #FFFFFF; font-size: 11.5px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; text-align: center; border: none; width: 22%;">PAPER DATE & DAY</th>
+                    <th class="text-center" style="padding: 13px 14px; color: #FFFFFF; font-size: 11.5px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; text-align: center; border: none; width: 22%;">EXAM TIMING</th>
+                    <th class="text-center" style="padding: 13px 14px; color: #FFFFFF; font-size: 11.5px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; text-align: center; border: none; width: 20%;">SEATING VENUE</th>
                 </tr>
             </thead>
             <tbody>
@@ -737,27 +731,38 @@ function selectAndShowAttMonth(mKey) {
                     @php
                         $examDate = !empty($paper['exam_date']) ? \Carbon\Carbon::parse($paper['exam_date']) : null;
                     @endphp
-                    <tr>
-                        <td style="text-align:center;font-weight:800;color:#64748b;">{{ $pIdx + 1 }}</td>
-                        <td><b>{{ $paper['subject_name'] ?? 'Subject' }}</b></td>
-                        <td>
+                    <tr style="border-bottom: 1px solid #F1F5F9; vertical-align: middle;">
+                        <td class="text-center" style="padding: 11px 12px; vertical-align: middle; text-align: center; font-weight: 800; color: #64748B;">{{ $pIdx + 1 }}</td>
+                        <td class="text-center" style="padding: 11px 12px; vertical-align: middle; text-align: center;">
+                            <strong class="d-block text-dark" style="font-size: 13.5px; font-weight: 700; color: #0F172A;">{{ $paper['subject_name'] ?? 'Subject' }}</strong>
+                            <small class="text-muted" style="font-size: 11px; color: #64748B; font-weight: 500;">Theory Paper</small>
+                        </td>
+                        <td class="text-center" style="padding: 11px 12px; vertical-align: middle; text-align: center;">
                             @if($examDate)
-                                <b>{{ $examDate->format('d M Y') }}</b>
-                                <small style="display:block;color:#64748b;font-size:11px;">{{ $examDate->format('l') }}</small>
+                                <strong class="d-block text-dark" style="font-size: 13px; font-weight: 700; color: #0F172A; white-space: nowrap;">{{ $examDate->format('d M Y') }}</strong>
+                                <small class="text-muted" style="font-size: 11px; color: #64748B; font-weight: 500;">{{ $examDate->format('l') }}</small>
                             @else
-                                <span style="color:#94a3b8;">Date pending</span>
+                                <span style="color: #94A3B8; font-weight: 600; font-size: 12px;">Date pending</span>
                             @endif
                         </td>
-                        <td><span style="background:#f1f5f9;color:#334155;padding:4px 10px;border-radius:6px;font-weight:700;font-size:12px;"><i class="bi bi-clock"></i> {{ $paper['start_time'] ?? '09:00 AM' }} - {{ $paper['end_time'] ?? '12:00 PM' }}</span></td>
-                        <td><span style="color:#4F46E5;font-weight:700;"><i class="bi bi-geo-alt-fill"></i> Room {{ $slip->room_no }} (Seat #{{ $slip->chair_no }})</span></td>
+                        <td class="text-center" style="padding: 11px 12px; vertical-align: middle; text-align: center;">
+                            <span class="badge" style="background: rgba(79, 70, 229, 0.08); color: #4338CA; border: 1px solid rgba(79, 70, 229, 0.2); font-weight: 700; font-size: 12px; padding: 5px 12px; border-radius: 8px; display: inline-flex; align-items: center; gap: 5px;">
+                                <i class="bi bi-clock"></i> {{ $paper['start_time'] ?? '09:00 AM' }} - {{ $paper['end_time'] ?? '12:00 PM' }}
+                            </span>
+                        </td>
+                        <td class="text-center" style="padding: 11px 12px; vertical-align: middle; text-align: center;">
+                            <span class="badge" style="background: #F8FAFC; color: #334155; border: 1px solid #E2E8F0; font-weight: 700; font-size: 12px; padding: 5px 12px; border-radius: 8px; display: inline-flex; align-items: center; gap: 4px;">
+                                <i class="bi bi-geo-alt-fill" style="color: #4F46E5;"></i> Room {{ $slip->room_no }} (Seat #{{ $slip->chair_no }})
+                            </span>
+                        </td>
                     </tr>
                 @empty
-                    <tr><td colspan="5" style="text-align:center;padding:30px;color:#64748b;">No datesheet subjects assigned.</td></tr>
+                    <tr><td colspan="5" class="text-center" style="padding: 30px; color: #64748B; font-size: 13px;">No datesheet subjects assigned.</td></tr>
                 @endforelse
             </tbody>
         </table>
-    </article>
-</div>
+    </div>
+    </div></div>
 @empty
 <article class="student-panel table-panel">
     <div style="padding:50px;text-align:center;color:#64748b;">
@@ -771,7 +776,7 @@ function selectAndShowAttMonth(mKey) {
 @elseif($page === 'leaves')
 <section class="page-heading" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
     <div>
-        <p><a href="{{ route('student.dashboard') }}" style="color:#4F46E5;text-decoration:none;font-weight:700;"><i class="bi bi-chevron-left"></i> Leaves Dashboard</a></p>
+        <p><a href="{{ route('student.dashboard') }}" style="color:#0d8f83;text-decoration:none;font-weight:700;"><i class="bi bi-chevron-left"></i> Leaves Dashboard</a></p>
         <h1 style="margin:0;">My Leaves & Quota</h1>
     </div>
     <button type="button" onclick="openApplyLeaveModal()" style="border:none;background:#1e3a8a;color:#ffffff;padding:10px 22px;border-radius:12px;font-size:14px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:8px;box-shadow:0 4px 14px rgba(30,58,138,0.3);transition:all 0.2s;">
@@ -803,95 +808,112 @@ function selectAndShowAttMonth(mKey) {
     <strong style="font-size:28px;font-weight:900;color:#e11d48;background:#fff1f2;padding:6px 18px;border-radius:12px;">{{ $leavesBalance }}</strong>
 </div>
 
-{{-- APPLIED LEAVES HISTORY --}}
-<div style="display:flex;flex-direction:column;gap:16px;margin-bottom:24px;">
-    @forelse($leavesHistory as $leave)
-        @php
-            $st = strtolower(trim($leave->status));
-        @endphp
-        <div style="background:#ffffff;border:1px solid #e2e8f0;border-radius:16px;padding:20px;position:relative;box-shadow:0 3px 10px rgba(0,0,0,0.03);">
-            <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;">
-                <div>
-                    <h3 style="margin:0;font-size:16px;color:#0f172a;font-weight:800;">Leave &bull; <span style="font-size:13px;color:#4F46E5;font-weight:700;">{{ $leave->leave_type }}</span></h3>
-                    @if($leave->is_fine_applied)
-                        <span style="background:#fee2e2;color:#dc2626;font-size:11px;font-weight:700;padding:2px 8px;border-radius:6px;display:inline-block;margin-top:4px;">
-                            <i class="bi bi-shield-exclamation"></i> Extra Leave Fine: Rs {{ number_format($leave->fine_amount, 2) }}
-                        </span>
-                    @endif
-                </div>
-
-                <div>
-                    @if($st === 'approved')
-                        <span style="background:#e0e7ff;color:#4338ca;padding:5px 14px;border-radius:99px;font-size:12px;font-weight:700;display:inline-flex;align-items:center;gap:4px;">
-                            <i class="bi bi-check-circle-fill"></i> Approved
-                        </span>
-                    @elseif($st === 'rejected')
-                        <span style="background:#fee2e2;color:#b91c1c;padding:5px 14px;border-radius:99px;font-size:12px;font-weight:700;display:inline-flex;align-items:center;gap:4px;">
-                            <i class="bi bi-x-circle-fill"></i> Rejected
-                        </span>
-                    @else
-                        <span style="background:#fef3c7;color:#b45309;padding:5px 14px;border-radius:99px;font-size:12px;font-weight:700;display:inline-flex;align-items:center;gap:4px;">
-                            <i class="bi bi-clock-history"></i> Pending
-                        </span>
-                    @endif
-                </div>
-            </div>
-
-            <p style="margin:0 0 14px;color:#475569;font-size:13.5px;line-height:1.5;">
-                <strong style="color:#64748b;">Reason:</strong> {{ $leave->reason }}
-            </p>
-
-            <div style="display:flex;justify-content:space-between;align-items:center;border-top:1px solid #f1f5f9;padding-top:10px;font-size:12px;color:#64748b;">
-                <span><i class="bi bi-calendar3" style="color:#4F46E5;"></i> Leave Date: <b>{{ \Carbon\Carbon::parse($leave->leave_date)->format('d M Y') }}</b></span>
-
-                @if($st === 'approved')
-                    <small style="color:#64748b;font-weight:600;"><i class="bi bi-person-check-fill" style="color:#047857;"></i> Approved by: {{ $leave->approved_by ?: 'Class Teacher / Admin' }}</small>
-                @elseif($st === 'rejected')
-                    <small style="color:#dc2626;font-weight:600;"><i class="bi bi-x-circle-fill"></i> Rejected by: {{ $leave->approved_by ?: 'Class Teacher / Admin' }}</small>
-                @else
-                    <small style="color:#b45309;font-weight:600;"><i class="bi bi-hourglass-split"></i> Awaiting Teacher / Admin Approval</small>
-                @endif
-            </div>
+{{-- APPLIED LEAVES HISTORY TABLE --}}
+<div class="admin-table-wrapper" style="border: 1px solid #E2E8F0; border-radius: 14px; overflow: hidden; background: #ffffff; margin-bottom: 24px;">
+    <div style="padding: 14px 20px; background: #f8fafc; border-bottom: 1px solid #e2e8f0; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <i class="bi bi-clock-history" style="color: #4F46E5; font-size: 18px;"></i>
+            <h3 style="margin: 0; font-size: 15px; color: #0f172a; font-weight: 700;">Applied Leave Requests History</h3>
         </div>
-    @empty
-        <div style="background:#ffffff;border:1px dashed #cbd5e1;border-radius:16px;padding:40px;text-align:center;color:#64748b;">
-            <i class="bi bi-calendar2-x" style="font-size:40px;color:#94a3b8;display:block;margin-bottom:10px;"></i>
-            <h3 style="margin:0 0 6px;color:#0f172a;font-size:16px;">No Leave Records</h3>
-            <p style="margin:0;font-size:13px;">You have not applied for any leave requests yet.</p>
-        </div>
-    @endforelse
-</div>
-
-{{-- CUSTOM PAGINATION FOR LEAVES HISTORY (SHOWN ONLY IF RECORDS > 10 AND HAS MULTIPLE PAGES) --}}
-@if($leavesHistory instanceof \Illuminate\Pagination\LengthAwarePaginator && $leavesHistory->total() > 10 && $leavesHistory->hasPages())
-    <div style="margin-top:24px;display:flex;flex-direction:column;align-items:center;gap:10px;margin-bottom:24px;">
-        <div style="font-size:12.5px;color:#64748b;font-weight:600;">
-            Showing <b>{{ $leavesHistory->firstItem() }}</b> to <b>{{ $leavesHistory->lastItem() }}</b> of <b>{{ $leavesHistory->total() }}</b> leave records
-        </div>
-        
-        <div style="display:inline-flex;align-items:center;gap:6px;background:#ffffff;padding:6px 14px;border:1px solid #cbd5e1;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.04);">
-            @if($leavesHistory->onFirstPage())
-                <span style="color:#cbd5e1;padding:6px 12px;font-size:13px;font-weight:700;cursor:not-allowed;"><i class="bi bi-chevron-left"></i> Previous</span>
-            @else
-                <a href="{{ $leavesHistory->previousPageUrl() }}" style="color:#4F46E5;padding:6px 12px;font-size:13px;font-weight:700;text-decoration:none;"><i class="bi bi-chevron-left"></i> Previous</a>
-            @endif
-
-            @foreach($leavesHistory->getUrlRange(1, $leavesHistory->lastPage()) as $pageNumber => $url)
-                @if($pageNumber == $leavesHistory->currentPage())
-                    <span style="background:#4F46E5;color:#ffffff;width:34px;height:34px;border-radius:8px;display:grid;place-items:center;font-size:13px;font-weight:800;box-shadow:0 2px 6px rgba(79,70,229,0.3);">{{ $pageNumber }}</span>
-                @else
-                    <a href="{{ $url }}" style="color:#475569;width:34px;height:34px;border-radius:8px;display:grid;place-items:center;font-size:13px;font-weight:700;text-decoration:none;transition:all 0.15s;">{{ $pageNumber }}</a>
-                @endif
-            @endforeach
-
-            @if($leavesHistory->hasMorePages())
-                <a href="{{ $leavesHistory->nextPageUrl() }}" style="color:#4F46E5;padding:6px 12px;font-size:13px;font-weight:700;text-decoration:none;">Next <i class="bi bi-chevron-right"></i></a>
-            @else
-                <span style="color:#cbd5e1;padding:6px 12px;font-size:13px;font-weight:700;cursor:not-allowed;">Next <i class="bi bi-chevron-right"></i></span>
-            @endif
-        </div>
+        <span style="font-size: 12px; color: #64748b; font-weight: 600;">Monthly free allowance: 3 leaves</span>
     </div>
-@endif
+
+    <table class="admin-table" style="width: 100%; border-collapse: collapse; margin: 0;">
+        <thead>
+            <tr style="background: linear-gradient(135deg, #1E1B4B 0%, #4F46E5 100%);">
+                <th class="text-center" style="padding: 13px 14px; color: #FFFFFF; font-size: 11.5px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; text-align: center; border: none; width: 18%;">LEAVE TYPE</th>
+                <th class="text-center" style="padding: 13px 14px; color: #FFFFFF; font-size: 11.5px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; text-align: center; border: none; width: 16%;">LEAVE DATE</th>
+                <th class="text-center" style="padding: 13px 14px; color: #FFFFFF; font-size: 11.5px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; text-align: center; border: none; width: 28%;">REASON & DETAILS</th>
+                <th class="text-center" style="padding: 13px 14px; color: #FFFFFF; font-size: 11.5px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; text-align: center; border: none; width: 14%;">FINE CHARGE</th>
+                <th class="text-center" style="padding: 13px 14px; color: #FFFFFF; font-size: 11.5px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; text-align: center; border: none; width: 12%;">STATUS</th>
+                <th class="text-center" style="padding: 13px 14px; color: #FFFFFF; font-size: 11.5px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; text-align: center; border: none; width: 12%;">AUTHORITY</th>
+            </tr>
+        </thead>
+        <tbody>
+            @forelse($leavesHistory as $leave)
+                @php
+                    $st = strtolower(trim($leave->status));
+                    $leaveDate = \Carbon\Carbon::parse($leave->leave_date);
+                @endphp
+                <tr style="border-bottom: 1px solid #F1F5F9; vertical-align: middle;">
+                    <td class="text-center" style="padding: 11px 12px; vertical-align: middle; text-align: center;">
+                        <strong class="d-block text-dark" style="font-size: 13px; font-weight: 700; color: #0F172A; white-space: nowrap;">{{ $leave->leave_type }}</strong>
+                        <small class="text-muted" style="font-size: 11px; color: #64748B; font-weight: 500;">Student Portal</small>
+                    </td>
+                    <td class="text-center" style="padding: 11px 12px; vertical-align: middle; text-align: center;">
+                        <strong class="d-block text-dark" style="font-size: 13px; font-weight: 700; color: #0F172A; white-space: nowrap;">{{ $leaveDate->format('d M Y') }}</strong>
+                        <small class="text-muted" style="font-size: 11px; color: #64748B; font-weight: 500;">{{ $leaveDate->format('l') }}</small>
+                    </td>
+                    <td class="text-center" style="padding: 11px 12px; vertical-align: middle; text-align: center;">
+                        <span style="color: #334155; font-size: 12.5px; font-weight: 500; display: inline-block; max-width: 320px;">{{ $leave->reason }}</span>
+                    </td>
+                    <td class="text-center" style="padding: 11px 12px; vertical-align: middle; text-align: center;">
+                        @if($leave->is_fine_applied)
+                            <span class="badge" style="background: rgba(239, 68, 68, 0.12); color: #dc2626; border: 1px solid rgba(239, 68, 68, 0.25); font-weight: 700; font-size: 11.5px; padding: 4px 10px; border-radius: 6px;">
+                                <i class="bi bi-shield-exclamation"></i> Rs {{ number_format($leave->fine_amount, 2) }}
+                            </span>
+                        @else
+                            <span style="color: #64748B; font-size: 12px; font-weight: 600;">No Fine</span>
+                        @endif
+                    </td>
+                    <td class="text-center" style="padding: 11px 12px; vertical-align: middle; text-align: center;">
+                        @if($st === 'approved')
+                            <span class="badge" style="background: rgba(16, 185, 129, 0.12); color: #047857; padding: 5px 12px; border-radius: 99px; font-weight: 700; font-size: 11.5px; display: inline-flex; align-items: center; gap: 4px;">
+                                <i class="bi bi-check-circle-fill"></i> Approved
+                            </span>
+                        @elseif($st === 'rejected')
+                            <span class="badge" style="background: rgba(239, 68, 68, 0.12); color: #dc2626; padding: 5px 12px; border-radius: 99px; font-weight: 700; font-size: 11.5px; display: inline-flex; align-items: center; gap: 4px;">
+                                <i class="bi bi-x-circle-fill"></i> Rejected
+                            </span>
+                        @else
+                            <span class="badge" style="background: rgba(245, 158, 11, 0.12); color: #b45309; padding: 5px 12px; border-radius: 99px; font-weight: 700; font-size: 11.5px; display: inline-flex; align-items: center; gap: 4px;">
+                                <i class="bi bi-clock-history"></i> Pending
+                            </span>
+                        @endif
+                    </td>
+                    <td class="text-center" style="padding: 11px 12px; vertical-align: middle; text-align: center;">
+                        <small style="color: #475569; font-weight: 600; font-size: 11.5px;">{{ $leave->approved_by ?: 'Admin' }}</small>
+                    </td>
+                </tr>
+            @empty
+                <tr><td colspan="6" class="text-center" style="padding: 35px; color: #64748B; font-size: 13px;">No leave requests applied yet.</td></tr>
+            @endforelse
+        </tbody>
+    </table>
+
+    @if($leavesHistory instanceof \Illuminate\Pagination\LengthAwarePaginator && $leavesHistory->total() > 0)
+        <div class="admin-pagination-bar" style="display: flex; justify-content: space-between; align-items: center; padding: 14px 20px; background: #ffffff; border-top: 1px solid #E2E8F0; border-radius: 0 0 14px 14px; box-shadow: 0 1px 3px rgba(0,0,0,0.03);">
+            <div class="admin-pagination-info" style="font-size: 13px; color: #64748B; font-weight: 500;">
+                Showing <strong>{{ $leavesHistory->firstItem() }}</strong> to <strong>{{ $leavesHistory->lastItem() }}</strong> of <strong>{{ $leavesHistory->total() }}</strong> leave records
+            </div>
+            <div class="admin-pagination-links">
+                <ul class="pagination mb-0" style="display: flex; align-items: center; gap: 4px; list-style: none; margin: 0; padding: 0;">
+                    @if ($leavesHistory->onFirstPage())
+                        <li class="page-item disabled"><span class="page-link" style="display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; border-radius: 8px; border: 1px solid #E2E8F0; background: #ffffff; color: #94A3B8; font-size: 12px; opacity: 0.4; pointer-events: none;"><i class="bi bi-chevron-left"></i></span></li>
+                    @else
+                        <li class="page-item"><a class="page-link" href="{{ $leavesHistory->previousPageUrl() }}" style="display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; border-radius: 8px; border: 1px solid #E2E8F0; background: #ffffff; color: #475569; font-size: 12px; text-decoration: none;"><i class="bi bi-chevron-left"></i></a></li>
+                    @endif
+
+                    @foreach ($leavesHistory->getUrlRange(1, $leavesHistory->lastPage()) as $p => $url)
+                        @if ($p == $leavesHistory->currentPage())
+                            <li class="page-item active"><span class="page-link" style="display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; border-radius: 8px; background: #1E1B4B; color: #ffffff; font-weight: 700; font-size: 13px; border: 1px solid #1E1B4B;">{{ $p }}</span></li>
+                        @elseif ($p == 1 || $p == $leavesHistory->lastPage() || abs($p - $leavesHistory->currentPage()) <= 2)
+                            <li class="page-item"><a class="page-link" href="{{ $url }}" style="display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; border-radius: 8px; border: 1px solid #E2E8F0; background: #ffffff; color: #475569; font-weight: 700; font-size: 13px; text-decoration: none;">{{ $p }}</a></li>
+                        @elseif (abs($p - $leavesHistory->currentPage()) == 3)
+                            <li class="page-item disabled"><span class="page-link" style="display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; border-radius: 8px; border: 1px solid #E2E8F0; background: #ffffff; color: #94A3B8; font-size: 13px;">&hellip;</span></li>
+                        @endif
+                    @endforeach
+
+                    @if ($leavesHistory->hasMorePages())
+                        <li class="page-item"><a class="page-link" href="{{ $leavesHistory->nextPageUrl() }}" style="display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; border-radius: 8px; border: 1px solid #E2E8F0; background: #ffffff; color: #475569; font-size: 12px; text-decoration: none;"><i class="bi bi-chevron-right"></i></a></li>
+                    @else
+                        <li class="page-item disabled"><span class="page-link" style="display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; border-radius: 8px; border: 1px solid #E2E8F0; background: #ffffff; color: #94A3B8; font-size: 12px; opacity: 0.4; pointer-events: none;"><i class="bi bi-chevron-right"></i></span></li>
+                    @endif
+                </ul>
+            </div>
+        </div>
+    @endif
+</div>
 
 {{-- APPLY LEAVE MODAL --}}
 <div id="applyLeaveModal" style="display: none; position: fixed; inset: 0; z-index: 9999; background: rgba(15, 23, 42, 0.65); backdrop-filter: blur(5px); place-items: center; padding: 20px;">
@@ -906,32 +928,32 @@ function selectAndShowAttMonth(mKey) {
             </div>
         </div>
 
-        <form id="applyLeaveForm" method="POST" action="{{ route('student.leave.apply') }}" onsubmit="return handleLeaveSubmit(event);" style="display:flex;flex-direction:column;gap:16px;">
+        <form id="applyLeaveForm" method="POST" action="{{ route('student.leave.apply') }}" style="display:flex;flex-direction:column;gap:16px;">
             @csrf
             <input type="hidden" name="admit_fine" id="admitFineInput" value="0">
 
             <div>
                 <label for="leave_date" style="display:block;font-size:12.5px;font-weight:700;color:#475569;margin-bottom:6px;">Leave Date *</label>
-                <input id="leave_date" type="date" name="leave_date" value="{{ old('leave_date', date('Y-m-d')) }}" required style="width:100%;padding:10px 12px;border:1px solid #cbd5e1;border-radius:10px;font-size:13.5px;color:#0f172a;">
+                <input id="leave_date" type="date" name="leave_date" value="{{ date('Y-m-d') }}" required style="width:100%;padding:10px 12px;border:1px solid #cbd5e1;border-radius:10px;font-size:13.5px;color:#0f172a;">
             </div>
 
             <div>
                 <label for="leave_type" style="display:block;font-size:12.5px;font-weight:700;color:#475569;margin-bottom:6px;">Types of Leave *</label>
                 <select id="leave_type" name="leave_type" required style="width:100%;padding:10px 12px;border:1px solid #cbd5e1;border-radius:10px;font-size:13.5px;color:#0f172a;background:#ffffff;">
                     <option value="">--select--</option>
-                    <option value="Casual Leave (CL)" {{ old('leave_type') === 'Casual Leave (CL)' ? 'selected' : '' }}>Casual Leave (CL)</option>
-                    <option value="Sick Leave (SL)" {{ old('leave_type') === 'Sick Leave (SL)' ? 'selected' : '' }}>Sick Leave (SL)</option>
+                    <option value="Casual Leave (CL)">Casual Leave (CL)</option>
+                    <option value="Sick Leave (SL)">Sick Leave (SL)</option>
                 </select>
             </div>
 
             <div>
                 <label for="reason" style="display:block;font-size:12.5px;font-weight:700;color:#475569;margin-bottom:6px;">Reason of Leave *</label>
-                <textarea id="reason" name="reason" rows="4" placeholder="Type your reason here" required style="width:100%;padding:12px;border:1px solid #cbd5e1;border-radius:10px;font-size:13.5px;color:#0f172a;resize:vertical;">{{ old('reason') }}</textarea>
+                <textarea id="reason" name="reason" rows="4" placeholder="Type your reason here" required style="width:100%;padding:12px;border:1px solid #cbd5e1;border-radius:10px;font-size:13.5px;color:#0f172a;resize:vertical;"></textarea>
             </div>
 
             <div style="display:flex;gap:10px;margin-top:4px;">
                 <button type="button" onclick="closeApplyLeaveModal()" style="flex:1;border:1px solid #cbd5e1;background:#f8fafc;color:#334155;padding:12px;border-radius:10px;font-weight:700;font-size:13px;cursor:pointer;">Cancel / Back</button>
-                <button type="button" id="btnSubmitLeave" onclick="handleLeaveSubmit(event)" style="flex:1.5;border:none;background:#1e3a8a;color:#ffffff;padding:12px;border-radius:10px;font-weight:700;font-size:13px;cursor:pointer;box-shadow:0 4px 12px rgba(30,58,138,0.3);">Submit Application</button>
+                <button type="button" onclick="handleLeaveSubmit()" style="flex:1.5;border:none;background:#1e3a8a;color:#ffffff;padding:12px;border-radius:10px;font-weight:700;font-size:13px;cursor:pointer;box-shadow:0 4px 12px rgba(30,58,138,0.3);">Submit Application</button>
             </div>
         </form>
     </div>
@@ -957,8 +979,7 @@ function selectAndShowAttMonth(mKey) {
 </div>
 
 <script>
-window.userLeavesBalance = {{ $leavesBalance ?? 3 }};
-var userLeavesBalance = window.userLeavesBalance;
+const userLeavesBalance = {{ $leavesBalance ?? 3 }};
 
 function openApplyLeaveModal() {
     const m = document.getElementById('applyLeaveModal');
@@ -980,68 +1001,30 @@ function closeFineConfirmModal() {
     if (m) m.style.display = 'none';
 }
 
-function handleLeaveSubmit(e) {
-    if (e && e.preventDefault) {
-        e.preventDefault();
-    }
-    const form = document.getElementById('applyLeaveForm');
-    const dateInput = document.getElementById('leave_date');
+function handleLeaveSubmit() {
     const typeSelect = document.getElementById('leave_type');
     const reasonText = document.getElementById('reason');
-
-    if (!dateInput || !dateInput.value) {
-        alert('Please select a leave date.');
-        if (dateInput) dateInput.focus();
-        return false;
-    }
-    if (!typeSelect || !typeSelect.value) {
+    if (!typeSelect.value) {
         alert('Please select a leave type.');
-        if (typeSelect) typeSelect.focus();
-        return false;
+        return;
     }
-    if (!reasonText || !reasonText.value.trim()) {
+    if (!reasonText.value.trim()) {
         alert('Please type the reason for leave.');
-        if (reasonText) reasonText.focus();
-        return false;
-    }
-    if (reasonText.value.trim().length < 5) {
-        alert('Reason must be at least 5 characters long.');
-        if (reasonText) reasonText.focus();
-        return false;
+        return;
     }
 
-    const leavesBal = (typeof window.userLeavesBalance !== 'undefined') ? Number(window.userLeavesBalance) : ((typeof userLeavesBalance !== 'undefined') ? Number(userLeavesBalance) : 3);
-    const admitFineInput = document.getElementById('admitFineInput');
-
-    if (leavesBal <= 0) {
+    if (userLeavesBalance <= 0) {
         openConfirmFineModal();
-        return false;
+    } else {
+        document.getElementById('admitFineInput').value = '0';
+        document.getElementById('applyLeaveForm').submit();
     }
-
-    if (admitFineInput) {
-        admitFineInput.value = '0';
-    }
-
-    if (form) {
-        form.submit();
-    }
-    return true;
 }
 
 function confirmAdmitFineAndSubmit() {
-    const form = document.getElementById('applyLeaveForm');
-    const admitFineInput = document.getElementById('admitFineInput');
-    if (admitFineInput) {
-        admitFineInput.value = '1';
-    }
+    document.getElementById('admitFineInput').value = '1';
     closeFineConfirmModal();
-    if (form) {
-        form.submit();
-    }
-}
-
-function submitFineLeaveForm() {
-    confirmAdmitFineAndSubmit();
+    document.getElementById('applyLeaveForm').submit();
 }
 </script>
 
@@ -1055,7 +1038,7 @@ function submitFineLeaveForm() {
 
         {{-- MONTH FILTER DROPDOWN --}}
         <div style="display:inline-flex;align-items:center;gap:8px;background:#ffffff;border:1px solid #cbd5e1;padding:6px 14px;border-radius:12px;box-shadow:0 2px 6px rgba(0,0,0,0.03);">
-            <i class="bi bi-calendar3" style="color:#4F46E5;font-size:16px;"></i>
+            <i class="bi bi-calendar3" style="color:#0d8f83;font-size:16px;"></i>
             <span style="font-size:12.5px;font-weight:700;color:#64748b;">Select Month:</span>
             <select id="testSessionMonthSelect" onchange="switchTestSessionMonth(this.value)" style="border:none;background:transparent;font-weight:800;font-size:14px;color:#0f172a;cursor:pointer;outline:none;">
                 @foreach($testSessions as $mKey => $sData)
@@ -1067,7 +1050,7 @@ function submitFineLeaveForm() {
 </section>
 
 {{-- TEST SESSION NOTICE BADGE --}}
-<div style="background:linear-gradient(135deg, #1E1B4B 0%, #312E81 50%, #4F46E5 100%);color:#ffffff;padding:16px 22px;border-radius:16px;margin-bottom:24px;box-shadow:0 10px 25px rgba(79,70,229,0.22);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;">
+<div style="background:linear-gradient(135deg, #0d8f83 0%, #064e3b 100%);color:#ffffff;padding:16px 22px;border-radius:16px;margin-bottom:24px;box-shadow:0 10px 25px rgba(13,143,131,0.22);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;">
     <div style="display:flex;align-items:center;gap:14px;">
         <div style="width:48px;height:48px;border-radius:14px;background:rgba(255,255,255,0.18);display:grid;place-items:center;font-size:24px;"><i class="bi bi-journal-check"></i></div>
         <div>
@@ -1116,7 +1099,7 @@ function submitFineLeaveForm() {
                 </div>
                 <div>
                     <small style="display:block;font-size:10.5px;color:#64748b;font-weight:700;text-transform:uppercase;">Registration No</small>
-                    <strong style="font-size:14px;color:#4F46E5;">{{ $stdRegNo }}</strong>
+                    <strong style="font-size:14px;color:#0d8f83;">{{ $stdRegNo }}</strong>
                 </div>
                 <div>
                     <small style="display:block;font-size:10.5px;color:#64748b;font-weight:700;text-transform:uppercase;">Roll Number</small>
@@ -1128,53 +1111,63 @@ function submitFineLeaveForm() {
                 </div>
             </div>
 
-            {{-- DATE SHEET TABLE (1 WEEK: MON-FRI EXAMS, SAT-SUN OFF) --}}
-            <div style="border:1px solid #cbd5e1;border-radius:12px;overflow:hidden;">
-                <table style="width:100%;border-collapse:collapse;font-size:13px;text-align:left;">
+                        {{-- DATE SHEET TABLE (1 WEEK: MON-FRI EXAMS, SAT-SUN OFF) --}}
+            <div class="admin-table-wrapper" style="border: 1px solid #E2E8F0; border-radius: 14px; overflow: hidden; background: #ffffff; margin-bottom: 24px;">
+                <div style="padding:14px 20px;background:#ffffff;border-bottom:1px solid #e2e8f0;display:flex;align-items:center;gap:10px;">
+                    <i class="bi bi-calendar-check-fill" style="color:#4F46E5;font-size:18px;"></i>
+                    <h3 style="margin:0;font-size:15px;color:#0f172a;font-weight:700;">Examination Datesheet Schedule</h3>
+                </div>
+                <table class="admin-table" style="width: 100%; border-collapse: collapse; margin: 0;">
                     <thead>
-                        <tr style="background:#f1f5f9;border-bottom:2px solid #cbd5e1;color:#334155;">
-                            <th style="padding:12px 16px;">DATE & DAY</th>
-                            <th style="padding:12px 16px;">SUBJECT EXAM</th>
-                            <th style="padding:12px 16px;">TIMING</th>
-                            <th style="padding:12px 16px;">VENUE</th>
-                            <th style="padding:12px 16px;text-align:center;">MAX MARKS</th>
-                            <th style="padding:12px 16px;text-align:center;">OBTAINED MARKS</th>
+                        <tr style="background: linear-gradient(135deg, #1E1B4B 0%, #4F46E5 100%);">
+                            <th class="text-center" style="padding: 13px 14px; color: #FFFFFF; font-size: 11.5px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; text-align: center; border: none; width: 20%;">DATE & DAY</th>
+                            <th class="text-center" style="padding: 13px 14px; color: #FFFFFF; font-size: 11.5px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; text-align: center; border: none; width: 24%;">SUBJECT EXAM</th>
+                            <th class="text-center" style="padding: 13px 14px; color: #FFFFFF; font-size: 11.5px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; text-align: center; border: none; width: 18%;">TIMING</th>
+                            <th class="text-center" style="padding: 13px 14px; color: #FFFFFF; font-size: 11.5px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; text-align: center; border: none; width: 14%;">VENUE</th>
+                            <th class="text-center" style="padding: 13px 14px; color: #FFFFFF; font-size: 11.5px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; text-align: center; border: none; width: 11%;">MAX MARKS</th>
+                            <th class="text-center" style="padding: 13px 14px; color: #FFFFFF; font-size: 11.5px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; text-align: center; border: none; width: 13%;">OBTAINED MARKS</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach($sData['schedule'] as $row)
-                            <tr style="border-bottom:1px solid #e2e8f0;background:{{ $row['is_off'] ? '#f8fafc' : '#ffffff' }};">
-                                <td style="padding:12px 16px;">
-                                    <b style="color:#0f172a;">{{ $row['date'] }}</b>
-                                    <small style="display:block;color:{{ $row['is_off'] ? '#64748b' : '#4F46E5' }};font-weight:700;">{{ $row['day'] }}</small>
+                            <tr style="border-bottom: 1px solid #F1F5F9; background: {{ $row['is_off'] ? '#F8FAFC' : '#FFFFFF' }};">
+                                <td class="text-center" style="padding: 11px 12px; vertical-align: middle; text-align: center;">
+                                    <strong class="d-block text-dark" style="font-size: 13px; font-weight: 700; color: #0F172A; white-space: nowrap;">{{ $row['date'] }}</strong>
+                                    <small class="text-muted" style="font-size: 11px; color: {{ $row['is_off'] ? '#64748B' : '#4F46E5' }}; font-weight: 600;">{{ $row['day'] }}</small>
                                 </td>
-                                <td style="padding:12px 16px;">
+                                <td class="text-center" style="padding: 11px 12px; vertical-align: middle; text-align: center;">
                                     @if($row['is_off'])
-                                        <span style="background:#f1f5f9;color:#64748b;padding:4px 12px;border-radius:6px;font-size:12px;font-weight:800;border:1px solid #e2e8f0;display:inline-flex;align-items:center;gap:6px;">
+                                        <span class="badge" style="background: rgba(100, 116, 139, 0.12); color: #475569; padding: 4px 12px; border-radius: 99px; font-size: 11.5px; font-weight: 700; border: 1px solid rgba(100, 116, 139, 0.2); display: inline-flex; align-items: center; gap: 5px;">
                                             <i class="bi bi-moon-stars-fill"></i> Weekend Off (No Exam)
                                         </span>
                                     @else
-                                        <strong style="color:#0f172a;font-size:14px;">{{ $row['subject'] }}</strong>
+                                        <strong class="d-block text-dark" style="font-size: 13.5px; font-weight: 700; color: #0F172A;">{{ $row['subject'] }}</strong>
                                     @endif
                                 </td>
-                                <td style="padding:12px 16px;color:#475569;font-weight:600;">
-                                    {{ $row['time'] }}
+                                <td class="text-center" style="padding: 11px 12px; vertical-align: middle; text-align: center;">
+                                    <span style="color: #475569; font-weight: 600; font-size: 12.5px; white-space: nowrap;">
+                                        <i class="bi bi-clock" style="color: #4F46E5; margin-right: 4px;"></i> {{ $row['time'] }}
+                                    </span>
                                 </td>
-                                <td style="padding:12px 16px;color:#475569;font-weight:600;">
-                                    {{ $row['venue'] }}
+                                <td class="text-center" style="padding: 11px 12px; vertical-align: middle; text-align: center;">
+                                    <span class="badge" style="background: #F8FAFC; color: #334155; border: 1px solid #E2E8F0; padding: 4px 10px; border-radius: 8px; font-weight: 700; font-size: 11.5px;">
+                                        <i class="bi bi-geo-alt-fill" style="color: #6366F1; margin-right: 3px;"></i> {{ $row['venue'] }}
+                                    </span>
                                 </td>
-                                <td style="padding:12px 16px;text-align:center;font-weight:800;color:#334155;">
-                                    {{ $row['is_off'] ? '—' : $row['max_marks'] }}
+                                <td class="text-center" style="padding: 11px 12px; vertical-align: middle; text-align: center;">
+                                    <span style="font-size: 13px; font-weight: 700; color: #334155;">
+                                        {{ $row['is_off'] ? '-' : $row['max_marks'] }}
+                                    </span>
                                 </td>
-                                <td style="padding:12px 16px;text-align:center;">
+                                <td class="text-center" style="padding: 11px 12px; vertical-align: middle; text-align: center;">
                                     @if($row['is_off'])
-                                        <span style="color:#94a3b8;font-weight:700;">—</span>
+                                        <span style="color: #94A3B8; font-weight: 700;">-</span>
                                     @elseif($sData['is_completed'])
-                                        <strong style="background:#ecfdf5;color:#047857;padding:4px 12px;border-radius:6px;border:1px solid #a7f3d0;font-size:13px;">
-                                            {{ $row['obtained_marks'] }} / {{ $row['max_marks'] }}
-                                        </strong>
+                                        <span class="badge" style="background: rgba(16, 185, 129, 0.12); color: #047857; border: 1px solid rgba(16, 185, 129, 0.25); padding: 5px 12px; border-radius: 8px; font-size: 12.5px; font-weight: 800; display: inline-flex; align-items: center; gap: 4px;">
+                                            <i class="bi bi-check-circle-fill" style="font-size: 11px;"></i> {{ $row['obtained_marks'] }} / {{ $row['max_marks'] }}
+                                        </span>
                                     @else
-                                        <span style="color:#b45309;font-size:12px;font-weight:700;background:#fffbeb;padding:4px 10px;border-radius:6px;border:1px solid #fde68a;">
+                                        <span class="badge" style="background: rgba(245, 158, 11, 0.12); color: #b45309; border: 1px solid rgba(245, 158, 11, 0.25); padding: 4px 10px; border-radius: 8px; font-size: 11.5px; font-weight: 700;">
                                             Pending Evaluation
                                         </span>
                                     @endif
@@ -1236,7 +1229,7 @@ function switchTestSessionMonth(mKey) {
         <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
             {{-- YEAR & MONTH FILTERS --}}
             <div style="display:inline-flex;align-items:center;gap:6px;background:#ffffff;border:1px solid #cbd5e1;padding:5px 12px;border-radius:10px;box-shadow:0 2px 4px rgba(0,0,0,0.02);">
-                <i class="bi bi-calendar-event-fill" style="color:#4F46E5;font-size:14px;"></i>
+                <i class="bi bi-calendar-event-fill" style="color:#0d8f83;font-size:14px;"></i>
                 <span style="font-size:12px;font-weight:700;color:#64748b;">Year:</span>
                 <select id="feeYearFilter" onchange="filterFeeTable()" style="border:none;background:transparent;font-weight:800;font-size:13px;color:#0f172a;cursor:pointer;outline:none;">
                     <option value="ALL">All Years</option>
@@ -1246,7 +1239,7 @@ function switchTestSessionMonth(mKey) {
             </div>
 
             <div style="display:inline-flex;align-items:center;gap:6px;background:#ffffff;border:1px solid #cbd5e1;padding:5px 12px;border-radius:10px;box-shadow:0 2px 4px rgba(0,0,0,0.02);">
-                <i class="bi bi-funnel-fill" style="color:#4F46E5;font-size:14px;"></i>
+                <i class="bi bi-funnel-fill" style="color:#0d8f83;font-size:14px;"></i>
                 <span style="font-size:12px;font-weight:700;color:#64748b;">Month:</span>
                 <select id="feeMonthFilter" onchange="filterFeeTable()" style="border:none;background:transparent;font-weight:800;font-size:13px;color:#0f172a;cursor:pointer;outline:none;">
                     <option value="ALL" selected>All Months</option>
@@ -1267,7 +1260,7 @@ function switchTestSessionMonth(mKey) {
 
             {{-- FILTER TYPE TABS --}}
             <div style="display:inline-flex;background:#e2e8f0;padding:4px;border-radius:12px;gap:4px;">
-                <button type="button" id="tabBtnMonthly" class="fee-tab-btn active" onclick="switchFeeTab('monthly')" style="border:none;background:#4F46E5;color:#ffffff;padding:8px 16px;border-radius:9px;font-size:12.5px;font-weight:700;cursor:pointer;transition:all 0.2s;display:inline-flex;align-items:center;gap:6px;">
+                <button type="button" id="tabBtnMonthly" class="fee-tab-btn active" onclick="switchFeeTab('monthly')" style="border:none;background:#0d8f83;color:#ffffff;padding:8px 16px;border-radius:9px;font-size:12.5px;font-weight:700;cursor:pointer;transition:all 0.2s;display:inline-flex;align-items:center;gap:6px;">
                     <i class="bi bi-calendar2-month-fill"></i> Monthly Vouchers
                 </button>
                 <button type="button" id="tabBtnYearly" class="fee-tab-btn" onclick="switchFeeTab('yearly')" style="border:none;background:transparent;color:#475569;padding:8px 16px;border-radius:9px;font-size:12.5px;font-weight:700;cursor:pointer;transition:all 0.2s;display:inline-flex;align-items:center;gap:6px;">
@@ -1321,143 +1314,154 @@ function switchTestSessionMonth(mKey) {
 </div>
 
 {{-- FEE VOUCHERS TABLE --}}
-<article class="student-panel table-panel">
-    {{-- ICON & ACTION GUIDE BAR --}}
-    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;background:#f8fafc;border-bottom:1px solid #e2e8f0;padding:12px 20px;">
-        <div style="display:flex;align-items:center;gap:14px;font-size:12px;font-weight:700;color:#475569;flex-wrap:wrap;">
-            <span style="color:#0f172a;"><i class="bi bi-info-circle-fill" style="color:#4F46E5;font-size:14px;"></i> <b>Icon Guide:</b></span>
-            <span style="display:inline-flex;align-items:center;gap:5px;background:#ffffff;padding:4px 10px;border-radius:6px;border:1px solid #cbd5e1;"><i class="bi bi-eye-fill" style="color:#4F46E5;"></i> View Details</span>
-            <span style="display:inline-flex;align-items:center;gap:5px;background:#ffffff;padding:4px 10px;border-radius:6px;border:1px solid #cbd5e1;"><i class="bi bi-credit-card-fill" style="color:#4F46E5;"></i> Pay Online</span>
-            <span style="display:inline-flex;align-items:center;gap:5px;background:#ffffff;padding:4px 10px;border-radius:6px;border:1px solid #cbd5e1;"><i class="bi bi-download" style="color:#4F46E5;"></i> Download PDF</span>
-            <span style="display:inline-flex;align-items:center;gap:5px;background:#ecfdf5;padding:4px 10px;border-radius:6px;border:1px solid #a7f3d0;color:#047857;"><i class="bi bi-check-circle-fill" style="color:#059669;"></i> Cleared (Paid Status)</span>
+<article class="student-panel" style="padding: 0; overflow: hidden; border: 1px solid #E2E8F0; border-radius: 14px; background: #ffffff;">
+    <div style="padding: 14px 20px; background: #ffffff; border-bottom: 1px solid #e2e8f0; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <i class="bi bi-calendar-check-fill" style="color: #4F46E5; font-size: 18px;"></i>
+            <h3 style="margin: 0; font-size: 15px; color: #0f172a; font-weight: 700;">Fees & Monthly Vouchers Schedule</h3>
         </div>
-        <span style="font-size:12px;color:#64748b;font-weight:700;"><i class="bi bi-calendar-check" style="color:#4F46E5;"></i> Due Date: 10th of every month</span>
+        <span style="font-size: 12px; color: #64748b; font-weight: 600;"><i class="bi bi-calendar-event" style="color: #4F46E5;"></i> Due Date: 10th of every month</span>
     </div>
 
-    <table style="width:100%;border-collapse:collapse;font-size:12.5px;">
-        <thead>
-            <tr style="background:#f8fafc;border-bottom:2px solid #cbd5e1;color:#475569;text-align:left;">
-                <th style="padding:12px 14px;white-space:nowrap;font-weight:700;">MONTH</th>
-                <th style="padding:12px 14px;white-space:nowrap;font-weight:700;">VOUCHER NO</th>
-                <th style="padding:12px 14px;white-space:nowrap;font-weight:700;">NET FEE</th>
-                <th style="padding:12px 14px;white-space:nowrap;font-weight:700;">DUE DATE</th>
-                <th style="padding:12px 14px;white-space:nowrap;font-weight:700;">TOTAL PAYABLE</th>
-                <th style="padding:12px 14px;white-space:nowrap;font-weight:700;">STATUS</th>
-                <th style="padding:12px 14px;white-space:nowrap;text-align:center;font-weight:700;">ACTION</th>
-            </tr>
-        </thead>
-        <tbody id="feeTableBody">
-            @forelse($fees as $item)
-                @php
-                    $isPaid = strtolower(trim($item->status)) === 'paid';
-                    $dueDateFormatted = $item->due_date ? \Carbon\Carbon::parse($item->due_date)->format('d M Y') : '10 Jan 2026';
-                    $mName = strtolower(trim($item->month));
-                    $yNum = $item->due_date ? \Carbon\Carbon::parse($item->due_date)->format('Y') : '2026';
-                @endphp
-                <tr class="fee-voucher-row" data-month="{{ $mName }}" data-year="{{ $yNum }}" style="border-bottom:1px solid #f1f5f9;vertical-align:middle;">
-                    <td style="padding:12px 14px;white-space:nowrap;"><b>{{ $item->month }}</b></td>
-                    <td style="padding:12px 14px;white-space:nowrap;"><span style="font-family:monospace;font-weight:700;color:#4F46E5;">{{ $item->voucher_no }}</span></td>
-                    <td style="padding:12px 14px;white-space:nowrap;"><span style="color:#334155;font-weight:600;">Rs {{ number_format($item->net_amount, 2) }}</span></td>
-                    <td style="padding:12px 14px;white-space:nowrap;">
-                        <span style="font-weight:700;color:#0f172a;white-space:nowrap;display:inline-flex;align-items:center;gap:4px;"><i class="bi bi-calendar-event" style="color:#4F46E5;"></i> {{ $dueDateFormatted }}</span>
-                    </td>
-                    <td style="padding:12px 14px;white-space:nowrap;"><strong style="color:#0f172a;font-size:13.5px;font-weight:800;">Rs {{ number_format($item->total_payable, 2) }}</strong></td>
-                    <td style="padding:12px 14px;white-space:nowrap;">
-                        @if($isPaid)
-                            <span class="status" style="background:#ecfdf5;color:#047857;padding:4px 10px;border-radius:99px;font-weight:700;font-size:11px;"><i class="bi bi-check-circle-fill"></i> Paid</span>
-                        @else
-                            <span class="status" style="background:#fffbeb;color:#b45309;padding:4px 10px;border-radius:99px;font-weight:700;font-size:11px;"><i class="bi bi-clock-history"></i> Pending</span>
-                        @endif
-                    </td>
-                    <td style="padding:12px 14px;white-space:nowrap;text-align:center;">
-                        <div style="display:inline-flex;gap:6px;align-items:center;justify-content:center;">
-                            {{-- VIEW ICON BUTTON --}}
-                            <button type="button" class="btn-view-fee" 
-                                data-id="{{ $item->id }}" 
-                                data-voucher="{{ $item->voucher_no }}" 
-                                data-month="{{ $item->month }}" 
-                                data-net="{{ number_format($item->net_amount, 2) }}" 
-                                data-tuition="{{ number_format($item->tuition_fee, 2) }}" 
-                                data-exam="{{ number_format($item->exam_fee, 2) }}" 
-                                data-other="{{ number_format($item->other_charges, 2) }}" 
-                                data-fine="{{ number_format($item->late_fine, 2) }}"
-                                data-overduedays="{{ $item->overdue_days }}"
-                                data-total="{{ number_format($item->total_payable, 2) }}"
-                                data-status="{{ $item->status }}" 
-                                data-duedate="{{ $dueDateFormatted }}" 
-                                data-paydate="{{ $item->payment_date ? \Carbon\Carbon::parse($item->payment_date)->format('d M Y') : '-' }}" 
-                                data-paymethod="{{ $item->payment_method ?: '-' }}" 
-                                title="View Voucher Details"
-                                style="border:1px solid #cbd5e1;background:#ffffff;color:#4F46E5;width:32px;height:32px;border-radius:8px;font-size:14px;cursor:pointer;display:inline-grid;place-items:center;transition:all 0.15s;box-shadow:0 2px 4px rgba(0,0,0,0.04);">
-                                <i class="bi bi-eye-fill"></i>
-                            </button>
-                            
-                            {{-- PAY / CLEARED STATUS --}}
-                            @if(!$isPaid)
-                                <button type="button" class="btn-pay-fee" 
+    <div class="admin-table-wrapper" style="overflow: hidden; margin: 0; background: #ffffff;">
+        <table class="admin-table" style="width: 100%; border-collapse: collapse; margin: 0;">
+            <thead>
+                <tr style="background: linear-gradient(135deg, #1E1B4B 0%, #4F46E5 100%) !important;">
+                    <th class="text-center" style="background: transparent !important; padding: 13px 14px; color: #FFFFFF !important; font-size: 11.5px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; text-align: center; border: none; width: 15%;">MONTH</th>
+                    <th class="text-center" style="background: transparent !important; padding: 13px 14px; color: #FFFFFF !important; font-size: 11.5px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; text-align: center; border: none; width: 16%;">VOUCHER NO</th>
+                    <th class="text-center" style="background: transparent !important; padding: 13px 14px; color: #FFFFFF !important; font-size: 11.5px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; text-align: center; border: none; width: 13%;">NET FEE</th>
+                    <th class="text-center" style="background: transparent !important; padding: 13px 14px; color: #FFFFFF !important; font-size: 11.5px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; text-align: center; border: none; width: 16%;">DUE DATE</th>
+                    <th class="text-center" style="background: transparent !important; padding: 13px 14px; color: #FFFFFF !important; font-size: 11.5px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; text-align: center; border: none; width: 15%;">TOTAL PAYABLE</th>
+                    <th class="text-center" style="background: transparent !important; padding: 13px 14px; color: #FFFFFF !important; font-size: 11.5px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; text-align: center; border: none; width: 12%;">STATUS</th>
+                    <th class="text-center" style="background: transparent !important; padding: 13px 14px; color: #FFFFFF !important; font-size: 11.5px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; text-align: center; border: none; width: 13%;">ACTION</th>
+                </tr>
+            </thead>
+            <tbody id="feeTableBody">
+                @forelse($fees as $item)
+                    @php
+                        $isPaid = strtolower(trim($item->status)) === 'paid';
+                        $dueDateFormatted = $item->due_date ? \Carbon\Carbon::parse($item->due_date)->format('d M Y') : '10 Jan 2026';
+                        $mName = strtolower(trim($item->month));
+                        $yNum = $item->due_date ? \Carbon\Carbon::parse($item->due_date)->format('Y') : '2026';
+                    @endphp
+                    <tr class="fee-voucher-row" data-month="{{ $mName }}" data-year="{{ $yNum }}" style="border-bottom: 1px solid #F1F5F9; vertical-align: middle;">
+                        <td class="text-center" style="padding: 11px 12px; vertical-align: middle; text-align: center;">
+                            <strong class="d-block text-dark" style="font-size: 13px; font-weight: 700; color: #0F172A; white-space: nowrap;">{{ $item->month }}</strong>
+                            <small class="text-muted" style="font-size: 11px; color: #64748B; font-weight: 500;">Academic Fee</small>
+                        </td>
+                        <td class="text-center" style="padding: 11px 12px; vertical-align: middle; text-align: center;">
+                            <span class="badge" style="background: rgba(79, 70, 229, 0.08); color: #4338CA; border: 1px solid rgba(79, 70, 229, 0.2); font-family: monospace; font-size: 11.5px; font-weight: 700; padding: 4px 10px; border-radius: 6px;">{{ $item->voucher_no }}</span>
+                        </td>
+                        <td class="text-center" style="padding: 11px 12px; vertical-align: middle; text-align: center;">
+                            <span style="color: #334155; font-weight: 600; font-size: 13px;">Rs {{ number_format($item->net_amount, 2) }}</span>
+                        </td>
+                        <td class="text-center" style="padding: 11px 12px; vertical-align: middle; text-align: center;">
+                            <span style="font-weight: 700; color: #0F172A; font-size: 12.5px; white-space: nowrap; display: inline-flex; align-items: center; gap: 4px;">
+                                <i class="bi bi-calendar-event" style="color: #4F46E5;"></i> {{ $dueDateFormatted }}
+                            </span>
+                        </td>
+                        <td class="text-center" style="padding: 11px 12px; vertical-align: middle; text-align: center;">
+                            <strong class="d-block text-dark" style="color: #0F172A; font-size: 13.5px; font-weight: 800;">Rs {{ number_format($item->total_payable, 2) }}</strong>
+                        </td>
+                        <td class="text-center" style="padding: 11px 12px; vertical-align: middle; text-align: center;">
+                            @if($isPaid)
+                                <span class="badge" style="background: rgba(16, 185, 129, 0.12); color: #047857; padding: 5px 12px; border-radius: 99px; font-weight: 700; font-size: 11.5px; display: inline-flex; align-items: center; gap: 4px;"><i class="bi bi-check-circle-fill"></i> Paid</span>
+                            @else
+                                <span class="badge" style="background: rgba(245, 158, 11, 0.12); color: #b45309; padding: 5px 12px; border-radius: 99px; font-weight: 700; font-size: 11.5px; display: inline-flex; align-items: center; gap: 4px;"><i class="bi bi-clock-history"></i> Pending</span>
+                            @endif
+                        </td>
+                        <td class="text-center" style="padding: 11px 12px; vertical-align: middle; text-align: center;">
+                            <div class="admin-table-actions justify-content-center" style="display: inline-flex; align-items: center; justify-content: center; gap: 6px;">
+                                {{-- VIEW ICON BUTTON --}}
+                                <button type="button" class="btn-view-fee admin-btn-icon" 
                                     data-id="{{ $item->id }}" 
                                     data-voucher="{{ $item->voucher_no }}" 
                                     data-month="{{ $item->month }}" 
                                     data-net="{{ number_format($item->net_amount, 2) }}" 
-                                    data-fine="{{ number_format($item->late_fine, 2) }}"
-                                    data-total="{{ number_format($item->total_payable, 2) }}"
-                                    data-action="{{ route('student.fee.pay', $item->id) }}" 
-                                    title="Pay Fee Online"
-                                    style="border:none;background:#4F46E5;color:#ffffff;width:32px;height:32px;border-radius:8px;font-size:14px;cursor:pointer;display:inline-grid;place-items:center;box-shadow:0 2px 6px rgba(79,70,229,0.25);transition:all 0.15s;">
-                                    <i class="bi bi-credit-card-fill"></i>
+                                    data-tuition="{{ number_format($item->tuition_fee, 2) }}" 
+                                    data-exam="{{ number_format($item->exam_fee, 2) }}" 
+                                    data-other="{{ number_format($item->other_charges, 2) }}" 
+                                    data-fine="{{ number_format($item->late_fine, 2) }}" 
+                                    data-overduedays="{{ $item->overdue_days }}" 
+                                    data-total="{{ number_format($item->total_payable, 2) }}" 
+                                    data-status="{{ $item->status }}" 
+                                    data-duedate="{{ $dueDateFormatted }}" 
+                                    data-paydate="{{ $item->payment_date ? \Carbon\Carbon::parse($item->payment_date)->format('d M Y') : '-' }}" 
+                                    data-paymethod="{{ $item->payment_method ?: '-' }}" 
+                                    title="View Voucher Details" 
+                                    style="border: 1px solid #E2E8F0; background: #ffffff; color: #4F46E5; width: 32px; height: 32px; border-radius: 8px; font-size: 13px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; box-shadow: 0 1px 3px rgba(0,0,0,0.04); transition: all 0.15s;">
+                                    <i class="bi bi-eye"></i>
                                 </button>
-                            @else
-                                <span title="Fee Cleared & Verified" style="display:inline-grid;place-items:center;width:32px;height:32px;border-radius:8px;background:#ecfdf5;border:1px solid #a7f3d0;color:#059669;font-size:15px;">
-                                    <i class="bi bi-check-circle-fill"></i>
-                                </span>
-                            @endif
+                                
+                                {{-- PAY / CLEARED STATUS --}}
+                                @if(!$isPaid)
+                                    <button type="button" class="btn-pay-fee admin-btn-icon" 
+                                        data-id="{{ $item->id }}" 
+                                        data-voucher="{{ $item->voucher_no }}" 
+                                        data-month="{{ $item->month }}" 
+                                        data-net="{{ number_format($item->net_amount, 2) }}" 
+                                        data-fine="{{ number_format($item->late_fine, 2) }}" 
+                                        data-total="{{ number_format($item->total_payable, 2) }}" 
+                                        data-action="{{ route('student.fee.pay', $item->id) }}" 
+                                        title="Pay Fee Online" 
+                                        style="border: none; background: #4F46E5; color: #ffffff; width: 32px; height: 32px; border-radius: 8px; font-size: 13px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; box-shadow: 0 2px 6px rgba(79,70,229,0.25); transition: all 0.15s;">
+                                        <i class="bi bi-credit-card"></i>
+                                    </button>
+                                @else
+                                    <span title="Fee Cleared & Verified" style="display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 8px; background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(16, 185, 129, 0.25); color: #047857; font-size: 14px;">
+                                        <i class="bi bi-check-circle-fill"></i>
+                                    </span>
+                                @endif
 
-                            {{-- DOWNLOAD ICON BUTTON --}}
-                            <a href="{{ route('student.fee.download', $item->id) }}" target="_blank" 
-                                title="Download Fee Voucher PDF"
-                                style="border:1px solid #4F46E5;background:#e6f4f2;color:#4F46E5;width:32px;height:32px;border-radius:8px;font-size:14px;text-decoration:none;display:inline-grid;place-items:center;transition:all 0.15s;box-shadow:0 2px 4px rgba(79,70,229,0.1);">
-                                <i class="bi bi-download"></i>
-                            </a>
-                        </div>
-                    </td>
-                </tr>
-            @empty
-                <tr><td colspan="7" style="text-align:center;padding:30px;color:#64748b;">No fee records are available.</td></tr>
-            @endforelse
-        </tbody>
-    </table>
-</article>
-
-{{-- CUSTOM MODERN PAGINATION CONTAINER (SHOWN ONLY IF RECORDS > 10 AND HAS MULTIPLE PAGES) --}}
-@if($fees instanceof \Illuminate\Pagination\LengthAwarePaginator && $fees->total() > 10 && $fees->hasPages())
-    <div style="margin-top:24px;display:flex;flex-direction:column;align-items:center;gap:10px;">
-        <div style="font-size:12.5px;color:#64748b;font-weight:600;">
-            Showing <b>{{ $fees->firstItem() }}</b> to <b>{{ $fees->lastItem() }}</b> of <b>{{ $fees->total() }}</b> fee records
-        </div>
-        
-        <div style="display:inline-flex;align-items:center;gap:6px;background:#ffffff;padding:6px 14px;border:1px solid #cbd5e1;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.04);">
-            @if($fees->onFirstPage())
-                <span style="color:#cbd5e1;padding:6px 12px;font-size:13px;font-weight:700;cursor:not-allowed;"><i class="bi bi-chevron-left"></i> Previous</span>
-            @else
-                <a href="{{ $fees->previousPageUrl() }}" style="color:#4F46E5;padding:6px 12px;font-size:13px;font-weight:700;text-decoration:none;"><i class="bi bi-chevron-left"></i> Previous</a>
-            @endif
-
-            @foreach($fees->getUrlRange(1, $fees->lastPage()) as $pageNumber => $url)
-                @if($pageNumber == $fees->currentPage())
-                    <span style="background:#4F46E5;color:#ffffff;width:34px;height:34px;border-radius:8px;display:grid;place-items:center;font-size:13px;font-weight:800;box-shadow:0 2px 6px rgba(79,70,229,0.3);">{{ $pageNumber }}</span>
-                @else
-                    <a href="{{ $url }}" style="color:#475569;width:34px;height:34px;border-radius:8px;display:grid;place-items:center;font-size:13px;font-weight:700;text-decoration:none;transition:all 0.15s;">{{ $pageNumber }}</a>
-                @endif
-            @endforeach
-
-            @if($fees->hasMorePages())
-                <a href="{{ $fees->nextPageUrl() }}" style="color:#4F46E5;padding:6px 12px;font-size:13px;font-weight:700;text-decoration:none;">Next <i class="bi bi-chevron-right"></i></a>
-            @else
-                <span style="color:#cbd5e1;padding:6px 12px;font-size:13px;font-weight:700;cursor:not-allowed;">Next <i class="bi bi-chevron-right"></i></span>
-            @endif
-        </div>
+                                {{-- DOWNLOAD ICON BUTTON --}}
+                                <a href="{{ route('student.fee.download', $item->id) }}" target="_blank" 
+                                    title="Download Fee Voucher PDF" 
+                                    style="border: 1px solid #E2E8F0; background: #ffffff; color: #0284c7; width: 32px; height: 32px; border-radius: 8px; font-size: 13px; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; box-shadow: 0 1px 3px rgba(0,0,0,0.04); transition: all 0.15s;">
+                                    <i class="bi bi-download"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                @empty
+                    <tr><td colspan="7" class="text-center" style="padding: 30px; color: #64748B; font-size: 13px;">No fee records are available.</td></tr>
+                @endforelse
+            </tbody>
+        </table>
     </div>
-@endif
+
+    @if($fees instanceof \Illuminate\Pagination\LengthAwarePaginator && $fees->total() > 0)
+        <div class="admin-pagination-bar" style="display: flex; justify-content: space-between; align-items: center; padding: 14px 20px; background: #ffffff; border-top: 1px solid #E2E8F0; border-radius: 0 0 14px 14px; box-shadow: 0 1px 3px rgba(0,0,0,0.03);">
+            <div class="admin-pagination-info" style="font-size: 13px; color: #64748B; font-weight: 500;">
+                Showing <strong>{{ $fees->firstItem() }}</strong> to <strong>{{ $fees->lastItem() }}</strong> of <strong>{{ $fees->total() }}</strong> vouchers
+            </div>
+            <div class="admin-pagination-links">
+                <ul class="pagination mb-0" style="display: flex; align-items: center; gap: 4px; list-style: none; margin: 0; padding: 0;">
+                    @if ($fees->onFirstPage())
+                        <li class="page-item disabled"><span class="page-link" style="display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; border-radius: 8px; border: 1px solid #E2E8F0; background: #ffffff; color: #94A3B8; font-size: 12px; opacity: 0.4; pointer-events: none;"><i class="bi bi-chevron-left"></i></span></li>
+                    @else
+                        <li class="page-item"><a class="page-link" href="{{ $fees->previousPageUrl() }}" style="display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; border-radius: 8px; border: 1px solid #E2E8F0; background: #ffffff; color: #475569; font-size: 12px; text-decoration: none;"><i class="bi bi-chevron-left"></i></a></li>
+                    @endif
+
+                    @foreach ($fees->getUrlRange(1, $fees->lastPage()) as $p => $url)
+                        @if ($p == $fees->currentPage())
+                            <li class="page-item active"><span class="page-link" style="display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; border-radius: 8px; background: #1E1B4B; color: #ffffff; font-weight: 700; font-size: 13px; border: 1px solid #1E1B4B;">{{ $p }}</span></li>
+                        @elseif ($p == 1 || $p == $fees->lastPage() || abs($p - $fees->currentPage()) <= 2)
+                            <li class="page-item"><a class="page-link" href="{{ $url }}" style="display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; border-radius: 8px; border: 1px solid #E2E8F0; background: #ffffff; color: #475569; font-weight: 700; font-size: 13px; text-decoration: none;">{{ $p }}</a></li>
+                        @elseif (abs($p - $fees->currentPage()) == 3)
+                            <li class="page-item disabled"><span class="page-link" style="display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; border-radius: 8px; border: 1px solid #E2E8F0; background: #ffffff; color: #94A3B8; font-size: 13px;">&hellip;</span></li>
+                        @endif
+                    @endforeach
+
+                    @if ($fees->hasMorePages())
+                        <li class="page-item"><a class="page-link" href="{{ $fees->nextPageUrl() }}" style="display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; border-radius: 8px; border: 1px solid #E2E8F0; background: #ffffff; color: #475569; font-size: 12px; text-decoration: none;"><i class="bi bi-chevron-right"></i></a></li>
+                    @else
+                        <li class="page-item disabled"><span class="page-link" style="display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; border-radius: 8px; border: 1px solid #E2E8F0; background: #ffffff; color: #94A3B8; font-size: 12px; opacity: 0.4; pointer-events: none;"><i class="bi bi-chevron-right"></i></span></li>
+                    @endif
+                </ul>
+            </div>
+        </div>
+    @endif
+</article>
 
 {{-- VIEW VOUCHER MODAL --}}
 <div id="feeViewModal" style="display: none; position: fixed; inset: 0; z-index: 9999; background: rgba(15, 23, 42, 0.65); backdrop-filter: blur(5px); place-items: center; padding: 20px;">
@@ -1468,7 +1472,7 @@ function switchTestSessionMonth(mKey) {
             <div style="width:42px;height:42px;border-radius:12px;background:#e0f2fe;color:#0284c7;display:grid;place-items:center;font-size:20px;"><i class="bi bi-receipt"></i></div>
             <div>
                 <h3 style="margin:0;font-size:18px;color:#0f172a;font-weight:800;">Fee Voucher Details</h3>
-                <span id="vModalVoucherNo" style="font-size:12px;color:#4F46E5;font-weight:700;font-family:monospace;">-</span>
+                <span id="vModalVoucherNo" style="font-size:12px;color:#0d8f83;font-weight:700;font-family:monospace;">-</span>
             </div>
         </div>
 
@@ -1497,7 +1501,7 @@ function switchTestSessionMonth(mKey) {
                 <tr style="border-bottom:1px solid #f1f5f9;"><td style="padding:10px 14px;color:#64748b;">Tuition Fee</td><td id="vModalTuition" style="padding:10px 14px;text-align:right;font-weight:700;color:#0f172a;">Rs 0.00</td></tr>
                 <tr style="border-bottom:1px solid #f1f5f9;"><td style="padding:10px 14px;color:#64748b;">Examination Fee</td><td id="vModalExam" style="padding:10px 14px;text-align:right;font-weight:700;color:#0f172a;">Rs 0.00</td></tr>
                 <tr style="border-bottom:1px solid #f1f5f9;"><td style="padding:10px 14px;color:#64748b;">Other Dues / Services</td><td id="vModalOther" style="padding:10px 14px;text-align:right;font-weight:700;color:#0f172a;">Rs 0.00</td></tr>
-                <tr style="background:#f8fafc;"><td style="padding:12px 14px;font-weight:800;color:#0f172a;">Total Payable Amount</td><td id="vModalTotal" style="padding:12px 14px;text-align:right;font-weight:800;color:#4F46E5;font-size:16px;">Rs 0.00</td></tr>
+                <tr style="background:#f8fafc;"><td style="padding:12px 14px;font-weight:800;color:#0f172a;">Total Payable Amount</td><td id="vModalTotal" style="padding:12px 14px;text-align:right;font-weight:800;color:#0d8f83;font-size:16px;">Rs 0.00</td></tr>
             </table>
         </div>
 
@@ -1516,7 +1520,7 @@ function switchTestSessionMonth(mKey) {
             <div style="width:42px;height:42px;border-radius:12px;background:#ecfdf5;color:#047857;display:grid;place-items:center;font-size:20px;"><i class="bi bi-credit-card-fill"></i></div>
             <div>
                 <h3 style="margin:0;font-size:18px;color:#0f172a;font-weight:800;">Online Fee Payment</h3>
-                <span id="pModalVoucherNo" style="font-size:12px;color:#4F46E5;font-weight:700;font-family:monospace;">Voucher</span>
+                <span id="pModalVoucherNo" style="font-size:12px;color:#0d8f83;font-weight:700;font-family:monospace;">Voucher</span>
             </div>
         </div>
 
@@ -1576,7 +1580,7 @@ function switchTestSessionMonth(mKey) {
 
             <div style="display:flex;gap:10px;margin-top:10px;">
                 <button type="button" class="close-fee-pay" style="flex:1;border:1px solid #cbd5e1;background:#f8fafc;color:#334155;padding:12px;border-radius:10px;font-weight:700;font-size:13px;cursor:pointer;">Cancel / Back</button>
-                <button type="submit" style="flex:1.5;border:none;background:#4F46E5;color:#ffffff;padding:12px;border-radius:10px;font-weight:700;font-size:13px;cursor:pointer;box-shadow:0 4px 12px rgba(79,70,229,0.3);"><i class="bi bi-check-circle-fill"></i> Pay Dues Now</button>
+                <button type="submit" style="flex:1.5;border:none;background:#0d8f83;color:#ffffff;padding:12px;border-radius:10px;font-weight:700;font-size:13px;cursor:pointer;box-shadow:0 4px 12px rgba(13,143,131,0.3);"><i class="bi bi-check-circle-fill"></i> Pay Dues Now</button>
             </div>
         </form>
     </div>
@@ -1609,14 +1613,14 @@ function switchFeeTab(type) {
     const summarySec = document.getElementById('yearlySummarySection');
 
     if (type === 'monthly') {
-        if(btnM) { btnM.style.background = '#4F46E5'; btnM.style.color = '#ffffff'; }
+        if(btnM) { btnM.style.background = '#0d8f83'; btnM.style.color = '#ffffff'; }
         if(btnY) { btnY.style.background = 'transparent'; btnY.style.color = '#475569'; }
         
         // reset filters to show all
         const selM = document.getElementById('feeMonthFilter');
         if (selM) { selM.value = 'ALL'; filterFeeTable(); }
     } else {
-        if(btnY) { btnY.style.background = '#4F46E5'; btnY.style.color = '#ffffff'; }
+        if(btnY) { btnY.style.background = '#0d8f83'; btnY.style.color = '#ffffff'; }
         if(btnM) { btnM.style.background = 'transparent'; btnM.style.color = '#475569'; }
     }
 }
@@ -1699,22 +1703,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
 @elseif($page === 'profile')
 <div class="page-heading">
-    <p>EXCELLENCE STUDENT PORTAL &bull; PROFILE</p>
+    <p>EXCELLENCE ACADEMY STUDENT PORTAL &bull; PROFILE</p>
     <h1>Student Profile & Account Settings</h1>
 </div>
 
 <div style="display:grid;grid-template-columns:340px 1fr;gap:24px;">
     <article class="student-panel" style="text-align:center;padding:32px 24px;">
-        <div style="width:90px;height:90px;border-radius:50%;background:linear-gradient(135deg, #1E1B4B 0%, #312E81 50%, #4F46E5 100%);color:#fff;display:grid;place-items:center;font-size:36px;font-weight:800;margin:0 auto 16px;border:4px solid #C7D2FE;box-shadow:0 8px 20px rgba(79,70,229,0.25);">
-            @php
-                $stdProfImg = !empty($student->image) && $student->image !== 'dummy.jpeg'
-                    ? asset('storage/'.$student->image)
-                    : asset('upload/dummy.jpeg');
-            @endphp
-            <img src="{{ $stdProfImg }}" onerror="this.onerror=null; this.src='{{ asset('upload/dummy.jpeg') }}';" alt="{{ $student->name }}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">
+        <div style="width:90px;height:90px;border-radius:50%;background:linear-gradient(135deg,#0d8f83,#076e65);color:#fff;display:grid;place-items:center;font-size:36px;font-weight:800;margin:0 auto 16px;border:4px solid #ccfbf1;box-shadow:0 8px 20px rgba(13,143,131,0.25);">
+            @if($student->image)
+                <img src="{{ asset('storage/'.$student->image) }}" alt="" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">
+            @else
+                {{ strtoupper(substr($student->name, 0, 1)) }}
+            @endif
         </div>
         <h2 style="margin:0;font-size:20px;font-weight:800;color:#0f172a;">{{ $student->name }}</h2>
-        <p style="margin:4px 0 16px;color:#4F46E5;font-weight:700;font-size:13.5px;">Enrolled Student &bull; {{ $student->class }} ({{ $student->section }})</p>
+        <p style="margin:4px 0 16px;color:#0d8f83;font-weight:700;font-size:13.5px;">Enrolled Student &bull; {{ $student->class }} ({{ $student->section }})</p>
         
         <dl style="display:flex;flex-direction:column;gap:10px;margin:0;text-align:left;">
             <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:#f8fafc;border-radius:10px;border:1px solid #f1f5f9;">
@@ -1727,7 +1730,7 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
             <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:#f8fafc;border-radius:10px;border:1px solid #f1f5f9;">
                 <dt style="color:#64748b;font-size:13px;font-weight:600;">Class & Section</dt>
-                <dd style="margin:0;font-weight:700;color:#4F46E5;font-size:13.5px;">{{ $student->class }} ({{ $student->section }})</dd>
+                <dd style="margin:0;font-weight:700;color:#0d8f83;font-size:13.5px;">{{ $student->class }} ({{ $student->section }})</dd>
             </div>
             <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:#f8fafc;border-radius:10px;border:1px solid #f1f5f9;">
                 <dt style="color:#64748b;font-size:13px;font-weight:600;">Roll & Reg No</dt>
@@ -1737,15 +1740,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 <dt style="color:#64748b;font-size:13px;font-weight:600;">Phone</dt>
                 <dd style="margin:0;font-weight:700;color:#0f172a;font-size:13.5px;">{{ $student->phone_no ?: '0300-1234567' }}</dd>
             </div>
-            <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:#EEF2FF;border-radius:10px;border:1px solid #C7D2FE;">
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:#f0fdfa;border-radius:10px;border:1px solid #ccfbf1;">
                 <dt style="color:#0f766e;font-size:13px;font-weight:700;">Status</dt>
-                <dd style="margin:0;font-weight:800;color:#4F46E5;font-size:14px;">Active Student</dd>
+                <dd style="margin:0;font-weight:800;color:#0d8f83;font-size:14px;">Active Student</dd>
             </div>
         </dl>
     </article>
 
     <article class="student-panel" style="padding:28px;">
-        <h3 style="margin:0 0 20px;font-size:18px;font-weight:800;color:#0f172a;border-bottom:1px solid #f1f5f9;padding-bottom:12px;"><i class="bi bi-shield-lock" style="color:#4F46E5;"></i> Account Security & Settings</h3>
+        <h3 style="margin:0 0 20px;font-size:18px;font-weight:800;color:#0f172a;border-bottom:1px solid #f1f5f9;padding-bottom:12px;"><i class="bi bi-shield-lock" style="color:#0d8f83;"></i> Account Security & Settings</h3>
         
         @if($errors->any())
             <div style="background:#fef2f2;color:#dc2626;border:1px solid #fecaca;padding:12px 16px;border-radius:12px;font-size:13px;font-weight:600;margin-bottom:18px;">
@@ -1779,7 +1782,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <input type="file" name="image" accept="image/*" style="width:100%;padding:8px 12px;border:1px solid #cbd5e1;border-radius:10px;font-size:12.5px;">
                 </div>
             </div>
-            <button type="submit" style="background:linear-gradient(135deg, #1E1B4B 0%, #312E81 50%, #4F46E5 100%);color:#fff;border:none;padding:10px 22px;border-radius:10px;font-weight:800;font-size:13px;cursor:pointer;box-shadow:0 4px 14px rgba(79,70,229,0.25);">
+            <button type="submit" style="background:linear-gradient(135deg,#0d8f83,#076e65);color:#fff;border:none;padding:10px 22px;border-radius:10px;font-weight:800;font-size:13px;cursor:pointer;box-shadow:0 4px 14px rgba(13,143,131,0.25);">
                 Update Profile
             </button>
         </form>
@@ -1811,7 +1814,7 @@ document.addEventListener('DOMContentLoaded', () => {
 @elseif($page === 'outlines')
 <div class="page-heading" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;">
     <div>
-        <p>EXCELLENCE STUDENT PORTAL &bull; COURSE SYLLABI & ROADMAPS</p>
+        <p>EXCELLENCE ACADEMY STUDENT PORTAL &bull; COURSE SYLLABI & ROADMAPS</p>
         <h1>Class Course Outlines & Syllabi</h1>
     </div>
     <div>
@@ -1824,11 +1827,11 @@ document.addEventListener('DOMContentLoaded', () => {
 <div class="student-panel" style="padding:26px;">
     <div class="panel-head" style="margin-bottom:20px;border-bottom:1px solid #f1f5f9;padding-bottom:14px;display:flex;justify-content:space-between;align-items:center;">
         <div>
-            <h2><i class="bi bi-journal-bookmark-fill" style="color:#4F46E5;"></i> Enrolled Subject Course Outlines</h2>
+            <h2><i class="bi bi-journal-bookmark-fill" style="color:#0d8f83;"></i> Enrolled Subject Course Outlines</h2>
             <p>Official course outlines, term topics, and study material uploaded by subject teachers for {{ $student->class }} ({{ $student->section }}).</p>
         </div>
         <div style="font-size:12.5px;color:#64748b;font-weight:600;">
-            Total Outlines: <strong style="color:#4F46E5;">{{ count($outlines ?? []) }} Available</strong>
+            Total Outlines: <strong style="color:#0d8f83;">{{ count($outlines ?? []) }} Available</strong>
         </div>
     </div>
 
@@ -1848,7 +1851,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <tbody>
                 @forelse($outlines ?? [] as $out)
                 <tr>
-                    <td><strong style="color:#4F46E5;font-size:14px;">{{ $out->subject_name }}</strong></td>
+                    <td><strong style="color:#0d8f83;font-size:14px;">{{ $out->subject_name }}</strong></td>
                     <td><strong style="color:#0f172a;">{{ $out->title }}</strong></td>
                     <td>
                         <span class="status" style="background:#e0f2fe;color:#0284c7;border:1px solid #bae6fd;font-weight:800;">
@@ -1873,7 +1876,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     </td>
                     <td style="color:#64748b;font-size:12.5px;">{{ \Carbon\Carbon::parse($out->created_at)->format('d M Y') }}</td>
                     <td style="text-align:center;">
-                        <a href="{{ route('student.outlines.download', $out->id) }}" target="_blank" style="width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg, #1E1B4B 0%, #312E81 50%, #4F46E5 100%);color:#ffffff;border:none;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px;box-shadow:0 4px 12px rgba(79,70,229,0.3);transition:all 0.2s ease;text-decoration:none;" title="Download Official Course Outline PDF">
+                        <a href="{{ route('student.outlines.download', $out->id) }}" target="_blank" style="width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,#0d8f83,#076e65);color:#ffffff;border:none;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px;box-shadow:0 4px 12px rgba(13,143,131,0.3);transition:all 0.2s ease;text-decoration:none;" title="Download Official Course Outline PDF">
                             <i class="bi bi-download"></i>
                         </a>
                     </td>
@@ -1884,191 +1887,6 @@ document.addEventListener('DOMContentLoaded', () => {
             </tbody>
         </table>
     </div>
-</div>
-
-@elseif($page === 'teachers')
-<div class="page-heading" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;flex-wrap:wrap;gap:14px;">
-    <div>
-        <p>EXCELLENCE STUDENT PORTAL &bull; FACULTY DIRECTORY</p>
-        <h1 style="margin:0;">Class Teachers & Faculty Directory</h1>
-    </div>
-    <div>
-        <span style="background:linear-gradient(135deg, #EEF2FF 0%, #E0E7FF 100%);color:#4338CA;border:1px solid #C7D2FE;padding:8px 18px;border-radius:99px;font-size:13px;font-weight:800;display:inline-flex;align-items:center;gap:6px;box-shadow:0 2px 6px rgba(79,70,229,0.1);">
-            <i class="bi bi-mortarboard-fill"></i> Class {{ $student->class }} &bull; Section {{ $student->section }}
-        </span>
-    </div>
-</div>
-
-{{-- SECTION 1: YOUR IN-CHARGE TEACHER --}}
-<div style="margin-bottom: 28px;">
-    <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;">
-        <i class="bi bi-award-fill" style="color:#D97706;font-size:18px;"></i>
-        <h2 style="margin:0;font-size:17px;font-weight:800;color:#0f172a;">Your In-Charge Teacher</h2>
-        <span style="font-size:12px;color:#64748b;font-weight:600;">(Official class mentor & administrative supervisor)</span>
-    </div>
-
-    @if(!empty($teachersDirectory['inchargeList']) && $teachersDirectory['inchargeList']->isNotEmpty())
-        <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(340px, 1fr));gap:16px;">
-            @foreach($teachersDirectory['inchargeList'] as $ic)
-                @php
-                    $icImg = !empty($ic->image) && $ic->image !== 'dummy.jpeg'
-                        ? asset('storage/'.$ic->image)
-                        : asset('upload/dummy.jpeg');
-                @endphp
-                <div class="student-panel" style="padding:22px;background:linear-gradient(135deg, #ffffff 0%, #FFFBEB 100%);border:1.5px solid #FCD34D;border-radius:16px;box-shadow:0 4px 16px rgba(245, 158, 11, 0.08);position:relative;overflow:hidden;">
-                    <div style="position:absolute;top:14px;right:14px;">
-                        <span style="background:linear-gradient(135deg, #F59E0B, #D97706);color:#ffffff;padding:4px 12px;border-radius:99px;font-weight:800;font-size:11px;display:inline-flex;align-items:center;gap:5px;box-shadow:0 2px 6px rgba(245, 158, 11, 0.35);">
-                            <i class="bi bi-award-fill"></i> Assigned Class In-Charge
-                        </span>
-                    </div>
-
-                    <div style="display:flex;align-items:flex-start;gap:18px;">
-                        <div style="width:68px;height:68px;border-radius:50%;overflow:hidden;border:3px solid #FDE68A;background:#fef3c7;display:grid;place-items:center;flex-shrink:0;box-shadow:0 4px 10px rgba(0,0,0,0.06);">
-                            <img src="{{ $icImg }}" onerror="this.onerror=null; this.src='{{ asset('upload/dummy.jpeg') }}';" alt="{{ $ic->name }}" style="width:100%;height:100%;object-fit:cover;">
-                        </div>
-                        <div style="flex:1;min-width:0;padding-top:2px;">
-                            <h3 style="margin:0 0 4px;font-size:17px;font-weight:800;color:#0f172a;">{{ $ic->name }}</h3>
-                            <span style="display:inline-block;font-size:12px;color:#B45309;font-weight:700;margin-bottom:8px;">{{ $ic->designation }}</span>
-                            <p style="margin:0 0 12px;font-size:12px;color:#475569;line-height:1.4;">
-                                Directly authorized to review student leave applications, attendance records, and academic progress for <strong>{{ $ic->class_label }}</strong>.
-                            </p>
-
-                            <div style="display:flex;flex-wrap:wrap;gap:12px;font-size:12px;">
-                                <a href="mailto:{{ $ic->email }}" style="display:inline-flex;align-items:center;gap:5px;color:#4F46E5;font-weight:700;text-decoration:none;background:#EEF2FF;padding:4px 10px;border-radius:6px;border:1px solid #C7D2FE;">
-                                    <i class="bi bi-envelope-fill"></i> {{ $ic->email }}
-                                </a>
-                                @if(!empty($ic->phone))
-                                <a href="tel:{{ $ic->phone }}" style="display:inline-flex;align-items:center;gap:5px;color:#047857;font-weight:700;text-decoration:none;background:#ECFDF5;padding:4px 10px;border-radius:6px;border:1px solid #A7F3D0;">
-                                    <i class="bi bi-telephone-fill"></i> {{ $ic->phone }}
-                                </a>
-                                @endif
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            @endforeach
-        </div>
-    @else
-        <div class="student-panel" style="padding:22px;background:#F8FAFC;border:1px dashed #CBD5E1;border-radius:14px;text-align:center;color:#64748B;">
-            <i class="bi bi-info-circle-fill" style="font-size:24px;color:#94A3B8;display:block;margin-bottom:6px;"></i>
-            <span style="font-size:13.5px;font-weight:700;color:#334155;">No Designated In-Charge Assigned Yet</span>
-            <p style="margin:4px 0 0;font-size:12px;">Class In-Charge for {{ $student->class }} ({{ $student->section }}) will be updated shortly by administration.</p>
-        </div>
-    @endif
-</div>
-
-{{-- SECTION 2: YOUR CLASS TEACHERS --}}
-<div>
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:8px;">
-        <div style="display:flex;align-items:center;gap:8px;">
-            <i class="bi bi-people-fill" style="color:#4F46E5;font-size:18px;"></i>
-            <h2 style="margin:0;font-size:17px;font-weight:800;color:#0f172a;">Your Class Teachers</h2>
-            <span style="font-size:12px;color:#64748b;font-weight:600;">(Faculty teaching your subjects)</span>
-        </div>
-        <div>
-            <span style="font-size:12.5px;font-weight:700;color:#4F46E5;background:#EEF2FF;padding:4px 12px;border-radius:99px;border:1px solid #C7D2FE;">
-                {{ $teachersDirectory['totalSubjectTeachers'] ?? 0 }} Assigned Teachers
-            </span>
-        </div>
-    </div>
-
-    @if(!empty($teachersDirectory['subjectTeachers']) && $teachersDirectory['subjectTeachers']->isNotEmpty())
-        <div style="display:grid;grid-template-columns:repeat(auto-fill, minmax(320px, 1fr));gap:16px;">
-            @foreach($teachersDirectory['subjectTeachers'] as $st)
-                @php
-                    $stImg = !empty($st->image) && $st->image !== 'dummy.jpeg'
-                        ? asset('storage/'.$st->image)
-                        : asset('upload/dummy.jpeg');
-                @endphp
-                <div class="student-panel" style="padding:20px;border-radius:14px;background:#ffffff;border:1px solid #E2E8F0;box-shadow:0 2px 8px rgba(15,23,42,0.04);transition:all 0.2s ease;" onmouseover="this.style.boxShadow='0 8px 24px rgba(79,70,229,0.12)';this.style.borderColor='#C7D2FE';" onmouseout="this.style.boxShadow='0 2px 8px rgba(15,23,42,0.04)';this.style.borderColor='#E2E8F0';">
-                    <div style="display:flex;align-items:center;gap:14px;margin-bottom:14px;">
-                        <div style="width:52px;height:52px;border-radius:50%;overflow:hidden;border:2px solid #E2E8F0;background:#F8FAFC;display:grid;place-items:center;flex-shrink:0;">
-                            <img src="{{ $stImg }}" onerror="this.onerror=null; this.src='{{ asset('upload/dummy.jpeg') }}';" alt="{{ $st->name }}" style="width:100%;height:100%;object-fit:cover;">
-                        </div>
-                        <div style="flex:1;min-width:0;">
-                            <h3 style="margin:0 0 2px;font-size:15px;font-weight:800;color:#0f172a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ $st->name }}</h3>
-                            <span style="display:inline-block;font-size:11.5px;color:#64748B;font-weight:600;">
-                                {{ $st->designation }}
-                                @if($st->is_incharge)
-                                    <span style="color:#D97706;font-weight:800;margin-left:4px;">&bull; 👑 In-Charge</span>
-                                @endif
-                            </span>
-                        </div>
-                    </div>
-
-                    <div style="background:#F8FAFC;border:1px solid #F1F5F9;border-radius:10px;padding:10px 12px;margin-bottom:12px;">
-                        <small style="display:block;font-size:11px;font-weight:700;color:#64748B;text-transform:uppercase;margin-bottom:6px;letter-spacing:0.4px;">Subjects Taught in Your Class:</small>
-                        <div style="display:flex;flex-wrap:wrap;gap:6px;">
-                            @foreach($st->subjects as $sub)
-                                <span style="background:#EEF2FF;color:#4338CA;border:1px solid #C7D2FE;font-size:11.5px;font-weight:700;padding:2px 8px;border-radius:6px;display:inline-flex;align-items:center;gap:4px;">
-                                    <i class="bi bi-book-half" style="font-size:10px;"></i> {{ $sub }}
-                                </span>
-                            @endforeach
-                        </div>
-                    </div>
-
-                    <div style="display:flex;align-items:center;justify-content:space-between;font-size:11.5px;color:#64748B;border-top:1px solid #F1F5F9;padding-top:10px;">
-                        <span style="display:inline-flex;align-items:center;gap:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:180px;" title="{{ $st->email }}">
-                            <i class="bi bi-envelope" style="color:#4F46E5;"></i> {{ $st->email }}
-                        </span>
-                        @if(!empty($st->phone))
-                        <span style="display:inline-flex;align-items:center;gap:4px;">
-                            <i class="bi bi-telephone" style="color:#047857;"></i> {{ $st->phone }}
-                        </span>
-                        @endif
-                    </div>
-                </div>
-            @endforeach
-        </div>
-
-        {{-- PAGINATION CONTROLS (10 per page default) --}}
-        @if($teachersDirectory['subjectTeachers']->total() > 0)
-            <div style="margin-top:24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;padding:14px 18px;background:#ffffff;border:1px solid #E2E8F0;border-radius:14px;box-shadow:0 1px 3px rgba(0,0,0,0.04);">
-                <span style="font-size:13px;color:#64748B;font-weight:600;">
-                    Showing <strong style="color:#0F172A;">{{ $teachersDirectory['subjectTeachers']->firstItem() ?? 0 }}</strong> to <strong style="color:#0F172A;">{{ $teachersDirectory['subjectTeachers']->lastItem() ?? 0 }}</strong> of <strong style="color:#0F172A;">{{ $teachersDirectory['subjectTeachers']->total() }}</strong> class teachers
-                </span>
-                <div style="display:flex;align-items:center;gap:6px;">
-                    @if ($teachersDirectory['subjectTeachers']->onFirstPage())
-                        <span style="padding:6px 12px;border-radius:8px;border:1px solid #E2E8F0;background:#F8FAFC;color:#94A3B8;font-size:12px;font-weight:700;display:inline-flex;align-items:center;gap:4px;cursor:not-allowed;">
-                            <i class="bi bi-chevron-left"></i> Previous
-                        </span>
-                    @else
-                        <a href="{{ $teachersDirectory['subjectTeachers']->previousPageUrl() }}" style="padding:6px 12px;border-radius:8px;border:1px solid #4F46E5;background:#EEF2FF;color:#4F46E5;font-size:12px;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;gap:4px;">
-                            <i class="bi bi-chevron-left"></i> Previous
-                        </a>
-                    @endif
-
-                    @foreach ($teachersDirectory['subjectTeachers']->getUrlRange(max(1, $teachersDirectory['subjectTeachers']->currentPage() - 2), min($teachersDirectory['subjectTeachers']->lastPage(), $teachersDirectory['subjectTeachers']->currentPage() + 2)) as $pageNumber => $url)
-                        @if ($pageNumber == $teachersDirectory['subjectTeachers']->currentPage())
-                            <span style="padding:6px 12px;border-radius:8px;background:linear-gradient(135deg, #1E1B4B 0%, #4F46E5 100%);color:#ffffff;font-size:12px;font-weight:800;display:inline-flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(79,70,229,0.3);">
-                                {{ $pageNumber }}
-                            </span>
-                        @else
-                            <a href="{{ $url }}" style="padding:6px 12px;border-radius:8px;border:1px solid #CBD5E1;background:#ffffff;color:#334155;font-size:12px;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;">
-                                {{ $pageNumber }}
-                            </a>
-                        @endif
-                    @endforeach
-
-                    @if ($teachersDirectory['subjectTeachers']->hasMorePages())
-                        <a href="{{ $teachersDirectory['subjectTeachers']->nextPageUrl() }}" style="padding:6px 12px;border-radius:8px;border:1px solid #4F46E5;background:#EEF2FF;color:#4F46E5;font-size:12px;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;gap:4px;">
-                            Next <i class="bi bi-chevron-right"></i>
-                        </a>
-                    @else
-                        <span style="padding:6px 12px;border-radius:8px;border:1px solid #E2E8F0;background:#F8FAFC;color:#94A3B8;font-size:12px;font-weight:700;display:inline-flex;align-items:center;gap:4px;cursor:not-allowed;">
-                            Next <i class="bi bi-chevron-right"></i>
-                        </span>
-                    @endif
-                </div>
-            </div>
-        @endif
-    @else
-        <div class="student-panel" style="padding:32px 20px;text-align:center;color:#64748B;">
-            <i class="bi bi-person-slash" style="font-size:32px;color:#CBD5E1;display:block;margin-bottom:8px;"></i>
-            <span style="font-size:14px;font-weight:700;color:#334155;">No Teachers Assigned to {{ $student->class }} ({{ $student->section }}) Yet</span>
-            <p style="margin:6px 0 0;font-size:12px;">Faculty assignments are configured dynamically by the administration.</p>
-        </div>
-    @endif
 </div>
 
 @else
