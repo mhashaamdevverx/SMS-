@@ -1,5 +1,5 @@
 /**
- * Excellence Student Portal UI Engine
+ * AKM Student Portal UI Engine
  * Handles Light/Dark Theme Switch, Sidebar Collapsing, Command Search (Ctrl+K),
  * Notification Bell, Language Toggle, and Dropdown Controls.
  */
@@ -150,6 +150,31 @@
         isObserverMutating = false;
     });
 
+    // Auto-dismiss session alerts/toasts after 3.5 seconds
+    function initToastAutoDismiss() {
+        const toasts = document.querySelectorAll('.student-toast, .teacher-toast, .auto-dismiss-toast');
+        if (toasts.length > 0) {
+            setTimeout(() => {
+                toasts.forEach((toast) => {
+                    toast.style.transition = 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
+                    toast.style.opacity = '0';
+                    toast.style.transform = 'translateY(-10px)';
+                    toast.style.maxHeight = '0';
+                    toast.style.paddingTop = '0';
+                    toast.style.paddingBottom = '0';
+                    toast.style.marginTop = '0';
+                    toast.style.marginBottom = '0';
+                    toast.style.borderWidth = '0';
+                    setTimeout(() => {
+                        if (toast.parentNode) {
+                            toast.parentNode.removeChild(toast);
+                        }
+                    }, 500);
+                });
+            }, 3500);
+        }
+    }
+
     // Initialize scripts on DOMReady
     document.addEventListener('DOMContentLoaded', () => {
         setTheme(getStoredTheme());
@@ -157,6 +182,7 @@
         initMobileDrawer();
         initCommandSearch();
         initLanguageSwitch();
+        initToastAutoDismiss();
 
         const themeBtn = document.getElementById('themeToggleBtn');
         if (themeBtn) {

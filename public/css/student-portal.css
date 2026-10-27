@@ -1259,6 +1259,10 @@ a:hover {
     border-radius: var(--radius-md);
     font-weight: 600;
     font-size: 13.5px;
+    overflow: hidden;
+    max-height: 120px;
+    box-sizing: border-box;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* --- FOOTER COMPONENT --- */

@@ -23,14 +23,13 @@
 
     <!-- TOP NAVIGATION BAR -->
     <header class="top-navbar">
-        <a href="/" class="btn-back-home" title="Return to Home">
+        <a href="/" class="btn-back-home" title="Back">
             <i class="bi bi-arrow-left"></i>
-            <span>Back to Home</span>
+            <span>Back</span>
         </a>
         <div class="top-nav-actions">
-            <a href="{{ route('support') }}" class="btn-header-support" title="Help Desk &amp; Support Center">
-                <span class="support-icon-circle">?</span>
-                <span>Help &amp; Support</span>
+            <a href="{{ route('support') }}" class="btn-header-support" title="Help Desk &amp; Support" aria-label="Help &amp; Support">
+                <i class="bi bi-question-lg"></i>
             </a>
         </div>
     </header>

@@ -2,11 +2,37 @@
 @section('content')
 
 @if(session('success'))
-    <div class="student-toast"><i class="bi bi-check-circle-fill"></i> {{ session('success') }}</div>
+    <div class="student-toast auto-dismiss-toast"><i class="bi bi-check-circle-fill"></i> {{ session('success') }}</div>
 @endif
 
 @if(session('error'))
-    <div class="student-toast" style="background:#fef2f2;color:#991b1b;border-color:#fecaca;"><i class="bi bi-exclamation-circle-fill"></i> {{ session('error') }}</div>
+    <div class="student-toast auto-dismiss-toast" style="background:#fef2f2;color:#991b1b;border-color:#fecaca;"><i class="bi bi-exclamation-circle-fill"></i> {{ session('error') }}</div>
+@endif
+
+@if(session('success') || session('error'))
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(function() {
+            var toasts = document.querySelectorAll('.student-toast, .auto-dismiss-toast');
+            toasts.forEach(function(toast) {
+                toast.style.transition = 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateY(-10px)';
+                toast.style.maxHeight = '0';
+                toast.style.paddingTop = '0';
+                toast.style.paddingBottom = '0';
+                toast.style.marginTop = '0';
+                toast.style.marginBottom = '0';
+                toast.style.borderWidth = '0';
+                setTimeout(function() {
+                    if (toast.parentNode) {
+                        toast.parentNode.removeChild(toast);
+                    }
+                }, 500);
+            });
+        }, 3500);
+    });
+</script>
 @endif
 
 @php
@@ -99,6 +125,11 @@
         <p>Welcome back, <strong>{{ $teacher->teacher_name }}</strong>! Active Class: <strong>{{ $primaryClass }} ({{ $primarySection }})</strong> &bull; Subjects: <strong>{{ $mySubjects->implode(', ') }}</strong> &bull; Full authority over attendance, class results, tests, leaves, and classroom records.</p>
     </div>
     <div class="admin-hero-actions">
+        <a href="{{ url('/') }}" class="btn-back-website" title="Back to Main Website">
+            <i class="bi bi-globe2"></i>
+            <span>Back to Website</span>
+            <i class="bi bi-arrow-up-right"></i>
+        </a>
         <a href="javascript:void(0)" onclick="document.getElementById('uploadOutlineModal').style.display='grid'" class="hero-action" style="display:inline-flex;align-items:center;gap:8px;">
             <i class="bi bi-upload"></i> Upload Outline
         </a>

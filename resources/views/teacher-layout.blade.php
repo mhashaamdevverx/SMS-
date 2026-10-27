@@ -128,8 +128,11 @@
 
             <!-- Right Actions: Theme Toggle, Notifications, Profile Menu -->
             <div class="nav-right-actions">
-                <div class="session-badge-top" style="display:inline-flex;align-items:center;gap:6px;background:#ffffff;border:1px solid #e2e8f0;padding:6px 14px;border-radius:99px;font-size:12px;font-weight:700;color:#0f172a;box-shadow:0 1px 3px rgba(0,0,0,0.03);">
-                    <i class="bi bi-circle-fill" style="color:#10B981;font-size:7px;"></i> Current Session <span style="color:#4F46E5;font-weight:800;">{{ now()->format('Y') }}</span>
+                <!-- Current Session Pill in Top Bar (Exact Match with Admin Dashboard) -->
+                <div class="student-term admin-term top-session-pill">
+                    <i class="bi bi-circle-fill"></i>
+                    <span>Current Session</span>
+                    <b>{{ now()->format('Y') }}</b>
                 </div>
                 @if(!empty($isClassIncharge) || ($user->role?->slug ?? '') === 'class-incharge')
                 <!-- In-Charge Teacher Announcement Button -->
@@ -301,5 +304,30 @@
 
     @include('partials.announcement-modal')
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var toasts = document.querySelectorAll('.student-toast, .teacher-toast, .auto-dismiss-toast');
+            if (toasts.length > 0) {
+                setTimeout(function () {
+                    toasts.forEach(function (toast) {
+                        toast.style.transition = 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
+                        toast.style.opacity = '0';
+                        toast.style.transform = 'translateY(-10px)';
+                        toast.style.maxHeight = '0';
+                        toast.style.paddingTop = '0';
+                        toast.style.paddingBottom = '0';
+                        toast.style.marginTop = '0';
+                        toast.style.marginBottom = '0';
+                        toast.style.borderWidth = '0';
+                        setTimeout(function () {
+                            if (toast.parentNode) {
+                                toast.parentNode.removeChild(toast);
+                            }
+                        }, 500);
+                    });
+                }, 3500);
+            }
+        });
+    </script>
 </body>
 </html>
