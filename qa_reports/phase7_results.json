@@ -1,0 +1,150 @@
+{
+    "phase": "Phase 7: Examination System",
+    "total_tests": 20,
+    "passed": 17,
+    "failed": 3,
+    "bugs_count": 0,
+    "results": [
+        {
+            "test_id": "TC_EXAM_AUTH_01",
+            "module": "Auth",
+            "description": "QA Admin login successful",
+            "status": "PASS",
+            "details": ""
+        },
+        {
+            "test_id": "TC_EXAM_SETUP_01",
+            "module": "Setup",
+            "description": "Dedicated QA Class (#24), Subject (#86), and Student (#74) initialized",
+            "status": "PASS",
+            "details": ""
+        },
+        {
+            "test_id": "TC_ARR_LIST_01",
+            "module": "Seating Arrangements",
+            "description": "Arrangements list page loads (HTTP 200)",
+            "status": "PASS",
+            "details": ""
+        },
+        {
+            "test_id": "TC_ARR_FORM_01",
+            "module": "Seating Arrangements",
+            "description": "Generate Seating Arrangement form page loads (HTTP 200)",
+            "status": "PASS",
+            "details": ""
+        },
+        {
+            "test_id": "TC_ARR_VAL_01",
+            "module": "Seating Arrangements",
+            "description": "Validation fails on empty class selection (HTTP 302 redirect)",
+            "status": "PASS",
+            "details": ""
+        },
+        {
+            "test_id": "TC_ARR_STORE_01",
+            "module": "Seating Arrangements",
+            "description": "Seating arrangement generated for QA Student #9901 (Arrangement ID: 21, Room: 998, Chair: 1)",
+            "status": "PASS",
+            "details": ""
+        },
+        {
+            "test_id": "TC_SLIP_FORM_01",
+            "module": "Roll Slips",
+            "description": "Issue Roll Slips form page loads (HTTP 200)",
+            "status": "PASS",
+            "details": ""
+        },
+        {
+            "test_id": "TC_SLIP_VAL_01",
+            "module": "Roll Slips",
+            "description": "Validation fails on missing exam name and schedule (HTTP 302 redirect)",
+            "status": "PASS",
+            "details": ""
+        },
+        {
+            "test_id": "TC_EXAM_STORE_01",
+            "module": "Exams",
+            "description": "Exam entity created in DB (Exam ID: 3, Name: QA_Midterm_Exam_2026)",
+            "status": "PASS",
+            "details": ""
+        },
+        {
+            "test_id": "TC_SCHED_STORE_01",
+            "module": "Exam Schedule",
+            "description": "Datesheet schedule created in DB (Schedule ID: 15, Date: 2026-11-15)",
+            "status": "PASS",
+            "details": ""
+        },
+        {
+            "test_id": "TC_SLIP_STORE_01",
+            "module": "Roll Slips",
+            "description": "Roll Slip issued and stored in DB (Roll Slip ID: 21, Student: QA_Test Student_Exam01, Room: 998, Seat: 1)",
+            "status": "PASS",
+            "details": ""
+        },
+        {
+            "test_id": "TC_SLIP_PDF_01",
+            "module": "Roll Slips PDF",
+            "description": "Roll Slip PDF generated and downloaded successfully (HTTP 200, Content-Type: application/pdf, Size: 8021 bytes)",
+            "status": "PASS",
+            "details": ""
+        },
+        {
+            "test_id": "TC_SLIP_UPD_01",
+            "module": "Roll Slips",
+            "description": "Roll Slip room and seat update persists in DB",
+            "status": "PASS",
+            "details": ""
+        },
+        {
+            "test_id": "TC_RES_LIST_01",
+            "module": "Results Management",
+            "description": "Results list page loads (HTTP 200)",
+            "status": "PASS",
+            "details": ""
+        },
+        {
+            "test_id": "TC_RES_FORM_01",
+            "module": "Results Management",
+            "description": "Add Result page loads (HTTP 200)",
+            "status": "PASS",
+            "details": ""
+        },
+        {
+            "test_id": "TC_RES_VAL_01",
+            "module": "Results Validation",
+            "description": "Validation rejects marks exceeding total marks (120/100) (HTTP 302 redirect)",
+            "status": "PASS",
+            "details": ""
+        },
+        {
+            "test_id": "TC_RES_VAL_02",
+            "module": "Results Validation",
+            "description": "Validation rejects negative marks (-15) (HTTP 302 redirect)",
+            "status": "PASS",
+            "details": ""
+        },
+        {
+            "test_id": "TC_RES_ENTRY_01",
+            "module": "Grading Calculation",
+            "description": "Passing score result calculation mismatch",
+            "status": "FAIL",
+            "details": "Data: None"
+        },
+        {
+            "test_id": "TC_RES_ENTRY_02",
+            "module": "Grading Calculation",
+            "description": "Failing score result calculation mismatch",
+            "status": "FAIL",
+            "details": "Data: None"
+        },
+        {
+            "test_id": "TC_RES_ENTRY_03",
+            "module": "Grading Calculation",
+            "description": "Distinction score calculation mismatch",
+            "status": "FAIL",
+            "details": "Data: None"
+        }
+    ],
+    "bugs": []
+}

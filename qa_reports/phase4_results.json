@@ -1,0 +1,257 @@
+{
+    "summary": {
+        "total_tests": 33,
+        "passed": 31,
+        "failed": 2,
+        "skipped": 0,
+        "bugs_found": 1
+    },
+    "results": [
+        {
+            "test_id": "TC_ACAD_AUTH_01",
+            "module": "Auth",
+            "description": "QA Admin login successful",
+            "status": "PASS",
+            "details": ""
+        },
+        {
+            "test_id": "TC_ACAD_SEC_01",
+            "module": "Sections",
+            "description": "Sections list page loads successfully (HTTP 200)",
+            "status": "PASS",
+            "details": ""
+        },
+        {
+            "test_id": "TC_ACAD_SEC_02",
+            "module": "Sections",
+            "description": "Validation fails on empty section name",
+            "status": "PASS",
+            "details": ""
+        },
+        {
+            "test_id": "TC_ACAD_SEC_03",
+            "module": "Sections",
+            "description": "Validation fails on invalid regex characters",
+            "status": "PASS",
+            "details": ""
+        },
+        {
+            "test_id": "TC_ACAD_SEC_04",
+            "module": "Sections",
+            "description": "Create section \"QA-Section-X\" successfully",
+            "status": "PASS",
+            "details": ""
+        },
+        {
+            "test_id": "TC_ACAD_SEC_05",
+            "module": "Sections",
+            "description": "Validation fails on duplicate section name",
+            "status": "PASS",
+            "details": ""
+        },
+        {
+            "test_id": "TC_ACAD_SEC_06",
+            "module": "Sections",
+            "description": "Update section name to \"QA-Section-Y\" persists",
+            "status": "PASS",
+            "details": ""
+        },
+        {
+            "test_id": "TC_ACAD_CLS_01",
+            "module": "Classes",
+            "description": "Classes list page loads successfully (HTTP 200)",
+            "status": "PASS",
+            "details": ""
+        },
+        {
+            "test_id": "TC_ACAD_CLS_02",
+            "module": "Classes",
+            "description": "Validation fails on empty class name",
+            "status": "PASS",
+            "details": ""
+        },
+        {
+            "test_id": "TC_ACAD_CLS_03",
+            "module": "Classes",
+            "description": "Validation fails on chairs <= 0 (capacity boundary)",
+            "status": "PASS",
+            "details": ""
+        },
+        {
+            "test_id": "TC_ACAD_CLS_04",
+            "module": "Classes",
+            "description": "Validation fails on non-existent section name",
+            "status": "PASS",
+            "details": ""
+        },
+        {
+            "test_id": "TC_ACAD_CLS_05",
+            "module": "Classes",
+            "description": "Create class \"QA_Class_11\"",
+            "status": "FAIL",
+            "details": ""
+        },
+        {
+            "test_id": "TC_ACAD_CLS_06",
+            "module": "Classes",
+            "description": "Validation fails on duplicate (class_name, section_name) pair",
+            "status": "PASS",
+            "details": ""
+        },
+        {
+            "test_id": "TC_ACAD_CLS_07",
+            "module": "Classes",
+            "description": "Update class capacity",
+            "status": "FAIL",
+            "details": ""
+        },
+        {
+            "test_id": "TC_ACAD_SUB_01",
+            "module": "Subjects",
+            "description": "Subjects list page loads successfully (HTTP 200)",
+            "status": "PASS",
+            "details": ""
+        },
+        {
+            "test_id": "TC_ACAD_SUB_02",
+            "module": "Subjects",
+            "description": "Validation fails on empty subject name",
+            "status": "PASS",
+            "details": ""
+        },
+        {
+            "test_id": "TC_ACAD_SUB_03",
+            "module": "Subjects",
+            "description": "Validation fails on negative total_marks",
+            "status": "PASS",
+            "details": ""
+        },
+        {
+            "test_id": "TC_ACAD_SUB_04",
+            "module": "Subjects",
+            "description": "Validation fails on non-existent class_id",
+            "status": "PASS",
+            "details": ""
+        },
+        {
+            "test_id": "TC_ACAD_SUB_05",
+            "module": "Subjects",
+            "description": "Create subject \"QA_Robotics_AI\" with total_marks 100",
+            "status": "PASS",
+            "details": ""
+        },
+        {
+            "test_id": "TC_ACAD_SUB_06",
+            "module": "Subjects",
+            "description": "Filter subjects by class_id works",
+            "status": "PASS",
+            "details": ""
+        },
+        {
+            "test_id": "TC_ACAD_SUB_07",
+            "module": "Subjects",
+            "description": "Search subjects by keyword works",
+            "status": "PASS",
+            "details": ""
+        },
+        {
+            "test_id": "TC_ACAD_SUB_08",
+            "module": "Subjects",
+            "description": "Update subject name and marks (150) persists",
+            "status": "PASS",
+            "details": ""
+        },
+        {
+            "test_id": "TC_ACAD_CRS_01",
+            "module": "Courses",
+            "description": "Courses list page loads successfully (HTTP 200)",
+            "status": "PASS",
+            "details": ""
+        },
+        {
+            "test_id": "TC_ACAD_CRS_02",
+            "module": "Courses",
+            "description": "Validation fails on non-compliant course_code regex (e.g. CS-101)",
+            "status": "PASS",
+            "details": ""
+        },
+        {
+            "test_id": "TC_ACAD_CRS_03",
+            "module": "Courses",
+            "description": "Validation fails when description exceeds 100 words",
+            "status": "PASS",
+            "details": ""
+        },
+        {
+            "test_id": "TC_ACAD_CRS_04",
+            "module": "Courses",
+            "description": "Create course \"QAA-101 - QA_Artificial_Intelligence\" successfully",
+            "status": "PASS",
+            "details": ""
+        },
+        {
+            "test_id": "TC_ACAD_CRS_05",
+            "module": "Courses",
+            "description": "Validation fails on duplicate course_code",
+            "status": "PASS",
+            "details": ""
+        },
+        {
+            "test_id": "TC_ACAD_CRS_06",
+            "module": "Courses",
+            "description": "Update course name to \"QA_Applied_AI_Systems\" persists",
+            "status": "PASS",
+            "details": ""
+        },
+        {
+            "test_id": "TC_ACAD_CASC_01",
+            "module": "Cascade Behavior",
+            "description": "Database behavior on deleting in-use class\/section",
+            "status": "PASS",
+            "details": "Database uses soft relationships without hard foreign key ON DELETE RESTRICT constraints; deleting class\/section allows operation but leaves dependent rows referencing the old name\/id without automatic cascade."
+        },
+        {
+            "test_id": "TC_ACAD_CLEAN_01",
+            "module": "Cleanup",
+            "description": "Delete QA subject #82",
+            "status": "PASS",
+            "details": ""
+        },
+        {
+            "test_id": "TC_ACAD_CLEAN_02",
+            "module": "Cleanup",
+            "description": "Delete QA class #2",
+            "status": "PASS",
+            "details": ""
+        },
+        {
+            "test_id": "TC_ACAD_CLEAN_03",
+            "module": "Cleanup",
+            "description": "Delete QA section #3",
+            "status": "PASS",
+            "details": ""
+        },
+        {
+            "test_id": "TC_ACAD_CLEAN_04",
+            "module": "Cleanup",
+            "description": "Delete QA course #10",
+            "status": "PASS",
+            "details": ""
+        }
+    ],
+    "bugs": [
+        {
+            "bug_id": "BUG-PH4-01",
+            "module": "Academic Foundation \/ Data Integrity",
+            "url": "\/classes\/{class}",
+            "severity": "High",
+            "steps": [
+                "1. Create a class (e.g. QA_Class_11).",
+                "2. Create a subject linked to that class via class_id (e.g. QA_Robotics_AI).",
+                "3. Delete the class via DELETE \/classes\/{class}."
+            ],
+            "expected": "Deleting a class with active linked subjects should either be blocked by database foreign key constraints (ON DELETE RESTRICT) or cascade-delete dependent subjects safely in a transaction.",
+            "actual": "The class is deleted immediately without validation or foreign key restriction, leaving orphaned subjects in the database pointing to non-existent class_id values."
+        }
+    ]
+}

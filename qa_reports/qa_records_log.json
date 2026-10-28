@@ -1,0 +1,266 @@
+[
+    {
+        "table": "admission_applications",
+        "id": 3,
+        "identifier": "QA_Test_Applicant_01",
+        "status": "active_in_db",
+        "details": {
+            "application_no": "ADM-2026-0003",
+            "student_name": "QA_Test_Applicant_01",
+            "guardian_email": "qa_applicant_01@test.com"
+        }
+    },
+    {
+        "table": "career_applications",
+        "id": 3,
+        "identifier": "QA_Test_Candidate_01",
+        "status": "active_in_db",
+        "details": {
+            "application_no": "JOB-2026-0003",
+            "full_name": "QA_Test_Candidate_01",
+            "email": "qa_candidate_01@test.com"
+        }
+    },
+    {
+        "table": "users",
+        "id": 133,
+        "identifier": "qa_admin@gmail.com",
+        "status": "active_in_db",
+        "details": {
+            "username": "qa_test_admin",
+            "name": "QA_Test_Admin",
+            "email": "qa_admin@gmail.com",
+            "role_id": 1
+        }
+    },
+    {
+        "table": "students",
+        "id": 72,
+        "identifier": "qa_student_01@gmail.com",
+        "status": "deleted_during_test",
+        "details": {
+            "name": "QA_Test Student_01",
+            "std_id": 6,
+            "registration_no": "REG-2026-ONE-006",
+            "class": "ONE",
+            "section": "A"
+        }
+    },
+    {
+        "table": "users",
+        "id": 134,
+        "identifier": "qa_student_01@gmail.com",
+        "status": "deleted_during_test",
+        "details": {
+            "username": "QA_Test Student_01",
+            "email": "qa_student_01@gmail.com",
+            "role_id": 4
+        }
+    },
+    {
+        "table": "fee_collections",
+        "id": 611,
+        "identifier": "V-S72-1026",
+        "status": "deleted_during_test",
+        "details": {
+            "voucher_no": "V-S72-1026",
+            "student_id": 72,
+            "gross_amount": 8500,
+            "net_amount": 8500
+        }
+    },
+    {
+        "table": "teacher_access_requests",
+        "id": 1,
+        "identifier": "qa_access_req_01@gmail.com",
+        "status": "deleted_during_test",
+        "details": {
+            "id": 1,
+            "email": "qa_access_req_01@gmail.com"
+        }
+    },
+    {
+        "table": "teachers",
+        "id": 66,
+        "identifier": "qa_teacher_01@gmail.com",
+        "status": "deleted_during_test",
+        "details": {
+            "id": 66,
+            "teacher_name": "QA Test Teacher One",
+            "teacher_email": "qa_teacher_01@gmail.com",
+            "teacher_phone": "03001122334",
+            "course": "Mathematics",
+            "login_user_id": 136
+        }
+    },
+    {
+        "table": "users",
+        "id": 136,
+        "identifier": "qa_teacher_01@gmail.com",
+        "status": "deleted_during_test",
+        "details": {
+            "id": 136,
+            "username": "QA Test Teacher One",
+            "email": "qa_teacher_01@gmail.com",
+            "role_id": 3
+        }
+    },
+    {
+        "table": "teacher_salaries",
+        "id": 38,
+        "identifier": "Salary-Teacher-66",
+        "status": "deleted_during_test",
+        "details": {
+            "id": 38,
+            "teacher_id": 66,
+            "month": "October 2026",
+            "basic_salary": "60000.00",
+            "net_salary": "63000.00",
+            "status": "Paid"
+        }
+    },
+    {
+        "table": "teacher_access_requests",
+        "id": 2,
+        "identifier": "qa_access_req_01@gmail.com",
+        "status": "deleted_during_test",
+        "details": {
+            "id": 2,
+            "email": "qa_access_req_01@gmail.com"
+        }
+    },
+    {
+        "table": "classes",
+        "id": null,
+        "identifier": "QA_Class_Exam",
+        "status": "deleted_during_test",
+        "details": {
+            "class_name": "QA_Class_Exam",
+            "class_no": 998,
+            "chairs": 30
+        }
+    },
+    {
+        "table": "subjects",
+        "id": null,
+        "identifier": "QA_Subject_Physics",
+        "status": "deleted_during_test",
+        "details": {
+            "subject_name": "QA_Subject_Physics",
+            "total_marks": 100,
+            "passing_marks": 50
+        }
+    },
+    {
+        "table": "students",
+        "id": null,
+        "identifier": "qa_exam_student01@gmail.com",
+        "status": "deleted_during_test",
+        "details": {
+            "name": "QA_Test Student_Exam01",
+            "std_id": 9901,
+            "email": "qa_exam_student01@gmail.com"
+        }
+    },
+    {
+        "table": "classes",
+        "id": 24,
+        "identifier": "QA_Class_Exam",
+        "status": "deleted_during_test",
+        "details": {
+            "class_name": "QA_Class_Exam",
+            "class_no": 998,
+            "chairs": 30
+        }
+    },
+    {
+        "table": "subjects",
+        "id": 86,
+        "identifier": "QA_Subject_Physics",
+        "status": "deleted_during_test",
+        "details": {
+            "subject_name": "QA_Subject_Physics",
+            "total_marks": 100
+        }
+    },
+    {
+        "table": "students",
+        "id": 74,
+        "identifier": "qa_exam_student01@gmail.com",
+        "status": "deleted_during_test",
+        "details": {
+            "name": "QA_Test Student_Exam01",
+            "std_id": 9901,
+            "email": "qa_exam_student01@gmail.com"
+        }
+    },
+    {
+        "table": "arrangements",
+        "id": 21,
+        "identifier": "Arrangement-Roll-9901",
+        "status": "deleted_during_test",
+        "details": {
+            "id": 21,
+            "chairs": 1,
+            "room": "998",
+            "roll_no": "9901",
+            "class_id": 24,
+            "user_id": 133,
+            "created_at": "2026-10-27 16:39:33",
+            "updated_at": "2026-10-27 16:39:33"
+        }
+    },
+    {
+        "table": "exams",
+        "id": 3,
+        "identifier": "QA_Midterm_Exam_2026",
+        "status": "deleted_during_test",
+        "details": {
+            "id": 3,
+            "name": "QA_Midterm_Exam_2026",
+            "session": "2026-2027",
+            "user_id": 133,
+            "created_at": "2026-10-27 16:39:34",
+            "updated_at": "2026-10-27 16:39:34"
+        }
+    },
+    {
+        "table": "exam_schedules",
+        "id": 15,
+        "identifier": "Schedule-Exam-3",
+        "status": "active_in_db",
+        "details": {
+            "id": 15,
+            "exam_id": 3,
+            "subject_id": 86,
+            "subject_name": "QA_Subject_Physics",
+            "exam_date": "2026-11-15",
+            "start_time": null,
+            "end_time": null,
+            "created_at": "2026-10-27 16:39:34",
+            "updated_at": "2026-10-27 16:39:34"
+        }
+    },
+    {
+        "table": "roll_slips",
+        "id": 21,
+        "identifier": "RollSlip-21-Std-9901",
+        "status": "deleted_during_test",
+        "details": {
+            "id": 21,
+            "exam_id": 3,
+            "student_id": 74,
+            "arrangement_id": 21,
+            "student_name": "QA_Test Student_Exam01",
+            "roll_no": 9901,
+            "class_name": "QA_Class_Exam",
+            "section_name": "A",
+            "room_no": "998",
+            "chair_no": 1,
+            "datesheet": "[{\"end_time\": null, \"exam_date\": \"2026-11-15\", \"start_time\": null, \"subject_id\": 86, \"subject_name\": \"QA_Subject_Physics\"}]",
+            "issued_by": 133,
+            "created_at": "2026-10-27 16:39:34",
+            "updated_at": "2026-10-27 16:39:34"
+        }
+    }
+]

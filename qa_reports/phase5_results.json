@@ -1,0 +1,131 @@
+﻿{
+  "summary": {
+    "total_tests": 15,
+    "passed": 14,
+    "failed": 1,
+    "skipped": 0,
+    "bugs_found": 1
+  },
+  "results": [
+    {
+      "test_id": "TC_STD_AUTH_01",
+      "module": "Auth",
+      "description": "QA Admin login successful",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "test_id": "TC_STD_FORM_01",
+      "module": "Student Form",
+      "description": "Add Student form page loads successfully (HTTP 200)",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "test_id": "TC_STD_API_01",
+      "module": "Roll API",
+      "description": "Roll info API returns valid JSON (next_roll_no: 6, reg: REG-2026-ONE-006)",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "test_id": "TC_STD_VAL_01",
+      "module": "Validation",
+      "description": "Validation fails on empty required fields (redirects with errors)",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "test_id": "TC_STD_VAL_02",
+      "module": "Validation",
+      "description": "Validation fails when email is not @gmail.com",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "test_id": "TC_STD_CREATE_01",
+      "module": "Student Create",
+      "description": "QA Student enrolled successfully via UI",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "test_id": "TC_STD_CREATE_02",
+      "module": "Student Create",
+      "description": "Auto roll & reg allocation (ID: 72, Roll: 6, Reg: REG-2026-ONE-006)",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "test_id": "TC_STD_CREATE_03",
+      "module": "Student Create",
+      "description": "Auto-created linked portal user account (User ID: 134, Role: 4)",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "test_id": "TC_STD_CREATE_04",
+      "module": "Student Create",
+      "description": "Auto-created admission fee voucher (Voucher ID: 611, No: V-S72-1026, Net: 8500)",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "test_id": "TC_STD_VIEW_01",
+      "module": "Student View",
+      "description": "View student profile page (/students/72) loads successfully",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "test_id": "TC_STD_PDF_01",
+      "module": "Student Report Card",
+      "description": "Download student report card PDF successfully (878,627 bytes, application/pdf)",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "test_id": "TC_STD_EDIT_01",
+      "module": "Student Edit",
+      "description": "Edit student name, father name, phone, class (TWO), and fee persists",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "test_id": "TC_STD_DEL_01",
+      "module": "Student Delete",
+      "description": "Student #72 deleted via UI without error",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "test_id": "TC_STD_CASC_01",
+      "module": "Cascade Behavior",
+      "description": "Linked user account (User ID: 134) auto-deleted upon student deletion",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "test_id": "TC_STD_CASC_02",
+      "module": "Cascade Behavior",
+      "description": "Student deletion leaves orphaned records in attendance, fees, results, and leaves",
+      "status": "FAIL",
+      "details": "Dependent foreign records in attendance, fee_collections, results, and student_leaves are not cleaned up."
+    }
+  ],
+  "bugs": [
+    {
+      "bug_id": "BUG-PH5-01",
+      "module": "Student Management / Data Integrity",
+      "url": "/students/{id}",
+      "severity": "High",
+      "steps": [
+        "1. Enroll a new student via /add-student (creates student_id 72, user_id 134, fee voucher 611).",
+        "2. Add linked records in attendance, results, and student_leaves.",
+        "3. Delete the student via DELETE /students/72."
+      ],
+      "expected": "Deleting a student must clean up or archive all associated records (fee collections, attendance, results, leaves) in a DB transaction or enforce database cascade constraints.",
+      "actual": "Only the student and linked user account are deleted. Related records in fee_collections (voucher #611), attendance, results, and student_leaves remain permanently orphaned with invalid student_id references."
+    }
+  ]
+}

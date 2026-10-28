@@ -1,0 +1,139 @@
+{
+    "phase": "Phase 6: Teacher Management",
+    "total_tests": 17,
+    "passed": 16,
+    "failed": 1,
+    "bugs_count": 1,
+    "results": [
+        {
+            "test_id": "TC_TCH_AUTH_01",
+            "module": "Auth",
+            "description": "QA Admin login successful",
+            "status": "PASS",
+            "details": ""
+        },
+        {
+            "test_id": "TC_TCH_FORM_01",
+            "module": "Teacher Form",
+            "description": "Add Teacher form page loads successfully (HTTP 200)",
+            "status": "PASS",
+            "details": ""
+        },
+        {
+            "test_id": "TC_TCH_VAL_01",
+            "module": "Validation",
+            "description": "Validation fails on empty required fields (HTTP 302 redirect)",
+            "status": "PASS",
+            "details": ""
+        },
+        {
+            "test_id": "TC_TCH_VAL_02",
+            "module": "Validation",
+            "description": "Validation fails on invalid phone format (HTTP 302 redirect)",
+            "status": "PASS",
+            "details": ""
+        },
+        {
+            "test_id": "TC_TCH_VAL_03",
+            "module": "Validation",
+            "description": "Validation fails on non-gmail address (HTTP 302 redirect)",
+            "status": "PASS",
+            "details": ""
+        },
+        {
+            "test_id": "TC_TCH_CREATE_01",
+            "module": "Teacher Create",
+            "description": "QA Teacher profile submitted via UI successfully",
+            "status": "PASS",
+            "details": ""
+        },
+        {
+            "test_id": "TC_TCH_CREATE_02",
+            "module": "Teacher Create",
+            "description": "Teacher record created in DB (ID: 66, Name: QA Test Teacher One)",
+            "status": "PASS",
+            "details": ""
+        },
+        {
+            "test_id": "TC_TCH_CREATE_03",
+            "module": "Teacher Create",
+            "description": "Auto-created linked portal user account (User ID: 136, Role: 3)",
+            "status": "PASS",
+            "details": ""
+        },
+        {
+            "test_id": "TC_TCH_CREATE_04",
+            "module": "Teacher Create",
+            "description": "Auto-created class/subject assignment (Assignment ID: 84, Class: ONE, Subject: Mathematics)",
+            "status": "PASS",
+            "details": ""
+        },
+        {
+            "test_id": "TC_TCH_CREATE_05",
+            "module": "Teacher Create",
+            "description": "Auto-created salary declaration (Salary ID: 38, Basic: 60000.00, Net: 63000.00)",
+            "status": "PASS",
+            "details": ""
+        },
+        {
+            "test_id": "TC_TCH_LOG_01",
+            "module": "Tracking",
+            "description": "Logged QA Teacher (ID 66), User (ID 136), and Salary (ID 38) in qa_records_log.json",
+            "status": "PASS",
+            "details": ""
+        },
+        {
+            "test_id": "TC_TCH_LIST_01",
+            "module": "Teacher Directory",
+            "description": "QA Teacher visible in Admin Teacher list page",
+            "status": "PASS",
+            "details": ""
+        },
+        {
+            "test_id": "TC_TCH_EDIT_01",
+            "module": "Teacher Edit",
+            "description": "Update teacher phone and course persists in DB and UI",
+            "status": "PASS",
+            "details": ""
+        },
+        {
+            "test_id": "TC_TCH_INC_01",
+            "module": "Class Incharge",
+            "description": "Assign Class In-Charge via /roles/assign-incharge (Crashes with HTTP 500 Undefined variable $classIncharge)",
+            "status": "FAIL",
+            "details": ""
+        },
+        {
+            "test_id": "TC_TCH_REQ_01",
+            "module": "Access Requests",
+            "description": "Reject QA teacher access request #2 (Status updated to rejected in DB)",
+            "status": "PASS",
+            "details": ""
+        },
+        {
+            "test_id": "TC_TCH_DEL_01",
+            "module": "Teacher Deletion",
+            "description": "Teacher record #66, linked user, salaries, and assignments deleted successfully",
+            "status": "PASS",
+            "details": ""
+        },
+        {
+            "test_id": "TC_TCH_CASCADE_01",
+            "module": "Cascade Integrity",
+            "description": "All dependent records cascaded cleanly",
+            "status": "PASS",
+            "details": ""
+        }
+    ],
+    "bugs": [
+        {
+            "bug_id": "BUG-PH6-02",
+            "module": "Class Incharge Delegation",
+            "url": "/roles/assign-incharge",
+            "severity": "Critical",
+            "steps": "1. Navigate to /roles. 2. Select teacher and class. 3. Submit POST /roles/assign-incharge.",
+            "expected": "Class Incharge assignment executes cleanly and creates record in class_incharges table.",
+            "actual": "HTTP 500 ErrorException: Undefined variable $classIncharge in RoleController.php on line 177 before variable declaration."
+        }
+    ]
+}
