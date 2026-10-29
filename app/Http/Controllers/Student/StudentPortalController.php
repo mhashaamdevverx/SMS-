@@ -19,7 +19,7 @@ class StudentPortalController extends Controller
         if (!$user) {
             redirect()->route('login')->send();
             exit;
-        }
+        }     
         if ($user->role?->slug !== 'student' || !$user->studentRecord) {
             if (in_array($user->role?->slug, ['teacher', 'class-incharge'], true) || \App\Models\Teacher::where('teacher_email', $user->email)->exists()) {
                 redirect()->route('teacher.dashboard')->send();
