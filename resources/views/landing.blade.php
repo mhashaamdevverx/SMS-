@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -9,1554 +9,112 @@
     <link rel="icon" type="image/png" href="{{ asset('images/school_logo.png') }}">
     <link rel="apple-touch-icon" href="{{ asset('images/school_logo.png') }}">
 
-    <!-- Google Fonts: Outfit & Plus Jakarta Sans -->
+    <!-- Google Fonts: Plus Jakarta Sans & Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <!-- Bootstrap 5.3 & Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
-    <style>
-        /* ==========================================================================
-           EXCELLENCE SCHOOL SYSTEM - LANDING PAGE STYLESHEET
-           Exact Admin Portal Color System: Deep Indigo (#1E1B4B), Royal Indigo (#4F46E5),
-           Warm Amber (#F59E0B), Teal (#14B8A6), Clean Canvas (#F6F7FB)
-           ========================================================================== */
-        :root {
-            --bg: #F6F7FB;
-            --surface: #FFFFFF;
-            --surface-hover: #F8FAFC;
-            --border: #E5E7EB;
-            --border-light: #F1F5F9;
-
-            /* Primary: Indigo (Exact Admin Portal) */
-            --primary: #4F46E5;
-            --primary-hover: #4338CA;
-            --primary-pressed: #3730A3;
-            --primary-light: #EEF2FF;
-            --primary-muted: rgba(79, 70, 229, 0.08);
-
-            /* Secondary: Teal */
-            --secondary: #14B8A6;
-            --secondary-hover: #0D9488;
-            --secondary-light: #CCFBF1;
-
-            /* Accent: Warm Amber / Gold (Exact Admin Portal) */
-            --accent: #F59E0B;
-            --accent-hover: #D97706;
-            --accent-glow: rgba(245, 158, 11, 0.35);
-            --accent-light: #FEF3C7;
-
-            /* Deep Indigo / Sidebar / Executive */
-            --deep-indigo: #1E1B4B;
-            --indigo-hero: linear-gradient(135deg, #1E1B4B 0%, #312E81 50%, #4F46E5 100%);
-            --dark-navy: #0F172A;
-
-            /* Typography */
-            --text-heading: #1F2937;
-            --text-body: #4B5563;
-            --text-muted: #9CA3AF;
-
-            --font-display: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-            --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-        }
-
-        * {
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: var(--font-body);
-            color: var(--text-body);
-            background-color: var(--bg);
-            overflow-x: hidden;
-            line-height: 1.65;
-        }
-
-        h1, h2, h3, h4, h5, h6 {
-            font-family: var(--font-display);
-            color: var(--text-heading);
-            font-weight: 700;
-            letter-spacing: -0.02em;
-        }
-
-        /* --- ULTRA CLEAN NAVBAR (MATCHING ADMIN PORTAL HEADER) --- */
-        .landing-header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1040;
-            height: 78px;
-            display: flex;
-            align-items: center;
-            background: rgba(255, 255, 255, 0.94);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--border);
-            box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.04);
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .landing-header.scrolled {
-            height: 72px;
-            background: rgba(255, 255, 255, 0.98);
-            box-shadow: 0 8px 30px -4px rgba(15, 23, 42, 0.08);
-            border-bottom-color: #CBD5E1;
-        }
-
-        .roots-header-container {
-            width: 100%;
-            max-width: 1480px;
-            margin: 0 auto;
-            padding: 0 36px;
-        }
-
-        .roots-navbar {
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .roots-brand {
-            display: inline-flex;
-            align-items: center;
-            text-decoration: none;
-            flex-shrink: 0;
-            white-space: nowrap !important;
-        }
-
-        .roots-brand-logo-img {
-            height: 52px;
-            width: auto;
-            max-width: 60px;
-            object-fit: contain;
-            filter: drop-shadow(0 4px 12px rgba(79, 70, 229, 0.22));
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-            flex-shrink: 0;
-        }
-
-        .roots-brand:hover .roots-brand-logo-img {
-            transform: scale(1.06) translateY(-1px);
-            filter: drop-shadow(0 6px 18px rgba(79, 70, 229, 0.35));
-        }
-
-        .roots-brand-divider {
-            width: 1.5px;
-            height: 38px;
-            background: linear-gradient(180deg, rgba(203, 213, 225, 0.2) 0%, rgba(203, 213, 225, 0.9) 50%, rgba(203, 213, 225, 0.2) 100%);
-            margin: 0 16px;
-            flex-shrink: 0;
-        }
-
-        .roots-brand-text {
-            display: flex;
-            flex-direction: column;
-            white-space: nowrap !important;
-            line-height: 1.15;
-        }
-
-        .roots-brand-name {
-            font-family: var(--font-display);
-            font-size: 16.5px;
-            font-weight: 800;
-            color: var(--deep-indigo);
-            letter-spacing: 0.06em;
-            text-transform: uppercase;
-        }
-
-        .roots-brand-sub {
-            font-family: var(--font-display);
-            font-size: 10.5px;
-            font-weight: 700;
-            color: var(--primary);
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            margin-top: 2px;
-        }
-
-        .roots-nav-menu {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin: 0;
-            padding: 0;
-            list-style: none;
-            white-space: nowrap !important;
-        }
-
-        .roots-nav-link {
-            font-family: var(--font-display);
-            font-size: 14.5px;
-            font-weight: 600;
-            color: var(--text-heading);
-            text-decoration: none;
-            white-space: nowrap !important;
-            padding: 8px 14px;
-            border-radius: 99px;
-            position: relative;
-            transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .roots-nav-link:hover {
-            color: var(--primary);
-            background: var(--primary-light);
-            transform: translateY(-1px);
-        }
-
-        .roots-nav-link.active {
-            color: var(--primary);
-            background: rgba(79, 70, 229, 0.12);
-            font-weight: 700;
-        }
-
-        .roots-nav-actions {
-            display: flex;
-            align-items: center;
-            margin-left: 24px;
-            flex-shrink: 0;
-            white-space: nowrap !important;
-        }
-
-        .btn-roots-apply {
-            height: 44px;
-            padding: 0 22px;
-            border-radius: 99px;
-            background: linear-gradient(135deg, #4F46E5 0%, #3730A3 100%);
-            color: #FFFFFF !important;
-            font-family: var(--font-display);
-            font-weight: 700;
-            font-size: 14px;
-            letter-spacing: 0.02em;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 9px;
-            border: 1px solid rgba(255, 255, 255, 0.25);
-            box-shadow: 0 4px 16px rgba(79, 70, 229, 0.35);
-            white-space: nowrap !important;
-            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn-roots-apply .btn-icon-lock {
-            width: 22px;
-            height: 22px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.2);
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-        }
-
-        .btn-roots-apply .btn-arrow {
-            transition: transform 0.25s ease;
-        }
-
-        .btn-roots-apply:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(79, 70, 229, 0.48);
-            background: linear-gradient(135deg, #4338CA 0%, #312E81 100%);
-            color: #FFFFFF !important;
-        }
-
-        .btn-roots-apply:hover .btn-arrow {
-            transform: translateX(4px);
-        }
-
-        /* --- HERO SECTION (ADMIN PORTAL DESIGN HARMONY) --- */
-        .hero-section {
-            min-height: calc(100vh - 78px);
-            padding-top: 105px;
-            padding-bottom: 50px;
-            display: flex;
-            align-items: center;
-            position: relative;
-            overflow: hidden;
-            box-sizing: border-box;
-            background: 
-                radial-gradient(850px circle at 15% 15%, rgba(79, 70, 229, 0.09) 0%, transparent 70%),
-                radial-gradient(650px circle at 85% 60%, rgba(30, 27, 75, 0.06) 0%, transparent 70%),
-                radial-gradient(400px circle at 50% 90%, rgba(245, 158, 11, 0.04) 0%, transparent 60%),
-                var(--bg);
-        }
-
-        .hero-section::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background-image: radial-gradient(rgba(148, 163, 184, 0.22) 1px, transparent 1px);
-            background-size: 32px 32px;
-            opacity: 0.6;
-            mask-image: linear-gradient(180deg, #FFFFFF 0%, rgba(255,255,255,0.3) 80%, transparent 100%);
-            -webkit-mask-image: linear-gradient(180deg, #FFFFFF 0%, rgba(255,255,255,0.3) 80%, transparent 100%);
-            pointer-events: none;
-        }
-
-        .hero-glow-orb {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(80px);
-            pointer-events: none;
-            z-index: 1;
-            animation: pulseOrbGlow 8s ease-in-out infinite alternate;
-        }
-        .hero-glow-1 {
-            width: 380px;
-            height: 380px;
-            top: 8%;
-            right: 4%;
-            background: rgba(79, 70, 229, 0.12);
-        }
-        .hero-glow-2 {
-            width: 320px;
-            height: 320px;
-            bottom: 8%;
-            right: 30%;
-            background: rgba(30, 27, 75, 0.08);
-        }
-
-        @keyframes pulseOrbGlow {
-            0% { transform: scale(0.95); opacity: 0.6; }
-            100% { transform: scale(1.08); opacity: 0.9; }
-        }
-
-        .hero-badge-pill {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            padding: 7px 18px;
-            background: rgba(238, 242, 255, 0.95);
-            border: 1px solid rgba(99, 102, 241, 0.28);
-            border-radius: 99px;
-            font-size: 13px;
-            font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 22px;
-            box-shadow: 0 4px 14px rgba(79, 70, 229, 0.08);
-            backdrop-filter: blur(8px);
-        }
-
-        .pulse-dot-live {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: var(--secondary);
-            box-shadow: 0 0 0 0 rgba(20, 184, 166, 0.7);
-            animation: pulseTealDot 2s infinite;
-            display: inline-block;
-        }
-
-        @keyframes pulseTealDot {
-            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(20, 184, 166, 0.7); }
-            70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(20, 184, 166, 0); }
-            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(20, 184, 166, 0); }
-        }
-
-        /* Bold Playful Title with Warm Amber & Royal Indigo Pills */
-        .hero-playful-title {
-            font-size: clamp(34px, 4vw, 56px);
-            font-weight: 800;
-            line-height: 1.18;
-            letter-spacing: -0.03em;
-            color: var(--text-heading);
-            margin-bottom: 22px;
-        }
-
-        .word-highlight-pill {
-            display: inline-block;
-            padding: 2px 14px;
-            border-radius: 12px;
-            font-weight: 800;
-            transform: rotate(-1.5deg);
-            margin: 0 4px;
-            box-shadow: 0 6px 16px rgba(0,0,0,0.1);
-        }
-
-        /* Warm Amber Gold Pill */
-        .word-orange,
-        .word-gold {
-            background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
-            color: #FFFFFF !important;
-            box-shadow: 0 6px 16px rgba(245, 158, 11, 0.35);
-        }
-
-        /* Royal Indigo Pill */
-        .word-purple,
-        .word-burgundy {
-            background: linear-gradient(135deg, #4F46E5 0%, #3730A3 100%);
-            color: #FFFFFF !important;
-            transform: rotate(1.5deg);
-            box-shadow: 0 6px 16px rgba(79, 70, 229, 0.35);
-        }
-
-        .hero-subtitle {
-            font-size: clamp(15.5px, 1.2vw, 17.5px);
-            line-height: 1.68;
-            color: var(--text-body);
-            max-width: 560px;
-            margin-bottom: 30px;
-        }
-
-        .hero-cta-group {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            flex-wrap: wrap;
-            margin-bottom: 30px;
-        }
-
-        /* Primary Hero CTA Button: Royal Indigo (Matching Admin Button) */
-        .btn-hero-orange,
-        .btn-hero-burgundy {
-            background: linear-gradient(135deg, #4F46E5 0%, #3730A3 100%);
-            color: #FFFFFF !important;
-            font-family: var(--font-display);
-            font-weight: 700;
-            font-size: 15.5px;
-            padding: 13px 32px;
-            border-radius: 14px;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 10px 25px -4px rgba(79, 70, 229, 0.45);
-            transition: all 0.25s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn-hero-orange:hover,
-        .btn-hero-burgundy:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 16px 32px -4px rgba(79, 70, 229, 0.55);
-            background: linear-gradient(135deg, #4338CA 0%, #312E81 100%);
-            color: #FFFFFF;
-        }
-
-        /* Secondary Outline Button */
-        .btn-hero-purple-outline,
-        .btn-hero-gold-outline {
-            background: #FFFFFF;
-            color: var(--primary) !important;
-            font-family: var(--font-display);
-            font-weight: 700;
-            font-size: 15.5px;
-            padding: 13px 26px;
-            border-radius: 14px;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            border: 2px solid #C7D2FE;
-            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.08);
-            transition: all 0.2s ease;
-        }
-
-        .btn-hero-purple-outline:hover,
-        .btn-hero-gold-outline:hover {
-            background: #EEF2FF;
-            border-color: var(--primary);
-            color: var(--primary-hover) !important;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(79, 70, 229, 0.16);
-        }
-
-        .hero-rating-strip {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            flex-wrap: wrap;
-            font-size: 14px;
-        }
-
-        .hero-rating-strip .text-warning {
-            color: var(--accent) !important;
-        }
-
-        .hero-affiliation-badge {
-            background: rgba(20, 184, 166, 0.12);
-            color: #0D9488;
-            font-weight: 700;
-            padding: 4px 14px;
-            border-radius: 99px;
-            font-size: 12.5px;
-        }
-
-        /* 3D Showcase Stage With Planetary Orbital Animation */
-        .hero-showcase-stage {
-            position: relative;
-            z-index: 10;
-            width: 100%;
-            max-width: 540px;
-            margin: 0 auto;
-            padding: 30px;
-        }
-
-        /* Planetary Orbit Path Track */
-        .hero-orbit-track {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: calc(100% - 10px);
-            height: calc(100% - 10px);
-            border-radius: 50%;
-            border: 1.5px dashed rgba(99, 102, 241, 0.32);
-            transform: translate(-50%, -50%);
-            pointer-events: none;
-            z-index: 3;
-            box-shadow: 0 0 35px rgba(79, 70, 229, 0.08);
-            animation: pulseOrbitTrack 4s ease-in-out infinite alternate;
-        }
-
-        @keyframes pulseOrbitTrack {
-            0% { opacity: 0.65; transform: translate(-50%, -50%) scale(0.99); }
-            100% { opacity: 1; transform: translate(-50%, -50%) scale(1.01); }
-        }
-
-        /* 360-degree Orbiting System */
-        .hero-orbit-rotator {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: calc(100% - 10px);
-            height: calc(100% - 10px);
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-            pointer-events: none;
-            z-index: 20;
-            animation: orbitPlanetRevolve 24s linear infinite;
-        }
-
-        @keyframes orbitPlanetRevolve {
-            from { transform: translate(-50%, -50%) rotate(0deg); }
-            to   { transform: translate(-50%, -50%) rotate(360deg); }
-        }
-
-        .orbit-node {
-            position: absolute;
-            pointer-events: auto;
-        }
-
-        .orbit-node-top    { top: 0; left: 50%; transform: translate(-50%, -50%); }
-        .orbit-node-right  { top: 50%; left: 100%; transform: translate(-50%, -50%); }
-        .orbit-node-bottom { top: 100%; left: 50%; transform: translate(-50%, -50%); }
-        .orbit-node-left   { top: 50%; left: 0; transform: translate(-50%, -50%); }
-
-        /* Counter-rotating badge so text & icons stay perfectly upright */
-        .orbit-pill {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: #FFFFFF;
-            border: 1.5px solid rgba(226, 232, 240, 0.95);
-            border-radius: 99px;
-            padding: 6px 14px 6px 7px;
-            box-shadow: 0 10px 24px -4px rgba(15, 23, 42, 0.16), 0 0 0 1px rgba(79, 70, 229, 0.06);
-            white-space: nowrap;
-            animation: orbitPillUpright 24s linear infinite;
-            transition: transform 0.25s ease, box-shadow 0.25s ease;
-        }
-
-        @keyframes orbitPillUpright {
-            from { transform: rotate(0deg); }
-            to   { transform: rotate(-360deg); }
-        }
-
-        .orbit-pill:hover {
-            transform: scale(1.1);
-            box-shadow: 0 14px 32px -4px rgba(79, 70, 229, 0.28);
-        }
-
-        .orbit-icon-bubble {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
-            color: #FFFFFF;
-            flex-shrink: 0;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-        }
-
-        .bubble-amber  { background: linear-gradient(135deg, #F59E0B, #D97706); }
-        .bubble-indigo { background: linear-gradient(135deg, #4F46E5, #3730A3); }
-        .bubble-teal   { background: linear-gradient(135deg, #14B8A6, #0D9488); }
-        .bubble-rose   { background: linear-gradient(135deg, #EC4899, #BE185D); }
-
-        .orbit-pill-text {
-            font-size: 12px;
-            font-weight: 700;
-            color: var(--text-heading);
-            letter-spacing: -0.01em;
-        }
-
-        /* Central Tablet Showcase Card */
-        .main-3d-tablet {
-            background: #FFFFFF;
-            border-radius: 28px;
-            padding: 12px;
-            border: 2px solid rgba(226, 232, 240, 0.95);
-            box-shadow: 0 30px 70px -15px rgba(15, 23, 42, 0.16), 0 0 0 1px rgba(79, 70, 229, 0.05);
-            position: relative;
-            z-index: 10;
-            transform: perspective(1000px) rotateY(-4deg) rotateX(2deg);
-            transition: transform 0.4s ease, box-shadow 0.4s ease;
-        }
-
-        .main-3d-tablet:hover {
-            transform: perspective(1000px) rotateY(0deg) rotateX(0deg);
-            box-shadow: 0 36px 85px -15px rgba(15, 23, 42, 0.22);
-        }
-
-        /* Decent Programme Badge Overlaid On Top Of Image */
-        .hero-image-overlay-badge {
-            position: absolute;
-            top: 24px;
-            left: 24px;
-            z-index: 15;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: rgba(15, 23, 42, 0.82);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.28);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
-            padding: 7px 16px;
-            border-radius: 99px;
-            color: #FFFFFF;
-            font-size: 11px;
-            font-weight: 800;
-            letter-spacing: 0.05em;
-            text-transform: uppercase;
-        }
-
-        .tablet-screen {
-            border-radius: 20px;
-            overflow: hidden;
-            height: 410px;
-            position: relative;
-            background: #0F172A;
-        }
-
-        /* 3-Second Automatic Image Slideshow */
-        .hero-slide {
-            position: absolute;
-            inset: 0;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.8s ease-in-out, transform 1.2s ease-out;
-            transform: scale(1.06);
-            z-index: 1;
-        }
-
-        .hero-slide.active {
-            opacity: 1;
-            visibility: visible;
-            transform: scale(1);
-            z-index: 2;
-        }
-
-        .hero-slide img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
-
-        .hero-slide-caption {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            padding: 18px 20px 14px;
-            background: linear-gradient(180deg, transparent 0%, rgba(15, 23, 42, 0.90) 100%);
-            color: #FFFFFF;
-            z-index: 10;
-        }
-
-        .hero-slide-badge {
-            background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
-            color: #FFFFFF;
-            font-weight: 700;
-            font-size: 11.5px;
-            border: none;
-            box-shadow: 0 4px 10px rgba(245, 158, 11, 0.35);
-        }
-
-        .hero-dot {
-            width: 8px;
-            height: 4px;
-            border-radius: 4px;
-            background: rgba(255, 255, 255, 0.4);
-            transition: all 0.3s ease;
-        }
-
-        .hero-dot.active {
-            width: 22px;
-            background: #F59E0B;
-        }
-
-        .badge-icon-box {
-            border-radius: 12px;
-            padding: 8px 10px;
-            font-size: 20px;
-            display: grid;
-            place-items: center;
-        }
-        .badge-icon-gold {
-            background: var(--primary-light);
-            color: var(--primary);
-        }
-        .badge-icon-burgundy {
-            background: var(--accent-light);
-            color: var(--accent-hover);
-        }
-
-        @keyframes floatSlow {
-            0% { transform: translateY(0px); }
-            100% { transform: translateY(-10px); }
-        }
-
-        /* --- FOUR PILLARS SECTION --- */
-        .pillars-section {
-            padding: 95px 0;
-            background: #FFFFFF;
-            position: relative;
-        }
-
-        .section-tag-pill {
-            display: inline-block;
-            font-size: 12px;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 0.12em;
-            color: var(--primary);
-            background: var(--primary-light);
-            border: 1px solid rgba(99, 102, 241, 0.25);
-            padding: 6px 18px;
-            border-radius: 99px;
-            margin-bottom: 14px;
-        }
-
-        .section-heading-bold {
-            font-size: clamp(30px, 3.6vw, 44px);
-            font-weight: 800;
-            letter-spacing: -0.02em;
-            color: var(--text-heading);
-            margin-bottom: 14px;
-        }
-
-        .section-subheading-clean {
-            font-size: 17px;
-            color: var(--text-body);
-            max-width: 620px;
-            margin: 0 auto;
-        }
-
-        .pillar-card {
-            background: #FFFFFF;
-            border: 1.5px solid var(--border);
-            border-radius: 24px;
-            padding: 34px 28px;
-            height: 100%;
-            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-            position: relative;
-        }
-
-        .pillar-card:hover {
-            transform: translateY(-8px);
-            border-color: #CBD5E1;
-            box-shadow: 0 24px 50px -10px rgba(15, 23, 42, 0.12);
-        }
-
-        .pillar-icon-box {
-            width: 58px;
-            height: 58px;
-            border-radius: 18px;
-            display: grid;
-            place-items: center;
-            font-size: 26px;
-            margin-bottom: 22px;
-            transition: transform 0.3s ease;
-        }
-
-        .pillar-card:hover .pillar-icon-box {
-            transform: scale(1.08) rotate(3deg);
-        }
-
-        .pillar-icon-gold { background: var(--accent-light); color: var(--accent-hover); }
-        .pillar-icon-burgundy { background: var(--primary-light); color: var(--primary); }
-        .pillar-icon-maroon { background: var(--secondary-light); color: var(--secondary-hover); }
-        .pillar-icon-amber { background: #FEF3C7; color: #D97706; }
-
-        .pillar-title {
-            font-size: 19px;
-            font-weight: 800;
-            color: var(--text-heading);
-            margin-bottom: 12px;
-        }
-
-        .pillar-desc {
-            font-size: 14.5px;
-            color: var(--text-body);
-            line-height: 1.65;
-            margin-bottom: 20px;
-        }
-
-        .pillar-link {
-            font-weight: 700;
-            font-size: 14px;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            color: var(--primary) !important;
-            transition: gap 0.2s ease, color 0.2s ease;
-        }
-
-        .pillar-card:hover .pillar-link {
-            gap: 10px;
-            color: var(--primary-hover) !important;
-        }
-
-        /* --- PROGRAMS TAILORED SECTION --- */
-        .programs-section {
-            padding: 95px 0;
-            background: var(--bg);
-        }
-
-        .program-card {
-            background: #FFFFFF;
-            border: 1.5px solid var(--border);
-            border-radius: 26px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px -5px rgba(15, 23, 42, 0.06);
-            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .program-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.14);
-            border-color: #CBD5E1;
-        }
-
-        .program-img-box {
-            height: 220px;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .program-img-box img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .program-card:hover .program-img-box img {
-            transform: scale(1.08);
-        }
-
-        .program-age-pill {
-            position: absolute;
-            top: 14px;
-            left: 14px;
-            background: rgba(15, 23, 42, 0.85);
-            backdrop-filter: blur(8px);
-            padding: 5px 14px;
-            border-radius: 99px;
-            font-size: 12px;
-            font-weight: 800;
-            color: #FFFFFF;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-        }
-
-        .program-body {
-            padding: 28px;
-            display: flex;
-            flex-direction: column;
-            flex-grow: 1;
-        }
-
-        .program-title {
-            font-size: 20px;
-            font-weight: 800;
-            color: var(--text-heading);
-            margin-bottom: 10px;
-        }
-
-        .program-desc {
-            font-size: 14px;
-            color: var(--text-body);
-            margin-bottom: 18px;
-        }
-
-        .program-bullets {
-            list-style: none;
-            padding: 0;
-            margin: 0 0 22px 0;
-            flex-grow: 1;
-        }
-
-        .program-bullets li {
-            font-size: 13.5px;
-            color: var(--text-body);
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .program-bullets li i {
-            color: var(--primary);
-            font-size: 15px;
-        }
-
-        .program-footer-bar {
-            padding-top: 18px;
-            border-top: 1px solid var(--border-light);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .btn-program-apply {
-            background: linear-gradient(135deg, #4F46E5 0%, #3730A3 100%);
-            color: #FFFFFF !important;
-            font-family: var(--font-display);
-            font-weight: 700;
-            font-size: 13px;
-            padding: 8px 20px;
-            border-radius: 99px;
-            text-decoration: none;
-            transition: all 0.2s ease;
-        }
-
-        .btn-program-apply:hover {
-            background: linear-gradient(135deg, #4338CA 0%, #312E81 100%);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(79, 70, 229, 0.35);
-        }
-
-        .btn-program-tab {
-            background: #FFFFFF;
-            border: 1.5px solid var(--border);
-            color: var(--text-heading);
-            font-weight: 700;
-            border-radius: 99px;
-            padding: 6px 16px;
-            font-size: 13px;
-            text-decoration: none;
-            transition: all 0.2s ease;
-        }
-
-        .btn-program-tab:hover,
-        .btn-program-tab.active {
-            background: var(--primary);
-            color: #FFFFFF !important;
-            border-color: var(--primary);
-            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
-        }
-
-        /* --- EXECUTIVE DEEP INDIGO FEATURE BANNER (MATCHING ADMIN HERO) --- */
-        .mentor-banner-section {
-            padding: 95px 0;
-            background: var(--indigo-hero);
-            color: #FFFFFF;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .mentor-banner-section h2 {
-            color: #FFFFFF !important;
-        }
-
-        .mentor-banner-section p.lead {
-            color: rgba(255, 255, 255, 0.92) !important;
-        }
-
-        .btn-mentor-visit {
-            background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%) !important;
-            color: #FFFFFF !important;
-            border: none !important;
-            display: inline-flex;
-            align-items: center;
-            box-shadow: 0 10px 24px rgba(245, 158, 11, 0.4) !important;
-            transition: all 0.25s ease;
-        }
-
-        .btn-mentor-visit:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 14px 28px rgba(245, 158, 11, 0.55) !important;
-            color: #FFFFFF !important;
-        }
-
-        .mentor-banner-section::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background-image: radial-gradient(rgba(255, 255, 255, 0.15) 1px, transparent 1px);
-            background-size: 28px 28px;
-            opacity: 0.45;
-            pointer-events: none;
-        }
-
-        .mentor-feature-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 14px 20px;
-            border-radius: 16px;
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            font-size: 14.5px;
-            font-weight: 700;
-            color: #FFFFFF;
-            backdrop-filter: blur(8px);
-            transition: transform 0.25s ease, background 0.25s ease;
-        }
-
-        .mentor-feature-item:hover {
-            transform: translateY(-3px);
-            background: rgba(255, 255, 255, 0.14);
-        }
-
-        /* --- LIFE INSIDE CAMPUS GALLERY --- */
-        .campus-gallery-section {
-            padding: 95px 0;
-            background: #FFFFFF;
-        }
-
-        .gallery-photo-card {
-            border-radius: 20px;
-            overflow: hidden;
-            position: relative;
-            height: 250px;
-            box-shadow: 0 10px 25px rgba(15, 23, 42, 0.08);
-            border: 1.5px solid var(--border);
-        }
-
-        .gallery-photo-card img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .gallery-photo-card:hover img {
-            transform: scale(1.08);
-        }
-
-        .gallery-caption {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            padding: 16px 20px;
-            background: linear-gradient(180deg, transparent 0%, rgba(15, 23, 42, 0.88) 100%);
-            color: #FFFFFF;
-            font-weight: 700;
-            font-size: 14px;
-        }
-
-        /* --- TESTIMONIALS SECTION --- */
-        .testimonials-section {
-            padding: 95px 0;
-            background: var(--bg);
-        }
-
-        .review-card {
-            background: #FFFFFF;
-            border: 1.5px solid var(--border);
-            border-radius: 24px;
-            padding: 32px;
-            box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.05);
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .review-card:hover {
-            transform: translateY(-6px);
-            border-color: #CBD5E1;
-            box-shadow: 0 20px 45px -10px rgba(15, 23, 42, 0.12);
-        }
-
-        .review-stars {
-            color: var(--accent);
-            font-size: 15px;
-            margin-bottom: 14px;
-            display: flex;
-            gap: 3px;
-        }
-
-        .avatar-initials-burgundy {
-            background: linear-gradient(135deg, #1E1B4B 0%, #4F46E5 100%);
-            color: #FFFFFF;
-        }
-        .avatar-initials-gold {
-            background: linear-gradient(135deg, #14B8A6 0%, #0D9488 100%);
-            color: #FFFFFF;
-        }
-        .avatar-initials-maroon {
-            background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
-            color: #FFFFFF;
-        }
-
-        /* --- SCHEDULE TOUR CTA BANNER (EXECUTIVE DEEP INDIGO GRADIENT) --- */
-        .tour-cta-section {
-            padding: 95px 0;
-            background: var(--indigo-hero);
-            color: #FFFFFF;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .tour-cta-section h2 {
-            color: #FFFFFF !important;
-        }
-
-        .tour-cta-section p.lead,
-        .tour-cta-section .lead {
-            color: rgba(255, 255, 255, 0.92) !important;
-        }
-
-        .tour-cta-section::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background-image: radial-gradient(rgba(255, 255, 255, 0.15) 1px, transparent 1px);
-            background-size: 32px 32px;
-            opacity: 0.45;
-            pointer-events: none;
-        }
-
-        .tour-badge {
-            background: rgba(255, 255, 255, 0.15);
-            color: #FFFFFF;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            font-weight: 800;
-            letter-spacing: 0.08em;
-            padding: 8px 20px;
-            border-radius: 99px;
-            display: inline-block;
-            backdrop-filter: blur(8px);
-        }
-
-        .tour-form-card {
-            background: #FFFFFF;
-            border-radius: 26px;
-            padding: 40px;
-            border: 1.5px solid rgba(255, 255, 255, 0.4);
-            box-shadow: 0 30px 80px -15px rgba(0, 0, 0, 0.4);
-            color: var(--text-heading);
-        }
-
-        .tour-form-card .form-control,
-        .tour-form-card .form-select {
-            border: 1.5px solid var(--border);
-            padding: 11px 16px;
-            border-radius: 12px;
-            color: var(--text-heading);
-            font-weight: 500;
-            transition: all 0.2s ease;
-        }
-
-        .tour-form-card .form-control:focus,
-        .tour-form-card .form-select:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.18);
-            outline: none;
-        }
-
-        .btn-tour-submit {
-            background: linear-gradient(135deg, #4F46E5 0%, #3730A3 100%);
-            color: #FFFFFF !important;
-            font-family: var(--font-display);
-            font-weight: 800;
-            font-size: 16px;
-            padding: 14px 28px;
-            border-radius: 12px;
-            border: none;
-            box-shadow: 0 8px 24px rgba(79, 70, 229, 0.35);
-            transition: all 0.25s ease;
-        }
-
-        .btn-tour-submit:hover {
-            background: linear-gradient(135deg, #4338CA 0%, #312E81 100%);
-            transform: translateY(-2px);
-            box-shadow: 0 14px 32px rgba(79, 70, 229, 0.48);
-            color: #FFFFFF !important;
-        }
-
-        /* --- FOOTER (DARK NAVY #0F172A MATCHING PORTAL) --- */
-        .landing-footer {
-            background: var(--dark-navy);
-            color: #94A3B8;
-            padding-top: 85px;
-            padding-bottom: 35px;
-            border-top: 1px solid rgba(255, 255, 255, 0.08);
-        }
-
-        .footer-brand-title {
-            color: #FFFFFF;
-            font-family: var(--font-display);
-            font-weight: 800;
-            font-size: 18px;
-        }
-
-        .footer-col-title {
-            color: #FFFFFF;
-            font-family: var(--font-display);
-            font-size: 14px;
-            font-weight: 700;
-            margin-bottom: 22px;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-        }
-
-        .footer-links {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .footer-links li {
-            margin-bottom: 11px;
-        }
-
-        .footer-links a {
-            color: #94A3B8;
-            text-decoration: none;
-            font-size: 14px;
-            transition: all 0.2s ease;
-            display: inline-flex;
-            align-items: center;
-        }
-
-        .footer-links a:hover {
-            color: #FFFFFF;
-            transform: translateX(4px);
-        }
-
-        .footer-bottom-bar {
-            margin-top: 60px;
-            padding-top: 25px;
-            border-top: 1px solid rgba(255, 255, 255, 0.08);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 16px;
-            font-size: 13px;
-            color: #64748B;
-        }
-
-        /* --- SCROLL REVEAL ANIMATIONS --- */
-        .reveal-on-scroll {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1), transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .reveal-on-scroll.is-revealed {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        @media (max-width: 1199px) {
-            .hero-playful-title {
-                font-size: clamp(30px, 3.6vw, 46px);
-            }
-            .tablet-screen {
-                height: 360px;
-            }
-            .floating-badge-stem {
-                right: -10px;
-                top: -16px;
-                padding: 10px 15px;
-            }
-            .floating-badge-success {
-                left: -10px;
-                bottom: -16px;
-                padding: 10px 15px;
-            }
-        }
-
-        @media (max-width: 991px) {
-            .landing-header {
-                height: 72px;
-            }
-            .hero-section {
-                min-height: auto;
-                padding-top: 105px;
-                padding-bottom: 60px;
-            }
-            .hero-playful-title {
-                font-size: clamp(28px, 6vw, 42px);
-            }
-            .roots-navbar .navbar-collapse {
-                background: #FFFFFF;
-                padding: 20px;
-                border-radius: 16px;
-                margin-top: 10px;
-                box-shadow: 0 12px 30px rgba(15, 23, 42, 0.1);
-                border: 1px solid var(--border);
-            }
-            .roots-nav-menu {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 8px;
-                padding: 0;
-                width: 100%;
-            }
-            .roots-nav-link {
-                width: 100%;
-                padding: 10px 14px;
-            }
-            .roots-nav-actions {
-                margin-left: 0;
-                padding-top: 14px;
-                border-top: 1px solid var(--border);
-                width: 100%;
-            }
-            .btn-roots-apply {
-                width: 100%;
-                justify-content: center;
-            }
-            .main-3d-tablet {
-                transform: none;
-            }
-            .hero-showcase-stage {
-                margin-top: 30px;
-                padding: 20px;
-            }
-            .tablet-screen {
-                height: 320px;
-            }
-            .hero-orbit-track,
-            .hero-orbit-rotator {
-                width: calc(100% - 10px);
-                height: calc(100% - 10px);
-            }
-            .orbit-pill {
-                padding: 4px 10px 4px 5px;
-            }
-            .orbit-pill-text {
-                font-size: 10.5px;
-            }
-            .orbit-icon-bubble {
-                width: 24px;
-                height: 24px;
-                font-size: 11px;
-            }
-        }
-
-        @media (max-width: 576px) {
-            .hero-showcase-stage {
-                padding: 10px;
-            }
-            .tablet-screen {
-                height: 300px;
-            }
-            .hero-image-overlay-badge {
-                top: 14px;
-                left: 14px;
-                font-size: 9.5px;
-                padding: 5px 12px;
-            }
-            .orbit-pill-text {
-                display: none;
-            }
-            .orbit-pill {
-                padding: 4px;
-                border-radius: 50%;
-            }
-        }
-    </style>
+    <!-- Scoped Landing Page Stylesheet -->
+    <link rel="stylesheet" href="{{ asset('css/landing.css') }}">
 </head>
 <body>
 
     <!-- =========================================================================
-         TOP STICKY NAVBAR (PRESERVING EXACT DESIGN, BRANDING & COLOR SCHEME)
+         1. NAVBAR (STICKY, BRAND, MENU & PORTAL LOGIN)
          ========================================================================= -->
     @include('partials.public-header')
 
     <!-- =========================================================================
-         SECTION 1: HERO (EDUKID 3D PLAYFUL & MODERN STYLE)
+         2. HERO SECTION (FULL WIDTH EDGE-TO-EDGE SLIDER DIRECTLY BELOW NAVBAR)
          ========================================================================= -->
     <section class="hero-section" id="home">
-        <div class="hero-glow-orb hero-glow-1"></div>
-        <div class="hero-glow-orb hero-glow-2"></div>
+        <!-- Background Image Crossfade Slider (5s interval, 1s fade) -->
+        <div class="hero-bg-slider" id="heroBgSlider">
+            <div class="hero-bg-slide active">
+                <img src="{{ asset('images/stem_lab.jpg') }}" alt="STEM Robotics Lab" onerror="this.onerror=null; this.src='{{ asset('images/landing_hero.jpg') }}';">
+            </div>
+            <div class="hero-bg-slide">
+                <img src="{{ asset('images/landing_hero.jpg') }}" alt="Smart Classroom" onerror="this.onerror=null; this.src='{{ asset('images/stem_lab.jpg') }}';">
+            </div>
+            <div class="hero-bg-slide">
+                <img src="{{ asset('upload/school_campus.jpg') }}" alt="Excellence Campus" onerror="this.onerror=null; this.src='{{ asset('images/landing_hero.jpg') }}';">
+            </div>
+            <div class="hero-bg-slide">
+                <img src="{{ asset('upload/signup_hero.jpg') }}" alt="Academic Collaborative Library" onerror="this.onerror=null; this.src='{{ asset('images/stem_lab.jpg') }}';">
+            </div>
+        </div>
 
-        <div class="container position-relative" style="z-index: 5;">
-            <div class="row align-items-center g-4 g-xl-5">
-                <!-- Left Hero Content -->
-                <div class="col-lg-6">
-                    <h1 class="hero-playful-title">
+        <!-- Dark Indigo Frosted Gradient Overlay -->
+        <div class="hero-overlay"></div>
+
+        <!-- Hero Content Container: Left Aligned (~50-60% Screen on Desktop) -->
+        <div class="container hero-container position-relative">
+            <div class="row justify-content-start align-items-center">
+                <div class="col-lg-7 col-xl-6 hero-text-col">
+                    
+                    <!-- Clean, Bold Heading with Amber Accent -->
+                    <h1 class="hero-heading">
                         Nurturing Young Minds Through
-                        <span class="word-highlight-pill word-gold">Play,</span>
-                        <span class="word-highlight-pill word-burgundy">Wonder & 3D</span>
+                        <span class="hero-text-accent">Play,</span>
+                        <span class="hero-text-accent">Wonder &amp; 3D</span>
                         Interactive Learning.
                     </h1>
 
-                    <p class="hero-subtitle">
+                    <!-- Lead Description -->
+                    <p class="hero-lead">
                         Where early discovery seamlessly blossoms into academic mastery. Blending Montessori methods, cutting-edge STEM robotics labs, and comprehensive character building from Kindergarten to Matriculation.
                     </p>
 
+                    <!-- CTA Action Buttons -->
                     <div class="hero-cta-group">
-                        <a href="{{ route('admissions') }}" class="btn-hero-burgundy">
+                        <a href="{{ route('admissions') }}" class="btn-cta-orange">
                             <span>Enroll Your Child</span>
-                            <i class="bi bi-arrow-right"></i>
+                            <i class="bi bi-arrow-right ms-1"></i>
                         </a>
-                        <a href="#tourSection" class="btn-hero-gold-outline">
-                            <i class="bi bi-calendar2-event" style="color: var(--burgundy-primary);"></i>
+                        <a href="#tourSection" class="btn-outline-white">
+                            <i class="bi bi-calendar2-event me-1"></i>
                             <span>Book Campus Tour</span>
                         </a>
                     </div>
 
+                    <!-- Rating & Credibility Row -->
                     <div class="hero-rating-strip">
-                        <div class="d-flex align-items-center gap-1 text-warning fs-6">
+                        <div class="d-flex align-items-center gap-1 text-warning">
                             <i class="bi bi-star-fill"></i>
                             <i class="bi bi-star-fill"></i>
                             <i class="bi bi-star-fill"></i>
                             <i class="bi bi-star-fill"></i>
                             <i class="bi bi-star-fill"></i>
-                            <strong class="text-dark ms-2" style="font-size: 14px;">4.9 / 5</strong>
+                            <span class="fw-bold text-white ms-1">4.9 / 5</span>
                         </div>
-                        <span class="text-muted small">&bull; (1,200+ Happy Parent Reviews)</span>
+                        <span class="text-white-50">&bull;</span>
+                        <span class="text-light opacity-90 small">(1,200+ Happy Parent Reviews)</span>
                         <span class="hero-affiliation-badge">
-                            <i class="bi bi-check-circle-fill me-1"></i> FBISE & Cambridge
+                            <i class="bi bi-patch-check-fill me-1"></i> FBISE &amp; Cambridge
                         </span>
                     </div>
+
                 </div>
+            </div>
 
-                <!-- Right 3D Showcase With Planetary Orbiting Elements -->
-                <div class="col-lg-6">
-                    <div class="hero-showcase-stage">
-                        
-                        <!-- Planetary Orbital Track & Orbiting Education Elements -->
-                        <div class="hero-orbit-track"></div>
-                        <div class="hero-orbit-rotator">
-                            <!-- Orbit Node 1 (Top): Academic Distinction -->
-                            <div class="orbit-node orbit-node-top">
-                                <div class="orbit-pill">
-                                    <span class="orbit-icon-bubble bubble-amber">
-                                        <i class="bi bi-mortarboard-fill"></i>
-                                    </span>
-                                    <span class="orbit-pill-text">Board Distinction</span>
-                                </div>
-                            </div>
-
-                            <!-- Orbit Node 2 (Right): STEM & AI Robotics -->
-                            <div class="orbit-node orbit-node-right">
-                                <div class="orbit-pill">
-                                    <span class="orbit-icon-bubble bubble-indigo">
-                                        <i class="bi bi-cpu-fill"></i>
-                                    </span>
-                                    <span class="orbit-pill-text">AI STEM Robotics</span>
-                                </div>
-                            </div>
-
-                            <!-- Orbit Node 3 (Bottom): Holistic Wings -->
-                            <div class="orbit-node orbit-node-bottom">
-                                <div class="orbit-pill">
-                                    <span class="orbit-icon-bubble bubble-teal">
-                                        <i class="bi bi-book-half"></i>
-                                    </span>
-                                    <span class="orbit-pill-text">Holistic Wings</span>
-                                </div>
-                            </div>
-
-                            <!-- Orbit Node 4 (Left): FBISE & Cambridge -->
-                            <div class="orbit-node orbit-node-left">
-                                <div class="orbit-pill">
-                                    <span class="orbit-icon-bubble bubble-rose">
-                                        <i class="bi bi-shield-check"></i>
-                                    </span>
-                                    <span class="orbit-pill-text">FBISE & Cambridge</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Central 3D Showcase Card With Auto-Changing Images (Every 3 Sec) -->
-                        <div class="main-3d-tablet" id="heroTabletCard">
-                            
-                            <!-- Decent Programme Badge Overlaid On Top Of Image -->
-                            <div class="hero-image-overlay-badge">
-                                <span class="pulse-dot-live"></span>
-                                <span>FULL PROGRAMME {{ $academicSession ?? '2026-2027' }} OPEN NOW</span>
-                            </div>
-
-                            <div class="tablet-screen" id="heroImageCarousel">
-                                <!-- Slide 1: STEM & Robotics -->
-                                <div class="hero-slide active" data-title="Live Innovation Class" data-sub="Hands-on 3D printing & sensor robotics" data-badge="Active Lab">
-                                    <img src="{{ asset('images/stem_lab.jpg') }}" alt="STEM Innovation Lab" onerror="this.onerror=null; this.src='{{ asset('images/landing_hero.jpg') }}';">
-                                </div>
-                                <!-- Slide 2: Smart Classrooms -->
-                                <div class="hero-slide" data-title="Smart AI Classrooms" data-sub="Interactive 3D digital learning boards" data-badge="Modern Wing">
-                                    <img src="{{ asset('images/landing_hero.jpg') }}" alt="Smart Classroom" onerror="this.onerror=null; this.src='{{ asset('images/stem_lab.jpg') }}';">
-                                </div>
-                                <!-- Slide 3: Campus & Sports -->
-                                <div class="hero-slide" data-title="State-of-the-Art Campus" data-sub="Sports arena, activity clubs & daylight studios" data-badge="Campus Tour">
-                                    <img src="{{ asset('upload/school_campus.jpg') }}" alt="Excellence Campus" onerror="this.onerror=null; this.src='{{ asset('images/landing_hero.jpg') }}';">
-                                </div>
-                                <!-- Slide 4: Academic Hub & Library -->
-                                <div class="hero-slide" data-title="Collaborative Library" data-sub="Advanced research & intellectual discovery" data-badge="Academic Hub">
-                                    <img src="{{ asset('upload/signup_hero.jpg') }}" alt="Academic Library" onerror="this.onerror=null; this.src='{{ asset('images/stem_lab.jpg') }}';">
-                                </div>
-
-                                <!-- Dynamic Bottom Info Bar (Updates with slide) -->
-                                <div class="hero-slide-caption">
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <div>
-                                            <h6 class="fw-bold mb-0 text-white" id="heroSlideTitle">
-                                                <i class="bi bi-broadcast text-danger me-1"></i> Live Innovation Class
-                                            </h6>
-                                            <small class="text-light opacity-75" id="heroSlideSub">Hands-on 3D printing & sensor robotics</small>
-                                        </div>
-                                        <span class="badge px-3 py-1 rounded-pill hero-slide-badge" id="heroSlideBadge">Active Lab</span>
-                                    </div>
-                                    <!-- Slide Progress Dots -->
-                                    <div class="hero-slide-dots mt-2 d-flex gap-1 justify-content-center">
-                                        <span class="hero-dot active"></span>
-                                        <span class="hero-dot"></span>
-                                        <span class="hero-dot"></span>
-                                        <span class="hero-dot"></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
+            <!-- Subtle Slider Dots Indicator Centered Below -->
+            <div class="hero-slider-dots" id="heroSliderDots">
+                <button type="button" class="hero-dot active" data-slide="0" aria-label="Slide 1"></button>
+                <button type="button" class="hero-dot" data-slide="1" aria-label="Slide 2"></button>
+                <button type="button" class="hero-dot" data-slide="2" aria-label="Slide 3"></button>
+                <button type="button" class="hero-dot" data-slide="3" aria-label="Slide 4"></button>
             </div>
         </div>
     </section>
 
     <!-- =========================================================================
-         SECTION 2: FOUR PILLARS OF HOLISTIC GROWTH
+         3. FOUR PILLARS SECTION (LIGHT BACKGROUND, 4 EQUAL HEIGHT CARDS)
          ========================================================================= -->
-    <section class="pillars-section reveal-on-scroll">
+    <section class="pillars-section section-spacing">
         <div class="container">
             <div class="text-center max-w-700 mx-auto mb-5">
                 <span class="section-tag-pill">EXCELLENCE AT EVERY STEP</span>
@@ -1573,7 +131,7 @@
                         <div class="pillar-icon-box pillar-icon-gold">
                             <i class="bi bi-puzzle-fill"></i>
                         </div>
-                        <h4 class="pillar-title">Montessori & STEM</h4>
+                        <h3 class="pillar-title">Montessori &amp; STEM</h3>
                         <p class="pillar-desc">
                             Hands-on sensory exploration, coding logic, robotics sets, and practical observation from Early Years.
                         </p>
@@ -1589,7 +147,7 @@
                         <div class="pillar-icon-box pillar-icon-burgundy">
                             <i class="bi bi-person-heart"></i>
                         </div>
-                        <h4 class="pillar-title">Nurturing Educators</h4>
+                        <h3 class="pillar-title">Nurturing Educators</h3>
                         <p class="pillar-desc">
                             Compassionate, certified teachers delivering individualized attention with a low 15:1 student-to-teacher ratio.
                         </p>
@@ -1605,7 +163,7 @@
                         <div class="pillar-icon-box pillar-icon-maroon">
                             <i class="bi bi-shield-check"></i>
                         </div>
-                        <h4 class="pillar-title">Safe & Active Sports</h4>
+                        <h3 class="pillar-title">Safe &amp; Active Sports</h3>
                         <p class="pillar-desc">
                             2-acre safe green campus, modern sports courts, karate, gymnastics, athletics, and physical wellness.
                         </p>
@@ -1621,7 +179,7 @@
                         <div class="pillar-icon-box pillar-icon-amber">
                             <i class="bi bi-palette-fill"></i>
                         </div>
-                        <h4 class="pillar-title">Arts, Music & Ethics</h4>
+                        <h3 class="pillar-title">Arts, Music &amp; Ethics</h3>
                         <p class="pillar-desc">
                             Creative studio work, public speaking, Islamic moral ethics, and performing arts fostering well-rounded character.
                         </p>
@@ -1635,44 +193,52 @@
     </section>
 
     <!-- =========================================================================
-         SECTION 3: PROGRAMS TAILORED TO EVERY AGE STAGE
+         4. PROGRAMS SECTION (EARLY YEARS TO MATRICULATION, LAVENDER BACKGROUND)
          ========================================================================= -->
-    <section class="programs-section reveal-on-scroll">
+    <section class="programs-section section-spacing">
         <div class="container">
-            <div class="d-flex flex-column flex-lg-row align-items-lg-end justify-content-between mb-5 gap-3">
-                <div>
-                    <span class="section-tag-pill">EARLY YEARS TO MATRICULATION</span>
-                    <h2 class="section-heading-bold mb-1">Programs Tailored to Every Age Stage</h2>
-                    <p class="text-muted mb-0">Select an academic tier tailored to your child's age, growth stage, and learning ambitions.</p>
-                </div>
-                <div class="d-flex gap-2 flex-wrap">
-                    <a href="{{ route('academics') }}#preschool" class="btn-program-tab">Pre-School</a>
-                    <a href="{{ route('academics') }}#primary" class="btn-program-tab">Primary Wing</a>
-                    <a href="{{ route('academics') }}#matric" class="btn-program-tab">Senior FBISE</a>
-                    <a href="{{ route('academics') }}" class="btn-program-tab active">View All Wings &rarr;</a>
-                </div>
+            <!-- Header Title -->
+            <div class="programs-header-box mb-4">
+                <span class="section-tag-pill">EARLY YEARS TO MATRICULATION</span>
+                <h2 class="section-heading-bold mb-2">Programs Tailored to Every Age Stage</h2>
+                <p class="section-subheading-clean text-start ms-0 mb-0">Select an academic tier tailored to your child's age, growth stage, and learning ambitions.</p>
             </div>
 
-            <div class="row g-4">
+            <!-- Cohesive Controls Toolbar: Unified Segmented Tabs & Action Button -->
+            <div class="program-toolbar-row mb-5">
+                <div class="program-segmented-bar" id="programTabsGroup">
+                    <button type="button" class="program-tab-pill active" data-filter="all">All Wings</button>
+                    <button type="button" class="program-tab-pill" data-filter="preschool">Pre-School</button>
+                    <button type="button" class="program-tab-pill" data-filter="primary">Primary Wing</button>
+                    <button type="button" class="program-tab-pill" data-filter="senior">Senior FBISE</button>
+                </div>
+
+                <a href="{{ route('academics') }}" class="btn-view-all-wings" title="View Full Academic Wings Syllabus">
+                    <span>View All Wings</span>
+                    <i class="bi bi-arrow-right"></i>
+                </a>
+            </div>
+
+            <div class="row g-4 justify-content-center" id="programCardsGrid">
                 <!-- Program 1: Pre-School -->
-                <div class="col-md-6 col-lg-4">
+                <div class="col-md-6 col-lg-4 program-item" data-category="preschool">
                     <div class="program-card">
                         <div class="program-img-box">
                             <span class="program-age-pill"><i class="bi bi-balloon-heart text-danger me-1"></i> Ages 3 - 5 Years</span>
                             <img src="{{ asset('images/landing_hero.jpg') }}" alt="Little Sprouts Discovery">
                         </div>
                         <div class="program-body">
-                            <h4 class="program-title">Little Sprouts Discovery</h4>
+                            <h3 class="program-title">Little Sprouts Discovery</h3>
                             <p class="program-desc">Nurturing curiosity and fine motor skills through playful sensory activities and phonics.</p>
                             <ul class="program-bullets">
-                                <li><i class="bi bi-check2-circle text-primary"></i> Multi-sensory play & alphabet phonics</li>
+                                <li><i class="bi bi-check2-circle text-primary"></i> Multi-sensory play &amp; alphabet phonics</li>
                                 <li><i class="bi bi-check2-circle text-primary"></i> Social sharing, empathy, and manners</li>
                                 <li><i class="bi bi-check2-circle text-primary"></i> Daily outdoor supervised sports play</li>
                             </ul>
                             <div class="program-footer-bar">
                                 <div>
-                                    <small class="text-muted d-block">Wing Enrollment</small>
-                                    <strong class="text-dark">Spring 2026 Open</strong>
+                                    <small class="text-muted d-block" style="font-size: 11px;">Wing Enrollment</small>
+                                    <strong class="text-dark" style="font-size: 13.5px;">Spring 2026 Open</strong>
                                 </div>
                                 <a href="{{ route('admissions') }}" class="btn-program-apply">
                                     Apply Now &rarr;
@@ -1683,24 +249,24 @@
                 </div>
 
                 <!-- Program 2: Primary Wing -->
-                <div class="col-md-6 col-lg-4">
+                <div class="col-md-6 col-lg-4 program-item" data-category="primary">
                     <div class="program-card">
                         <div class="program-img-box">
                             <span class="program-age-pill"><i class="bi bi-cpu text-primary me-1"></i> Grades 1 - 5</span>
                             <img src="{{ asset('images/stem_lab.jpg') }}" alt="Junior Explorers STEM Hub">
                         </div>
                         <div class="program-body">
-                            <h4 class="program-title">Junior Explorers STEM Hub</h4>
+                            <h3 class="program-title">Junior Explorers STEM Hub</h3>
                             <p class="program-desc">Building strong foundational literacy, conceptual math, science projects, and coding.</p>
                             <ul class="program-bullets">
                                 <li><i class="bi bi-check2-circle text-success"></i> Hands-on weekly science experiments</li>
-                                <li><i class="bi bi-check2-circle text-success"></i> Scratch coding & robotics logic</li>
-                                <li><i class="bi bi-check2-circle text-success"></i> Bilingual English & Urdu eloquence</li>
+                                <li><i class="bi bi-check2-circle text-success"></i> Scratch coding &amp; robotics logic</li>
+                                <li><i class="bi bi-check2-circle text-success"></i> Bilingual English &amp; Urdu eloquence</li>
                             </ul>
                             <div class="program-footer-bar">
                                 <div>
-                                    <small class="text-muted d-block">Wing Enrollment</small>
-                                    <strong class="text-dark">Seats Available</strong>
+                                    <small class="text-muted d-block" style="font-size: 11px;">Wing Enrollment</small>
+                                    <strong class="text-dark" style="font-size: 13.5px;">Seats Available</strong>
                                 </div>
                                 <a href="{{ route('admissions') }}" class="btn-program-apply">
                                     Apply Now &rarr;
@@ -1711,24 +277,24 @@
                 </div>
 
                 <!-- Program 3: Senior Wing -->
-                <div class="col-md-6 col-lg-4">
+                <div class="col-md-6 col-lg-4 program-item" data-category="senior">
                     <div class="program-card">
                         <div class="program-img-box">
                             <span class="program-age-pill"><i class="bi bi-award text-warning me-1"></i> Grades 6 - 10 / Matric</span>
                             <img src="{{ asset('upload/school_campus.jpg') }}" alt="Master Innovators Senior Wing" onerror="this.onerror=null; this.src='{{ asset('images/landing_hero.jpg') }}';">
                         </div>
                         <div class="program-body">
-                            <h4 class="program-title">Master Innovators Senior Wing</h4>
+                            <h3 class="program-title">Master Innovators Senior Wing</h3>
                             <p class="program-desc">Rigorous FBISE board syllabus mastery with structured monthly test diagnostics.</p>
                             <ul class="program-bullets">
                                 <li><i class="bi bi-check2-circle text-warning"></i> FBISE Board Distinction track record</li>
-                                <li><i class="bi bi-check2-circle text-warning"></i> Fully equipped physics, chem & bio labs</li>
-                                <li><i class="bi bi-check2-circle text-warning"></i> Career counseling & Olympiad training</li>
+                                <li><i class="bi bi-check2-circle text-warning"></i> Fully equipped physics, chem &amp; bio labs</li>
+                                <li><i class="bi bi-check2-circle text-warning"></i> Career counseling &amp; Olympiad training</li>
                             </ul>
                             <div class="program-footer-bar">
                                 <div>
-                                    <small class="text-muted d-block">Wing Enrollment</small>
-                                    <strong class="text-dark">Merit Admissions</strong>
+                                    <small class="text-muted d-block" style="font-size: 11px;">Wing Enrollment</small>
+                                    <strong class="text-dark" style="font-size: 13.5px;">Merit Admissions</strong>
                                 </div>
                                 <a href="{{ route('admissions') }}" class="btn-program-apply">
                                     Apply Now &rarr;
@@ -1742,18 +308,20 @@
     </section>
 
     <!-- =========================================================================
-         SECTION 4: MODERN DEEP EMERALD / BRAND FEATURE BANNER
+         5. "BEST MENTORS" DARK SECTION (INDIGO GRADIENT, 2 COLUMNS)
          ========================================================================= -->
-    <section class="mentor-banner-section reveal-on-scroll">
+    <section class="mentor-banner-section section-spacing">
         <div class="container">
             <div class="row align-items-center g-4 g-xl-5">
+                <!-- Left: Content & Features -->
                 <div class="col-lg-6">
-                    <span class="badge px-3 py-2 rounded-pill bg-light text-dark fw-bold mb-3" style="font-size: 13px;">TOP-TIER ACCREDITATION</span>
-                    <h2 class="display-6 fw-bold mb-3" style="letter-spacing: -0.02em; color: #FFFFFF !important;">We Are The Best Mentors In Modern Holistic Education</h2>
-                    <p class="lead opacity-90 mb-4" style="font-size: 17px; line-height: 1.7;">
+                    <span class="section-tag-pill-dark">TOP-TIER ACCREDITATION</span>
+                    <h2 class="display-6 fw-bold mb-3 text-white">We Are The Best Mentors In Modern Holistic Education</h2>
+                    <p class="lead opacity-90 mb-4">
                         Dedicated to creating an inspiring environment where every learner thrives academically, socially, and creatively through compassionate guidance and world-class digital tools.
                     </p>
 
+                    <!-- 2x2 Feature Grid -->
                     <div class="row g-3 mb-4">
                         <div class="col-sm-6">
                             <div class="mentor-feature-item">
@@ -1781,25 +349,30 @@
                         </div>
                     </div>
 
+                    <!-- Action Buttons -->
                     <div class="d-flex gap-3 flex-wrap">
-                        <a href="{{ route('admissions') }}" class="btn btn-mentor-visit px-4 py-3 fw-bold rounded-pill shadow">
-                            Schedule Campus Visit <i class="bi bi-arrow-right ms-2"></i>
+                        <a href="{{ route('admissions') }}" class="btn-cta-orange">
+                            <span>Schedule Campus Visit</span>
+                            <i class="bi bi-arrow-right ms-2"></i>
                         </a>
-                        <a href="{{ route('about') }}" class="btn btn-outline-light px-4 py-3 fw-bold rounded-3">
+                        <a href="{{ route('about') }}" class="btn-outline-white">
                             About Our Legacy
                         </a>
                     </div>
                 </div>
 
+                <!-- Right: Image with Rounded Frame and Badges -->
                 <div class="col-lg-6">
-                    <div class="p-3 rounded-4" style="background: rgba(255, 255, 255, 0.08); border: 1.5px solid rgba(255, 255, 255, 0.15); box-shadow: 0 25px 50px rgba(0,0,0,0.3);">
-                        <img src="{{ asset('images/stem_lab.jpg') }}" alt="Innovation Lab Showcase" class="img-fluid rounded-3 w-100 shadow" style="height: 380px; object-fit: cover;">
+                    <div class="mentor-showcase-box">
+                        <img src="{{ asset('images/stem_lab.jpg') }}" alt="Innovation Lab Showcase" class="mentor-showcase-img">
                         <div class="mt-3 d-flex justify-content-between align-items-center text-white px-2">
                             <div>
-                                <h6 class="fw-bold mb-0 text-warning"><i class="bi bi-shield-lock-fill"></i> ISO 9001 & FBISE Certified</h6>
-                                <small class="text-light opacity-75">Recognized nationwide for academic standard</small>
+                                <h6 class="fw-bold mb-0 text-warning" style="font-size: 14px;">
+                                    <i class="bi bi-shield-lock-fill me-1"></i> ISO 9001 &amp; FBISE Certified
+                                </h6>
+                                <small class="text-light opacity-75" style="font-size: 12px;">Recognized nationwide for academic standard</small>
                             </div>
-                            <span class="badge bg-success px-3 py-2 rounded-pill">Ranked #1 in Sector</span>
+                            <span class="badge-sector-rank">Ranked #1 in Sector</span>
                         </div>
                     </div>
                 </div>
@@ -1807,15 +380,13 @@
         </div>
     </section>
 
-    <!-- (NOTE: Faculty Section is EXCLUDED from landing page as requested by user) -->
-
     <!-- =========================================================================
-         SECTION 5: LIFE INSIDE EXCELLENCE CAMPUS (CAMPUS GALLERY)
+         6. CAMPUS LIFE (GALLERY) SECTION (WHITE BACKGROUND, 4 CARDS)
          ========================================================================= -->
-    <section class="campus-gallery-section reveal-on-scroll">
+    <section class="campus-gallery-section section-spacing">
         <div class="container">
             <div class="text-center max-w-700 mx-auto mb-5">
-                <span class="section-tag-pill">CAMPUS LIFE & CULTURE</span>
+                <span class="section-tag-pill">CAMPUS LIFE &amp; CULTURE</span>
                 <h2 class="section-heading-bold">Life Inside Excellence Campus</h2>
                 <p class="section-subheading-clean">
                     From robotic hackathons to sports galas and art exhibitions, explore everyday snapshots of our vibrant community.
@@ -1826,7 +397,7 @@
                 <div class="col-6 col-lg-3">
                     <div class="gallery-photo-card">
                         <img src="{{ asset('images/stem_lab.jpg') }}" alt="STEM Robotics Lab">
-                        <div class="gallery-caption">STEM & 3D Prototyping</div>
+                        <div class="gallery-caption">STEM &amp; 3D Prototyping</div>
                     </div>
                 </div>
                 <div class="col-6 col-lg-3">
@@ -1838,13 +409,13 @@
                 <div class="col-6 col-lg-3">
                     <div class="gallery-photo-card">
                         <img src="{{ asset('upload/school_campus.jpg') }}" alt="Sports & Physical Wellness" onerror="this.onerror=null; this.src='{{ asset('images/landing_hero.jpg') }}';">
-                        <div class="gallery-caption">Sports Gala & Athletics</div>
+                        <div class="gallery-caption">Sports Gala &amp; Athletics</div>
                     </div>
                 </div>
                 <div class="col-6 col-lg-3">
                     <div class="gallery-photo-card">
-                        <img src="{{ asset('images/stem_lab.jpg') }}" alt="Computer & Coding Hub">
-                        <div class="gallery-caption">AI Workstations & Coding</div>
+                        <img src="{{ asset('upload/signup_hero.jpg') }}" alt="Computer & Coding Hub" onerror="this.onerror=null; this.src='{{ asset('images/stem_lab.jpg') }}';">
+                        <div class="gallery-caption">AI Workstations &amp; Coding</div>
                     </div>
                 </div>
             </div>
@@ -1852,9 +423,9 @@
     </section>
 
     <!-- =========================================================================
-         SECTION 6: TESTIMONIALS (WHAT 500+ PARENTS SAY)
+         7. TESTIMONIALS SECTION (LAVENDER BACKGROUND, 3 CARDS)
          ========================================================================= -->
-    <section class="testimonials-section reveal-on-scroll">
+    <section class="testimonials-section section-spacing">
         <div class="container">
             <div class="text-center max-w-700 mx-auto mb-5">
                 <span class="section-tag-pill">PARENT TESTIMONIALS</span>
@@ -1876,17 +447,17 @@
                                 <i class="bi bi-star-fill"></i>
                                 <i class="bi bi-star-fill"></i>
                             </div>
-                            <p class="text-muted" style="font-size: 15px; line-height: 1.7;">
+                            <p class="review-quote-text">
                                 "My daughter joined the Early Years wing two years ago. The personalized care and interactive STEM activities boosted her confidence tremendously!"
                             </p>
                         </div>
                         <div class="d-flex align-items-center gap-3 pt-3 border-top">
-                            <div class="rounded-circle d-flex align-items-center justify-content-center text-white fw-bold shadow-sm" class="rounded-circle d-flex align-items-center justify-content-center fw-bold shadow-sm avatar-initials-burgundy" style="width: 44px; height: 44px;">
+                            <div class="rounded-circle d-flex align-items-center justify-content-center text-white fw-bold shadow-sm avatar-initials-burgundy" style="width: 44px; height: 44px;">
                                 FA
                             </div>
                             <div>
-                                <h6 class="fw-bold mb-0 text-dark">Farah Ahmed</h6>
-                                <small class="text-muted">Mother of Ayla (Grade 1)</small>
+                                <h4 class="fw-bold mb-0 text-dark" style="font-size: 15px;">Farah Ahmed</h4>
+                                <small class="text-muted" style="font-size: 12.5px;">Mother of Ayla (Grade 1)</small>
                             </div>
                         </div>
                     </div>
@@ -1903,17 +474,17 @@
                                 <i class="bi bi-star-fill"></i>
                                 <i class="bi bi-star-fill"></i>
                             </div>
-                            <p class="text-muted" style="font-size: 15px; line-height: 1.7;">
+                            <p class="review-quote-text">
                                 "The online academic portal is fantastic. We can monitor attendance, monthly test session scores, and teacher notes in real-time from anywhere."
                             </p>
                         </div>
                         <div class="d-flex align-items-center gap-3 pt-3 border-top">
-                            <div class="rounded-circle d-flex align-items-center justify-content-center text-white fw-bold shadow-sm" class="rounded-circle d-flex align-items-center justify-content-center fw-bold shadow-sm avatar-initials-gold" style="width: 44px; height: 44px;">
+                            <div class="rounded-circle d-flex align-items-center justify-content-center text-white fw-bold shadow-sm avatar-initials-gold" style="width: 44px; height: 44px;">
                                 TR
                             </div>
                             <div>
-                                <h6 class="fw-bold mb-0 text-dark">Tariq Rehman</h6>
-                                <small class="text-muted">Father of Bilal (Class 8)</small>
+                                <h4 class="fw-bold mb-0 text-dark" style="font-size: 15px;">Tariq Rehman</h4>
+                                <small class="text-muted" style="font-size: 12.5px;">Father of Bilal (Class 8)</small>
                             </div>
                         </div>
                     </div>
@@ -1930,17 +501,17 @@
                                 <i class="bi bi-star-fill"></i>
                                 <i class="bi bi-star-fill"></i>
                             </div>
-                            <p class="text-muted" style="font-size: 15px; line-height: 1.7;">
+                            <p class="review-quote-text">
                                 "Outstanding FBISE board preparation! The faculty goes above and beyond with extra remedial sessions. My son scored 96% in his Matric exams."
                             </p>
                         </div>
                         <div class="d-flex align-items-center gap-3 pt-3 border-top">
-                            <div class="rounded-circle d-flex align-items-center justify-content-center text-white fw-bold shadow-sm" class="rounded-circle d-flex align-items-center justify-content-center fw-bold shadow-sm avatar-initials-maroon" style="width: 44px; height: 44px;">
+                            <div class="rounded-circle d-flex align-items-center justify-content-center text-white fw-bold shadow-sm avatar-initials-maroon" style="width: 44px; height: 44px;">
                                 SK
                             </div>
                             <div>
-                                <h6 class="fw-bold mb-0 text-dark">Dr. Saima Khan</h6>
-                                <small class="text-muted">Parent of Hamza (Matric Board)</small>
+                                <h4 class="fw-bold mb-0 text-dark" style="font-size: 15px;">Dr. Saima Khan</h4>
+                                <small class="text-muted" style="font-size: 12.5px;">Parent of Hamza (Matric Board)</small>
                             </div>
                         </div>
                     </div>
@@ -1950,43 +521,44 @@
     </section>
 
     <!-- =========================================================================
-         SECTION 7: SCHEDULE CAMPUS TOUR CTA (EDUKID STYLE)
+         8. CAMPUS VISIT / BOOKING FORM SECTION (DARK INDIGO, CENTERED WHITE CARD)
          ========================================================================= -->
-    <section class="tour-cta-section reveal-on-scroll" id="tourSection">
+    <section class="tour-cta-section section-spacing" id="tourSection">
         <div class="container">
             <div class="text-center max-w-700 mx-auto mb-5">
-                <span class="tour-badge mb-3">CAMPUS VISIT & REGISTRATION</span>
-                <h2 class="display-6 fw-bold mb-2 text-white" style="letter-spacing: -0.02em; color: #FFFFFF !important;">Schedule Your Private Campus Tour Today</h2>
-                <p class="lead opacity-90 max-w-600 mx-auto text-white" style="font-size: 16px; color: rgba(255, 255, 255, 0.92) !important;">
+                <span class="section-tag-pill-dark">CAMPUS VISIT &amp; REGISTRATION</span>
+                <h2 class="display-6 fw-bold mb-2 text-white">Schedule Your Private Campus Tour Today</h2>
+                <p class="lead opacity-90 max-w-600 mx-auto text-white" style="font-size: 16px;">
                     Experience our smart classrooms, STEM robotics labs, and meet the leadership team in person.
                 </p>
             </div>
 
             <!-- Tour Success Alert -->
             @if(session('tour_success'))
-                <div class="alert alert-success alert-dismissible fade show rounded-4 p-4 shadow-sm mb-4 mx-auto max-w-700" role="alert">
-                    <div class="d-flex align-items-center gap-3">
-                        <i class="bi bi-check-circle-fill fs-2 text-success"></i>
+                <div class="alert alert-success alert-dismissible fade show rounded-3 p-3 shadow-sm mb-4 mx-auto" style="max-width: 760px;" role="alert">
+                    <div class="d-flex align-items-center gap-2">
+                        <i class="bi bi-check-circle-fill fs-5 text-success"></i>
                         <div>
-                            <h5 class="fw-bold mb-1">Campus Tour Booked!</h5>
-                            <p class="mb-0 text-muted">{{ session('tour_success') }}</p>
+                            <strong class="d-block">Campus Tour Booked!</strong>
+                            <span class="small">{{ session('tour_success') }}</span>
                         </div>
                     </div>
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             @endif
 
-            <div class="tour-form-card mx-auto" style="max-width: 820px;">
+            <!-- Centered White Form Card (Max-Width 760px) -->
+            <div class="tour-form-card mx-auto">
                 <form action="{{ route('tour.schedule') }}" method="POST">
                     @csrf
-                    <div class="row g-3 align-items-center">
+                    <div class="row g-3">
                         <div class="col-md-4">
                             <label class="form-label fw-bold small text-dark mb-1">Contact Phone</label>
-                            <input type="tel" name="parent_phone" class="form-control py-2 rounded-3" placeholder="0300-1234567" required>
+                            <input type="tel" name="parent_phone" class="form-control" placeholder="0300-1234567" required>
                         </div>
                         <div class="col-md-4">
                             <label class="form-label fw-bold small text-dark mb-1">Select Wing</label>
-                            <select name="student_wing" class="form-select py-2 rounded-3" required>
+                            <select name="student_wing" class="form-select" required>
                                 <option value="" disabled selected>Select Wing</option>
                                 <option value="Early Childhood Wing">Early Childhood Wing</option>
                                 <option value="Primary School Wing">Primary School Wing</option>
@@ -1995,11 +567,11 @@
                         </div>
                         <div class="col-md-4">
                             <label class="form-label fw-bold small text-dark mb-1">Preferred Date</label>
-                            <input type="date" name="tour_date" class="form-control py-2 rounded-3" min="{{ date('Y-m-d') }}" required>
+                            <input type="date" name="tour_date" class="form-control" min="{{ date('Y-m-d') }}" required>
                         </div>
                         <div class="col-12 mt-3">
-                            <button type="submit" class="btn btn-tour-submit w-100 py-3 shadow">
-                                <i class="bi bi-calendar-check-fill me-2"></i> Book Free Campus Visit & Tour
+                            <button type="submit" class="btn btn-tour-submit w-100">
+                                <i class="bi bi-calendar-check-fill me-2"></i> Book Free Campus Visit &amp; Tour
                             </button>
                             <div class="text-center mt-2 small text-muted">
                                 <i class="bi bi-lock-fill text-success me-1"></i> No obligation &bull; Free prospectus on arrival
@@ -2012,112 +584,131 @@
     </section>
 
     <!-- =========================================================================
-         FOOTER (WHY CHOOSE US & HELP DESK SHIFTED HERE AS REQUESTED)
+         9. FOOTER (DARK NAVY / INDIGO, 4 COLUMNS, BADGES & COPYRIGHT)
          ========================================================================= -->
     @include('partials.public-footer')
 
     <!-- Bootstrap 5.3 JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
+    <!-- Pure Lightweight Vanilla JS for Hero Slider & Header -->
     <script>
-        // Scroll Reveal Observer for luxury micro-animations
-        const revealElements = document.querySelectorAll('.reveal-on-scroll');
-        if ('IntersectionObserver' in window) {
-            const revealObserver = new IntersectionObserver((entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('is-revealed');
-                        observer.unobserve(entry.target);
+        document.addEventListener('DOMContentLoaded', function () {
+            // 1. Sticky Header Scroll Effect
+            const header = document.getElementById('landingHeader');
+            if (header) {
+                window.addEventListener('scroll', function () {
+                    if (window.scrollY > 20) {
+                        header.classList.add('scrolled');
+                    } else {
+                        header.classList.remove('scrolled');
+                    }
+                }, { passive: true });
+            }
+
+            // 2. Full-Width Hero Background Slider (5s interval, 1s crossfade)
+            const slides = document.querySelectorAll('#heroBgSlider .hero-bg-slide');
+            const dots = document.querySelectorAll('#heroSliderDots .hero-dot');
+            if (slides.length > 0) {
+                let currentSlide = 0;
+                let sliderTimer = null;
+
+                function showSlide(index) {
+                    slides.forEach((slide, i) => {
+                        slide.classList.toggle('active', i === index);
+                    });
+                    dots.forEach((dot, i) => {
+                        dot.classList.toggle('active', i === index);
+                    });
+                    currentSlide = index;
+                }
+
+                function nextSlide() {
+                    let next = (currentSlide + 1) % slides.length;
+                    showSlide(next);
+                }
+
+                function startSlider() {
+                    stopSlider();
+                    sliderTimer = setInterval(nextSlide, 5000);
+                }
+
+                function stopSlider() {
+                    if (sliderTimer) {
+                        clearInterval(sliderTimer);
+                        sliderTimer = null;
+                    }
+                }
+
+                // Dot click handlers
+                dots.forEach((dot, idx) => {
+                    dot.addEventListener('click', function () {
+                        showSlide(idx);
+                        startSlider();
+                    });
+                });
+
+                // Pause on hover over hero container
+                const heroSection = document.getElementById('home');
+                if (heroSection) {
+                    heroSection.addEventListener('mouseenter', stopSlider);
+                    heroSection.addEventListener('mouseleave', startSlider);
+                }
+
+                startSlider();
+            }
+
+            // 3. Interactive Programs Tab Filtering
+            const programTabButtons = document.querySelectorAll('#programTabsGroup .program-tab-pill');
+            const programCards = document.querySelectorAll('.program-item');
+
+            function filterPrograms(filter) {
+                programTabButtons.forEach(b => {
+                    b.classList.toggle('active', b.getAttribute('data-filter') === filter);
+                });
+
+                programCards.forEach(card => {
+                    const cat = card.getAttribute('data-category');
+                    if (filter === 'all' || cat === filter) {
+                        card.style.display = '';
+                        card.style.opacity = '0';
+                        card.style.transform = 'scale(0.96) translateY(8px)';
+                        setTimeout(() => {
+                            card.style.transition = 'opacity 0.28s ease, transform 0.28s ease';
+                            card.style.opacity = '1';
+                            card.style.transform = 'scale(1) translateY(0)';
+                        }, 20);
+                    } else {
+                        card.style.transition = 'opacity 0.2s ease, transform 0.2s ease';
+                        card.style.opacity = '0';
+                        card.style.transform = 'scale(0.96) translateY(8px)';
+                        setTimeout(() => {
+                            card.style.display = 'none';
+                        }, 200);
                     }
                 });
-            }, {
-                threshold: 0.12,
-                rootMargin: '0px 0px -40px 0px'
-            });
-            revealElements.forEach(el => revealObserver.observe(el));
-        } else {
-            revealElements.forEach(el => el.classList.add('is-revealed'));
-        }
-
-        // Sticky Header scroll effect
-        window.addEventListener('scroll', function () {
-            const header = document.getElementById('landingHeader');
-            if (!header) return;
-            if (window.scrollY > 20) {
-                header.classList.add('scrolled');
-            } else {
-                header.classList.remove('scrolled');
             }
-        });
 
-        // 3-Second Auto Image Slideshow
-        (function initHeroImageSlideshow() {
-            const slides = document.querySelectorAll('#heroImageCarousel .hero-slide');
-            const dots = document.querySelectorAll('.hero-slide-dots .hero-dot');
-            const titleEl = document.getElementById('heroSlideTitle');
-            const subEl = document.getElementById('heroSlideSub');
-            const badgeEl = document.getElementById('heroSlideBadge');
-            if (!slides || slides.length === 0) return;
-
-            let currentIndex = 0;
-            const slideIcons = [
-                'bi-broadcast text-danger',
-                'bi-cpu-fill text-info',
-                'bi-trophy-fill text-warning',
-                'bi-journal-bookmark-fill text-success'
-            ];
-
-            function switchSlide(index) {
-                slides.forEach((slide, i) => {
-                    slide.classList.toggle('active', i === index);
+            if (programTabButtons.length > 0 && programCards.length > 0) {
+                programTabButtons.forEach(btn => {
+                    btn.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        const filter = this.getAttribute('data-filter');
+                        filterPrograms(filter);
+                    });
                 });
-                dots.forEach((dot, i) => {
-                    dot.classList.toggle('active', i === index);
-                });
-                const activeSlide = slides[index];
-                if (activeSlide && titleEl && subEl && badgeEl) {
-                    const title = activeSlide.getAttribute('data-title') || '';
-                    const sub = activeSlide.getAttribute('data-sub') || '';
-                    const badge = activeSlide.getAttribute('data-badge') || '';
-                    const iconClass = slideIcons[index % slideIcons.length];
-                    titleEl.innerHTML = `<i class="bi ${iconClass} me-1"></i> ${title}`;
-                    subEl.textContent = sub;
-                    badgeEl.textContent = badge;
+
+                // Check URL hash if someone links directly to #preschool, #primary, #matric
+                const hash = window.location.hash.toLowerCase();
+                if (hash.includes('preschool')) {
+                    filterPrograms('preschool');
+                } else if (hash.includes('primary')) {
+                    filterPrograms('primary');
+                } else if (hash.includes('senior') || hash.includes('matric')) {
+                    filterPrograms('senior');
                 }
             }
-
-            let carouselInterval = setInterval(() => {
-                currentIndex = (currentIndex + 1) % slides.length;
-                switchSlide(currentIndex);
-            }, 3000);
-
-            // Click on dots to jump
-            dots.forEach((dot, idx) => {
-                dot.style.cursor = 'pointer';
-                dot.addEventListener('click', () => {
-                    currentIndex = idx;
-                    switchSlide(currentIndex);
-                    clearInterval(carouselInterval);
-                    carouselInterval = setInterval(() => {
-                        currentIndex = (currentIndex + 1) % slides.length;
-                        switchSlide(currentIndex);
-                    }, 3000);
-                });
-            });
-
-            // Pause on hover over tablet card
-            const tabletCard = document.getElementById('heroTabletCard');
-            if (tabletCard) {
-                tabletCard.addEventListener('mouseenter', () => clearInterval(carouselInterval));
-                tabletCard.addEventListener('mouseleave', () => {
-                    clearInterval(carouselInterval);
-                    carouselInterval = setInterval(() => {
-                        currentIndex = (currentIndex + 1) % slides.length;
-                        switchSlide(currentIndex);
-                    }, 3000);
-                });
-            }
-        })();
+        });
     </script>
 </body>
 </html>
