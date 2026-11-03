@@ -1,2 +1,1 @@
 @include('management.students.index')
-    

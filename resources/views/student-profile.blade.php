@@ -1,2 +1,1 @@
-@include('management.students.show')
-    s 
+@include('management.students.show') 
