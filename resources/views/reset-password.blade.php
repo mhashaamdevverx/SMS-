@@ -1,1 +1,1 @@
-@include('auth.reset-password')
+@include('auth.reset-password')            
