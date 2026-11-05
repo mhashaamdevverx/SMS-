@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-theme="light">
+<html lang="{{ app()->getLocale() }}" dir="{{ config('languages.supported.'.app()->getLocale().'.dir', 'ltr') }}" data-theme="light">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
@@ -24,6 +24,8 @@
     <script src="{{ asset('js/student-portal.js') }}?v={{ time() }}" defer></script>
     <script src="{{ asset('js/common/notifications.js') }}?v={{ time() }}" defer></script>
     <script src="{{ asset('js/student/student-portal-page.js') }}?v={{ time() }}" defer></script>
+
+    @include('partials.locale-head')
 </head>
 <body class="student-shell admin-shell">
     <!-- Mobile Navigation Overlay -->
@@ -112,6 +114,8 @@
 
             <!-- Right Actions: Current Session Pill, Theme Switcher, Notifications, Student Profile Menu -->
             <div class="nav-right-actions">
+                <x-language-switcher />
+
                 <!-- Current Session Pill in Top Bar (Exact Match with Admin Dashboard) -->
                 <div class="student-term admin-term top-session-pill">
                     <i class="bi bi-circle-fill"></i>

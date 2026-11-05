@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="{{ app()->getLocale() }}" dir="{{ config('languages.supported.'.app()->getLocale().'.dir', 'ltr') }}" data-theme="light">
 
 <head>
 
@@ -60,6 +60,8 @@
     <script src="{{ asset('js/common/notifications.js') }}?v={{ time() }}" defer></script>
 
     @stack('page-css')
+
+    @include('partials.locale-head')
 
 </head>
 
@@ -198,6 +200,8 @@
             </div>
 
             <div class="nav-right-actions">
+                <x-language-switcher />
+
                 {{-- Dark/Light Mode Toggle --}}
                 <button type="button" class="nav-icon-btn" id="adminThemeToggleBtn" title="Toggle Theme">
                     <i class="bi bi-moon-stars-fill"></i>

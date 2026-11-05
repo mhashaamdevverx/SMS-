@@ -18,6 +18,7 @@ use App\Http\Controllers\Management\RollSlipController;
 use App\Http\Controllers\Management\FeeController;
 use App\Http\Controllers\Management\AttendanceController;
 use App\Http\Controllers\LandingController;
+use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\Management\DashboardController;
 use App\Http\Controllers\Management\RoleController;
 use App\Http\Controllers\Management\TestSessionController;
@@ -47,6 +48,7 @@ Route::post('reset-password', [AuthController::class, 'resetPassword'])->name('p
 
 Route::get('support', [AuthController::class, 'supportPage'])->name('support');
 Route::post('support', [AuthController::class, 'submitSupportRequest'])->name('support.submit');
+Route::get('/lang/{locale}', [LanguageController::class, 'switch'])->name('lang.switch')->withoutMiddleware([\App\Http\Middleware\RequireRolePermission::class]);
 
 Route::middleware(RequireAuthentication::class)->group(function () {
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');

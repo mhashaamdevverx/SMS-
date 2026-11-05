@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ app()->getLocale() }}" dir="{{ config('languages.supported.'.app()->getLocale().'.dir', 'ltr') }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Excellence School System</title>
+    <title>{{ __('Login') }} - Excellence School System</title>
 
     <link rel="icon" type="image/png" href="{{ asset('images/school_logo.png') }}">
     <link rel="apple-touch-icon" href="{{ asset('images/school_logo.png') }}">
@@ -18,6 +18,8 @@
     <link rel="stylesheet" href="{{ asset('css/global.css') }}?v={{ time() }}">
     <link rel="stylesheet" href="{{ asset('css/login.css') }}?v={{ time() }}">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}?v={{ time() }}">
+
+    @include('partials.locale-head')
 </head>
 <body>
 
@@ -28,6 +30,7 @@
             <span>Back</span>
         </a>
         <div class="top-nav-actions">
+            <x-language-switcher />
             <a href="{{ route('support') }}" class="btn-header-support" title="Help Desk &amp; Support" aria-label="Help &amp; Support">
                 <i class="bi bi-question-lg"></i>
             </a>
@@ -135,7 +138,7 @@
 
                     <!-- SUBMIT BUTTON -->
                     <button type="submit" class="btn-primary-submit">
-                        <span>Sign In to Dashboard</span>
+                        <span>{{ __('Sign In to Dashboard') }}</span>
                         <i class="bi bi-arrow-right fs-17"></i>
                     </button>
                 </form>

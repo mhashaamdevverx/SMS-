@@ -32,6 +32,7 @@
 
                 <!-- ACTION BUTTON: PORTAL LOGIN ONLY -->
                 <div class="roots-nav-actions">
+                    <x-language-switcher />
                     <a href="{{ route('login') }}" class="btn-roots-apply" id="portalLoginNavBtn" title="Access Student, Teacher & Admin Portals">
                         <span class="btn-icon-lock"><i class="bi bi-shield-lock-fill"></i></span>
                         <span>Portal Login</span>
