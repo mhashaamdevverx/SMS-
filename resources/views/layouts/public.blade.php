@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>@yield('title', 'Excellence School System - Nurturing Minds, Inspiring Leaders')</title>
+    <title>@yield('title', 'Excellence School System - ' . __('Nurturing Minds, Inspiring Leaders'))</title>
 
     <link rel="icon" type="image/png" href="{{ asset('images/school_logo.png') }}">
     <link rel="apple-touch-icon" href="{{ asset('images/school_logo.png') }}">

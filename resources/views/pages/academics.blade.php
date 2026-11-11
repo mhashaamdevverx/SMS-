@@ -1,6 +1,6 @@
 @extends('layouts.public')
 
-@section('title', 'Academic Wings & Curriculum - Excellence School System')
+@section('title', __('Academic Wings & Curriculum') . ' - Excellence School System')
 
 @section('content')
 <!-- FULL-WIDTH 3-SECOND HERO IMAGE SLIDER -->
@@ -8,10 +8,10 @@
     <div id="academicCampusCarousel" class="carousel slide carousel-fade position-relative" data-bs-ride="carousel" data-bs-interval="3000" data-bs-pause="false">
         <!-- Carousel Indicators -->
         <div class="carousel-indicators mb-4">
-            <button type="button" data-bs-target="#academicCampusCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-            <button type="button" data-bs-target="#academicCampusCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
-            <button type="button" data-bs-target="#academicCampusCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
-            <button type="button" data-bs-target="#academicCampusCarousel" data-bs-slide-to="3" aria-label="Slide 4"></button>
+            <button type="button" data-bs-target="#academicCampusCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="{{ __('Slide 1') }}"></button>
+            <button type="button" data-bs-target="#academicCampusCarousel" data-bs-slide-to="1" aria-label="{{ __('Slide 2') }}"></button>
+            <button type="button" data-bs-target="#academicCampusCarousel" data-bs-slide-to="2" aria-label="{{ __('Slide 3') }}"></button>
+            <button type="button" data-bs-target="#academicCampusCarousel" data-bs-slide-to="3" aria-label="{{ __('Slide 4') }}"></button>
         </div>
 
         <!-- Carousel Items -->
@@ -19,13 +19,13 @@
             <!-- Slide 1: Main Campus & Collegiate Architecture -->
             <div class="carousel-item active" data-bs-interval="3000">
                 <div class="carousel-img-wrapper position-relative">
-                    <img src="{{ asset('images/landing_hero.jpg') }}" class="d-block w-100 carousel-slide-img" alt="Main Academic Campus">
+                    <img src="{{ asset('images/landing_hero.jpg') }}" class="d-block w-100 carousel-slide-img" alt="{{ __('Main Academic Campus') }}">
                     <div class="carousel-overlay position-absolute top-0 start-0 w-100 h-100 d-flex align-items-end p-4 p-md-5">
                         <div class="container pb-2">
                             <div class="glass-caption p-4 rounded-4 text-white" style="max-width: 680px;">
-                                <span class="badge px-3 py-1 rounded-pill bg-primary fw-bold mb-2 shadow-sm" style="font-size: 11px; letter-spacing: 0.05em;">ACADEMIC EXCELLENCE &bull; SESSION 2026-2027</span>
-                                <h2 class="fw-bold mb-2 text-white" style="font-size: clamp(1.4rem, 2.6vw, 2.1rem); letter-spacing: -0.01em;">World-Class Academic Programs & Campus</h2>
-                                <p class="mb-0 text-white-50 small" style="line-height: 1.6;">From sensory discovery in early childhood to FBISE board mastery and STEM robotics, our programs inspire critical inquiry and leadership.</p>
+                                <span class="badge px-3 py-1 rounded-pill bg-primary fw-bold mb-2 shadow-sm" style="font-size: 11px; letter-spacing: 0.05em;">{{ __('ACADEMIC EXCELLENCE • SESSION :session', ['session' => '2026-2027']) }}</span>
+                                <h2 class="fw-bold mb-2 text-white" style="font-size: clamp(1.4rem, 2.6vw, 2.1rem); letter-spacing: -0.01em;">{{ __('World-Class Academic Programs & Campus') }}</h2>
+                                <p class="mb-0 text-white-50 small" style="line-height: 1.6;">{{ __('From sensory discovery in early childhood to FBISE board mastery and STEM robotics, our programs inspire critical inquiry and leadership.') }}</p>
                             </div>
                         </div>
                     </div>
@@ -35,13 +35,13 @@
             <!-- Slide 2: STEM & Robotics Innovation Lab -->
             <div class="carousel-item" data-bs-interval="3000">
                 <div class="carousel-img-wrapper position-relative">
-                    <img src="{{ asset('images/academic_stem_lab.jpg') }}" class="d-block w-100 carousel-slide-img" alt="STEM & Robotics Innovation Lab">
+                    <img src="{{ asset('images/academic_stem_lab.jpg') }}" class="d-block w-100 carousel-slide-img" alt="{{ __('STEM & Robotics Innovation Lab') }}">
                     <div class="carousel-overlay position-absolute top-0 start-0 w-100 h-100 d-flex align-items-end p-4 p-md-5">
                         <div class="container pb-2">
                             <div class="glass-caption p-4 rounded-4 text-white" style="max-width: 680px;">
-                                <span class="badge px-3 py-1 rounded-pill bg-info text-dark fw-bold mb-2 shadow-sm" style="font-size: 11px; letter-spacing: 0.05em;">ROBOTICS & STEM LAB</span>
-                                <h2 class="fw-bold mb-2 text-white" style="font-size: clamp(1.4rem, 2.6vw, 2.1rem); letter-spacing: -0.01em;">Hands-On Robotics & Applied Sciences</h2>
-                                <p class="mb-0 text-white-50 small" style="line-height: 1.6;">3D printing, Arduino automation, and Python programming workshops empowering tomorrow's tech innovators.</p>
+                                <span class="badge px-3 py-1 rounded-pill bg-info text-dark fw-bold mb-2 shadow-sm" style="font-size: 11px; letter-spacing: 0.05em;">{{ __('ROBOTICS & STEM LAB') }}</span>
+                                <h2 class="fw-bold mb-2 text-white" style="font-size: clamp(1.4rem, 2.6vw, 2.1rem); letter-spacing: -0.01em;">{{ __('Hands-On Robotics & Applied Sciences') }}</h2>
+                                <p class="mb-0 text-white-50 small" style="line-height: 1.6;">{{ __("3D printing, Arduino automation, and Python programming workshops empowering tomorrow's tech innovators.") }}</p>
                             </div>
                         </div>
                     </div>
@@ -51,13 +51,13 @@
             <!-- Slide 3: Two-Story Central Academic Library -->
             <div class="carousel-item" data-bs-interval="3000">
                 <div class="carousel-img-wrapper position-relative">
-                    <img src="{{ asset('images/academic_library.jpg') }}" class="d-block w-100 carousel-slide-img" alt="Central Academic Library">
+                    <img src="{{ asset('images/academic_library.jpg') }}" class="d-block w-100 carousel-slide-img" alt="{{ __('Central Academic Library') }}">
                     <div class="carousel-overlay position-absolute top-0 start-0 w-100 h-100 d-flex align-items-end p-4 p-md-5">
                         <div class="container pb-2">
                             <div class="glass-caption p-4 rounded-4 text-white" style="max-width: 680px;">
-                                <span class="badge px-3 py-1 rounded-pill bg-warning text-dark fw-bold mb-2 shadow-sm" style="font-size: 11px; letter-spacing: 0.05em;">CENTRAL LIBRARY</span>
-                                <h2 class="fw-bold mb-2 text-white" style="font-size: clamp(1.4rem, 2.6vw, 2.1rem); letter-spacing: -0.01em;">Over 15,000 Academic Titles & Quiet Pods</h2>
-                                <p class="mb-0 text-white-50 small" style="line-height: 1.6;">Two-story naturally lit reading hall with digital JSTOR access, international journals, and collaborative study desks.</p>
+                                <span class="badge px-3 py-1 rounded-pill bg-warning text-dark fw-bold mb-2 shadow-sm" style="font-size: 11px; letter-spacing: 0.05em;">{{ __('CENTRAL LIBRARY') }}</span>
+                                <h2 class="fw-bold mb-2 text-white" style="font-size: clamp(1.4rem, 2.6vw, 2.1rem); letter-spacing: -0.01em;">{{ __('Over 15,000 Academic Titles & Quiet Pods') }}</h2>
+                                <p class="mb-0 text-white-50 small" style="line-height: 1.6;">{{ __('Two-story naturally lit reading hall with digital JSTOR access, international journals, and collaborative study desks.') }}</p>
                             </div>
                         </div>
                     </div>
@@ -67,13 +67,13 @@
             <!-- Slide 4: Science Exploration Laboratories -->
             <div class="carousel-item" data-bs-interval="3000">
                 <div class="carousel-img-wrapper position-relative">
-                    <img src="{{ asset('images/stem_lab.jpg') }}" class="d-block w-100 carousel-slide-img" alt="Advanced Physics and Chemistry Labs">
+                    <img src="{{ asset('images/stem_lab.jpg') }}" class="d-block w-100 carousel-slide-img" alt="{{ __('Advanced Physics and Chemistry Labs') }}">
                     <div class="carousel-overlay position-absolute top-0 start-0 w-100 h-100 d-flex align-items-end p-4 p-md-5">
                         <div class="container pb-2">
                             <div class="glass-caption p-4 rounded-4 text-white" style="max-width: 680px;">
-                                <span class="badge px-3 py-1 rounded-pill bg-success fw-bold mb-2 shadow-sm" style="font-size: 11px; letter-spacing: 0.05em;">SCIENTIFIC RESEARCH</span>
-                                <h2 class="fw-bold mb-2 text-white" style="font-size: clamp(1.4rem, 2.6vw, 2.1rem); letter-spacing: -0.01em;">Rigorous Science & Analytical Equipment</h2>
-                                <p class="mb-0 text-white-50 small" style="line-height: 1.6;">Complete FBISE and Cambridge O/A-level experimental apparatus with fume hoods, optics kits, and digital sensor probes.</p>
+                                <span class="badge px-3 py-1 rounded-pill bg-success fw-bold mb-2 shadow-sm" style="font-size: 11px; letter-spacing: 0.05em;">{{ __('SCIENTIFIC RESEARCH') }}</span>
+                                <h2 class="fw-bold mb-2 text-white" style="font-size: clamp(1.4rem, 2.6vw, 2.1rem); letter-spacing: -0.01em;">{{ __('Rigorous Science & Analytical Equipment') }}</h2>
+                                <p class="mb-0 text-white-50 small" style="line-height: 1.6;">{{ __('Complete FBISE and Cambridge O/A-level experimental apparatus with fume hoods, optics kits, and digital sensor probes.') }}</p>
                             </div>
                         </div>
                     </div>
@@ -84,11 +84,11 @@
         <!-- Controls -->
         <button class="carousel-control-prev" type="button" data-bs-target="#academicCampusCarousel" data-bs-slide="prev">
             <span class="carousel-nav-btn"><i class="bi bi-chevron-left"></i></span>
-            <span class="visually-hidden">Previous</span>
+            <span class="visually-hidden">{{ __('Previous') }}</span>
         </button>
         <button class="carousel-control-next" type="button" data-bs-target="#academicCampusCarousel" data-bs-slide="next">
             <span class="carousel-nav-btn"><i class="bi bi-chevron-right"></i></span>
-            <span class="visually-hidden">Next</span>
+            <span class="visually-hidden">{{ __('Next') }}</span>
         </button>
     </div>
 </section>
@@ -103,13 +103,13 @@
         <div class="row g-5 align-items-center mb-5 pb-5 border-bottom wing-section" id="preschool">
             <div class="col-lg-6">
                 <span class="badge px-3 py-2 rounded-pill bg-warning-subtle text-warning-emphasis fw-bold mb-3 shadow-2xs" style="font-size: 12.5px;">
-                    <i class="bi bi-stars me-1 text-warning"></i> AGES 3 - 5 YEARS
+                    <i class="bi bi-stars me-1 text-warning"></i> {{ __('AGES 3 - 5 YEARS') }}
                 </span>
                 <h2 class="fw-bold mb-3 text-dark" style="font-size: clamp(1.8rem, 3vw, 2.2rem); letter-spacing: -0.02em;">
-                    Early Childhood Development Wing
+                    {{ __('Early Childhood Development Wing') }}
                 </h2>
                 <p class="text-muted mb-4" style="font-size: 15.5px; line-height: 1.8;">
-                    Our kindergarten and Montessori classrooms are rich sensory environments designed around curiosity, play, and foundational motor development.
+                    {{ __('Our kindergarten and Montessori classrooms are rich sensory environments designed around curiosity, play, and foundational motor development.') }}
                 </p>
 
                 <!-- EQUAL HEIGHT SUB-CARDS (FIXED EQUAL HEIGHT) -->
@@ -118,14 +118,14 @@
                         <div class="p-3 rounded-4 bg-light border w-100 h-100 d-flex flex-column justify-content-between equal-box hover-lift">
                             <div>
                                 <h6 class="fw-bold text-dark mb-2">
-                                    <i class="bi bi-music-note-beamed text-primary me-2"></i> Phonics & Rhymes
+                                    <i class="bi bi-music-note-beamed text-primary me-2"></i> {{ __('Phonics & Rhymes') }}
                                 </h6>
                                 <p class="small text-muted mb-0" style="line-height: 1.6;">
-                                    Early literacy, expressive speech, and joyful reading habit through multisensory phonics.
+                                    {{ __('Early literacy, expressive speech, and joyful reading habit through multisensory phonics.') }}
                                 </p>
                             </div>
                             <div class="mt-3 pt-2 border-top">
-                                <span class="badge bg-white text-primary border small fw-bold">Daily Sessions</span>
+                                <span class="badge bg-white text-primary border small fw-bold">{{ __('Daily Sessions') }}</span>
                             </div>
                         </div>
                     </div>
@@ -133,14 +133,14 @@
                         <div class="p-3 rounded-4 bg-light border w-100 h-100 d-flex flex-column justify-content-between equal-box hover-lift">
                             <div>
                                 <h6 class="fw-bold text-dark mb-2">
-                                    <i class="bi bi-puzzle-fill text-success me-2"></i> Motor Skills
+                                    <i class="bi bi-puzzle-fill text-success me-2"></i> {{ __('Motor Skills') }}
                                 </h6>
                                 <p class="small text-muted mb-0" style="line-height: 1.6;">
-                                    Fine motor coordination, Montessori sensory kits, and creative arts exploration.
+                                    {{ __('Fine motor coordination, Montessori sensory kits, and creative arts exploration.') }}
                                 </p>
                             </div>
                             <div class="mt-3 pt-2 border-top">
-                                <span class="badge bg-white text-success border small fw-bold">Sensory Kits</span>
+                                <span class="badge bg-white text-success border small fw-bold">{{ __('Sensory Kits') }}</span>
                             </div>
                         </div>
                     </div>
@@ -149,7 +149,7 @@
 
             <div class="col-lg-6">
                 <div class="img-zoom-card rounded-4 shadow-sm border overflow-hidden">
-                    <img src="{{ asset('images/landing_hero.jpg') }}" alt="Early Childhood Wing Campus" class="img-fluid w-100 wing-feature-img">
+                    <img src="{{ asset('images/landing_hero.jpg') }}" alt="{{ __('Early Childhood Wing Campus') }}" class="img-fluid w-100 wing-feature-img">
                 </div>
             </div>
         </div>
@@ -158,36 +158,36 @@
         <div class="row g-5 align-items-center mb-5 pb-5 border-bottom flex-lg-row-reverse wing-section" id="primary">
             <div class="col-lg-6">
                 <span class="badge px-3 py-2 rounded-pill bg-primary-subtle text-primary fw-bold mb-3 shadow-2xs" style="font-size: 12.5px;">
-                    <i class="bi bi-mortarboard-fill me-1 text-primary"></i> GRADES 1 - 5
+                    <i class="bi bi-mortarboard-fill me-1 text-primary"></i> {{ __('GRADES 1 - 5') }}
                 </span>
                 <h2 class="fw-bold mb-3 text-dark" style="font-size: clamp(1.8rem, 3vw, 2.2rem); letter-spacing: -0.02em;">
-                    Primary School Innovation Wing
+                    {{ __('Primary School Innovation Wing') }}
                 </h2>
                 <p class="text-muted mb-4" style="font-size: 15.5px; line-height: 1.8;">
-                    Bridging foundational literacy into scientific inquiry, conceptual mathematics, bilingual communication (English & Urdu), and introductory coding.
+                    {{ __('Bridging foundational literacy into scientific inquiry, conceptual mathematics, bilingual communication (English & Urdu), and introductory coding.') }}
                 </p>
                 <div class="d-flex flex-column gap-2 mb-4">
                     <div class="d-flex align-items-center gap-2 text-dark small fw-semibold">
                         <i class="bi bi-check-circle-fill text-success fs-5 flex-shrink-0"></i>
-                        <span>Experiential STEM activities & young coder challenges</span>
+                        <span>{{ __('Experiential STEM activities & young coder challenges') }}</span>
                     </div>
                     <div class="d-flex align-items-center gap-2 text-dark small fw-semibold">
                         <i class="bi bi-check-circle-fill text-success fs-5 flex-shrink-0"></i>
-                        <span>Mental math exercises, reading clubs, and spelling bees</span>
+                        <span>{{ __('Mental math exercises, reading clubs, and spelling bees') }}</span>
                     </div>
                     <div class="d-flex align-items-center gap-2 text-dark small fw-semibold">
                         <i class="bi bi-check-circle-fill text-success fs-5 flex-shrink-0"></i>
-                        <span>Character building, athletics day, and bilingual debate society</span>
+                        <span>{{ __('Character building, athletics day, and bilingual debate society') }}</span>
                     </div>
                 </div>
                 <a href="{{ route('admissions') }}" class="btn btn-outline-primary btn-sm px-4 py-2 rounded-pill fw-bold">
-                    Inquire for Primary Wing <i class="bi bi-arrow-right ms-1"></i>
+                    {{ __('Inquire for Primary Wing') }} <i class="bi bi-arrow-right ms-1"></i>
                 </a>
             </div>
 
             <div class="col-lg-6">
                 <div class="img-zoom-card rounded-4 shadow-sm border overflow-hidden">
-                    <img src="{{ asset('images/stem_lab.jpg') }}" alt="Primary School STEM Lab" class="img-fluid w-100 wing-feature-img">
+                    <img src="{{ asset('images/stem_lab.jpg') }}" alt="{{ __('Primary School STEM Lab') }}" class="img-fluid w-100 wing-feature-img">
                 </div>
             </div>
         </div>
@@ -196,26 +196,26 @@
         <div class="row g-5 align-items-center wing-section" id="matric">
             <div class="col-lg-6">
                 <span class="badge px-3 py-2 rounded-pill bg-success-subtle text-success fw-bold mb-3 shadow-2xs" style="font-size: 12.5px;">
-                    <i class="bi bi-award-fill me-1 text-success"></i> GRADES 6 - 10 / MATRICULATION & FBISE
+                    <i class="bi bi-award-fill me-1 text-success"></i> {{ __('GRADES 6 - 10 / MATRICULATION & FBISE') }}
                 </span>
                 <h2 class="fw-bold mb-3 text-dark" style="font-size: clamp(1.8rem, 3vw, 2.2rem); letter-spacing: -0.02em;">
-                    Senior School & Board Prep Wing
+                    {{ __('Senior School & Board Prep Wing') }}
                 </h2>
                 <p class="text-muted mb-4" style="font-size: 15.5px; line-height: 1.8;">
-                    Accredited with the Federal Board of Intermediate and Secondary Education (FBISE), our senior wing equips scholars with deep subject mastery in Physics, Chemistry, Biology, Computer Science, and Mathematics.
+                    {{ __('Accredited with the Federal Board of Intermediate and Secondary Education (FBISE), our senior wing equips scholars with deep subject mastery in Physics, Chemistry, Biology, Computer Science, and Mathematics.') }}
                 </p>
 
                 <div class="p-4 rounded-4 bg-light border mb-4 shadow-sm" style="border-left: 4px solid #F59E0B !important;">
                     <h6 class="fw-bold text-dark mb-2">
-                        <i class="bi bi-trophy-fill text-warning me-2"></i> 99.8% Distinction Track Record
+                        <i class="bi bi-trophy-fill text-warning me-2"></i> {{ __('99.8% Distinction Track Record') }}
                     </h6>
                     <p class="small text-muted mb-0" style="line-height: 1.6;">
-                        Comprehensive test session series, monthly diagnostic reporting, and individual mentorship ensuring top FBISE positions every year.
+                        {{ __('Comprehensive test session series, monthly diagnostic reporting, and individual mentorship ensuring top FBISE positions every year.') }}
                     </p>
                 </div>
 
                 <a href="{{ route('admissions') }}" class="btn btn-primary px-4 py-3 fw-bold rounded-3 shadow hover-lift" style="background: linear-gradient(135deg, #4F46E5, #7C3AED);">
-                    Apply for Senior Wing <i class="bi bi-arrow-right ms-2"></i>
+                    {{ __('Apply for Senior Wing') }} <i class="bi bi-arrow-right ms-2"></i>
                 </a>
             </div>
 
@@ -227,7 +227,7 @@
                             <i class="bi bi-cpu-fill fs-5"></i>
                         </div>
                         <h5 class="fw-bold text-warning mb-0" style="font-size: 18px; letter-spacing: -0.01em;">
-                            Advanced Laboratory Facilities:
+                            {{ __('Advanced Laboratory Facilities:') }}
                         </h5>
                     </div>
 
@@ -239,10 +239,10 @@
                             </div>
                             <div>
                                 <h6 class="mb-1 fw-bold text-white" style="color: #FFFFFF !important; font-size: 15px;">
-                                    AI & Computer Systems Lab
+                                    {{ __('AI & Computer Systems Lab') }}
                                 </h6>
                                 <small class="d-block text-white-50" style="color: rgba(255, 255, 255, 0.82) !important; font-size: 12.5px; line-height: 1.4;">
-                                    High-speed gigabit workstations with Python, C++, and Scratch
+                                    {{ __('High-speed gigabit workstations with Python, C++, and Scratch') }}
                                 </small>
                             </div>
                         </div>
@@ -254,10 +254,10 @@
                             </div>
                             <div>
                                 <h6 class="mb-1 fw-bold text-white" style="color: #FFFFFF !important; font-size: 15px;">
-                                    Physics & Chemistry Labs
+                                    {{ __('Physics & Chemistry Labs') }}
                                 </h6>
                                 <small class="d-block text-white-50" style="color: rgba(255, 255, 255, 0.82) !important; font-size: 12.5px; line-height: 1.4;">
-                                    Full safety apparatus and high-precision analytical equipment
+                                    {{ __('Full safety apparatus and high-precision analytical equipment') }}
                                 </small>
                             </div>
                         </div>
@@ -269,10 +269,10 @@
                             </div>
                             <div>
                                 <h6 class="mb-1 fw-bold text-white" style="color: #FFFFFF !important; font-size: 15px;">
-                                    Digital Central Library
+                                    {{ __('Digital Central Library') }}
                                 </h6>
                                 <small class="d-block text-white-50" style="color: rgba(255, 255, 255, 0.82) !important; font-size: 12.5px; line-height: 1.4;">
-                                    Over 15,000 academic titles, research journals, and quiet pods
+                                    {{ __('Over 15,000 academic titles, research journals, and quiet pods') }}
                                 </small>
                             </div>
                         </div>

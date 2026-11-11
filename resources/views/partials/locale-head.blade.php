@@ -25,10 +25,20 @@
         position: relative;
         display: inline-block;
         vertical-align: middle;
+        flex-shrink: 0;
         font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
         font-size: 13px;
-        z-index: 1050;
+        line-height: 1;
+        z-index: 1060;
         box-sizing: border-box;
+    }
+
+    .lang-switcher-wrap[open] {
+        z-index: 1120;
+    }
+
+    .lang-switcher-wrap:not([open]) > .lang-switcher-menu {
+        display: none !important;
     }
 
     .lang-switcher-wrap *,
@@ -37,13 +47,16 @@
         box-sizing: border-box;
     }
 
-    .top-nav-actions .lang-switcher-wrap {
+    .top-nav-actions .lang-switcher-wrap,
+    .roots-nav-actions .lang-switcher-wrap {
         margin-inline-end: 10px;
     }
 
     .lang-switcher-btn {
+        position: relative;
         display: inline-flex;
         align-items: center;
+        justify-content: center;
         gap: 6px;
         height: 38px;
         padding: 0 12px;
@@ -55,9 +68,14 @@
         font-size: 13px;
         font-weight: 600;
         line-height: 1;
+        white-space: nowrap;
+        flex-wrap: nowrap;
         list-style: none;
+        list-style-type: none;
+        appearance: none;
+        -webkit-appearance: none;
         user-select: none;
-        transition: all 0.2s ease;
+        transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
         box-shadow: 0 1px 2px rgba(15, 23, 42, 0.05);
     }
 
@@ -82,21 +100,41 @@
     }
 
     .lang-switcher-icon {
-        font-size: 16px;
+        position: static !important;
+        width: 16px;
+        height: 16px;
+        font-size: 15px;
+        line-height: 1;
         color: #4f46e5;
         display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
     }
 
     .lang-switcher-current {
+        display: inline-block;
         font-size: 13px;
         font-weight: 600;
+        line-height: 1.2;
         white-space: nowrap;
     }
 
     .lang-switcher-arrow {
+        position: static !important;
+        width: 12px;
+        height: 12px;
         font-size: 11px;
-        color: #94a3b8;
+        line-height: 1;
+        color: #64748b;
         display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        margin: 0;
+        margin-inline-start: 2px;
+        vertical-align: middle;
+        pointer-events: none;
         transition: transform 0.2s ease;
     }
 
@@ -107,18 +145,30 @@
     .lang-switcher-menu {
         position: absolute;
         top: calc(100% + 6px);
+        right: 0;
+        left: auto;
         inset-inline-end: 0;
-        min-width: 155px;
-        max-height: 320px;
+        inset-inline-start: auto;
+        min-width: 190px;
+        width: max-content;
+        max-width: min(260px, calc(100vw - 24px));
+        max-height: min(380px, 75vh);
         overflow-y: auto;
         background: #ffffff;
         border: 1px solid #e2e8f0;
         border-radius: 12px;
-        box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.12), 0 8px 10px -6px rgba(15, 23, 42, 0.08);
-        padding: 5px;
+        box-shadow: 0 12px 28px -4px rgba(15, 23, 42, 0.14), 0 8px 12px -6px rgba(15, 23, 42, 0.08);
+        padding: 6px;
         margin: 0;
         list-style: none !important;
-        z-index: 1200;
+        z-index: 2100;
+    }
+
+    [dir="rtl"] .lang-switcher-menu {
+        right: auto;
+        left: 0;
+        inset-inline-end: 0;
+        inset-inline-start: auto;
     }
 
     .lang-switcher-item {
@@ -137,13 +187,15 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
+        gap: 12px;
+        white-space: nowrap;
         padding: 8px 12px;
         border-radius: 8px;
         color: #334155 !important;
         text-decoration: none !important;
         font-size: 13px;
         font-weight: 500;
-        line-height: 1.2;
+        line-height: 1.25;
         transition: background 0.15s ease, color 0.15s ease;
     }
 
@@ -166,6 +218,31 @@
         letter-spacing: 0.5px;
         text-transform: uppercase;
         margin-inline-start: 8px;
+        flex-shrink: 0;
+    }
+
+    @media (max-width: 991.98px) {
+        .roots-navbar .lang-switcher-menu {
+            left: 0;
+            right: auto;
+            inset-inline-start: 0;
+            inset-inline-end: auto;
+            max-width: calc(100vw - 48px);
+        }
+
+        [dir="rtl"] .roots-navbar .lang-switcher-menu {
+            left: auto;
+            right: 0;
+            inset-inline-start: 0;
+            inset-inline-end: auto;
+        }
+    }
+
+    @media (max-width: 575.98px) {
+        .lang-switcher-btn {
+            padding: 0 10px;
+            font-size: 12.5px;
+        }
     }
 
     /* Dark Mode Theme Support */

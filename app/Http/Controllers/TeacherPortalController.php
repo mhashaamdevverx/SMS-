@@ -8,3 +8,4 @@ class TeacherPortalController extends BaseTeacherPortalController
 {
     // Backward compatibility alias for TeacherPortalController
 }
+   

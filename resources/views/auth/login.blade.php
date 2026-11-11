@@ -25,13 +25,12 @@
 
     <!-- TOP NAVIGATION BAR -->
     <header class="top-navbar">
-        <a href="/" class="btn-back-home" title="Back">
+        <a href="/" class="btn-back-home" title="{{ __('Back') }}">
             <i class="bi bi-arrow-left"></i>
-            <span>Back</span>
+            <span>{{ __('Back') }}</span>
         </a>
         <div class="top-nav-actions">
-            <x-language-switcher />
-            <a href="{{ route('support') }}" class="btn-header-support" title="Help Desk &amp; Support" aria-label="Help &amp; Support">
+            <a href="{{ route('support') }}" class="btn-header-support" title="{{ __('Help Desk & Support') }}" aria-label="{{ __('Help & Support') }}">
                 <i class="bi bi-question-lg"></i>
             </a>
         </div>
@@ -45,7 +44,7 @@
             <div class="form-side">
                 
                 <!-- BRAND LOGO BADGE (CENTERED) -->
-                <a href="/" title="Back to Home" style="text-decoration:none;">
+                <a href="/" title="{{ __('Back to Home') }}" style="text-decoration:none;">
                     <div class="badge-logo-outer">
                         <div class="badge-logo-inner">
                             <img src="{{ asset('images/school_logo.png') }}" alt="Excellence School System Logo">
@@ -55,7 +54,7 @@
 
                 <!-- TITLE & SUBTITLE (CENTERED) -->
                 <h1 class="form-heading">Excellence School System</h1>
-                <p class="form-subheading">Enter your email and password to access the portal</p>
+                <p class="form-subheading">{{ __('Enter your email and password to access the portal') }}</p>
 
                 <!-- SUCCESS ALERT -->
                 @if(session('success'))
@@ -78,15 +77,15 @@
                     @csrf
 
                     <fieldset class="login-role-switch">
-                        <legend>Sign in as</legend>
-                        <label><input type="radio" name="account_type" value="student" @checked(old('account_type', 'student') === 'student')><span><i class="bi bi-mortarboard-fill" aria-hidden="true"></i> Student</span></label>
-                        <label><input type="radio" name="account_type" value="teacher" @checked(old('account_type') === 'teacher')><span><i class="bi bi-person-badge-fill" aria-hidden="true"></i> Teacher</span></label>
-                        <label><input type="radio" name="account_type" value="admin" @checked(old('account_type') === 'admin')><span><i class="bi bi-shield-lock-fill" aria-hidden="true"></i> Admin</span></label>
+                        <legend>{{ __('Sign in as') }}</legend>
+                        <label><input type="radio" name="account_type" value="student" @checked(old('account_type', 'student') === 'student')><span><i class="bi bi-mortarboard-fill" aria-hidden="true"></i> {{ __('Student') }}</span></label>
+                        <label><input type="radio" name="account_type" value="teacher" @checked(old('account_type') === 'teacher')><span><i class="bi bi-person-badge-fill" aria-hidden="true"></i> {{ __('Teacher') }}</span></label>
+                        <label><input type="radio" name="account_type" value="admin" @checked(old('account_type') === 'admin')><span><i class="bi bi-shield-lock-fill" aria-hidden="true"></i> {{ __('Admin') }}</span></label>
                     </fieldset>
 
                     <!-- EMAIL INPUT -->
                     <div class="form-group">
-                        <label for="login-email" class="form-label">Email Address</label>
+                        <label for="login-email" class="form-label">{{ __('Email Address') }}</label>
                         <div class="input-pill-wrapper">
                             <i class="bi bi-envelope field-icon"></i>
                             <input 
@@ -94,7 +93,7 @@
                                 type="email" 
                                 name="email" 
                                 class="input-pill" 
-                                placeholder="Enter Your Email" 
+                                placeholder="{{ __('Enter Your Email') }}" 
                                 value="{{ old('email') }}" 
                                 required
                                 autocomplete="email"
@@ -107,7 +106,7 @@
 
                     <!-- PASSWORD INPUT -->
                     <div class="form-group">
-                        <label for="login-password" class="form-label">Password</label>
+                        <label for="login-password" class="form-label">{{ __('Password') }}</label>
                         <div class="input-pill-wrapper">
                             <i class="bi bi-lock field-icon"></i>
                             <input 
@@ -115,10 +114,10 @@
                                 type="password" 
                                 name="password" 
                                 class="input-pill" 
-                                placeholder="Enter Your Password" 
+                                placeholder="{{ __('Enter Your Password') }}" 
                                 required
                             >
-                            <button type="button" class="btn-toggle-eye" id="togglePasswordBtn" onclick="togglePasswordVisibility(event)" title="Toggle password visibility">
+                            <button type="button" class="btn-toggle-eye" id="togglePasswordBtn" onclick="togglePasswordVisibility(event)" title="{{ __('Toggle password visibility') }}">
                                 <i class="bi bi-eye" id="eyeIcon"></i>
                             </button>
                         </div>
@@ -131,9 +130,9 @@
                     <div class="form-options-row">
                         <label class="custom-checkbox-label">
                             <input type="checkbox" name="remember" value="1" checked>
-                            <span>Remember me</span>
+                            <span>{{ __('Remember me') }}</span>
                         </label>
-                        <a href="{{ route('password.request') }}" class="forgot-link">Forgot Password?</a>
+                        <a href="{{ route('password.request') }}" class="forgot-link">{{ __('Forgot Password?') }}</a>
                     </div>
 
                     <!-- SUBMIT BUTTON -->
@@ -145,8 +144,8 @@
 
                 <!-- FOOTER -->
                 <div class="form-footer-note">
-                    <span>Don't have an account?</span>
-                    <a href="/signup">Create an Account</a>
+                    <span>{{ __("Don't have an account?") }}</span>
+                    <a href="/signup">{{ __('Create an Account') }}</a>
                 </div>
 
             </div>
@@ -161,13 +160,13 @@
                         <div class="rating-badges-row">
                             <div class="badge-academic-rating">
                                 <i class="bi bi-star-fill fs-10"></i>
-                                <span>Top Academic Rating</span>
+                                <span>{{ __('Top Academic Rating') }}</span>
                             </div>
-                            <span class="badge-tier">Tier 1</span>
+                            <span class="badge-tier">{{ __('Tier 1') }}</span>
                         </div>
-                        <div class="floating-card-title">Dean's Honor Roll System</div>
+                        <div class="floating-card-title">{{ __("Dean's Honor Roll System") }}</div>
                         <div class="floating-card-metric">
-                            <span>Graduation Success</span>
+                            <span>{{ __('Graduation Success') }}</span>
                             <span class="metric-val">98.4%</span>
                         </div>
                     </div>
@@ -178,7 +177,7 @@
                             <i class="bi bi-quote"></i>
                         </div>
                         <p class="quote-body-text">
-                            "Outstanding academic support & faculty collaboration across all faculties."
+                            {{ __('"Outstanding academic support & faculty collaboration across all faculties."') }}
                         </p>
                         <div class="quote-card-footer">
                             <div class="avatar-group-container">
@@ -187,9 +186,9 @@
                                     <div class="avatar-circle av-2">ED</div>
                                     <div class="avatar-circle av-3"><i class="bi bi-star-fill"></i></div>
                                 </div>
-                                <span class="avatar-group-label">Student Council 2025</span>
+                                <span class="avatar-group-label">{{ __('Student Council 2025') }}</span>
                             </div>
-                            <div class="badge-award">Excellence Award</div>
+                            <div class="badge-award">{{ __('Excellence Award') }}</div>
                         </div>
                     </div>
 

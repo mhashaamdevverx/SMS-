@@ -15,27 +15,27 @@
             </a>
 
             <!-- Mobile Menu Button -->
-            <button class="navbar-toggler border-0 shadow-none ms-auto d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarRootsContent" aria-controls="navbarRootsContent" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler border-0 shadow-none ms-auto d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarRootsContent" aria-controls="navbarRootsContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                 <i class="bi bi-list fs-1 text-dark"></i>
             </button>
 
             <!-- Navigation Links (Why Choose Us & Help Desk moved to Footer as requested) -->
             <div class="collapse navbar-collapse justify-content-end" id="navbarRootsContent">
                 <div class="roots-nav-menu my-3 my-lg-0">
-                    <a class="roots-nav-link {{ request()->routeIs('home') ? 'active' : '' }}" href="{{ route('home') }}">Home</a>
-                    <a class="roots-nav-link {{ request()->routeIs('about') ? 'active' : '' }}" href="{{ route('about') }}">About Us</a>
-                    <a class="roots-nav-link {{ request()->routeIs('admissions') ? 'active' : '' }}" href="{{ route('admissions') }}">Admissions</a>
-                    <a class="roots-nav-link {{ request()->routeIs('academics') ? 'active' : '' }}" href="{{ route('academics') }}">Academics</a>
-                    <a class="roots-nav-link {{ request()->routeIs('careers') ? 'active' : '' }}" href="{{ route('careers') }}">Careers</a>
-                    <a class="roots-nav-link {{ request()->routeIs('contact') ? 'active' : '' }}" href="{{ route('contact') }}">Contact</a>
+                    <a class="roots-nav-link {{ request()->routeIs('home') ? 'active' : '' }}" href="{{ route('home') }}">{{ __('Home') }}</a>
+                    <a class="roots-nav-link {{ request()->routeIs('about') ? 'active' : '' }}" href="{{ route('about') }}">{{ __('About Us') }}</a>
+                    <a class="roots-nav-link {{ request()->routeIs('admissions') ? 'active' : '' }}" href="{{ route('admissions') }}">{{ __('Admissions') }}</a>
+                    <a class="roots-nav-link {{ request()->routeIs('academics') ? 'active' : '' }}" href="{{ route('academics') }}">{{ __('Academics') }}</a>
+                    <a class="roots-nav-link {{ request()->routeIs('careers') ? 'active' : '' }}" href="{{ route('careers') }}">{{ __('Careers') }}</a>
+                    <a class="roots-nav-link {{ request()->routeIs('contact') ? 'active' : '' }}" href="{{ route('contact') }}">{{ __('Contact') }}</a>
                 </div>
 
                 <!-- ACTION BUTTON: PORTAL LOGIN ONLY -->
                 <div class="roots-nav-actions">
                     <x-language-switcher />
-                    <a href="{{ route('login') }}" class="btn-roots-apply" id="portalLoginNavBtn" title="Access Student, Teacher & Admin Portals">
+                    <a href="{{ route('login') }}" class="btn-roots-apply" id="portalLoginNavBtn" title="{{ __('Access Student, Teacher & Admin Portals') }}">
                         <span class="btn-icon-lock"><i class="bi bi-shield-lock-fill"></i></span>
-                        <span>Portal Login</span>
+                        <span>{{ __('Portal Login') }}</span>
                         <i class="bi bi-arrow-right-short fs-5 btn-arrow"></i>
                     </a>
                 </div>

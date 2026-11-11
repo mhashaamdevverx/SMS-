@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Excellence School System - Nurturing Young Minds Through Innovation & Play</title>
+    <title>Excellence School System - {{ __('Nurturing Young Minds Through Innovation & Play') }}</title>
 
     <link rel="icon" type="image/png" href="{{ asset('images/school_logo.png') }}">
     <link rel="apple-touch-icon" href="{{ asset('images/school_logo.png') }}">
@@ -37,16 +37,16 @@
         <!-- Background Image Crossfade Slider (5s interval, 1s fade) -->
         <div class="hero-bg-slider" id="heroBgSlider">
             <div class="hero-bg-slide active">
-                <img src="{{ asset('images/stem_lab.jpg') }}" alt="STEM Robotics Lab" onerror="this.onerror=null; this.src='{{ asset('images/landing_hero.jpg') }}';">
+                <img src="{{ asset('images/stem_lab.jpg') }}" alt="{{ __('STEM Robotics Lab') }}" onerror="this.onerror=null; this.src='{{ asset('images/landing_hero.jpg') }}';">
             </div>
             <div class="hero-bg-slide">
-                <img src="{{ asset('images/landing_hero.jpg') }}" alt="Smart Classroom" onerror="this.onerror=null; this.src='{{ asset('images/stem_lab.jpg') }}';">
+                <img src="{{ asset('images/landing_hero.jpg') }}" alt="{{ __('Smart Classroom') }}" onerror="this.onerror=null; this.src='{{ asset('images/stem_lab.jpg') }}';">
             </div>
             <div class="hero-bg-slide">
-                <img src="{{ asset('upload/school_campus.jpg') }}" alt="Excellence Campus" onerror="this.onerror=null; this.src='{{ asset('images/landing_hero.jpg') }}';">
+                <img src="{{ asset('upload/school_campus.jpg') }}" alt="{{ __('Excellence Campus') }}" onerror="this.onerror=null; this.src='{{ asset('images/landing_hero.jpg') }}';">
             </div>
             <div class="hero-bg-slide">
-                <img src="{{ asset('upload/signup_hero.jpg') }}" alt="Academic Collaborative Library" onerror="this.onerror=null; this.src='{{ asset('images/stem_lab.jpg') }}';">
+                <img src="{{ asset('upload/signup_hero.jpg') }}" alt="{{ __('Academic Collaborative Library') }}" onerror="this.onerror=null; this.src='{{ asset('images/stem_lab.jpg') }}';">
             </div>
         </div>
 
@@ -60,26 +60,26 @@
                     
                     <!-- Clean, Bold Heading with Amber Accent -->
                     <h1 class="hero-heading">
-                        Nurturing Young Minds Through
-                        <span class="hero-text-accent">Play,</span>
-                        <span class="hero-text-accent">Wonder &amp; 3D</span>
-                        Interactive Learning.
+                        {{ __('Nurturing Young Minds Through') }}
+                        <span class="hero-text-accent">{{ __('Play,') }}</span>
+                        <span class="hero-text-accent">{{ __('Wonder & 3D') }}</span>
+                        {{ __('Interactive Learning.') }}
                     </h1>
 
                     <!-- Lead Description -->
                     <p class="hero-lead">
-                        Where early discovery seamlessly blossoms into academic mastery. Blending Montessori methods, cutting-edge STEM robotics labs, and comprehensive character building from Kindergarten to Matriculation.
+                        {{ __('Where early discovery seamlessly blossoms into academic mastery. Blending Montessori methods, cutting-edge STEM robotics labs, and comprehensive character building from Kindergarten to Matriculation.') }}
                     </p>
 
                     <!-- CTA Action Buttons -->
                     <div class="hero-cta-group">
                         <a href="{{ route('admissions') }}" class="btn-cta-orange">
-                            <span>Enroll Your Child</span>
+                            <span>{{ __('Enroll Your Child') }}</span>
                             <i class="bi bi-arrow-right ms-1"></i>
                         </a>
                         <a href="#tourSection" class="btn-outline-white">
                             <i class="bi bi-calendar2-event me-1"></i>
-                            <span>Book Campus Tour</span>
+                            <span>{{ __('Book Campus Tour') }}</span>
                         </a>
                     </div>
 
@@ -94,9 +94,9 @@
                             <span class="fw-bold text-white ms-1">4.9 / 5</span>
                         </div>
                         <span class="text-white-50">&bull;</span>
-                        <span class="text-light opacity-90 small">(1,200+ Happy Parent Reviews)</span>
+                        <span class="text-light opacity-90 small">{{ __('(1,200+ Happy Parent Reviews)') }}</span>
                         <span class="hero-affiliation-badge">
-                            <i class="bi bi-patch-check-fill me-1"></i> FBISE &amp; Cambridge
+                            <i class="bi bi-patch-check-fill me-1"></i> {{ __('FBISE & Cambridge') }}
                         </span>
                     </div>
 
@@ -105,10 +105,10 @@
 
             <!-- Subtle Slider Dots Indicator Centered Below -->
             <div class="hero-slider-dots" id="heroSliderDots">
-                <button type="button" class="hero-dot active" data-slide="0" aria-label="Slide 1"></button>
-                <button type="button" class="hero-dot" data-slide="1" aria-label="Slide 2"></button>
-                <button type="button" class="hero-dot" data-slide="2" aria-label="Slide 3"></button>
-                <button type="button" class="hero-dot" data-slide="3" aria-label="Slide 4"></button>
+                <button type="button" class="hero-dot active" data-slide="0" aria-label="{{ __('Slide 1') }}"></button>
+                <button type="button" class="hero-dot" data-slide="1" aria-label="{{ __('Slide 2') }}"></button>
+                <button type="button" class="hero-dot" data-slide="2" aria-label="{{ __('Slide 3') }}"></button>
+                <button type="button" class="hero-dot" data-slide="3" aria-label="{{ __('Slide 4') }}"></button>
             </div>
         </div>
     </section>
@@ -119,10 +119,10 @@
     <section class="pillars-section section-spacing">
         <div class="container">
             <div class="text-center max-w-700 mx-auto mb-5">
-                <span class="section-tag-pill">EXCELLENCE AT EVERY STEP</span>
-                <h2 class="section-heading-bold">Four Pillars of Holistic Growth</h2>
+                <span class="section-tag-pill">{{ __('EXCELLENCE AT EVERY STEP') }}</span>
+                <h2 class="section-heading-bold">{{ __('Four Pillars of Holistic Growth') }}</h2>
                 <p class="section-subheading-clean">
-                    Every child is an explorer. We offer diverse academic and co-curricular pathways tailored to each developmental milestone.
+                    {{ __('Every child is an explorer. We offer diverse academic and co-curricular pathways tailored to each developmental milestone.') }}
                 </p>
             </div>
 
@@ -133,12 +133,12 @@
                         <div class="pillar-icon-box pillar-icon-gold">
                             <i class="bi bi-puzzle-fill"></i>
                         </div>
-                        <h3 class="pillar-title">Montessori &amp; STEM</h3>
+                        <h3 class="pillar-title">{{ __('Montessori & STEM') }}</h3>
                         <p class="pillar-desc">
-                            Hands-on sensory exploration, coding logic, robotics sets, and practical observation from Early Years.
+                            {{ __('Hands-on sensory exploration, coding logic, robotics sets, and practical observation from Early Years.') }}
                         </p>
                         <a href="{{ route('academics') }}#preschool" class="pillar-link">
-                            <span>Learn More</span> <i class="bi bi-arrow-right"></i>
+                            <span>{{ __('Learn More') }}</span> <i class="bi bi-arrow-right"></i>
                         </a>
                     </div>
                 </div>
@@ -149,12 +149,12 @@
                         <div class="pillar-icon-box pillar-icon-burgundy">
                             <i class="bi bi-person-heart"></i>
                         </div>
-                        <h3 class="pillar-title">Nurturing Educators</h3>
+                        <h3 class="pillar-title">{{ __('Nurturing Educators') }}</h3>
                         <p class="pillar-desc">
-                            Compassionate, certified teachers delivering individualized attention with a low 15:1 student-to-teacher ratio.
+                            {{ __('Compassionate, certified teachers delivering individualized attention with a low 15:1 student-to-teacher ratio.') }}
                         </p>
                         <a href="{{ route('about') }}" class="pillar-link">
-                            <span>Meet Culture</span> <i class="bi bi-arrow-right"></i>
+                            <span>{{ __('Meet Culture') }}</span> <i class="bi bi-arrow-right"></i>
                         </a>
                     </div>
                 </div>
@@ -165,12 +165,12 @@
                         <div class="pillar-icon-box pillar-icon-maroon">
                             <i class="bi bi-shield-check"></i>
                         </div>
-                        <h3 class="pillar-title">Safe &amp; Active Sports</h3>
+                        <h3 class="pillar-title">{{ __('Safe & Active Sports') }}</h3>
                         <p class="pillar-desc">
-                            2-acre safe green campus, modern sports courts, karate, gymnastics, athletics, and physical wellness.
+                            {{ __('2-acre safe green campus, modern sports courts, karate, gymnastics, athletics, and physical wellness.') }}
                         </p>
                         <a href="{{ route('why.choose.us') }}" class="pillar-link">
-                            <span>Explore Grounds</span> <i class="bi bi-arrow-right"></i>
+                            <span>{{ __('Explore Grounds') }}</span> <i class="bi bi-arrow-right"></i>
                         </a>
                     </div>
                 </div>
@@ -181,12 +181,12 @@
                         <div class="pillar-icon-box pillar-icon-amber">
                             <i class="bi bi-palette-fill"></i>
                         </div>
-                        <h3 class="pillar-title">Arts, Music &amp; Ethics</h3>
+                        <h3 class="pillar-title">{{ __('Arts, Music & Ethics') }}</h3>
                         <p class="pillar-desc">
-                            Creative studio work, public speaking, Islamic moral ethics, and performing arts fostering well-rounded character.
+                            {{ __('Creative studio work, public speaking, Islamic moral ethics, and performing arts fostering well-rounded character.') }}
                         </p>
                         <a href="{{ route('academics') }}" class="pillar-link">
-                            <span>Discover Arts</span> <i class="bi bi-arrow-right"></i>
+                            <span>{{ __('Discover Arts') }}</span> <i class="bi bi-arrow-right"></i>
                         </a>
                     </div>
                 </div>
@@ -201,22 +201,22 @@
         <div class="container">
             <!-- Header Title -->
             <div class="programs-header-box mb-4">
-                <span class="section-tag-pill">EARLY YEARS TO MATRICULATION</span>
-                <h2 class="section-heading-bold mb-2">Programs Tailored to Every Age Stage</h2>
-                <p class="section-subheading-clean text-start ms-0 mb-0">Select an academic tier tailored to your child's age, growth stage, and learning ambitions.</p>
+                <span class="section-tag-pill">{{ __('EARLY YEARS TO MATRICULATION') }}</span>
+                <h2 class="section-heading-bold mb-2">{{ __('Programs Tailored to Every Age Stage') }}</h2>
+                <p class="section-subheading-clean text-start ms-0 mb-0">{{ __('Select an academic tier tailored to your child\'s age, growth stage, and learning ambitions.') }}</p>
             </div>
 
             <!-- Cohesive Controls Toolbar: Unified Segmented Tabs & Action Button -->
             <div class="program-toolbar-row mb-5">
                 <div class="program-segmented-bar" id="programTabsGroup">
-                    <button type="button" class="program-tab-pill active" data-filter="all">All Wings</button>
-                    <button type="button" class="program-tab-pill" data-filter="preschool">Pre-School</button>
-                    <button type="button" class="program-tab-pill" data-filter="primary">Primary Wing</button>
-                    <button type="button" class="program-tab-pill" data-filter="senior">Senior FBISE</button>
+                    <button type="button" class="program-tab-pill active" data-filter="all">{{ __('All Wings') }}</button>
+                    <button type="button" class="program-tab-pill" data-filter="preschool">{{ __('Pre-School') }}</button>
+                    <button type="button" class="program-tab-pill" data-filter="primary">{{ __('Primary Wing') }}</button>
+                    <button type="button" class="program-tab-pill" data-filter="senior">{{ __('Senior FBISE') }}</button>
                 </div>
 
-                <a href="{{ route('academics') }}" class="btn-view-all-wings" title="View Full Academic Wings Syllabus">
-                    <span>View All Wings</span>
+                <a href="{{ route('academics') }}" class="btn-view-all-wings" title="{{ __('View Full Academic Wings Syllabus') }}">
+                    <span>{{ __('View All Wings') }}</span>
                     <i class="bi bi-arrow-right"></i>
                 </a>
             </div>
@@ -226,24 +226,24 @@
                 <div class="col-md-6 col-lg-4 program-item" data-category="preschool">
                     <div class="program-card">
                         <div class="program-img-box">
-                            <span class="program-age-pill"><i class="bi bi-balloon-heart text-danger me-1"></i> Ages 3 - 5 Years</span>
-                            <img src="{{ asset('images/landing_hero.jpg') }}" alt="Little Sprouts Discovery">
+                            <span class="program-age-pill"><i class="bi bi-balloon-heart text-danger me-1"></i> {{ __('Ages 3 - 5 Years') }}</span>
+                            <img src="{{ asset('images/landing_hero.jpg') }}" alt="{{ __('Little Sprouts Discovery') }}">
                         </div>
                         <div class="program-body">
-                            <h3 class="program-title">Little Sprouts Discovery</h3>
-                            <p class="program-desc">Nurturing curiosity and fine motor skills through playful sensory activities and phonics.</p>
+                            <h3 class="program-title">{{ __('Little Sprouts Discovery') }}</h3>
+                            <p class="program-desc">{{ __('Nurturing curiosity and fine motor skills through playful sensory activities and phonics.') }}</p>
                             <ul class="program-bullets">
-                                <li><i class="bi bi-check2-circle text-primary"></i> Multi-sensory play &amp; alphabet phonics</li>
-                                <li><i class="bi bi-check2-circle text-primary"></i> Social sharing, empathy, and manners</li>
-                                <li><i class="bi bi-check2-circle text-primary"></i> Daily outdoor supervised sports play</li>
+                                <li><i class="bi bi-check2-circle text-primary"></i> {{ __('Multi-sensory play & alphabet phonics') }}</li>
+                                <li><i class="bi bi-check2-circle text-primary"></i> {{ __('Social sharing, empathy, and manners') }}</li>
+                                <li><i class="bi bi-check2-circle text-primary"></i> {{ __('Daily outdoor supervised sports play') }}</li>
                             </ul>
                             <div class="program-footer-bar">
                                 <div>
-                                    <small class="text-muted d-block" style="font-size: 11px;">Wing Enrollment</small>
-                                    <strong class="text-dark" style="font-size: 13.5px;">Spring 2026 Open</strong>
+                                    <small class="text-muted d-block" style="font-size: 11px;">{{ __('Wing Enrollment') }}</small>
+                                    <strong class="text-dark" style="font-size: 13.5px;">{{ __('Spring 2026 Open') }}</strong>
                                 </div>
                                 <a href="{{ route('admissions') }}" class="btn-program-apply">
-                                    Apply Now &rarr;
+                                    {{ __('Apply Now') }} &rarr;
                                 </a>
                             </div>
                         </div>
@@ -254,24 +254,24 @@
                 <div class="col-md-6 col-lg-4 program-item" data-category="primary">
                     <div class="program-card">
                         <div class="program-img-box">
-                            <span class="program-age-pill"><i class="bi bi-cpu text-primary me-1"></i> Grades 1 - 5</span>
-                            <img src="{{ asset('images/stem_lab.jpg') }}" alt="Junior Explorers STEM Hub">
+                            <span class="program-age-pill"><i class="bi bi-cpu text-primary me-1"></i> {{ __('Grades 1 - 5') }}</span>
+                            <img src="{{ asset('images/stem_lab.jpg') }}" alt="{{ __('Junior Explorers STEM Hub') }}">
                         </div>
                         <div class="program-body">
-                            <h3 class="program-title">Junior Explorers STEM Hub</h3>
-                            <p class="program-desc">Building strong foundational literacy, conceptual math, science projects, and coding.</p>
+                            <h3 class="program-title">{{ __('Junior Explorers STEM Hub') }}</h3>
+                            <p class="program-desc">{{ __('Building strong foundational literacy, conceptual math, science projects, and coding.') }}</p>
                             <ul class="program-bullets">
-                                <li><i class="bi bi-check2-circle text-success"></i> Hands-on weekly science experiments</li>
-                                <li><i class="bi bi-check2-circle text-success"></i> Scratch coding &amp; robotics logic</li>
-                                <li><i class="bi bi-check2-circle text-success"></i> Bilingual English &amp; Urdu eloquence</li>
+                                <li><i class="bi bi-check2-circle text-success"></i> {{ __('Hands-on weekly science experiments') }}</li>
+                                <li><i class="bi bi-check2-circle text-success"></i> {{ __('Scratch coding & robotics logic') }}</li>
+                                <li><i class="bi bi-check2-circle text-success"></i> {{ __('Bilingual English & Urdu eloquence') }}</li>
                             </ul>
                             <div class="program-footer-bar">
                                 <div>
-                                    <small class="text-muted d-block" style="font-size: 11px;">Wing Enrollment</small>
-                                    <strong class="text-dark" style="font-size: 13.5px;">Seats Available</strong>
+                                    <small class="text-muted d-block" style="font-size: 11px;">{{ __('Wing Enrollment') }}</small>
+                                    <strong class="text-dark" style="font-size: 13.5px;">{{ __('Seats Available') }}</strong>
                                 </div>
                                 <a href="{{ route('admissions') }}" class="btn-program-apply">
-                                    Apply Now &rarr;
+                                    {{ __('Apply Now') }} &rarr;
                                 </a>
                             </div>
                         </div>
@@ -282,24 +282,24 @@
                 <div class="col-md-6 col-lg-4 program-item" data-category="senior">
                     <div class="program-card">
                         <div class="program-img-box">
-                            <span class="program-age-pill"><i class="bi bi-award text-warning me-1"></i> Grades 6 - 10 / Matric</span>
-                            <img src="{{ asset('upload/school_campus.jpg') }}" alt="Master Innovators Senior Wing" onerror="this.onerror=null; this.src='{{ asset('images/landing_hero.jpg') }}';">
+                            <span class="program-age-pill"><i class="bi bi-award text-warning me-1"></i> {{ __('Grades 6 - 10 / Matric') }}</span>
+                            <img src="{{ asset('upload/school_campus.jpg') }}" alt="{{ __('Master Innovators Senior Wing') }}" onerror="this.onerror=null; this.src='{{ asset('images/landing_hero.jpg') }}';">
                         </div>
                         <div class="program-body">
-                            <h3 class="program-title">Master Innovators Senior Wing</h3>
-                            <p class="program-desc">Rigorous FBISE board syllabus mastery with structured monthly test diagnostics.</p>
+                            <h3 class="program-title">{{ __('Master Innovators Senior Wing') }}</h3>
+                            <p class="program-desc">{{ __('Rigorous FBISE board syllabus mastery with structured monthly test diagnostics.') }}</p>
                             <ul class="program-bullets">
-                                <li><i class="bi bi-check2-circle text-warning"></i> FBISE Board Distinction track record</li>
-                                <li><i class="bi bi-check2-circle text-warning"></i> Fully equipped physics, chem &amp; bio labs</li>
-                                <li><i class="bi bi-check2-circle text-warning"></i> Career counseling &amp; Olympiad training</li>
+                                <li><i class="bi bi-check2-circle text-warning"></i> {{ __('FBISE Board Distinction track record') }}</li>
+                                <li><i class="bi bi-check2-circle text-warning"></i> {{ __('Fully equipped physics, chem & bio labs') }}</li>
+                                <li><i class="bi bi-check2-circle text-warning"></i> {{ __('Career counseling & Olympiad training') }}</li>
                             </ul>
                             <div class="program-footer-bar">
                                 <div>
-                                    <small class="text-muted d-block" style="font-size: 11px;">Wing Enrollment</small>
-                                    <strong class="text-dark" style="font-size: 13.5px;">Merit Admissions</strong>
+                                    <small class="text-muted d-block" style="font-size: 11px;">{{ __('Wing Enrollment') }}</small>
+                                    <strong class="text-dark" style="font-size: 13.5px;">{{ __('Merit Admissions') }}</strong>
                                 </div>
                                 <a href="{{ route('admissions') }}" class="btn-program-apply">
-                                    Apply Now &rarr;
+                                    {{ __('Apply Now') }} &rarr;
                                 </a>
                             </div>
                         </div>
@@ -317,10 +317,10 @@
             <div class="row align-items-center g-4 g-xl-5">
                 <!-- Left: Content & Features -->
                 <div class="col-lg-6">
-                    <span class="section-tag-pill-dark">TOP-TIER ACCREDITATION</span>
-                    <h2 class="display-6 fw-bold mb-3 text-white">We Are The Best Mentors In Modern Holistic Education</h2>
+                    <span class="section-tag-pill-dark">{{ __('TOP-TIER ACCREDITATION') }}</span>
+                    <h2 class="display-6 fw-bold mb-3 text-white">{{ __('We Are The Best Mentors In Modern Holistic Education') }}</h2>
                     <p class="lead opacity-90 mb-4">
-                        Dedicated to creating an inspiring environment where every learner thrives academically, socially, and creatively through compassionate guidance and world-class digital tools.
+                        {{ __('Dedicated to creating an inspiring environment where every learner thrives academically, socially, and creatively through compassionate guidance and world-class digital tools.') }}
                     </p>
 
                     <!-- 2x2 Feature Grid -->
@@ -328,25 +328,25 @@
                         <div class="col-sm-6">
                             <div class="mentor-feature-item">
                                 <i class="bi bi-patch-check-fill fs-5 text-warning"></i>
-                                <span>Dual Curriculum Wings</span>
+                                <span>{{ __('Dual Curriculum Wings') }}</span>
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="mentor-feature-item">
                                 <i class="bi bi-cpu-fill fs-5 text-info"></i>
-                                <span>Smart AI Classrooms</span>
+                                <span>{{ __('Smart AI Classrooms') }}</span>
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="mentor-feature-item">
                                 <i class="bi bi-trophy-fill fs-5 text-warning"></i>
-                                <span>30+ Activity Clubs</span>
+                                <span>{{ __('30+ Activity Clubs') }}</span>
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="mentor-feature-item">
                                 <i class="bi bi-clock-history fs-5 text-success"></i>
-                                <span>Safe Day Care Support</span>
+                                <span>{{ __('Safe Day Care Support') }}</span>
                             </div>
                         </div>
                     </div>
@@ -354,11 +354,11 @@
                     <!-- Action Buttons -->
                     <div class="d-flex gap-3 flex-wrap">
                         <a href="{{ route('admissions') }}" class="btn-cta-orange">
-                            <span>Schedule Campus Visit</span>
+                            <span>{{ __('Schedule Campus Visit') }}</span>
                             <i class="bi bi-arrow-right ms-2"></i>
                         </a>
                         <a href="{{ route('about') }}" class="btn-outline-white">
-                            About Our Legacy
+                            {{ __('About Our Legacy') }}
                         </a>
                     </div>
                 </div>
@@ -366,15 +366,15 @@
                 <!-- Right: Image with Rounded Frame and Badges -->
                 <div class="col-lg-6">
                     <div class="mentor-showcase-box">
-                        <img src="{{ asset('images/stem_lab.jpg') }}" alt="Innovation Lab Showcase" class="mentor-showcase-img">
+                        <img src="{{ asset('images/stem_lab.jpg') }}" alt="{{ __('Innovation Lab Showcase') }}" class="mentor-showcase-img">
                         <div class="mt-3 d-flex justify-content-between align-items-center text-white px-2">
                             <div>
                                 <h6 class="fw-bold mb-0 text-warning" style="font-size: 14px;">
-                                    <i class="bi bi-shield-lock-fill me-1"></i> ISO 9001 &amp; FBISE Certified
+                                    <i class="bi bi-shield-lock-fill me-1"></i> {{ __('ISO 9001 & FBISE Certified') }}
                                 </h6>
-                                <small class="text-light opacity-75" style="font-size: 12px;">Recognized nationwide for academic standard</small>
+                                <small class="text-light opacity-75" style="font-size: 12px;">{{ __('Recognized nationwide for academic standard') }}</small>
                             </div>
-                            <span class="badge-sector-rank">Ranked #1 in Sector</span>
+                            <span class="badge-sector-rank">{{ __('Ranked #1 in Sector') }}</span>
                         </div>
                     </div>
                 </div>
@@ -388,36 +388,36 @@
     <section class="campus-gallery-section section-spacing">
         <div class="container">
             <div class="text-center max-w-700 mx-auto mb-5">
-                <span class="section-tag-pill">CAMPUS LIFE &amp; CULTURE</span>
-                <h2 class="section-heading-bold">Life Inside Excellence Campus</h2>
+                <span class="section-tag-pill">{{ __('CAMPUS LIFE & CULTURE') }}</span>
+                <h2 class="section-heading-bold">{{ __('Life Inside Excellence Campus') }}</h2>
                 <p class="section-subheading-clean">
-                    From robotic hackathons to sports galas and art exhibitions, explore everyday snapshots of our vibrant community.
+                    {{ __('From robotic hackathons to sports galas and art exhibitions, explore everyday snapshots of our vibrant community.') }}
                 </p>
             </div>
 
             <div class="row g-4">
                 <div class="col-6 col-lg-3">
                     <div class="gallery-photo-card">
-                        <img src="{{ asset('images/stem_lab.jpg') }}" alt="STEM Robotics Lab">
-                        <div class="gallery-caption">STEM &amp; 3D Prototyping</div>
+                        <img src="{{ asset('images/stem_lab.jpg') }}" alt="{{ __('STEM Robotics Lab') }}">
+                        <div class="gallery-caption">{{ __('STEM & 3D Prototyping') }}</div>
                     </div>
                 </div>
                 <div class="col-6 col-lg-3">
                     <div class="gallery-photo-card">
-                        <img src="{{ asset('images/landing_hero.jpg') }}" alt="Main Academic Campus">
-                        <div class="gallery-caption">2-Acre Green Campus</div>
+                        <img src="{{ asset('images/landing_hero.jpg') }}" alt="{{ __('Main Academic Campus') }}">
+                        <div class="gallery-caption">{{ __('2-Acre Green Campus') }}</div>
                     </div>
                 </div>
                 <div class="col-6 col-lg-3">
                     <div class="gallery-photo-card">
-                        <img src="{{ asset('upload/school_campus.jpg') }}" alt="Sports & Physical Wellness" onerror="this.onerror=null; this.src='{{ asset('images/landing_hero.jpg') }}';">
-                        <div class="gallery-caption">Sports Gala &amp; Athletics</div>
+                        <img src="{{ asset('upload/school_campus.jpg') }}" alt="{{ __('Sports & Physical Wellness') }}" onerror="this.onerror=null; this.src='{{ asset('images/landing_hero.jpg') }}';">
+                        <div class="gallery-caption">{{ __('Sports Gala & Athletics') }}</div>
                     </div>
                 </div>
                 <div class="col-6 col-lg-3">
                     <div class="gallery-photo-card">
-                        <img src="{{ asset('upload/signup_hero.jpg') }}" alt="Computer & Coding Hub" onerror="this.onerror=null; this.src='{{ asset('images/stem_lab.jpg') }}';">
-                        <div class="gallery-caption">AI Workstations &amp; Coding</div>
+                        <img src="{{ asset('upload/signup_hero.jpg') }}" alt="{{ __('Computer & Coding Hub') }}" onerror="this.onerror=null; this.src='{{ asset('images/stem_lab.jpg') }}';">
+                        <div class="gallery-caption">{{ __('AI Workstations & Coding') }}</div>
                     </div>
                 </div>
             </div>
@@ -430,10 +430,10 @@
     <section class="testimonials-section section-spacing">
         <div class="container">
             <div class="text-center max-w-700 mx-auto mb-5">
-                <span class="section-tag-pill">PARENT TESTIMONIALS</span>
-                <h2 class="section-heading-bold">What 500+ Parents Say About Excellence</h2>
+                <span class="section-tag-pill">{{ __('PARENT TESTIMONIALS') }}</span>
+                <h2 class="section-heading-bold">{{ __('What 500+ Parents Say About Excellence') }}</h2>
                 <p class="section-subheading-clean">
-                    Read genuine experiences from mothers, fathers, and guardians whose children thrive at Excellence School System.
+                    {{ __('Read genuine experiences from mothers, fathers, and guardians whose children thrive at Excellence School System.') }}
                 </p>
             </div>
 
@@ -450,7 +450,7 @@
                                 <i class="bi bi-star-fill"></i>
                             </div>
                             <p class="review-quote-text">
-                                "My daughter joined the Early Years wing two years ago. The personalized care and interactive STEM activities boosted her confidence tremendously!"
+                                "{{ __('My daughter joined the Early Years wing two years ago. The personalized care and interactive STEM activities boosted her confidence tremendously!') }}"
                             </p>
                         </div>
                         <div class="d-flex align-items-center gap-3 pt-3 border-top">
@@ -459,7 +459,7 @@
                             </div>
                             <div>
                                 <h4 class="fw-bold mb-0 text-dark" style="font-size: 15px;">Farah Ahmed</h4>
-                                <small class="text-muted" style="font-size: 12.5px;">Mother of Ayla (Grade 1)</small>
+                                <small class="text-muted" style="font-size: 12.5px;">{{ __('Mother of Ayla (Grade 1)') }}</small>
                             </div>
                         </div>
                     </div>
@@ -477,7 +477,7 @@
                                 <i class="bi bi-star-fill"></i>
                             </div>
                             <p class="review-quote-text">
-                                "The online academic portal is fantastic. We can monitor attendance, monthly test session scores, and teacher notes in real-time from anywhere."
+                                "{{ __('The online academic portal is fantastic. We can monitor attendance, monthly test session scores, and teacher notes in real-time from anywhere.') }}"
                             </p>
                         </div>
                         <div class="d-flex align-items-center gap-3 pt-3 border-top">
@@ -486,7 +486,7 @@
                             </div>
                             <div>
                                 <h4 class="fw-bold mb-0 text-dark" style="font-size: 15px;">Tariq Rehman</h4>
-                                <small class="text-muted" style="font-size: 12.5px;">Father of Bilal (Class 8)</small>
+                                <small class="text-muted" style="font-size: 12.5px;">{{ __('Father of Bilal (Class 8)') }}</small>
                             </div>
                         </div>
                     </div>
@@ -504,7 +504,7 @@
                                 <i class="bi bi-star-fill"></i>
                             </div>
                             <p class="review-quote-text">
-                                "Outstanding FBISE board preparation! The faculty goes above and beyond with extra remedial sessions. My son scored 96% in his Matric exams."
+                                "{{ __('Outstanding FBISE board preparation! The faculty goes above and beyond with extra remedial sessions. My son scored 96% in his Matric exams.') }}"
                             </p>
                         </div>
                         <div class="d-flex align-items-center gap-3 pt-3 border-top">
@@ -513,7 +513,7 @@
                             </div>
                             <div>
                                 <h4 class="fw-bold mb-0 text-dark" style="font-size: 15px;">Dr. Saima Khan</h4>
-                                <small class="text-muted" style="font-size: 12.5px;">Parent of Hamza (Matric Board)</small>
+                                <small class="text-muted" style="font-size: 12.5px;">{{ __('Parent of Hamza (Matric Board)') }}</small>
                             </div>
                         </div>
                     </div>
@@ -528,10 +528,10 @@
     <section class="tour-cta-section section-spacing" id="tourSection">
         <div class="container">
             <div class="text-center max-w-700 mx-auto mb-5">
-                <span class="section-tag-pill-dark">CAMPUS VISIT &amp; REGISTRATION</span>
-                <h2 class="display-6 fw-bold mb-2 text-white">Schedule Your Private Campus Tour Today</h2>
+                <span class="section-tag-pill-dark">{{ __('CAMPUS VISIT & REGISTRATION') }}</span>
+                <h2 class="display-6 fw-bold mb-2 text-white">{{ __('Schedule Your Private Campus Tour Today') }}</h2>
                 <p class="lead opacity-90 max-w-600 mx-auto text-white" style="font-size: 16px;">
-                    Experience our smart classrooms, STEM robotics labs, and meet the leadership team in person.
+                    {{ __('Experience our smart classrooms, STEM robotics labs, and meet the leadership team in person.') }}
                 </p>
             </div>
 
@@ -541,11 +541,11 @@
                     <div class="d-flex align-items-center gap-2">
                         <i class="bi bi-check-circle-fill fs-5 text-success"></i>
                         <div>
-                            <strong class="d-block">Campus Tour Booked!</strong>
+                            <strong class="d-block">{{ __('Campus Tour Booked!') }}</strong>
                             <span class="small">{{ session('tour_success') }}</span>
                         </div>
                     </div>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="{{ __('Close') }}"></button>
                 </div>
             @endif
 
@@ -555,28 +555,28 @@
                     @csrf
                     <div class="row g-3">
                         <div class="col-md-4">
-                            <label class="form-label fw-bold small text-dark mb-1">Contact Phone</label>
+                            <label class="form-label fw-bold small text-dark mb-1">{{ __('Contact Phone') }}</label>
                             <input type="tel" name="parent_phone" class="form-control" placeholder="0300-1234567" required>
                         </div>
                         <div class="col-md-4">
-                            <label class="form-label fw-bold small text-dark mb-1">Select Wing</label>
+                            <label class="form-label fw-bold small text-dark mb-1">{{ __('Select Wing') }}</label>
                             <select name="student_wing" class="form-select" required>
-                                <option value="" disabled selected>Select Wing</option>
-                                <option value="Early Childhood Wing">Early Childhood Wing</option>
-                                <option value="Primary School Wing">Primary School Wing</option>
-                                <option value="Senior / Matric Wing">Senior / Matric Wing</option>
+                                <option value="" disabled selected>{{ __('Select Wing') }}</option>
+                                <option value="Early Childhood Wing">{{ __('Early Childhood Wing') }}</option>
+                                <option value="Primary School Wing">{{ __('Primary School Wing') }}</option>
+                                <option value="Senior / Matric Wing">{{ __('Senior / Matric Wing') }}</option>
                             </select>
                         </div>
                         <div class="col-md-4">
-                            <label class="form-label fw-bold small text-dark mb-1">Preferred Date</label>
+                            <label class="form-label fw-bold small text-dark mb-1">{{ __('Preferred Date') }}</label>
                             <input type="date" name="tour_date" class="form-control" min="{{ date('Y-m-d') }}" required>
                         </div>
                         <div class="col-12 mt-3">
                             <button type="submit" class="btn btn-tour-submit w-100">
-                                <i class="bi bi-calendar-check-fill me-2"></i> Book Free Campus Visit &amp; Tour
+                                <i class="bi bi-calendar-check-fill me-2"></i> {{ __('Book Free Campus Visit & Tour') }}
                             </button>
                             <div class="text-center mt-2 small text-muted">
-                                <i class="bi bi-lock-fill text-success me-1"></i> No obligation &bull; Free prospectus on arrival
+                                <i class="bi bi-lock-fill text-success me-1"></i> {{ __('No obligation') }} &bull; {{ __('Free prospectus on arrival') }}
                             </div>
                         </div>
                     </div>

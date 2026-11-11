@@ -1,17 +1,17 @@
 @extends('layouts.public')
 
-@section('title', 'Careers & Faculty Openings - Excellence School System')
+@section('title', __('Careers & Faculty Openings') . ' - Excellence School System')
 
 @section('content')
 <!-- Page Banner Header -->
 <section class="page-banner text-center position-relative overflow-hidden" style="background: linear-gradient(135deg, #0F172A 0%, #1E1B4B 100%); padding: 125px 0 50px; color: #FFFFFF;">
     <div class="container position-relative" style="z-index: 2;">
         <span class="badge px-3 py-2 rounded-pill mb-3 shadow-sm" style="background: rgba(79, 70, 229, 0.25); color: #A5B4FC; border: 1px solid rgba(165, 180, 252, 0.3); font-size: 12px; letter-spacing: 0.05em;">
-            <i class="bi bi-briefcase-fill me-1 text-warning"></i> JOIN OUR WORLD-CLASS FACULTY
+            <i class="bi bi-briefcase-fill me-1 text-warning"></i> {{ __('JOIN OUR WORLD-CLASS FACULTY') }}
         </span>
-        <h1 class="fw-bold mb-3 text-white" style="color: #FFFFFF !important; font-size: clamp(2rem, 4vw, 2.8rem); letter-spacing: -0.02em;">Build the Future of Education With Us</h1>
+        <h1 class="fw-bold mb-3 text-white" style="color: #FFFFFF !important; font-size: clamp(2rem, 4vw, 2.8rem); letter-spacing: -0.02em;">{{ __('Build the Future of Education With Us') }}</h1>
         <p class="text-white opacity-85 mx-auto mb-0" style="color: rgba(255, 255, 255, 0.85) !important; max-width: 680px; font-size: 15.5px; line-height: 1.6;">
-            Excellence School System is seeking forward-thinking educators, curriculum innovators, and academic mentors committed to shaping tomorrow's leaders.
+            {{ __('Excellence School System is seeking forward-thinking educators, curriculum innovators, and academic mentors committed to shaping tomorrow\'s leaders.') }}
         </p>
     </div>
 </section>
@@ -28,11 +28,11 @@
                         <i class="bi bi-check-lg fs-3"></i>
                     </div>
                     <div>
-                        <h5 class="fw-bold text-dark mb-1">Application Submitted Successfully!</h5>
+                        <h5 class="fw-bold text-dark mb-1">{{ __('Application Submitted Successfully!') }}</h5>
                         <p class="mb-0 text-muted small" style="font-size: 13.5px;">{{ session('career_success') }}</p>
                     </div>
                 </div>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="{{ __('Close') }}"></button>
             </div>
         @endif
 
@@ -43,7 +43,7 @@
                         <i class="bi bi-exclamation-triangle-fill fs-5"></i>
                     </div>
                     <div>
-                        <h6 class="fw-bold text-danger mb-2">Please correct the following errors:</h6>
+                        <h6 class="fw-bold text-danger mb-2">{{ __('Please correct the following errors:') }}</h6>
                         <ul class="mb-0 small ps-3">
                             @foreach ($errors->all() as $error)
                                 <li>{{ $error }}</li>
@@ -51,7 +51,7 @@
                         </ul>
                     </div>
                 </div>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="{{ __('Close') }}"></button>
             </div>
         @endif
 
@@ -63,8 +63,8 @@
                         <span class="input-group-text bg-white border-0 text-primary ps-3">
                             <i class="bi bi-search fs-5"></i>
                         </span>
-                        <input type="text" id="careerSearchInput" class="form-control border-0 shadow-none ps-2" placeholder="Search by job title, subject (e.g. Physics, Computer, Montessori)..." autocomplete="off" style="font-size: 15px;">
-                        <button type="button" id="clearSearchBtn" class="btn btn-white border-0 text-muted d-none" title="Clear Search">
+                        <input type="text" id="careerSearchInput" class="form-control border-0 shadow-none ps-2" placeholder="{{ __('Search by job title, subject (e.g. Physics, Computer, Montessori)...') }}" autocomplete="off" style="font-size: 15px;">
+                        <button type="button" id="clearSearchBtn" class="btn btn-white border-0 text-muted d-none" title="{{ __('Clear Search') }}">
                             <i class="bi bi-x-circle-fill"></i>
                         </button>
                     </div>
@@ -72,35 +72,35 @@
 
                 <div class="col-lg-4 col-md-8">
                     <div class="d-flex align-items-center gap-2">
-                        <span class="text-muted small fw-bold text-nowrap d-none d-sm-inline"><i class="bi bi-funnel-fill me-1 text-primary"></i> Wing:</span>
+                        <span class="text-muted small fw-bold text-nowrap d-none d-sm-inline"><i class="bi bi-funnel-fill me-1 text-primary"></i> {{ __('Wing:') }}</span>
                         <select id="wingFilterSelect" class="form-select form-select-lg rounded-3 border" style="font-size: 14.5px;">
-                            <option value="all">All Departments & Wings</option>
-                            <option value="SENIOR WING">Senior Wing (Matric & FBISE)</option>
-                            <option value="STEM INNOVATION">STEM & Computer Science</option>
-                            <option value="PRIMARY WING">Primary & Montessori Wing</option>
-                            <option value="CAMBRIDGE WING">Cambridge O / A Levels</option>
-                            <option value="MIDDLE WING">Middle School Wing</option>
-                            <option value="ADMINISTRATION">Administration & Operations</option>
+                            <option value="all">{{ __('All Departments & Wings') }}</option>
+                            <option value="SENIOR WING">{{ __('Senior Wing (Matric & FBISE)') }}</option>
+                            <option value="STEM INNOVATION">{{ __('STEM & Computer Science') }}</option>
+                            <option value="PRIMARY WING">{{ __('Primary & Montessori Wing') }}</option>
+                            <option value="CAMBRIDGE WING">{{ __('Cambridge O / A Levels') }}</option>
+                            <option value="MIDDLE WING">{{ __('Middle School Wing') }}</option>
+                            <option value="ADMINISTRATION">{{ __('Administration & Operations') }}</option>
                         </select>
                     </div>
                 </div>
 
                 <div class="col-lg-2 col-md-4 text-lg-end text-center">
                     <span class="badge rounded-pill px-3 py-2 text-primary bg-primary-subtle fw-bold" id="vacanciesCountBadge" style="font-size: 12.5px;">
-                        <i class="bi bi-briefcase me-1"></i> Showing <span id="visibleCount">6</span> Openings
+                        <i class="bi bi-briefcase me-1"></i> {{ __('Showing') }} <span id="visibleCount">6</span> {{ __('Openings') }}
                     </span>
                 </div>
             </div>
 
             <!-- Quick Filter Tags -->
             <div class="d-flex flex-wrap align-items-center gap-2 mt-3 pt-3 border-top">
-                <span class="text-muted small fw-bold me-1">Popular:</span>
-                <button type="button" class="btn btn-sm btn-outline-secondary rounded-pill py-1 px-3 quick-tag-btn" data-keyword="Physics">Physics</button>
-                <button type="button" class="btn btn-sm btn-outline-secondary rounded-pill py-1 px-3 quick-tag-btn" data-keyword="Computer">Computer & Robotics</button>
-                <button type="button" class="btn btn-sm btn-outline-secondary rounded-pill py-1 px-3 quick-tag-btn" data-keyword="Montessori">Montessori</button>
-                <button type="button" class="btn btn-sm btn-outline-secondary rounded-pill py-1 px-3 quick-tag-btn" data-keyword="Cambridge">Cambridge O-Level</button>
-                <button type="button" class="btn btn-sm btn-outline-secondary rounded-pill py-1 px-3 quick-tag-btn" data-keyword="Administration">Administration</button>
-                <button type="button" class="btn btn-sm btn-link text-decoration-none py-1 px-2 text-muted small ms-auto" id="resetFiltersBtn">Reset Filters</button>
+                <span class="text-muted small fw-bold me-1">{{ __('Popular:') }}</span>
+                <button type="button" class="btn btn-sm btn-outline-secondary rounded-pill py-1 px-3 quick-tag-btn" data-keyword="Physics">{{ __('Physics') }}</button>
+                <button type="button" class="btn btn-sm btn-outline-secondary rounded-pill py-1 px-3 quick-tag-btn" data-keyword="Computer">{{ __('Computer & Robotics') }}</button>
+                <button type="button" class="btn btn-sm btn-outline-secondary rounded-pill py-1 px-3 quick-tag-btn" data-keyword="Montessori">{{ __('Montessori') }}</button>
+                <button type="button" class="btn btn-sm btn-outline-secondary rounded-pill py-1 px-3 quick-tag-btn" data-keyword="Cambridge">{{ __('Cambridge O-Level') }}</button>
+                <button type="button" class="btn btn-sm btn-outline-secondary rounded-pill py-1 px-3 quick-tag-btn" data-keyword="Administration">{{ __('Administration') }}</button>
+                <button type="button" class="btn btn-sm btn-link text-decoration-none py-1 px-2 text-muted small ms-auto" id="resetFiltersBtn">{{ __('Reset Filters') }}</button>
             </div>
         </div>
 
@@ -112,32 +112,32 @@
                 <div class="card h-100 border-0 shadow-sm rounded-4 p-4 position-relative vacancy-card bg-white" style="transition: all 0.3s ease; border-left: 5px solid #4F46E5 !important;">
                     <div class="d-flex justify-content-between align-items-start gap-2 mb-2">
                         <span class="badge px-3 py-1 rounded-pill" style="background: rgba(79, 70, 229, 0.12); color: #4F46E5; font-weight: 700; font-size: 11.5px;">
-                            SENIOR WING
+                            {{ __('SENIOR WING') }}
                         </span>
                         <span class="badge bg-light text-dark border px-2 py-1 rounded-pill small fw-semibold">
-                            <i class="bi bi-clock me-1 text-primary"></i> Full Time
+                            <i class="bi bi-clock me-1 text-primary"></i> {{ __('Full Time') }}
                         </span>
                     </div>
 
                     <h4 class="fw-bold text-dark mb-2 job-title" style="font-size: 18.5px; line-height: 1.35;">
-                        Senior Secondary Physics & Math Lecturer (FBISE)
+                        {{ __('Senior Secondary Physics & Math Lecturer (FBISE)') }}
                     </h4>
 
                     <p class="text-muted small mb-3" style="line-height: 1.55;">
-                        Requirements: M.Sc / M.Phil in Physics or Mathematics with 3+ years experience teaching Matric and FBISE Federal Board classes with proven distinction results.
+                        {{ __('Requirements: M.Sc / M.Phil in Physics or Mathematics with 3+ years experience teaching Matric and FBISE Federal Board classes with proven distinction results.') }}
                     </p>
 
                     <div class="d-flex flex-wrap gap-2 mb-3">
-                        <span class="badge bg-light text-secondary border small"><i class="bi bi-check2 me-1 text-success"></i> FBISE Board</span>
-                        <span class="badge bg-light text-secondary border small"><i class="bi bi-check2 me-1 text-success"></i> Physics Lab</span>
-                        <span class="badge bg-light text-secondary border small"><i class="bi bi-check2 me-1 text-success"></i> 3+ Yrs Exp</span>
+                        <span class="badge bg-light text-secondary border small"><i class="bi bi-check2 me-1 text-success"></i> {{ __('FBISE Board') }}</span>
+                        <span class="badge bg-light text-secondary border small"><i class="bi bi-check2 me-1 text-success"></i> {{ __('Physics Lab') }}</span>
+                        <span class="badge bg-light text-secondary border small"><i class="bi bi-check2 me-1 text-success"></i> {{ __('3+ Yrs Exp') }}</span>
                     </div>
 
                     <div class="d-flex justify-content-between align-items-center pt-3 border-top mt-auto">
-                        <span class="small text-muted"><i class="bi bi-geo-alt-fill text-danger me-1"></i> Islamabad Main Campus</span>
+                        <span class="small text-muted"><i class="bi bi-geo-alt-fill text-danger me-1"></i> {{ __('Islamabad Main Campus') }}</span>
                         <button type="button" class="btn btn-primary btn-sm px-4 py-2 rounded-pill fw-bold shadow-sm apply-btn"
                             onclick="openCareerModal('Senior Secondary Physics & Math Lecturer (FBISE)', 'SENIOR WING')">
-                            Apply for this Role <i class="bi bi-arrow-right-short ms-1"></i>
+                            {{ __('Apply for this Role') }} <i class="bi bi-arrow-right-short ms-1"></i>
                         </button>
                     </div>
                 </div>
@@ -148,32 +148,32 @@
                 <div class="card h-100 border-0 shadow-sm rounded-4 p-4 position-relative vacancy-card bg-white" style="transition: all 0.3s ease; border-left: 5px solid #0EA5E9 !important;">
                     <div class="d-flex justify-content-between align-items-start gap-2 mb-2">
                         <span class="badge px-3 py-1 rounded-pill" style="background: rgba(14, 165, 233, 0.12); color: #0284C7; font-weight: 700; font-size: 11.5px;">
-                            STEM INNOVATION
+                            {{ __('STEM INNOVATION') }}
                         </span>
                         <span class="badge bg-light text-dark border px-2 py-1 rounded-pill small fw-semibold">
-                            <i class="bi bi-clock me-1 text-primary"></i> Full Time
+                            <i class="bi bi-clock me-1 text-primary"></i> {{ __('Full Time') }}
                         </span>
                     </div>
 
                     <h4 class="fw-bold text-dark mb-2 job-title" style="font-size: 18.5px; line-height: 1.35;">
-                        Robotics & Computer Science Instructor
+                        {{ __('Robotics & Computer Science Instructor') }}
                     </h4>
 
                     <p class="text-muted small mb-3" style="line-height: 1.55;">
-                        Requirements: BS Computer Science / Software Engineering with proficiency in Python, Arduino, Scratch, and 3D printing instruction for young innovators.
+                        {{ __('Requirements: BS Computer Science / Software Engineering with proficiency in Python, Arduino, Scratch, and 3D printing instruction for young innovators.') }}
                     </p>
 
                     <div class="d-flex flex-wrap gap-2 mb-3">
-                        <span class="badge bg-light text-secondary border small"><i class="bi bi-check2 me-1 text-success"></i> Python / C++</span>
-                        <span class="badge bg-light text-secondary border small"><i class="bi bi-check2 me-1 text-success"></i> Arduino Robotics</span>
-                        <span class="badge bg-light text-secondary border small"><i class="bi bi-check2 me-1 text-success"></i> 1+ Yrs Exp</span>
+                        <span class="badge bg-light text-secondary border small"><i class="bi bi-check2 me-1 text-success"></i> {{ __('Python / C++') }}</span>
+                        <span class="badge bg-light text-secondary border small"><i class="bi bi-check2 me-1 text-success"></i> {{ __('Arduino Robotics') }}</span>
+                        <span class="badge bg-light text-secondary border small"><i class="bi bi-check2 me-1 text-success"></i> {{ __('1+ Yrs Exp') }}</span>
                     </div>
 
                     <div class="d-flex justify-content-between align-items-center pt-3 border-top mt-auto">
-                        <span class="small text-muted"><i class="bi bi-geo-alt-fill text-danger me-1"></i> Innovation Hub, Islamabad</span>
+                        <span class="small text-muted"><i class="bi bi-geo-alt-fill text-danger me-1"></i> {{ __('Innovation Hub, Islamabad') }}</span>
                         <button type="button" class="btn btn-primary btn-sm px-4 py-2 rounded-pill fw-bold shadow-sm apply-btn"
                             onclick="openCareerModal('Robotics & Computer Science Instructor', 'STEM INNOVATION')">
-                            Apply for this Role <i class="bi bi-arrow-right-short ms-1"></i>
+                            {{ __('Apply for this Role') }} <i class="bi bi-arrow-right-short ms-1"></i>
                         </button>
                     </div>
                 </div>
@@ -184,32 +184,32 @@
                 <div class="card h-100 border-0 shadow-sm rounded-4 p-4 position-relative vacancy-card bg-white" style="transition: all 0.3s ease; border-left: 5px solid #F59E0B !important;">
                     <div class="d-flex justify-content-between align-items-start gap-2 mb-2">
                         <span class="badge px-3 py-1 rounded-pill" style="background: rgba(245, 158, 11, 0.15); color: #B45309; font-weight: 700; font-size: 11.5px;">
-                            PRIMARY WING
+                            {{ __('PRIMARY WING') }}
                         </span>
                         <span class="badge bg-light text-dark border px-2 py-1 rounded-pill small fw-semibold">
-                            <i class="bi bi-clock me-1 text-primary"></i> Full Time
+                            <i class="bi bi-clock me-1 text-primary"></i> {{ __('Full Time') }}
                         </span>
                     </div>
 
                     <h4 class="fw-bold text-dark mb-2 job-title" style="font-size: 18.5px; line-height: 1.35;">
-                        Montessori Directress & Primary English Homeroom
+                        {{ __('Montessori Directress & Primary English Homeroom') }}
                     </h4>
 
                     <p class="text-muted small mb-3" style="line-height: 1.55;">
-                        Requirements: Certified Montessori diploma with bachelor's degree and native-level English phonics, storytelling, and early childhood creative instruction experience.
+                        {{ __('Requirements: Certified Montessori diploma with bachelor\'s degree and native-level English phonics, storytelling, and early childhood creative instruction experience.') }}
                     </p>
 
                     <div class="d-flex flex-wrap gap-2 mb-3">
-                        <span class="badge bg-light text-secondary border small"><i class="bi bi-check2 me-1 text-success"></i> Montessori Diploma</span>
-                        <span class="badge bg-light text-secondary border small"><i class="bi bi-check2 me-1 text-success"></i> Jolly Phonics</span>
-                        <span class="badge bg-light text-secondary border small"><i class="bi bi-check2 me-1 text-success"></i> 2+ Yrs Exp</span>
+                        <span class="badge bg-light text-secondary border small"><i class="bi bi-check2 me-1 text-success"></i> {{ __('Montessori Diploma') }}</span>
+                        <span class="badge bg-light text-secondary border small"><i class="bi bi-check2 me-1 text-success"></i> {{ __('Jolly Phonics') }}</span>
+                        <span class="badge bg-light text-secondary border small"><i class="bi bi-check2 me-1 text-success"></i> {{ __('2+ Yrs Exp') }}</span>
                     </div>
 
                     <div class="d-flex justify-content-between align-items-center pt-3 border-top mt-auto">
-                        <span class="small text-muted"><i class="bi bi-geo-alt-fill text-danger me-1"></i> Junior Wing, Islamabad</span>
+                        <span class="small text-muted"><i class="bi bi-geo-alt-fill text-danger me-1"></i> {{ __('Junior Wing, Islamabad') }}</span>
                         <button type="button" class="btn btn-primary btn-sm px-4 py-2 rounded-pill fw-bold shadow-sm apply-btn"
                             onclick="openCareerModal('Montessori Directress & Primary English Homeroom', 'PRIMARY WING')">
-                            Apply for this Role <i class="bi bi-arrow-right-short ms-1"></i>
+                            {{ __('Apply for this Role') }} <i class="bi bi-arrow-right-short ms-1"></i>
                         </button>
                     </div>
                 </div>
@@ -220,32 +220,32 @@
                 <div class="card h-100 border-0 shadow-sm rounded-4 p-4 position-relative vacancy-card bg-white" style="transition: all 0.3s ease; border-left: 5px solid #10B981 !important;">
                     <div class="d-flex justify-content-between align-items-start gap-2 mb-2">
                         <span class="badge px-3 py-1 rounded-pill" style="background: rgba(16, 185, 129, 0.12); color: #047857; font-weight: 700; font-size: 11.5px;">
-                            CAMBRIDGE WING
+                            {{ __('CAMBRIDGE WING') }}
                         </span>
                         <span class="badge bg-light text-dark border px-2 py-1 rounded-pill small fw-semibold">
-                            <i class="bi bi-clock me-1 text-primary"></i> Full Time
+                            <i class="bi bi-clock me-1 text-primary"></i> {{ __('Full Time') }}
                         </span>
                     </div>
 
                     <h4 class="fw-bold text-dark mb-2 job-title" style="font-size: 18.5px; line-height: 1.35;">
-                        Cambridge O-Level Chemistry & Biology Teacher
+                        {{ __('Cambridge O-Level Chemistry & Biology Teacher') }}
                     </h4>
 
                     <p class="text-muted small mb-3" style="line-height: 1.55;">
-                        Requirements: M.Sc in Chemistry/Biochemistry/Zoology with at least 3 years teaching Cambridge CAIE IGCSE / O-Level curriculum with A* results track record.
+                        {{ __('Requirements: M.Sc in Chemistry/Biochemistry/Zoology with at least 3 years teaching Cambridge CAIE IGCSE / O-Level curriculum with A* results track record.') }}
                     </p>
 
                     <div class="d-flex flex-wrap gap-2 mb-3">
-                        <span class="badge bg-light text-secondary border small"><i class="bi bi-check2 me-1 text-success"></i> CAIE Curriculum</span>
-                        <span class="badge bg-light text-secondary border small"><i class="bi bi-check2 me-1 text-success"></i> Science Lab Skills</span>
-                        <span class="badge bg-light text-secondary border small"><i class="bi bi-check2 me-1 text-success"></i> 3+ Yrs Exp</span>
+                        <span class="badge bg-light text-secondary border small"><i class="bi bi-check2 me-1 text-success"></i> {{ __('CAIE Curriculum') }}</span>
+                        <span class="badge bg-light text-secondary border small"><i class="bi bi-check2 me-1 text-success"></i> {{ __('Science Lab Skills') }}</span>
+                        <span class="badge bg-light text-secondary border small"><i class="bi bi-check2 me-1 text-success"></i> {{ __('3+ Yrs Exp') }}</span>
                     </div>
 
                     <div class="d-flex justify-content-between align-items-center pt-3 border-top mt-auto">
-                        <span class="small text-muted"><i class="bi bi-geo-alt-fill text-danger me-1"></i> Cambridge Campus, Islamabad</span>
+                        <span class="small text-muted"><i class="bi bi-geo-alt-fill text-danger me-1"></i> {{ __('Cambridge Campus, Islamabad') }}</span>
                         <button type="button" class="btn btn-primary btn-sm px-4 py-2 rounded-pill fw-bold shadow-sm apply-btn"
                             onclick="openCareerModal('Cambridge O-Level Chemistry & Biology Teacher', 'CAMBRIDGE WING')">
-                            Apply for this Role <i class="bi bi-arrow-right-short ms-1"></i>
+                            {{ __('Apply for this Role') }} <i class="bi bi-arrow-right-short ms-1"></i>
                         </button>
                     </div>
                 </div>
@@ -256,32 +256,32 @@
                 <div class="card h-100 border-0 shadow-sm rounded-4 p-4 position-relative vacancy-card bg-white" style="transition: all 0.3s ease; border-left: 5px solid #8B5CF6 !important;">
                     <div class="d-flex justify-content-between align-items-start gap-2 mb-2">
                         <span class="badge px-3 py-1 rounded-pill" style="background: rgba(139, 92, 246, 0.12); color: #6D28D9; font-weight: 700; font-size: 11.5px;">
-                            MIDDLE WING
+                            {{ __('MIDDLE WING') }}
                         </span>
                         <span class="badge bg-light text-dark border px-2 py-1 rounded-pill small fw-semibold">
-                            <i class="bi bi-clock me-1 text-primary"></i> Full Time
+                            <i class="bi bi-clock me-1 text-primary"></i> {{ __('Full Time') }}
                         </span>
                     </div>
 
                     <h4 class="fw-bold text-dark mb-2 job-title" style="font-size: 18.5px; line-height: 1.35;">
-                        Middle School Social Studies & Urdu Literature Specialist
+                        {{ __('Middle School Social Studies & Urdu Literature Specialist') }}
                     </h4>
 
                     <p class="text-muted small mb-3" style="line-height: 1.55;">
-                        Requirements: Master's in Urdu / Pakistan Studies / History with strong pedagogical skills to foster critical thinking, debate, and bilingual cultural literacy.
+                        {{ __('Requirements: Master\'s in Urdu / Pakistan Studies / History with strong pedagogical skills to foster critical thinking, debate, and bilingual cultural literacy.') }}
                     </p>
 
                     <div class="d-flex flex-wrap gap-2 mb-3">
-                        <span class="badge bg-light text-secondary border small"><i class="bi bi-check2 me-1 text-success"></i> Pak Studies</span>
-                        <span class="badge bg-light text-secondary border small"><i class="bi bi-check2 me-1 text-success"></i> Urdu Literature</span>
-                        <span class="badge bg-light text-secondary border small"><i class="bi bi-check2 me-1 text-success"></i> 2+ Yrs Exp</span>
+                        <span class="badge bg-light text-secondary border small"><i class="bi bi-check2 me-1 text-success"></i> {{ __('Pak Studies') }}</span>
+                        <span class="badge bg-light text-secondary border small"><i class="bi bi-check2 me-1 text-success"></i> {{ __('Urdu Literature') }}</span>
+                        <span class="badge bg-light text-secondary border small"><i class="bi bi-check2 me-1 text-success"></i> {{ __('2+ Yrs Exp') }}</span>
                     </div>
 
                     <div class="d-flex justify-content-between align-items-center pt-3 border-top mt-auto">
-                        <span class="small text-muted"><i class="bi bi-geo-alt-fill text-danger me-1"></i> Main Campus, Islamabad</span>
+                        <span class="small text-muted"><i class="bi bi-geo-alt-fill text-danger me-1"></i> {{ __('Main Campus, Islamabad') }}</span>
                         <button type="button" class="btn btn-primary btn-sm px-4 py-2 rounded-pill fw-bold shadow-sm apply-btn"
                             onclick="openCareerModal('Middle School Social Studies & Urdu Literature Specialist', 'MIDDLE WING')">
-                            Apply for this Role <i class="bi bi-arrow-right-short ms-1"></i>
+                            {{ __('Apply for this Role') }} <i class="bi bi-arrow-right-short ms-1"></i>
                         </button>
                     </div>
                 </div>
@@ -292,32 +292,32 @@
                 <div class="card h-100 border-0 shadow-sm rounded-4 p-4 position-relative vacancy-card bg-white" style="transition: all 0.3s ease; border-left: 5px solid #EC4899 !important;">
                     <div class="d-flex justify-content-between align-items-start gap-2 mb-2">
                         <span class="badge px-3 py-1 rounded-pill" style="background: rgba(236, 72, 153, 0.12); color: #BE185D; font-weight: 700; font-size: 11.5px;">
-                            ADMINISTRATION
+                            {{ __('ADMINISTRATION') }}
                         </span>
                         <span class="badge bg-light text-dark border px-2 py-1 rounded-pill small fw-semibold">
-                            <i class="bi bi-clock me-1 text-primary"></i> Full Time
+                            <i class="bi bi-clock me-1 text-primary"></i> {{ __('Full Time') }}
                         </span>
                     </div>
 
                     <h4 class="fw-bold text-dark mb-2 job-title" style="font-size: 18.5px; line-height: 1.35;">
-                        Student Academic Counselor & Operations Administrator
+                        {{ __('Student Academic Counselor & Operations Administrator') }}
                     </h4>
 
                     <p class="text-muted small mb-3" style="line-height: 1.55;">
-                        Requirements: BS / MS in Applied Psychology, Educational Leadership, or Guidance Counseling with exceptional parent liaison and career advisory abilities.
+                        {{ __('Requirements: BS / MS in Applied Psychology, Educational Leadership, or Guidance Counseling with exceptional parent liaison and career advisory abilities.') }}
                     </p>
 
                     <div class="d-flex flex-wrap gap-2 mb-3">
-                        <span class="badge bg-light text-secondary border small"><i class="bi bi-check2 me-1 text-success"></i> Career Guidance</span>
-                        <span class="badge bg-light text-secondary border small"><i class="bi bi-check2 me-1 text-success"></i> Student Welfare</span>
-                        <span class="badge bg-light text-secondary border small"><i class="bi bi-check2 me-1 text-success"></i> 2+ Yrs Exp</span>
+                        <span class="badge bg-light text-secondary border small"><i class="bi bi-check2 me-1 text-success"></i> {{ __('Career Guidance') }}</span>
+                        <span class="badge bg-light text-secondary border small"><i class="bi bi-check2 me-1 text-success"></i> {{ __('Student Welfare') }}</span>
+                        <span class="badge bg-light text-secondary border small"><i class="bi bi-check2 me-1 text-success"></i> {{ __('2+ Yrs Exp') }}</span>
                     </div>
 
                     <div class="d-flex justify-content-between align-items-center pt-3 border-top mt-auto">
-                        <span class="small text-muted"><i class="bi bi-geo-alt-fill text-danger me-1"></i> Admin Block, Islamabad</span>
+                        <span class="small text-muted"><i class="bi bi-geo-alt-fill text-danger me-1"></i> {{ __('Admin Block, Islamabad') }}</span>
                         <button type="button" class="btn btn-primary btn-sm px-4 py-2 rounded-pill fw-bold shadow-sm apply-btn"
                             onclick="openCareerModal('Student Academic Counselor & Operations Administrator', 'ADMINISTRATION')">
-                            Apply for this Role <i class="bi bi-arrow-right-short ms-1"></i>
+                            {{ __('Apply for this Role') }} <i class="bi bi-arrow-right-short ms-1"></i>
                         </button>
                     </div>
                 </div>
@@ -331,16 +331,16 @@
                 <div class="rounded-circle d-flex align-items-center justify-content-center mb-3" style="width: 72px; height: 72px; background: rgba(79, 70, 229, 0.1); color: #4F46E5;">
                     <i class="bi bi-search fs-2"></i>
                 </div>
-                <h4 class="fw-bold text-dark mb-2">No Matching Vacancies Found</h4>
+                <h4 class="fw-bold text-dark mb-2">{{ __('No Matching Vacancies Found') }}</h4>
                 <p class="text-muted small mb-4" style="max-width: 460px;">
-                    We couldn't find any job openings matching your search criteria. You can clear the search filter or submit a general application for future openings.
+                    {{ __('We couldn\'t find any job openings matching your search criteria. You can clear the search filter or submit a general application for future openings.') }}
                 </p>
                 <div class="d-flex gap-2">
                     <button type="button" class="btn btn-outline-primary px-4 py-2 rounded-pill fw-bold" onclick="resetAllSearchFilters()">
-                        <i class="bi bi-arrow-counterclockwise me-1"></i> Reset Search & View All
+                        <i class="bi bi-arrow-counterclockwise me-1"></i> {{ __('Reset Search & View All') }}
                     </button>
                     <button type="button" class="btn btn-primary px-4 py-2 rounded-pill fw-bold shadow-sm" onclick="openCareerModal('General Faculty / Staff Application', 'GENERAL')">
-                        <i class="bi bi-file-earmark-plus me-1"></i> Submit General Profile
+                        <i class="bi bi-file-earmark-plus me-1"></i> {{ __('Submit General Profile') }}
                     </button>
                 </div>
             </div>
@@ -368,13 +368,13 @@
                         <span class="badge px-3 py-1 rounded-pill" id="modalWingBadge" style="background: rgba(79, 70, 229, 0.3); color: #C7D2FE; border: 1px solid rgba(199, 210, 254, 0.2); font-size: 11.5px;">
                             SENIOR WING
                         </span>
-                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="{{ __('Close') }}"></button>
                     </div>
                     <h4 class="modal-title fw-bold text-white mb-1" id="careerApplyModalLabel" style="font-size: 19px;">
-                        Apply for Role
+                        {{ __('Apply for Role') }}
                     </h4>
                     <p class="text-light opacity-75 small mb-0" style="font-size: 12.5px;">
-                        Complete the 4 application processes below. You can navigate back at any step to edit your filled details.
+                        {{ __('Complete the 4 application processes below. You can navigate back at any step to edit your filled details.') }}
                     </p>
                 </div>
             </div>
@@ -385,22 +385,22 @@
                     <!-- Step 1 Indicator -->
                     <div class="step-indicator text-center is-active" id="stepIndicator1" onclick="goToStep(1)">
                         <div class="step-circle mx-auto mb-1">1</div>
-                        <div class="step-title">Personal Info</div>
+                        <div class="step-title">{{ __('Personal Info') }}</div>
                     </div>
                     <!-- Step 2 Indicator -->
                     <div class="step-indicator text-center" id="stepIndicator2" onclick="goToStep(2)">
                         <div class="step-circle mx-auto mb-1">2</div>
-                        <div class="step-title">Education</div>
+                        <div class="step-title">{{ __('Education') }}</div>
                     </div>
                     <!-- Step 3 Indicator -->
                     <div class="step-indicator text-center" id="stepIndicator3" onclick="goToStep(3)">
                         <div class="step-circle mx-auto mb-1">3</div>
-                        <div class="step-title">Experience</div>
+                        <div class="step-title">{{ __('Experience') }}</div>
                     </div>
                     <!-- Step 4 Indicator -->
                     <div class="step-indicator text-center" id="stepIndicator4" onclick="goToStep(4)">
                         <div class="step-circle mx-auto mb-1">4</div>
-                        <div class="step-title">Relative & Review</div>
+                        <div class="step-title">{{ __('Relative & Review') }}</div>
                     </div>
                 </div>
             </div>
@@ -415,70 +415,70 @@
                     <div class="d-flex align-items-center gap-2 mb-3">
                         <span class="badge rounded-circle bg-primary text-white p-2" style="width: 26px; height: 26px; display: inline-flex; align-items: center; justify-content: center; font-size: 12px;">1</span>
                         <div>
-                            <h5 class="fw-bold text-dark mb-0">Introduction & Personal Details</h5>
-                            <small class="text-muted">Provide your legal identification and contact details.</small>
+                            <h5 class="fw-bold text-dark mb-0">{{ __('Introduction & Personal Details') }}</h5>
+                            <small class="text-muted">{{ __('Provide your legal identification and contact details.') }}</small>
                         </div>
                     </div>
 
                     <div class="row g-3">
                         <div class="col-md-6">
-                            <label class="form-label fw-bold small text-dark">Full Legal Name <span class="text-danger">*</span></label>
+                            <label class="form-label fw-bold small text-dark">{{ __('Full Legal Name') }} <span class="text-danger">*</span></label>
                             <div class="input-group">
                                 <span class="input-group-text bg-white text-muted border-end-0"><i class="bi bi-person-fill"></i></span>
-                                <input type="text" name="full_name" id="input_full_name" class="form-control border-start-0" placeholder="e.g. Dr. Salman Khan" required>
+                                <input type="text" name="full_name" id="input_full_name" class="form-control border-start-0" placeholder="{{ __('e.g. Dr. Salman Khan') }}" required>
                             </div>
-                            <div class="invalid-feedback d-none" id="err_full_name">Full name is required.</div>
+                            <div class="invalid-feedback d-none" id="err_full_name">{{ __('Full name is required.') }}</div>
                         </div>
 
                         <div class="col-md-6">
-                            <label class="form-label fw-bold small text-dark">CNIC / ID Card No (13 Digits) <span class="text-danger">*</span></label>
+                            <label class="form-label fw-bold small text-dark">{{ __('CNIC / ID Card No (13 Digits)') }} <span class="text-danger">*</span></label>
                             <div class="input-group">
                                 <span class="input-group-text bg-white text-muted border-end-0"><i class="bi bi-person-vcard-fill"></i></span>
                                 <input type="text" name="cnic" id="input_cnic" class="form-control border-start-0 font-monospace" placeholder="XXXXX-XXXXXXX-X" maxlength="15" required>
                             </div>
-                            <small class="text-muted" style="font-size: 11px;">NADRA 13-digit format (e.g. 61101-1234567-1)</small>
-                            <div class="invalid-feedback d-none" id="err_cnic">CNIC must be exactly 13 numeric digits.</div>
+                            <small class="text-muted" style="font-size: 11px;">{{ __('NADRA 13-digit format (e.g. 61101-1234567-1)') }}</small>
+                            <div class="invalid-feedback d-none" id="err_cnic">{{ __('CNIC must be exactly 13 numeric digits.') }}</div>
                         </div>
 
                         <div class="col-md-6">
-                            <label class="form-label fw-bold small text-dark">Email Address <span class="text-danger">*</span></label>
+                            <label class="form-label fw-bold small text-dark">{{ __('Email Address') }} <span class="text-danger">*</span></label>
                             <div class="input-group">
                                 <span class="input-group-text bg-white text-muted border-end-0"><i class="bi bi-envelope-fill"></i></span>
                                 <input type="email" name="email" id="input_email" class="form-control border-start-0" placeholder="salman.khan@domain.com" required>
                             </div>
-                            <div class="invalid-feedback d-none" id="err_email">Valid email is required.</div>
+                            <div class="invalid-feedback d-none" id="err_email">{{ __('Valid email is required.') }}</div>
                         </div>
 
                         <div class="col-md-6">
-                            <label class="form-label fw-bold small text-dark">Mobile / WhatsApp Phone <span class="text-danger">*</span></label>
+                            <label class="form-label fw-bold small text-dark">{{ __('Mobile / WhatsApp Phone') }} <span class="text-danger">*</span></label>
                             <div class="input-group">
                                 <span class="input-group-text bg-white text-muted border-end-0"><i class="bi bi-telephone-fill"></i></span>
                                 <input type="tel" name="phone" id="input_phone" class="form-control border-start-0" placeholder="0300-1234567" required>
                             </div>
-                            <div class="invalid-feedback d-none" id="err_phone">Mobile phone number is required.</div>
+                            <div class="invalid-feedback d-none" id="err_phone">{{ __('Mobile phone number is required.') }}</div>
                         </div>
 
                         <div class="col-md-6">
-                            <label class="form-label fw-bold small text-dark">City of Current Residence</label>
+                            <label class="form-label fw-bold small text-dark">{{ __('City of Current Residence') }}</label>
                             <div class="input-group">
                                 <span class="input-group-text bg-white text-muted border-end-0"><i class="bi bi-geo-alt-fill"></i></span>
-                                <input type="text" name="city" id="input_city" class="form-control border-start-0" placeholder="e.g. Islamabad, Rawalpindi">
+                                <input type="text" name="city" id="input_city" class="form-control border-start-0" placeholder="{{ __('e.g. Islamabad, Rawalpindi') }}">
                             </div>
                         </div>
 
                         <div class="col-md-6">
-                            <label class="form-label fw-bold small text-dark">Gender <span class="text-danger">*</span></label>
+                            <label class="form-label fw-bold small text-dark">{{ __('Gender') }} <span class="text-danger">*</span></label>
                             <select name="gender" id="input_gender" class="form-select" required>
-                                <option value="" disabled selected>Select Gender</option>
-                                <option value="Male">Male</option>
-                                <option value="Female">Female</option>
-                                <option value="Other">Other</option>
+                                <option value="" disabled selected>{{ __('Select Gender') }}</option>
+                                <option value="Male">{{ __('Male') }}</option>
+                                <option value="Female">{{ __('Female') }}</option>
+                                <option value="Other">{{ __('Other') }}</option>
                             </select>
                         </div>
 
                         <div class="col-12">
-                            <label class="form-label fw-bold small text-dark">Brief Introduction / Professional Summary</label>
-                            <textarea name="introduction" id="input_introduction" rows="2" class="form-control" placeholder="Introduce yourself, your teaching philosophy, or career aspirations..."></textarea>
+                            <label class="form-label fw-bold small text-dark">{{ __('Brief Introduction / Professional Summary') }}</label>
+                            <textarea name="introduction" id="input_introduction" rows="2" class="form-control" placeholder="{{ __('Introduce yourself, your teaching philosophy, or career aspirations...') }}"></textarea>
                         </div>
                     </div>
                 </div>
@@ -490,48 +490,48 @@
                     <div class="d-flex align-items-center gap-2 mb-3">
                         <span class="badge rounded-circle bg-primary text-white p-2" style="width: 26px; height: 26px; display: inline-flex; align-items: center; justify-content: center; font-size: 12px;">2</span>
                         <div>
-                            <h5 class="fw-bold text-dark mb-0">Education Details</h5>
-                            <small class="text-muted">Enter your highest academic degree and university credentials.</small>
+                            <h5 class="fw-bold text-dark mb-0">{{ __('Education Details') }}</h5>
+                            <small class="text-muted">{{ __('Enter your highest academic degree and university credentials.') }}</small>
                         </div>
                     </div>
 
                     <div class="row g-3">
                         <div class="col-md-6">
-                            <label class="form-label fw-bold small text-dark">Highest Qualification Level <span class="text-danger">*</span></label>
+                            <label class="form-label fw-bold small text-dark">{{ __('Highest Qualification Level') }} <span class="text-danger">*</span></label>
                             <select name="highest_degree" id="input_highest_degree" class="form-select" required>
-                                <option value="" disabled selected>Select Degree Level</option>
-                                <option value="Ph.D. / Doctorate">Ph.D. / Doctorate</option>
-                                <option value="MS / M.Phil (18 Years)">MS / M.Phil (18 Years)</option>
-                                <option value="Master's / M.Sc / M.A (16 Years)">Master's / M.Sc / M.A (16 Years)</option>
-                                <option value="Bachelor's / BS (4 Years)">Bachelor's / BS (4 Years)</option>
-                                <option value="Associate Degree / 2-Yr BA/B.Sc">Associate Degree / 2-Yr BA/B.Sc</option>
-                                <option value="Montessori / B.Ed / Teaching Diploma">Montessori / B.Ed / Teaching Diploma</option>
-                                <option value="Intermediate / A-Levels">Intermediate / A-Levels</option>
+                                <option value="" disabled selected>{{ __('Select Degree Level') }}</option>
+                                <option value="Ph.D. / Doctorate">{{ __('Ph.D. / Doctorate') }}</option>
+                                <option value="MS / M.Phil (18 Years)">{{ __('MS / M.Phil (18 Years)') }}</option>
+                                <option value="Master's / M.Sc / M.A (16 Years)">{{ __("Master's / M.Sc / M.A (16 Years)") }}</option>
+                                <option value="Bachelor's / BS (4 Years)">{{ __("Bachelor's / BS (4 Years)") }}</option>
+                                <option value="Associate Degree / 2-Yr BA/B.Sc">{{ __('Associate Degree / 2-Yr BA/B.Sc') }}</option>
+                                <option value="Montessori / B.Ed / Teaching Diploma">{{ __('Montessori / B.Ed / Teaching Diploma') }}</option>
+                                <option value="Intermediate / A-Levels">{{ __('Intermediate / A-Levels') }}</option>
                             </select>
-                            <div class="invalid-feedback d-none" id="err_highest_degree">Please select your highest degree level.</div>
+                            <div class="invalid-feedback d-none" id="err_highest_degree">{{ __('Please select your highest degree level.') }}</div>
                         </div>
 
                         <div class="col-md-6">
-                            <label class="form-label fw-bold small text-dark">Degree Title / Major Subject <span class="text-danger">*</span></label>
-                            <input type="text" name="degree_title" id="input_degree_title" class="form-control" placeholder="e.g. M.Phil Physics, BS Computer Science" required>
-                            <div class="invalid-feedback d-none" id="err_degree_title">Degree title is required.</div>
+                            <label class="form-label fw-bold small text-dark">{{ __('Degree Title / Major Subject') }} <span class="text-danger">*</span></label>
+                            <input type="text" name="degree_title" id="input_degree_title" class="form-control" placeholder="{{ __('e.g. M.Phil Physics, BS Computer Science') }}" required>
+                            <div class="invalid-feedback d-none" id="err_degree_title">{{ __('Degree title is required.') }}</div>
                         </div>
 
                         <div class="col-md-12">
-                            <label class="form-label fw-bold small text-dark">University / Board / Awarding Institute <span class="text-danger">*</span></label>
-                            <input type="text" name="institute" id="input_institute" class="form-control" placeholder="e.g. Quaid-i-Azam University, NUST, Punjab University" required>
-                            <div class="invalid-feedback d-none" id="err_institute">University or Institute name is required.</div>
+                            <label class="form-label fw-bold small text-dark">{{ __('University / Board / Awarding Institute') }} <span class="text-danger">*</span></label>
+                            <input type="text" name="institute" id="input_institute" class="form-control" placeholder="{{ __('e.g. Quaid-i-Azam University, NUST, Punjab University') }}" required>
+                            <div class="invalid-feedback d-none" id="err_institute">{{ __('University or Institute name is required.') }}</div>
                         </div>
 
                         <div class="col-md-6">
-                            <label class="form-label fw-bold small text-dark">Passing Year <span class="text-danger">*</span></label>
-                            <input type="number" name="passing_year" id="input_passing_year" class="form-control" placeholder="e.g. 2022" min="1980" max="2027" required>
-                            <div class="invalid-feedback d-none" id="err_passing_year">Passing year is required.</div>
+                            <label class="form-label fw-bold small text-dark">{{ __('Passing Year') }} <span class="text-danger">*</span></label>
+                            <input type="number" name="passing_year" id="input_passing_year" class="form-control" placeholder="{{ __('e.g. 2022') }}" min="1980" max="2027" required>
+                            <div class="invalid-feedback d-none" id="err_passing_year">{{ __('Passing year is required.') }}</div>
                         </div>
 
                         <div class="col-md-6">
-                            <label class="form-label fw-bold small text-dark">CGPA / Percentage / Division</label>
-                            <input type="text" name="marks_cgpa" id="input_marks_cgpa" class="form-control" placeholder="e.g. 3.82 CGPA or 85%">
+                            <label class="form-label fw-bold small text-dark">{{ __('CGPA / Percentage / Division') }}</label>
+                            <input type="text" name="marks_cgpa" id="input_marks_cgpa" class="form-control" placeholder="{{ __('e.g. 3.82 CGPA or 85%') }}">
                         </div>
                     </div>
                 </div>
@@ -543,43 +543,43 @@
                     <div class="d-flex align-items-center gap-2 mb-3">
                         <span class="badge rounded-circle bg-primary text-white p-2" style="width: 26px; height: 26px; display: inline-flex; align-items: center; justify-content: center; font-size: 12px;">3</span>
                         <div>
-                            <h5 class="fw-bold text-dark mb-0">Experience & Professional History</h5>
-                            <small class="text-muted">Outline your teaching or administrative track record.</small>
+                            <h5 class="fw-bold text-dark mb-0">{{ __('Experience & Professional History') }}</h5>
+                            <small class="text-muted">{{ __('Outline your teaching or administrative track record.') }}</small>
                         </div>
                     </div>
 
                     <div class="row g-3">
                         <div class="col-md-6">
-                            <label class="form-label fw-bold small text-dark">Total Relevant Experience <span class="text-danger">*</span></label>
+                            <label class="form-label fw-bold small text-dark">{{ __('Total Relevant Experience') }} <span class="text-danger">*</span></label>
                             <select name="experience_years" id="input_experience_years" class="form-select" required>
-                                <option value="" disabled selected>Select Experience</option>
-                                <option value="Fresh Graduate (0-1 yrs)">Fresh Graduate (0 - 1 years)</option>
-                                <option value="1-3 years">1 - 3 years</option>
-                                <option value="3-5 years">3 - 5 years</option>
-                                <option value="5-10 years">5 - 10 years</option>
-                                <option value="10+ years">10+ years</option>
+                                <option value="" disabled selected>{{ __('Select Experience') }}</option>
+                                <option value="Fresh Graduate (0-1 yrs)">{{ __('Fresh Graduate (0 - 1 years)') }}</option>
+                                <option value="1-3 years">{{ __('1 - 3 years') }}</option>
+                                <option value="3-5 years">{{ __('3 - 5 years') }}</option>
+                                <option value="5-10 years">{{ __('5 - 10 years') }}</option>
+                                <option value="10+ years">{{ __('10+ years') }}</option>
                             </select>
-                            <div class="invalid-feedback d-none" id="err_experience_years">Please select your experience.</div>
+                            <div class="invalid-feedback d-none" id="err_experience_years">{{ __('Please select your experience.') }}</div>
                         </div>
 
                         <div class="col-md-6">
-                            <label class="form-label fw-bold small text-dark">Current / Last Organization</label>
-                            <input type="text" name="last_organization" id="input_last_organization" class="form-control" placeholder="e.g. Army Public School, Roots, Beaconhouse">
+                            <label class="form-label fw-bold small text-dark">{{ __('Current / Last Organization') }}</label>
+                            <input type="text" name="last_organization" id="input_last_organization" class="form-control" placeholder="{{ __('e.g. Army Public School, Roots, Beaconhouse') }}">
                         </div>
 
                         <div class="col-md-6">
-                            <label class="form-label fw-bold small text-dark">Last Designation / Role</label>
-                            <input type="text" name="last_designation" id="input_last_designation" class="form-control" placeholder="e.g. Senior Lecturer, Subject Lead">
+                            <label class="form-label fw-bold small text-dark">{{ __('Last Designation / Role') }}</label>
+                            <input type="text" name="last_designation" id="input_last_designation" class="form-control" placeholder="{{ __('e.g. Senior Lecturer, Subject Lead') }}">
                         </div>
 
                         <div class="col-md-6">
-                            <label class="form-label fw-bold small text-dark">Core Skills / Subjects Taught</label>
-                            <input type="text" name="core_skills" id="input_core_skills" class="form-control" placeholder="e.g. FBISE Physics, Cambridge CAIE, Lab Instruction">
+                            <label class="form-label fw-bold small text-dark">{{ __('Core Skills / Subjects Taught') }}</label>
+                            <input type="text" name="core_skills" id="input_core_skills" class="form-control" placeholder="{{ __('e.g. FBISE Physics, Cambridge CAIE, Lab Instruction') }}">
                         </div>
 
                         <div class="col-12">
-                            <label class="form-label fw-bold small text-dark">Cover Note / Key Achievements</label>
-                            <textarea name="cover_note" id="input_cover_note" rows="2" class="form-control" placeholder="Highlight why you are an ideal fit for Excellence School System..."></textarea>
+                            <label class="form-label fw-bold small text-dark">{{ __('Cover Note / Key Achievements') }}</label>
+                            <textarea name="cover_note" id="input_cover_note" rows="2" class="form-control" placeholder="{{ __('Highlight why you are an ideal fit for Excellence School System...') }}"></textarea>
                         </div>
                     </div>
                 </div>
@@ -591,8 +591,8 @@
                     <div class="d-flex align-items-center gap-2 mb-3">
                         <span class="badge rounded-circle bg-primary text-white p-2" style="width: 26px; height: 26px; display: inline-flex; align-items: center; justify-content: center; font-size: 12px;">4</span>
                         <div>
-                            <h5 class="fw-bold text-dark mb-0">Relative / Staff Disclosure & Final Review</h5>
-                            <small class="text-muted">Mandatory institutional transparency disclosure and profile confirmation.</small>
+                            <h5 class="fw-bold text-dark mb-0">{{ __('Relative / Staff Disclosure & Final Review') }}</h5>
+                            <small class="text-muted">{{ __('Mandatory institutional transparency disclosure and profile confirmation.') }}</small>
                         </div>
                     </div>
 
@@ -600,20 +600,20 @@
                     <div class="card border rounded-4 p-3 mb-3 bg-white shadow-sm">
                         <label class="form-label fw-bold text-dark mb-2" style="font-size: 14px;">
                             <i class="bi bi-people-fill text-primary me-2"></i>
-                            Do you have any relative currently or previously working at Excellence School System? <span class="text-danger">*</span>
+                            {{ __('Do you have any relative currently or previously working at Excellence School System?') }} <span class="text-danger">*</span>
                         </label>
 
                         <div class="d-flex gap-4 mb-2">
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="has_relative" id="rel_no" value="no" checked onchange="toggleRelativeDetails(false)">
                                 <label class="form-check-label fw-semibold text-dark" for="rel_no">
-                                    No, I do not have any relative working here
+                                    {{ __('No, I do not have any relative working here') }}
                                 </label>
                             </div>
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="has_relative" id="rel_yes" value="yes" onchange="toggleRelativeDetails(true)">
                                 <label class="form-check-label fw-semibold text-dark" for="rel_yes">
-                                    Yes, I have a relative working / worked here
+                                    {{ __('Yes, I have a relative working / worked here') }}
                                 </label>
                             </div>
                         </div>
@@ -621,48 +621,48 @@
                         <!-- Conditional Relative Fields -->
                         <div id="relativeDetailsFields" class="row g-2 p-3 rounded-3 bg-light border d-none mt-2">
                             <div class="col-md-4">
-                                <label class="form-label fw-bold small text-dark">Relative's Full Name <span class="text-danger">*</span></label>
-                                <input type="text" name="relative_name" id="input_relative_name" class="form-control" placeholder="e.g. Sir Tariq Mehmood">
-                                <div class="invalid-feedback d-none" id="err_relative_name">Relative's name is required when Yes is selected.</div>
+                                <label class="form-label fw-bold small text-dark">{{ __("Relative's Full Name") }} <span class="text-danger">*</span></label>
+                                <input type="text" name="relative_name" id="input_relative_name" class="form-control" placeholder="{{ __('e.g. Sir Tariq Mehmood') }}">
+                                <div class="invalid-feedback d-none" id="err_relative_name">{{ __('Relative\'s name is required when Yes is selected.') }}</div>
                             </div>
                             <div class="col-md-4">
-                                <label class="form-label fw-bold small text-dark">Their Designation / Dept</label>
-                                <input type="text" name="relative_designation" id="input_relative_designation" class="form-control" placeholder="e.g. Senior Faculty / Admin">
+                                <label class="form-label fw-bold small text-dark">{{ __('Their Designation / Dept') }}</label>
+                                <input type="text" name="relative_designation" id="input_relative_designation" class="form-control" placeholder="{{ __('e.g. Senior Faculty / Admin') }}">
                             </div>
                             <div class="col-md-4">
-                                <label class="form-label fw-bold small text-dark">Relationship</label>
-                                <input type="text" name="relative_relation" id="input_relative_relation" class="form-control" placeholder="e.g. Brother, Sister, Spouse, Uncle">
+                                <label class="form-label fw-bold small text-dark">{{ __('Relationship') }}</label>
+                                <input type="text" name="relative_relation" id="input_relative_relation" class="form-control" placeholder="{{ __('e.g. Brother, Sister, Spouse, Uncle') }}">
                             </div>
                         </div>
                     </div>
 
                     <!-- LIVE APPLICATION SUMMARY REVIEW CARD -->
                     <div class="card border-0 rounded-4 p-3 bg-white shadow-sm" style="border-left: 4px solid #4F46E5 !important;">
-                        <h6 class="fw-bold text-dark mb-2"><i class="bi bi-file-earmark-check-fill text-primary me-2"></i> Review Summary Before Submission</h6>
+                        <h6 class="fw-bold text-dark mb-2"><i class="bi bi-file-earmark-check-fill text-primary me-2"></i> {{ __('Review Summary Before Submission') }}</h6>
                         <div class="row g-2 text-dark small">
                             <div class="col-sm-6">
-                                <span class="text-muted">Candidate Name:</span>
+                                <span class="text-muted">{{ __('Candidate Name:') }}</span>
                                 <strong id="rev_name" class="d-block text-truncate">-</strong>
                             </div>
                             <div class="col-sm-6">
-                                <span class="text-muted">CNIC:</span>
+                                <span class="text-muted">{{ __('CNIC:') }}</span>
                                 <strong id="rev_cnic" class="d-block font-monospace">-</strong>
                             </div>
                             <div class="col-sm-6">
-                                <span class="text-muted">Target Position:</span>
+                                <span class="text-muted">{{ __('Target Position:') }}</span>
                                 <strong id="rev_position" class="d-block text-primary">-</strong>
                             </div>
                             <div class="col-sm-6">
-                                <span class="text-muted">Highest Degree:</span>
+                                <span class="text-muted">{{ __('Highest Degree:') }}</span>
                                 <strong id="rev_degree" class="d-block text-truncate">-</strong>
                             </div>
                             <div class="col-sm-6">
-                                <span class="text-muted">Experience:</span>
+                                <span class="text-muted">{{ __('Experience:') }}</span>
                                 <strong id="rev_exp" class="d-block">-</strong>
                             </div>
                             <div class="col-sm-6">
-                                <span class="text-muted">Relative Disclosure:</span>
-                                <strong id="rev_relative" class="d-block text-success">No Relative</strong>
+                                <span class="text-muted">{{ __('Relative Disclosure:') }}</span>
+                                <strong id="rev_relative" class="d-block text-success">{{ __('No Relative') }}</strong>
                             </div>
                         </div>
                     </div>
@@ -675,19 +675,19 @@
             <div class="modal-footer border-top bg-white p-3 px-4 d-flex justify-content-between align-items-center flex-shrink-0" style="box-shadow: 0 -4px 16px rgba(15, 23, 42, 0.05); min-height: 72px;">
                 <div>
                     <button type="button" class="btn btn-outline-secondary px-4 py-2 rounded-3 fw-bold shadow-sm d-none" id="wizardBackBtn" onclick="navigateStep(-1)">
-                        <i class="bi bi-arrow-left me-1"></i> Back to Previous
+                        <i class="bi bi-arrow-left me-1"></i> {{ __('Back to Previous') }}
                     </button>
                 </div>
 
                 <div class="d-flex align-items-center gap-2">
                     <button type="button" class="btn btn-light px-3 py-2 rounded-3 text-muted fw-bold border" data-bs-dismiss="modal">
-                        Cancel
+                        {{ __('Cancel') }}
                     </button>
                     <button type="button" class="btn btn-primary px-4 py-2 rounded-3 fw-bold shadow-sm" id="wizardNextBtn" onclick="navigateStep(1)" style="background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%); min-width: 190px;">
-                        Continue to Education <i class="bi bi-arrow-right ms-1"></i>
+                        {{ __('Continue to Education') }} <i class="bi bi-arrow-right ms-1"></i>
                     </button>
                     <button type="submit" class="btn btn-success px-4 py-2 rounded-3 fw-bold shadow-sm d-none" id="wizardSubmitBtn" style="background: #10B981; border: none; min-width: 220px;">
-                        <i class="bi bi-check2-circle me-1"></i> Submit Application
+                        <i class="bi bi-check2-circle me-1"></i> {{ __('Submit Application') }}
                     </button>
                 </div>
             </div>
@@ -777,7 +777,7 @@
     function openCareerModal(jobTitle, wing) {
         document.getElementById('formJobTitle').value = jobTitle;
         document.getElementById('formJobWing').value = wing;
-        document.getElementById('careerApplyModalLabel').innerText = 'Apply for ' + jobTitle;
+        document.getElementById('careerApplyModalLabel').innerText = @json(__('Apply for')) + ' ' + jobTitle;
         document.getElementById('modalWingBadge').innerText = wing;
 
         // Reset to Step 1
@@ -1001,23 +1001,23 @@
         if (currentStep === 1) {
             backBtn.classList.add('d-none');
             nextBtn.classList.remove('d-none');
-            nextBtn.innerHTML = 'Continue to Education <i class="bi bi-arrow-right ms-1"></i>';
+            nextBtn.innerHTML = @json(__('Continue to Education')) + ' <i class="bi bi-arrow-right ms-1"></i>';
             submitBtn.classList.add('d-none');
         } else if (currentStep === 2) {
             backBtn.classList.remove('d-none');
-            backBtn.innerHTML = '<i class="bi bi-arrow-left me-1"></i> Back to Personal';
+            backBtn.innerHTML = '<i class="bi bi-arrow-left me-1"></i> ' + @json(__('Back to Personal'));
             nextBtn.classList.remove('d-none');
-            nextBtn.innerHTML = 'Continue to Experience <i class="bi bi-arrow-right ms-1"></i>';
+            nextBtn.innerHTML = @json(__('Continue to Experience')) + ' <i class="bi bi-arrow-right ms-1"></i>';
             submitBtn.classList.add('d-none');
         } else if (currentStep === 3) {
             backBtn.classList.remove('d-none');
-            backBtn.innerHTML = '<i class="bi bi-arrow-left me-1"></i> Back to Education';
+            backBtn.innerHTML = '<i class="bi bi-arrow-left me-1"></i> ' + @json(__('Back to Education'));
             nextBtn.classList.remove('d-none');
-            nextBtn.innerHTML = 'Continue to Relative Disclosure <i class="bi bi-arrow-right ms-1"></i>';
+            nextBtn.innerHTML = @json(__('Continue to Relative Disclosure')) + ' <i class="bi bi-arrow-right ms-1"></i>';
             submitBtn.classList.add('d-none');
         } else if (currentStep === 4) {
             backBtn.classList.remove('d-none');
-            backBtn.innerHTML = '<i class="bi bi-arrow-left me-1"></i> Back to Experience';
+            backBtn.innerHTML = '<i class="bi bi-arrow-left me-1"></i> ' + @json(__('Back to Experience'));
             nextBtn.classList.add('d-none');
             submitBtn.classList.remove('d-none');
             updateReviewSummary();
@@ -1032,22 +1032,22 @@
 
     // Populate Step 4 review card
     function updateReviewSummary() {
-        document.getElementById('rev_name').innerText = document.getElementById('input_full_name').value || 'Not provided';
-        document.getElementById('rev_cnic').innerText = document.getElementById('input_cnic').value || 'Not provided';
-        document.getElementById('rev_position').innerText = document.getElementById('formJobTitle').value || 'Faculty Role';
+        document.getElementById('rev_name').innerText = document.getElementById('input_full_name').value || @json(__('Not provided'));
+        document.getElementById('rev_cnic').innerText = document.getElementById('input_cnic').value || @json(__('Not provided'));
+        document.getElementById('rev_position').innerText = document.getElementById('formJobTitle').value || @json(__('Faculty Role'));
         document.getElementById('rev_degree').innerText = (document.getElementById('input_highest_degree').value || '') + ' - ' + (document.getElementById('input_degree_title').value || '');
-        document.getElementById('rev_exp').innerText = document.getElementById('input_experience_years').value || 'Not selected';
+        document.getElementById('rev_exp').innerText = document.getElementById('input_experience_years').value || @json(__('Not selected'));
 
         const isRelYes = document.getElementById('rel_yes').checked;
         const revRel = document.getElementById('rev_relative');
         if (isRelYes) {
-            const relName = document.getElementById('input_relative_name').value || 'Relative';
+            const relName = document.getElementById('input_relative_name').value || @json(__('Relative'));
             const relDesig = document.getElementById('input_relative_designation').value || '';
             revRel.className = 'd-block text-warning fw-bold';
-            revRel.innerText = 'Yes: ' + relName + (relDesig ? ' (' + relDesig + ')' : '');
+            revRel.innerText = @json(__('Yes:')) + ' ' + relName + (relDesig ? ' (' + relDesig + ')' : '');
         } else {
             revRel.className = 'd-block text-success fw-bold';
-            revRel.innerText = 'No Relative Working Here';
+            revRel.innerText = @json(__('No Relative Working Here'));
         }
     }
 
@@ -1061,7 +1061,7 @@
             }
             const submitBtn = document.getElementById('wizardSubmitBtn');
             submitBtn.disabled = true;
-            submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status"></span>Submitting Application...';
+            submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status"></span>' + @json(__('Submitting Application...'));
         });
     }
 

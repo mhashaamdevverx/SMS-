@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="{{ config('languages.supported.'.app()->getLocale().'.dir', 'ltr') }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Help Desk & Support Center - Excellence School System</title>
+    <title>{{ __('Help Desk & Support Center') }} - Excellence School System</title>
 
     <link rel="icon" type="image/png" href="{{ asset('images/school_logo.png') }}">
     <link rel="apple-touch-icon" href="{{ asset('images/school_logo.png') }}">
@@ -924,20 +924,20 @@
     <!-- TOP HEADER -->
     <header class="support-header">
         <div class="header-inner">
-            <a href="{{ route('login') }}" class="brand-link" title="Return to Portal">
+            <a href="{{ route('login') }}" class="brand-link" title="{{ __('Return to Portal') }}">
                 <div class="brand-logo-wrap">
                     <img src="{{ asset('images/school_logo.png') }}" alt="Excellence School System Logo">
                 </div>
                 <div class="brand-text">
                     <h1>Excellence School System</h1>
-                    <span>Help Desk & Support Center</span>
+                    <span>{{ __('Help Desk & Support Center') }}</span>
                 </div>
             </a>
 
             <div class="header-actions">
                 <a href="{{ route('login') }}" class="btn-header-back">
                     <i class="bi bi-arrow-left"></i>
-                    <span>Back to Sign In</span>
+                    <span>{{ __('Back to Sign In') }}</span>
                 </a>
             </div>
         </div>
@@ -948,11 +948,11 @@
         <div class="hero-container">
             <div class="hero-pill-badge">
                 <i class="bi bi-shield-check"></i>
-                <span>Official 24/7 Help Desk & Academic Portal Support</span>
+                <span>{{ __('Official 24/7 Help Desk & Academic Portal Support') }}</span>
             </div>
-            <h2 class="hero-title">How can our Support Team assist you?</h2>
+            <h2 class="hero-title">{{ __('How can our Support Team assist you?') }}</h2>
             <p class="hero-subtitle">
-                Find quick guidance on student portals, roll number slips, fee challans, exam results, or submit an official inquiry directly to our IT and Academic Administration.
+                {{ __('Find quick guidance on student portals, roll number slips, fee challans, exam results, or submit an official inquiry directly to our IT and Academic Administration.') }}
             </p>
 
             <!-- LIVE SEARCH BAR -->
@@ -962,10 +962,10 @@
                     type="text" 
                     id="faqSearchInput" 
                     class="search-input-field" 
-                    placeholder="Search help topics (e.g., password reset, roll slip, fee voucher, login issue)..."
+                    placeholder="{{ __('Search help topics (e.g., password reset, roll slip, fee voucher, login issue)...') }}"
                     autocomplete="off"
                 >
-                <button type="button" id="searchClearBtn" class="search-clear-btn" title="Clear search">
+                <button type="button" id="searchClearBtn" class="search-clear-btn" title="{{ __('Clear search') }}">
                     <i class="bi bi-x"></i>
                 </button>
             </div>
@@ -984,14 +984,14 @@
                     <div class="card-icon-bubble">
                         <i class="bi bi-envelope-at-fill"></i>
                     </div>
-                    <div class="card-label-small">24/7 Help Desk Email</div>
+                    <div class="card-label-small">{{ __('24/7 Help Desk Email') }}</div>
                     <div class="card-main-title">support@excellence.edu.pk</div>
                     <div class="card-description">
-                        Monitored round the clock. Official student and teacher inquiry channel.
+                        {{ __('Monitored round the clock. Official student and teacher inquiry channel.') }}
                     </div>
                 </div>
                 <a href="mailto:support@excellence.edu.pk?subject=Portal%20Support%20Request" class="card-action-btn">
-                    <span>Send Direct Email</span>
+                    <span>{{ __('Send Direct Email') }}</span>
                     <i class="bi bi-box-arrow-up-right"></i>
                 </a>
             </div>
@@ -1002,14 +1002,14 @@
                     <div class="card-icon-bubble">
                         <i class="bi bi-telephone-inbound-fill"></i>
                     </div>
-                    <div class="card-label-small">Telephone Helpline</div>
+                    <div class="card-label-small">{{ __('Telephone Helpline') }}</div>
                     <div class="card-main-title">+92 (042) 111-222-333</div>
                     <div class="card-description">
-                        Admissions, Fee Office & General Helpline (Mon–Sat: 8:00 AM – 4:00 PM).
+                        {{ __('Admissions, Fee Office & General Helpline (Mon–Sat: 8:00 AM – 4:00 PM).') }}
                     </div>
                 </div>
                 <a href="tel:+92042111222333" class="card-action-btn">
-                    <span>Call Helpline</span>
+                    <span>{{ __('Call Helpline') }}</span>
                     <i class="bi bi-telephone"></i>
                 </a>
             </div>
@@ -1020,14 +1020,14 @@
                     <div class="card-icon-bubble">
                         <i class="bi bi-shield-lock-fill"></i>
                     </div>
-                    <div class="card-label-small">Account Access</div>
-                    <div class="card-main-title">Password Assistance</div>
+                    <div class="card-label-small">{{ __('Account Access') }}</div>
+                    <div class="card-main-title">{{ __('Password Assistance') }}</div>
                     <div class="card-description">
-                        Forgot your portal password? Request administrative verification and credential recovery.
+                        {{ __('Forgot your portal password? Request administrative verification and credential recovery.') }}
                     </div>
                 </div>
                 <a href="{{ route('password.request') }}" class="card-action-btn">
-                    <span>Reset Password</span>
+                    <span>{{ __('Reset Password') }}</span>
                     <i class="bi bi-arrow-right"></i>
                 </a>
             </div>
@@ -1038,14 +1038,14 @@
                     <div class="card-icon-bubble">
                         <i class="bi bi-geo-alt-fill"></i>
                     </div>
-                    <div class="card-label-small">Main Campus Office</div>
-                    <div class="card-main-title">IT & Registrar Desk</div>
+                    <div class="card-label-small">{{ __('Main Campus Office') }}</div>
+                    <div class="card-main-title">{{ __('IT & Registrar Desk') }}</div>
                     <div class="card-description">
-                        Room 102, Academic Block A, Excellence School System Main Campus.
+                        {{ __('Room 102, Academic Block A, Excellence School System Main Campus.') }}
                     </div>
                 </div>
                 <a href="#supportTicketSection" class="card-action-btn">
-                    <span>Submit Query Below</span>
+                    <span>{{ __('Submit Query Below') }}</span>
                     <i class="bi bi-arrow-down"></i>
                 </a>
             </div>
@@ -1061,18 +1061,18 @@
                 <div class="section-header-row">
                     <h3 class="section-title">
                         <i class="bi bi-question-circle-fill" style="color: var(--primary-accent);"></i>
-                        <span>Frequently Asked Questions</span>
+                        <span>{{ __('Frequently Asked Questions') }}</span>
                     </h3>
-                    <span class="section-badge-count" id="faqCounter">8 Questions</span>
+                    <span class="section-badge-count" id="faqCounter">{{ __('8 Questions') }}</span>
                 </div>
 
                 <!-- CATEGORY FILTER BUTTONS -->
                 <div class="faq-filter-nav">
-                    <button type="button" class="filter-btn active" data-filter="all">All Questions</button>
-                    <button type="button" class="filter-btn" data-filter="portal">Portal Login</button>
-                    <button type="button" class="filter-btn" data-filter="student">Students & Slips</button>
-                    <button type="button" class="filter-btn" data-filter="fees">Fees & Challans</button>
-                    <button type="button" class="filter-btn" data-filter="teacher">Teachers & Staff</button>
+                    <button type="button" class="filter-btn active" data-filter="all">{{ __('All Questions') }}</button>
+                    <button type="button" class="filter-btn" data-filter="portal">{{ __('Portal Login') }}</button>
+                    <button type="button" class="filter-btn" data-filter="student">{{ __('Students & Slips') }}</button>
+                    <button type="button" class="filter-btn" data-filter="fees">{{ __('Fees & Challans') }}</button>
+                    <button type="button" class="filter-btn" data-filter="teacher">{{ __('Teachers & Staff') }}</button>
                 </div>
 
                 <!-- FAQ ITEMS -->
@@ -1082,8 +1082,8 @@
                     <div class="faq-item" data-category="portal">
                         <button type="button" class="faq-question-btn" aria-expanded="false">
                             <div class="question-meta">
-                                <span class="question-category-tag">Portal Login</span>
-                                <span class="question-title">How do I sign in to the Student, Teacher, or Admin portal?</span>
+                                <span class="question-category-tag">{{ __('Portal Login') }}</span>
+                                <span class="question-title">{{ __('How do I sign in to the Student, Teacher, or Admin portal?') }}</span>
                             </div>
                             <div class="faq-chevron">
                                 <i class="bi bi-chevron-down"></i>
@@ -1091,14 +1091,14 @@
                         </button>
                         <div class="faq-answer-panel">
                             <div class="faq-answer-body">
-                                <p>To log in to your designated portal:</p>
+                                <p>{{ __('To log in to your designated portal:') }}</p>
                                 <ol>
-                                    <li>Navigate to the <a href="{{ route('login') }}" class="highlight-link">Sign In Page</a>.</li>
-                                    <li>Choose your role switch at the top of the form: <strong>Student</strong>, <strong>Teacher</strong>, or <strong>Admin</strong>.</li>
-                                    <li>Type in your registered email address and portal password.</li>
-                                    <li>Click <strong>Sign In to Dashboard</strong> to proceed.</li>
+                                    <li>{{ __('Navigate to the') }} <a href="{{ route('login') }}" class="highlight-link">{{ __('Sign In Page') }}</a>.</li>
+                                    <li>{{ __('Choose your role switch at the top of the form:') }} <strong>{{ __('Student') }}</strong>, <strong>{{ __('Teacher') }}</strong>, {{ __('or') }} <strong>{{ __('Admin') }}</strong>.</li>
+                                    <li>{{ __('Type in your registered email address and portal password.') }}</li>
+                                    <li>{{ __('Click') }} <strong>{{ __('Sign In to Dashboard') }}</strong> {{ __('to proceed.') }}</li>
                                 </ol>
-                                <p>Ensure you select the exact role tab corresponding to your account to avoid "Invalid Credentials" notices.</p>
+                                <p>{{ __('Ensure you select the exact role tab corresponding to your account to avoid "Invalid Credentials" notices.') }}</p>
                             </div>
                         </div>
                     </div>
@@ -1107,8 +1107,8 @@
                     <div class="faq-item" data-category="portal">
                         <button type="button" class="faq-question-btn" aria-expanded="false">
                             <div class="question-meta">
-                                <span class="question-category-tag">Portal Login</span>
-                                <span class="question-title">I forgot my password or cannot access my account. What should I do?</span>
+                                <span class="question-category-tag">{{ __('Portal Login') }}</span>
+                                <span class="question-title">{{ __('I forgot my password or cannot access my account. What should I do?') }}</span>
                             </div>
                             <div class="faq-chevron">
                                 <i class="bi bi-chevron-down"></i>
@@ -1116,13 +1116,13 @@
                         </button>
                         <div class="faq-answer-panel">
                             <div class="faq-answer-body">
-                                <p>For privacy and security, portal passwords are verified and reset through the school administration:</p>
+                                <p>{{ __('For privacy and security, portal passwords are verified and reset through the school administration:') }}</p>
                                 <ul>
-                                    <li>Visit the <a href="{{ route('password.request') }}" class="highlight-link">Password Help Page</a>.</li>
-                                    <li>Submit your registered portal email address.</li>
-                                    <li>The school administrator will verify your identity against school records and provide your reset credentials securely.</li>
+                                    <li>{{ __('Visit the') }} <a href="{{ route('password.request') }}" class="highlight-link">{{ __('Password Help Page') }}</a>.</li>
+                                    <li>{{ __('Submit your registered portal email address.') }}</li>
+                                    <li>{{ __('The school administrator will verify your identity against school records and provide your reset credentials securely.') }}</li>
                                 </ul>
-                                <p>Alternatively, you may contact the IT desk directly at <a href="mailto:support@excellence.edu.pk" class="highlight-link">support@excellence.edu.pk</a> or visit Academic Block A, Room 102.</p>
+                                <p>{{ __('Alternatively, you may contact the IT desk directly at') }} <a href="mailto:support@excellence.edu.pk" class="highlight-link">support@excellence.edu.pk</a> {{ __('or visit Academic Block A, Room 102.') }}</p>
                             </div>
                         </div>
                     </div>
@@ -1131,8 +1131,8 @@
                     <div class="faq-item" data-category="student">
                         <button type="button" class="faq-question-btn" aria-expanded="false">
                             <div class="question-meta">
-                                <span class="question-category-tag">Students & Slips</span>
-                                <span class="question-title">Where can students view and download Roll Number Slips?</span>
+                                <span class="question-category-tag">{{ __('Students & Slips') }}</span>
+                                <span class="question-title">{{ __('Where can students view and download Roll Number Slips?') }}</span>
                             </div>
                             <div class="faq-chevron">
                                 <i class="bi bi-chevron-down"></i>
@@ -1140,12 +1140,12 @@
                         </button>
                         <div class="faq-answer-panel">
                             <div class="faq-answer-body">
-                                <p>Students can obtain their official examination roll slips directly through their portal:</p>
+                                <p>{{ __('Students can obtain their official examination roll slips directly through their portal:') }}</p>
                                 <ol>
-                                    <li>Sign in to your <strong>Student Portal</strong>.</li>
-                                    <li>Open the <strong>Roll Slips</strong> tab from the sidebar menu.</li>
-                                    <li>Once the examination department issues the slips for your class session, a <strong>Download Roll Slip</strong> button will appear.</li>
-                                    <li>The slip includes your registration number, exam schedule, allotted center, and QR/barcode authentication.</li>
+                                    <li>{{ __('Sign in to your') }} <strong>{{ __('Student Portal') }}</strong>.</li>
+                                    <li>{{ __('Open the') }} <strong>{{ __('Roll Slips') }}</strong> {{ __('tab from the sidebar menu.') }}</li>
+                                    <li>{{ __('Once the examination department issues the slips for your class session, a') }} <strong>{{ __('Download Roll Slip') }}</strong> {{ __('button will appear.') }}</li>
+                                    <li>{{ __('The slip includes your registration number, exam schedule, allotted center, and QR/barcode authentication.') }}</li>
                                 </ol>
                             </div>
                         </div>
@@ -1155,8 +1155,8 @@
                     <div class="faq-item" data-category="fees">
                         <button type="button" class="faq-question-btn" aria-expanded="false">
                             <div class="question-meta">
-                                <span class="question-category-tag">Fees & Challans</span>
-                                <span class="question-title">How do I download my monthly Fee Voucher and record payment?</span>
+                                <span class="question-category-tag">{{ __('Fees & Challans') }}</span>
+                                <span class="question-title">{{ __('How do I download my monthly Fee Voucher and record payment?') }}</span>
                             </div>
                             <div class="faq-chevron">
                                 <i class="bi bi-chevron-down"></i>
@@ -1164,12 +1164,12 @@
                         </button>
                         <div class="faq-answer-panel">
                             <div class="faq-answer-body">
-                                <p>To manage school fees:</p>
+                                <p>{{ __('To manage school fees:') }}</p>
                                 <ul>
-                                    <li>Log in as a student and navigate to the <strong>Fees</strong> section.</li>
-                                    <li>Click <strong>Download Fee Voucher</strong> to generate a printable bank challan copy.</li>
-                                    <li>You can submit your payment at designated partner bank branches or upload online payment confirmation for admin review.</li>
-                                    <li>Once verified by the Accounts Department, your fee status will automatically update to <strong>Paid</strong>.</li>
+                                    <li>{{ __('Log in as a student and navigate to the') }} <strong>{{ __('Fees') }}</strong> {{ __('section.') }}</li>
+                                    <li>{{ __('Click') }} <strong>{{ __('Download Fee Voucher') }}</strong> {{ __('to generate a printable bank challan copy.') }}</li>
+                                    <li>{{ __('You can submit your payment at designated partner bank branches or upload online payment confirmation for admin review.') }}</li>
+                                    <li>{{ __('Once verified by the Accounts Department, your fee status will automatically update to') }} <strong>{{ __('Paid') }}</strong>.</li>
                                 </ul>
                             </div>
                         </div>
@@ -1179,8 +1179,8 @@
                     <div class="faq-item" data-category="student">
                         <button type="button" class="faq-question-btn" aria-expanded="false">
                             <div class="question-meta">
-                                <span class="question-category-tag">Students & Slips</span>
-                                <span class="question-title">Where can I check monthly test session results and attendance?</span>
+                                <span class="question-category-tag">{{ __('Students & Slips') }}</span>
+                                <span class="question-title">{{ __('Where can I check monthly test session results and attendance?') }}</span>
                             </div>
                             <div class="faq-chevron">
                                 <i class="bi bi-chevron-down"></i>
@@ -1188,10 +1188,10 @@
                         </button>
                         <div class="faq-answer-panel">
                             <div class="faq-answer-body">
-                                <p>Comprehensive academic progress tracking is accessible via the Student Portal:</p>
+                                <p>{{ __('Comprehensive academic progress tracking is accessible via the Student Portal:') }}</p>
                                 <ul>
-                                    <li><strong>Results:</strong> Go to the <em>Results / Test Sessions</em> page to view class-wise monthly test scores, exam grades, and download official marks sheets.</li>
-                                    <li><strong>Attendance:</strong> Open the <em>Attendance</em> menu to see daily presence, total absent days, and monthly attendance percentages.</li>
+                                    <li><strong>{{ __('Results:') }}</strong> {{ __('Go to the') }} <em>{{ __('Results / Test Sessions') }}</em> {{ __('page to view class-wise monthly test scores, exam grades, and download official marks sheets.') }}</li>
+                                    <li><strong>{{ __('Attendance:') }}</strong> {{ __('Open the') }} <em>{{ __('Attendance') }}</em> {{ __('menu to see daily presence, total absent days, and monthly attendance percentages.') }}</li>
                                 </ul>
                             </div>
                         </div>
@@ -1201,8 +1201,8 @@
                     <div class="faq-item" data-category="teacher">
                         <button type="button" class="faq-question-btn" aria-expanded="false">
                             <div class="question-meta">
-                                <span class="question-category-tag">Teachers & Staff</span>
-                                <span class="question-title">I am a new teacher. How do I get portal access?</span>
+                                <span class="question-category-tag">{{ __('Teachers & Staff') }}</span>
+                                <span class="question-title">{{ __('I am a new teacher. How do I get portal access?') }}</span>
                             </div>
                             <div class="faq-chevron">
                                 <i class="bi bi-chevron-down"></i>
@@ -1210,11 +1210,11 @@
                         </button>
                         <div class="faq-answer-panel">
                             <div class="faq-answer-body">
-                                <p>Faculty members can request teacher portal activation:</p>
+                                <p>{{ __('Faculty members can request teacher portal activation:') }}</p>
                                 <ol>
-                                    <li>Click <a href="/signup" class="highlight-link">Create an Account</a> or visit the Sign Up page.</li>
-                                    <li>Enter your official teacher profile email, full name, and mobile number.</li>
-                                    <li>Submit the request. The school management and principal will approve your account and activate your sign-in privileges.</li>
+                                    <li>{{ __('Click') }} <a href="/signup" class="highlight-link">{{ __('Create an Account') }}</a> {{ __('or visit the Sign Up page.') }}</li>
+                                    <li>{{ __('Enter your official teacher profile email, full name, and mobile number.') }}</li>
+                                    <li>{{ __('Submit the request. The school management and principal will approve your account and activate your sign-in privileges.') }}</li>
                                 </ol>
                             </div>
                         </div>
@@ -1224,8 +1224,8 @@
                     <div class="faq-item" data-category="teacher">
                         <button type="button" class="faq-question-btn" aria-expanded="false">
                             <div class="question-meta">
-                                <span class="question-category-tag">Teachers & Staff</span>
-                                <span class="question-title">How do teachers punch in/out and submit leave applications?</span>
+                                <span class="question-category-tag">{{ __('Teachers & Staff') }}</span>
+                                <span class="question-title">{{ __('How do teachers punch in/out and submit leave applications?') }}</span>
                             </div>
                             <div class="faq-chevron">
                                 <i class="bi bi-chevron-down"></i>
@@ -1233,11 +1233,11 @@
                         </button>
                         <div class="faq-answer-panel">
                             <div class="faq-answer-body">
-                                <p>Inside the Teacher Portal:</p>
+                                <p>{{ __('Inside the Teacher Portal:') }}</p>
                                 <ul>
-                                    <li><strong>Punch In / Out:</strong> Use the dedicated Punch button on your dashboard each morning upon arriving at school.</li>
-                                    <li><strong>Leave Requests:</strong> Go to <em>Leaves</em>, select your leave dates, reason, and submit for Admin approval.</li>
-                                    <li><strong>Course Outlines & Marks:</strong> Upload syllabi and input student test scores for your assigned subjects directly through the portal.</li>
+                                    <li><strong>{{ __('Punch In / Out:') }}</strong> {{ __('Use the dedicated Punch button on your dashboard each morning upon arriving at school.') }}</li>
+                                    <li><strong>{{ __('Leave Requests:') }}</strong> {{ __('Go to') }} <em>{{ __('Leaves') }}</em>, {{ __('select your leave dates, reason, and submit for Admin approval.') }}</li>
+                                    <li><strong>{{ __('Course Outlines & Marks:') }}</strong> {{ __('Upload syllabi and input student test scores for your assigned subjects directly through the portal.') }}</li>
                                 </ul>
                             </div>
                         </div>
@@ -1247,8 +1247,8 @@
                     <div class="faq-item" data-category="portal">
                         <button type="button" class="faq-question-btn" aria-expanded="false">
                             <div class="question-meta">
-                                <span class="question-category-tag">Portal Login</span>
-                                <span class="question-title">The login page gives an error or gets stuck. What should I check?</span>
+                                <span class="question-category-tag">{{ __('Portal Login') }}</span>
+                                <span class="question-title">{{ __('The login page gives an error or gets stuck. What should I check?') }}</span>
                             </div>
                             <div class="faq-chevron">
                                 <i class="bi bi-chevron-down"></i>
@@ -1256,12 +1256,12 @@
                         </button>
                         <div class="faq-answer-panel">
                             <div class="faq-answer-body">
-                                <p>If you encounter any browser or connectivity hiccups:</p>
+                                <p>{{ __('If you encounter any browser or connectivity hiccups:') }}</p>
                                 <ul>
-                                    <li>Ensure your browser is up to date (Google Chrome, Microsoft Edge, Safari, and Firefox are recommended).</li>
-                                    <li>Clear temporary browser cache and cookies or open an Incognito / Private window.</li>
-                                    <li>Verify that caps lock is turned off when typing your password.</li>
-                                    <li>If problem persists, submit the support form on this page so our IT administrator can inspect your account status.</li>
+                                    <li>{{ __('Ensure your browser is up to date (Google Chrome, Microsoft Edge, Safari, and Firefox are recommended).') }}</li>
+                                    <li>{{ __('Clear temporary browser cache and cookies or open an Incognito / Private window.') }}</li>
+                                    <li>{{ __('Verify that caps lock is turned off when typing your password.') }}</li>
+                                    <li>{{ __('If problem persists, submit the support form on this page so our IT administrator can inspect your account status.') }}</li>
                                 </ul>
                             </div>
                         </div>
@@ -1272,8 +1272,8 @@
                 <!-- NO SEARCH RESULTS PLACEHOLDER -->
                 <div class="no-results-box" id="noSearchResults">
                     <i class="bi bi-search"></i>
-                    <h4>No matching answers found</h4>
-                    <p>Try searching with different keywords or submit an inquiry using the support form.</p>
+                    <h4>{{ __('No matching answers found') }}</h4>
+                    <p>{{ __('Try searching with different keywords or submit an inquiry using the support form.') }}</p>
                 </div>
 
             </div>
@@ -1284,10 +1284,10 @@
                 <div class="ticket-panel-header">
                     <h3 class="ticket-title">
                         <i class="bi bi-headset" style="color: var(--primary-accent);"></i>
-                        <span>Submit a Support Ticket</span>
+                        <span>{{ __('Submit a Support Ticket') }}</span>
                     </h3>
                     <p class="ticket-subtitle">
-                        Need personalized help? Submit a ticket and our IT & Student Support department will reply promptly.
+                        {{ __('Need personalized help? Submit a ticket and our IT & Student Support department will reply promptly.') }}
                     </p>
                 </div>
 
@@ -1298,10 +1298,10 @@
                             <i class="bi bi-check-lg"></i>
                         </div>
                         <div class="success-content">
-                            <h4>Inquiry Successfully Logged!</h4>
-                            <div>Ticket Tracking ID: <span class="ticket-badge-pill">#{{ session('ticket_success')['ticket_id'] }}</span></div>
+                            <h4>{{ __('Inquiry Successfully Logged!') }}</h4>
+                            <div>{{ __('Ticket Tracking ID:') }} <span class="ticket-badge-pill">#{{ session('ticket_success')['ticket_id'] }}</span></div>
                             <p>
-                                Thank you, <strong>{{ session('ticket_success')['name'] }}</strong>. Our IT support desk has received your ticket and an officer will reach out to <strong>{{ session('ticket_success')['email'] }}</strong> shortly.
+                                {{ __('Thank you,') }} <strong>{{ session('ticket_success')['name'] }}</strong>{{ __('. Our IT support desk has received your ticket and an officer will reach out to') }} <strong>{{ session('ticket_success')['email'] }}</strong> {{ __('shortly.') }}
                             </p>
                         </div>
                     </div>
@@ -1309,7 +1309,7 @@
 
                 @if($errors->any())
                     <div style="background: #fee2e2; border: 1.5px solid #fca5a5; border-radius: var(--radius-md); padding: 14px 16px; margin-bottom: 16px; color: #991b1b; font-size: 13px;">
-                        <strong><i class="bi bi-exclamation-circle-fill"></i> Please complete the form properly:</strong>
+                        <strong><i class="bi bi-exclamation-circle-fill"></i> {{ __('Please complete the form properly:') }}</strong>
                         <ul style="margin: 6px 0 0 18px;">
                             @foreach($errors->all() as $error)
                                 <li>{{ $error }}</li>
@@ -1323,26 +1323,26 @@
 
                     <div class="form-row-grid">
                         <div class="form-field-group">
-                            <label for="supportName" class="field-label">Your Full Name <span style="color:#ef4444;">*</span></label>
+                            <label for="supportName" class="field-label">{{ __('Your Full Name') }} <span style="color:#ef4444;">*</span></label>
                             <input 
                                 type="text" 
                                 id="supportName" 
                                 name="name" 
                                 class="field-input" 
-                                placeholder="e.g. Ahmad Ali" 
+                                placeholder="{{ __('e.g. Ahmad Ali') }}" 
                                 value="{{ old('name') }}"
                                 required
                             >
                         </div>
 
                         <div class="form-field-group">
-                            <label for="supportEmail" class="field-label">Your Email Address <span style="color:#ef4444;">*</span></label>
+                            <label for="supportEmail" class="field-label">{{ __('Your Email Address') }} <span style="color:#ef4444;">*</span></label>
                             <input 
                                 type="email" 
                                 id="supportEmail" 
                                 name="email" 
                                 class="field-input" 
-                                placeholder="e.g. student@gmail.com" 
+                                placeholder="{{ __('e.g. student@gmail.com') }}" 
                                 value="{{ old('email') }}"
                                 required
                             >
@@ -1351,62 +1351,62 @@
 
                     <div class="form-row-grid">
                         <div class="form-field-group">
-                            <label for="supportRole" class="field-label">Your Role <span style="color:#ef4444;">*</span></label>
+                            <label for="supportRole" class="field-label">{{ __('Your Role') }} <span style="color:#ef4444;">*</span></label>
                             <select id="supportRole" name="role" class="field-select" required>
-                                <option value="" disabled {{ old('role') ? '' : 'selected' }}>Select your portal role...</option>
-                                <option value="Student" {{ old('role') === 'Student' ? 'selected' : '' }}>Student</option>
-                                <option value="Teacher" {{ old('role') === 'Teacher' ? 'selected' : '' }}>Teacher / Faculty</option>
-                                <option value="Parent" {{ old('role') === 'Parent' ? 'selected' : '' }}>Parent / Guardian</option>
-                                <option value="Admin / Staff" {{ old('role') === 'Admin / Staff' ? 'selected' : '' }}>Staff / Other</option>
+                                <option value="" disabled {{ old('role') ? '' : 'selected' }}>{{ __('Select your portal role...') }}</option>
+                                <option value="Student" {{ old('role') === 'Student' ? 'selected' : '' }}>{{ __('Student') }}</option>
+                                <option value="Teacher" {{ old('role') === 'Teacher' ? 'selected' : '' }}>{{ __('Teacher / Faculty') }}</option>
+                                <option value="Parent" {{ old('role') === 'Parent' ? 'selected' : '' }}>{{ __('Parent / Guardian') }}</option>
+                                <option value="Admin / Staff" {{ old('role') === 'Admin / Staff' ? 'selected' : '' }}>{{ __('Staff / Other') }}</option>
                             </select>
                         </div>
 
                         <div class="form-field-group">
-                            <label for="supportCategory" class="field-label">Issue Category <span style="color:#ef4444;">*</span></label>
+                            <label for="supportCategory" class="field-label">{{ __('Issue Category') }} <span style="color:#ef4444;">*</span></label>
                             <select id="supportCategory" name="category" class="field-select" required>
-                                <option value="" disabled {{ old('category') ? '' : 'selected' }}>Select Category...</option>
-                                <option value="Login & Password Access" {{ old('category') === 'Login & Password Access' ? 'selected' : '' }}>Login & Password Access</option>
-                                <option value="Roll Slip & Exam Schedule" {{ old('category') === 'Roll Slip & Exam Schedule' ? 'selected' : '' }}>Roll Slip & Exam Schedule</option>
-                                <option value="Fee Voucher & Challan" {{ old('category') === 'Fee Voucher & Challan' ? 'selected' : '' }}>Fee Voucher & Challan</option>
-                                <option value="Test Results & Attendance" {{ old('category') === 'Test Results & Attendance' ? 'selected' : '' }}>Test Results & Attendance</option>
-                                <option value="Teacher Portal Sign Up" {{ old('category') === 'Teacher Portal Sign Up' ? 'selected' : '' }}>Teacher Portal Sign Up</option>
-                                <option value="Technical Bug / Other" {{ old('category') === 'Technical Bug / Other' ? 'selected' : '' }}>Technical Bug / Other</option>
+                                <option value="" disabled {{ old('category') ? '' : 'selected' }}>{{ __('Select Category...') }}</option>
+                                <option value="Login & Password Access" {{ old('category') === 'Login & Password Access' ? 'selected' : '' }}>{{ __('Login & Password Access') }}</option>
+                                <option value="Roll Slip & Exam Schedule" {{ old('category') === 'Roll Slip & Exam Schedule' ? 'selected' : '' }}>{{ __('Roll Slip & Exam Schedule') }}</option>
+                                <option value="Fee Voucher & Challan" {{ old('category') === 'Fee Voucher & Challan' ? 'selected' : '' }}>{{ __('Fee Voucher & Challan') }}</option>
+                                <option value="Test Results & Attendance" {{ old('category') === 'Test Results & Attendance' ? 'selected' : '' }}>{{ __('Test Results & Attendance') }}</option>
+                                <option value="Teacher Portal Sign Up" {{ old('category') === 'Teacher Portal Sign Up' ? 'selected' : '' }}>{{ __('Teacher Portal Sign Up') }}</option>
+                                <option value="Technical Bug / Other" {{ old('category') === 'Technical Bug / Other' ? 'selected' : '' }}>{{ __('Technical Bug / Other') }}</option>
                             </select>
                         </div>
                     </div>
 
                     <div class="form-field-group">
-                        <label for="supportSubject" class="field-label">Subject / Issue Summary <span style="color:#ef4444;">*</span></label>
+                        <label for="supportSubject" class="field-label">{{ __('Subject / Issue Summary') }} <span style="color:#ef4444;">*</span></label>
                         <input 
                             type="text" 
                             id="supportSubject" 
                             name="subject" 
                             class="field-input" 
-                            placeholder="Briefly describe what you need help with..." 
+                            placeholder="{{ __('Briefly describe what you need help with...') }}" 
                             value="{{ old('subject') }}"
                             required
                         >
                     </div>
 
                     <div class="form-field-group">
-                        <label for="supportMessage" class="field-label">Detailed Description <span style="color:#ef4444;">*</span></label>
+                        <label for="supportMessage" class="field-label">{{ __('Detailed Description') }} <span style="color:#ef4444;">*</span></label>
                         <textarea 
                             id="supportMessage" 
                             name="message" 
                             class="field-textarea" 
-                            placeholder="Please provide details (e.g., student registration number, class, error message received)..." 
+                            placeholder="{{ __('Please provide details (e.g., student registration number, class, error message received)...') }}" 
                             required
                         >{{ old('message') }}</textarea>
                     </div>
 
                     <button type="submit" class="btn-submit-ticket">
                         <i class="bi bi-send-fill"></i>
-                        <span>Submit Support Ticket</span>
+                        <span>{{ __('Submit Support Ticket') }}</span>
                     </button>
 
                     <div class="guarantee-note">
                         <i class="bi bi-shield-lock-fill" style="color: var(--primary-accent);"></i>
-                        <span>Your data is strictly encrypted and shared only with verified school staff.</span>
+                        <span>{{ __('Your data is strictly encrypted and shared only with verified school staff.') }}</span>
                     </div>
 
                 </form>
@@ -1421,13 +1421,13 @@
     <footer class="support-footer">
         <div class="footer-inner">
             <div>
-                © {{ date('Y') }} <strong>Excellence School System</strong>. All rights reserved. 24/7 IT Help Desk.
+                © {{ date('Y') }} <strong>Excellence School System</strong>. {{ __('All rights reserved.') }} {{ __('24/7 IT Help Desk.') }}
             </div>
             <div class="footer-links">
-                <a href="{{ route('login') }}"><i class="bi bi-box-arrow-in-right"></i> Sign In</a>
-                <a href="/signup"><i class="bi bi-person-plus"></i> Teacher Sign Up</a>
-                <a href="{{ route('password.request') }}"><i class="bi bi-key"></i> Password Help</a>
-                <a href="mailto:support@excellence.edu.pk"><i class="bi bi-envelope"></i> Email Desk</a>
+                <a href="{{ route('login') }}"><i class="bi bi-box-arrow-in-right"></i> {{ __('Sign In') }}</a>
+                <a href="/signup"><i class="bi bi-person-plus"></i> {{ __('Teacher Sign Up') }}</a>
+                <a href="{{ route('password.request') }}"><i class="bi bi-key"></i> {{ __('Password Help') }}</a>
+                <a href="mailto:support@excellence.edu.pk"><i class="bi bi-envelope"></i> {{ __('Email Desk') }}</a>
             </div>
         </div>
     </footer>
@@ -1529,7 +1529,7 @@
                 });
 
                 if (faqCounter) {
-                    faqCounter.textContent = visibleCount + (visibleCount === 1 ? ' Question' : ' Questions');
+                    faqCounter.textContent = visibleCount + ' ' + (visibleCount === 1 ? @json(__('Question')) : @json(__('Questions')));
                 }
 
                 if (visibleCount === 0) {

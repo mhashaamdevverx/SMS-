@@ -544,13 +544,24 @@ body {
     position: relative;
     z-index: 10;
     align-self: flex-end;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
     background: rgba(255, 255, 255, 0.94);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border: 1px solid rgba(255, 255, 255, 0.8);
     border-radius: 14px;
-    padding: 10px 14px;
-    width: 200px;
+    padding: 12px 14px;
+    min-width: 220px;
+    width: min(300px, 85%);
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow: visible;
+    overflow-wrap: normal;
+    word-break: normal;
+    hyphens: auto;
+    text-align: start;
     box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
     animation: floatSlow 6s ease-in-out infinite alternate;
 }
@@ -566,9 +577,11 @@ body {
 
 .rating-badges-row {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 5px;
+    gap: 6px 8px;
+    margin-bottom: 2px;
 }
 
 .badge-academic-rating {
@@ -577,45 +590,69 @@ body {
     border: 1px solid #C7D2FE;
     font-size: 10px;
     font-weight: 800;
-    padding: 2px 8px;
+    line-height: 1.3;
+    padding: 3px 8px;
     border-radius: var(--pill-radius);
-    display: flex;
+    display: inline-flex;
     align-items: center;
     gap: 4px;
+    max-width: 100%;
+    flex: 0 1 auto;
+    min-width: 0;
+}
+
+.badge-academic-rating span {
+    overflow-wrap: normal;
+    word-break: normal;
+    hyphens: auto;
 }
 
 .badge-academic-rating i {
     color: #F59E0B;
+    flex-shrink: 0;
 }
 
 .badge-tier {
     font-size: 10px;
     font-weight: 700;
     color: #64748b;
+    white-space: nowrap;
+    flex-shrink: 0;
+    margin-inline-start: auto;
 }
 
 .floating-card-title {
     font-size: 12.5px;
     font-weight: 800;
+    line-height: 1.3;
     color: var(--primary-color);
-    margin-bottom: 8px;
+    margin-bottom: 2px;
+    overflow-wrap: normal;
+    word-break: normal;
+    hyphens: auto;
 }
 
 .floating-card-metric {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
+    gap: 4px 10px;
     font-size: 11px;
     font-weight: 600;
+    line-height: 1.35;
     color: #475569;
     border-top: 1px solid #f1f5f9;
-    padding-top: 5px;
+    padding-top: 6px;
 }
 
 .floating-card-metric span.metric-val {
     font-size: 12.5px;
     font-weight: 800;
     color: var(--primary-color);
+    white-space: nowrap;
+    flex-shrink: 0;
+    margin-inline-start: auto;
 }
 
 /* Floating Card 2 (Bottom Left Quote Card) */

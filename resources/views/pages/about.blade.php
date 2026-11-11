@@ -1,15 +1,15 @@
 @extends('layouts.public')
 
-@section('title', 'About Us - Excellence School System')
+@section('title', __('About Us') . ' - Excellence School System')
 
 @section('content')
 <!-- Page Banner Header -->
 <section class="page-banner text-center">
     <div class="container">
-        <span class="page-banner-tag"><i class="bi bi-mortarboard-fill me-1"></i> Our Legacy & Vision</span>
-        <h1 class="page-banner-title">Nurturing Intellectual Leaders Since 2012</h1>
+        <span class="page-banner-tag"><i class="bi bi-mortarboard-fill me-1"></i> {{ __('Our Legacy & Vision') }}</span>
+        <h1 class="page-banner-title">{{ __('Nurturing Intellectual Leaders Since 2012') }}</h1>
         <p class="page-banner-sub">
-            Excellence School System combines academic distinction, high-tech STEM labs, and deep-rooted moral values to empower future leaders from Early Childhood to Matriculation.
+            {{ __('Excellence School System combines academic distinction, high-tech STEM labs, and deep-rooted moral values to empower future leaders from Early Childhood to Matriculation.') }}
         </p>
     </div>
 </section>
@@ -20,25 +20,25 @@
         <div class="row g-4 align-items-center">
             <div class="col-lg-6">
                 <div class="pe-lg-4">
-                    <span class="badge px-3 py-2 rounded-pill bg-primary-subtle text-primary fw-bold mb-3" style="font-size: 13px;">CORE PURPOSE</span>
-                    <h2 class="fw-bold mb-3" style="color: #0F172A; font-size: 34px;">Empowering Students to Lead in a Fast-Evolving World</h2>
+                    <span class="badge px-3 py-2 rounded-pill bg-primary-subtle text-primary fw-bold mb-3" style="font-size: 13px;">{{ __('CORE PURPOSE') }}</span>
+                    <h2 class="fw-bold mb-3" style="color: #0F172A; font-size: 34px;">{{ __('Empowering Students to Lead in a Fast-Evolving World') }}</h2>
                     <p class="text-muted mb-4" style="font-size: 16px; line-height: 1.8;">
-                        Founded with a mission to deliver world-standard education in Pakistan, Excellence School System is accredited with the Federal Board of Intermediate & Secondary Education (FBISE) and Pearson Edexcel. We blend scientific inquiry, coding & robotics, and character development into an integrated curriculum.
+                        {{ __('Founded with a mission to deliver world-standard education in Pakistan, Excellence School System is accredited with the Federal Board of Intermediate & Secondary Education (FBISE) and Pearson Edexcel. We blend scientific inquiry, coding & robotics, and character development into an integrated curriculum.') }}
                     </p>
 
                     <div class="row g-3">
                         <div class="col-sm-6">
                             <div class="p-3 rounded-4 border bg-light">
                                 <i class="bi bi-compass-fill fs-2 text-primary mb-2 d-block"></i>
-                                <h5 class="fw-bold text-dark mb-1">Our Mission</h5>
-                                <p class="small text-muted mb-0">To ignite lifelong curiosity, critical thinking, and ethical responsibility in every young learner.</p>
+                                <h5 class="fw-bold text-dark mb-1">{{ __('Our Mission') }}</h5>
+                                <p class="small text-muted mb-0">{{ __('To ignite lifelong curiosity, critical thinking, and ethical responsibility in every young learner.') }}</p>
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="p-3 rounded-4 border bg-light">
                                 <i class="bi bi-eye-fill fs-2 text-warning mb-2 d-block"></i>
-                                <h5 class="fw-bold text-dark mb-1">Our Vision</h5>
-                                <p class="small text-muted mb-0">To stand as the leading innovation-driven school network producing global scholars and ethical citizens.</p>
+                                <h5 class="fw-bold text-dark mb-1">{{ __('Our Vision') }}</h5>
+                                <p class="small text-muted mb-0">{{ __('To stand as the leading innovation-driven school network producing global scholars and ethical citizens.') }}</p>
                             </div>
                         </div>
                     </div>
@@ -47,10 +47,10 @@
 
             <div class="col-lg-6">
                 <div class="position-relative">
-                    <img src="{{ asset('images/landing_hero.jpg') }}" alt="Campus Building" class="img-fluid rounded-4 shadow-lg border" style="width: 100%; height: 420px; object-fit: cover;">
+                    <img src="{{ asset('images/landing_hero.jpg') }}" alt="{{ __('Campus Building') }}" class="img-fluid rounded-4 shadow-lg border" style="width: 100%; height: 420px; object-fit: cover;">
                     <div class="position-absolute bottom-0 start-0 m-4 p-3 rounded-3 shadow-lg" style="background: rgba(15, 23, 42, 0.9); backdrop-filter: blur(10px); color: #FFF; max-width: 280px;">
-                        <h6 class="fw-bold mb-1 text-warning"><i class="bi bi-building"></i> 2-Acre Modern Campus</h6>
-                        <small class="text-light">Sector H-8/4 Educational Enclave, Islamabad</small>
+                        <h6 class="fw-bold mb-1 text-warning"><i class="bi bi-building"></i> {{ __('2-Acre Modern Campus') }}</h6>
+                        <small class="text-light">{{ __('Sector H-8/4 Educational Enclave, Islamabad') }}</small>
                     </div>
                 </div>
             </div>
@@ -72,7 +72,7 @@
                          data-decimals="0">
                         0+
                     </div>
-                    <div class="text-uppercase fw-semibold stat-label">Students Enrolled</div>
+                    <div class="text-uppercase fw-semibold stat-label">{{ __('Students Enrolled') }}</div>
                 </div>
             </div>
             <div class="col-6 col-md-3">
@@ -83,7 +83,7 @@
                          data-decimals="0">
                         0+
                     </div>
-                    <div class="text-uppercase fw-semibold stat-label">Certified Faculty</div>
+                    <div class="text-uppercase fw-semibold stat-label">{{ __('Certified Faculty') }}</div>
                 </div>
             </div>
             <div class="col-6 col-md-3">
@@ -94,7 +94,7 @@
                          data-decimals="1">
                         0.0%
                     </div>
-                    <div class="text-uppercase fw-semibold stat-label">Board Distinction</div>
+                    <div class="text-uppercase fw-semibold stat-label">{{ __('Board Distinction') }}</div>
                 </div>
             </div>
             <div class="col-6 col-md-3">
@@ -105,7 +105,7 @@
                          data-decimals="0">
                         0+
                     </div>
-                    <div class="text-uppercase fw-semibold stat-label">Years of Excellence</div>
+                    <div class="text-uppercase fw-semibold stat-label">{{ __('Years of Excellence') }}</div>
                 </div>
             </div>
         </div>
@@ -116,8 +116,8 @@
 <section class="py-5 bg-light">
     <div class="container py-4">
         <div class="text-center max-w-700 mx-auto mb-5">
-            <span class="badge px-3 py-2 rounded-pill bg-purple-subtle text-purple fw-bold mb-2" style="background: #FAF5FF; color: #8B5CF6; font-size: 13px;">OUR PILLARS</span>
-            <h2 class="fw-bold" style="color: #0F172A; font-size: 34px;">What Defines Excellence</h2>
+            <span class="badge px-3 py-2 rounded-pill bg-purple-subtle text-purple fw-bold mb-2" style="background: #FAF5FF; color: #8B5CF6; font-size: 13px;">{{ __('OUR PILLARS') }}</span>
+            <h2 class="fw-bold" style="color: #0F172A; font-size: 34px;">{{ __('What Defines Excellence') }}</h2>
         </div>
 
         <div class="row g-4">
@@ -126,8 +126,8 @@
                     <div class="rounded-3 p-3 bg-primary-subtle text-primary d-inline-block mb-3" style="width: 52px; height: 52px; text-align: center;">
                         <i class="bi bi-robot fs-4"></i>
                     </div>
-                    <h5 class="fw-bold text-dark mb-2">STEM & Digital Innovation</h5>
-                    <p class="text-muted small mb-0">From grade 1, students participate in hands-on robotics, coding in Python/Scratch, and practical scientific experiments.</p>
+                    <h5 class="fw-bold text-dark mb-2">{{ __('STEM & Digital Innovation') }}</h5>
+                    <p class="text-muted small mb-0">{{ __('From grade 1, students participate in hands-on robotics, coding in Python/Scratch, and practical scientific experiments.') }}</p>
                 </div>
             </div>
             <div class="col-md-4">
@@ -135,8 +135,8 @@
                     <div class="rounded-3 p-3 bg-success-subtle text-success d-inline-block mb-3" style="width: 52px; height: 52px; text-align: center;">
                         <i class="bi bi-shield-check fs-4"></i>
                     </div>
-                    <h5 class="fw-bold text-dark mb-2">Moral & Ethical Leadership</h5>
-                    <p class="text-muted small mb-0">Character building, empathy, Islamic values, and civic duty are weaved throughout daily school life.</p>
+                    <h5 class="fw-bold text-dark mb-2">{{ __('Moral & Ethical Leadership') }}</h5>
+                    <p class="text-muted small mb-0">{{ __('Character building, empathy, Islamic values, and civic duty are weaved throughout daily school life.') }}</p>
                 </div>
             </div>
             <div class="col-md-4">
@@ -144,15 +144,15 @@
                     <div class="rounded-3 p-3 bg-warning-subtle text-warning d-inline-block mb-3" style="width: 52px; height: 52px; text-align: center;">
                         <i class="bi bi-trophy-fill fs-4"></i>
                     </div>
-                    <h5 class="fw-bold text-dark mb-2">Academic Preeminence</h5>
-                    <p class="text-muted small mb-0">Our students consistently secure top positions in FBISE board exams and national science Olympiads.</p>
+                    <h5 class="fw-bold text-dark mb-2">{{ __('Academic Preeminence') }}</h5>
+                    <p class="text-muted small mb-0">{{ __('Our students consistently secure top positions in FBISE board exams and national science Olympiads.') }}</p>
                 </div>
             </div>
         </div>
 
         <div class="text-center mt-5">
             <a href="{{ route('admissions') }}" class="btn btn-primary px-4 py-3 fw-bold rounded-3 shadow" style="background: linear-gradient(135deg, #4F46E5, #7C3AED);">
-                Apply for Admission {{ $academicSession ?? '2026-2027' }} <i class="bi bi-arrow-right ms-2"></i>
+                {{ __('Apply for Admission :session', ['session' => $academicSession ?? '2026-2027']) }} <i class="bi bi-arrow-right ms-2"></i>
             </a>
         </div>
     </div>
