@@ -19,12 +19,12 @@ A full-stack **School Management System** built with **Laravel 13 (`v13.25.0`)**
 * **Icons & Typography:** Bootstrap Icons **`1.11.3`** (CDN), Font Awesome **`6.4.0`** (CDN), Google Fonts (`Inter`, `Plus Jakarta Sans`, `Outfit`, `DM Sans`, `Space Grotesk`)
 * **Charts & Visualizations:** Chart.js **`4.4.9`** (CDN) + custom inline SVG spline charts
 * **JavaScript:** Pure Vanilla ES6+ (`public/js/`) using native `fetch()` API and `window.print()` / `@media print` layouts
-* **Asset Tooling Note:** `package.json` / `vite.config.js` declare Vite (`^8.0.0`) and Tailwind CSS (`^4.0.0`) scaffolding, but Blade views currently load static `public/css/`, `public/js/`, and CDN assets directly (no Node/Vite build step is required to run the app).
+* **Asset Architecture:** Modular static assets served directly from `public/css/` and `public/js/` alongside CDN libraries (no Node.js build step required).
 
 ### Database & Infrastructure
-* **Database:** MySQL (port `3306`, `utf8mb4` / `utf8mb4_unicode_ci`; **MySQL 8.0+** or **5.7.8+** recommended for `JSON` and `ENUM` columns; SQLite fallback supported in `config/database.php`)
+* **Database:** MySQL (port `3306`, `utf8mb4` / `utf8mb4_unicode_ci`; **MySQL 8.0+** or **5.7.8+** recommended for `JSON` and `ENUM` columns)
 * **Schema Scale:** 59 migrations, 29 Eloquent models
-* **Sessions / Cache / Queue:** `file` or `database` sessions, `database` cache store (`cache` & `cache_locks`), `database` queue connection, `local` / `public` filesystem disk (`storage/app/public`), `log` / SMTP mailer
+* **Storage & State:** File-based sessions, database cache store (`cache` & `cache_locks`), and local public filesystem storage (`storage/app/public`)
 
 ---
 
@@ -101,7 +101,7 @@ A full-stack **School Management System** built with **Laravel 13 (`v13.25.0`)**
    Update `.env` for your target environment:
    * `APP_ENV=production`, `APP_DEBUG=false`, `APP_URL=https://your-domain.com`
    * `DB_CONNECTION=mysql`, `DB_HOST`, `DB_PORT=3306`, `DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD`
-   * `SESSION_DRIVER`, `CACHE_STORE`, `QUEUE_CONNECTION`, and `MAIL_*` SMTP credentials if email delivery is enabled
+   * `SESSION_DRIVER=file`, `CACHE_STORE=database`, `FILESYSTEM_DISK=local`
 
 3. **Run Database Migrations**
    ```bash
